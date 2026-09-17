@@ -8,6 +8,7 @@ compared with the complex of the ground-truth labels via
 from __future__ import annotations
 
 import json
+import os
 import time
 from pathlib import Path
 from typing import Callable, Dict, Iterable, List, Optional
@@ -104,10 +105,29 @@ def method_cellpose_sam(item: BenchItem) -> np.ndarray:
     return _cellpose_model(item.geometry, item.nuclei)
 
 
+_neural_proposer = None
+NEURAL_CHECKPOINT = os.environ.get("PIMORPH_NEURAL_CKPT", "models/pimorph_proposals_v0.pt")
+
+
+def method_neural(item: BenchItem) -> np.ndarray:
+    """Neural proposal maps -> constrained decoder. Checkpoint from PIMORPH_NEURAL_CKPT."""
+    global _neural_proposer
+    from ..infer.neural.proposer import NeuralProposer
+
+    if _neural_proposer is None:
+        _neural_proposer = NeuralProposer(NEURAL_CHECKPOINT)
+    g = geometry_for_bright_boundaries(item)
+    maps = _neural_proposer(g, item.nuclei, tissue=tissue_for_item(item))
+    dec = ConstrainedDecoder(pixel_size_um=item.pixel_size_um)
+    params = DecoderParams(cell_radius_px=float(maps.meta.get("cell_radius_px", 15.0)))
+    return dec.decode(maps, params).labels
+
+
 METHODS: Dict[str, Callable[[BenchItem], np.ndarray]] = {
     "gt": method_gt,
     "classical": method_classical,
     "cellpose_sam": method_cellpose_sam,
+    "neural": method_neural,
 }
 
 
@@ -141,12 +161,16 @@ def run_benchmark(
     methods = list(methods)
     for item in load_dataset(dataset, root=root, max_items=max_items):
         for method in methods:
-            if method == "cellpose_sam":
+            if method in ("cellpose_sam", "neural"):
                 from ..infer.cellpose_sam import cellpose_available
 
                 if not cellpose_available():
                     if verbose:
-                        print("cellpose/torch not installed; skipping cellpose_sam")
+                        print(f"torch not installed; skipping {method}")
+                    continue
+                if method == "neural" and not Path(NEURAL_CHECKPOINT).exists():
+                    if verbose:
+                        print(f"no checkpoint at {NEURAL_CHECKPOINT}; skipping neural")
                     continue
             try:
                 r = evaluate_item(item, method, tol_px=tol_px)

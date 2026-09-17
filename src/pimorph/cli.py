@@ -67,6 +67,11 @@ def _cmd_reconstruct(args: argparse.Namespace) -> int:
         specs = specs[: args.max_items]
     out_root = Path(args.out)
     out_root.mkdir(parents=True, exist_ok=True)
+    proposer = ClassicalProposer()
+    if args.checkpoint:
+        from pimorph.infer.neural.proposer import NeuralProposer
+
+        proposer = NeuralProposer(args.checkpoint)
     report = []
     for sp in specs:
         im = sp.load()
@@ -78,7 +83,7 @@ def _cmd_reconstruct(args: argparse.Namespace) -> int:
             geom = geom[r0:r1, c0:c1]
             nuc = None if nuc is None else nuc[r0:r1, c0:c1]
             junc = None if junc is None else junc[r0:r1, c0:c1]
-        maps = ClassicalProposer()(geom, nuc, junc)
+        maps = proposer(geom, nuc, junc)
         dec = ConstrainedDecoder(pixel_size_um=im.pixel_size_um)
         base = DecoderParams(cell_radius_px=float(maps.meta.get("cell_radius_px", 15.0)))
         img_dir = out_root / sp.image_id
@@ -186,11 +191,17 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--moves", type=int, default=6)
     p.add_argument("--ess", type=float, default=4.0)
     p.add_argument("--no-profiles", action="store_true")
+    p.add_argument("--checkpoint", default=None, help="neural proposal checkpoint; classical filters when omitted")
     p.set_defaults(_handler=_cmd_reconstruct)
 
     p = sub.add_parser("benchmark", help="score reconstruction methods against ground-truth label images")
     p.add_argument("--dataset", required=True, choices=["cornea", "nuinsseg", "mcellseg", "livecell", "synth"])
-    p.add_argument("--methods", nargs="+", default=["classical"])
+    p.add_argument(
+        "--methods",
+        nargs="+",
+        default=["classical"],
+        help="gt classical cellpose_sam neural (neural needs PIMORPH_NEURAL_CKPT or models/pimorph_proposals_v0.pt)",
+    )
     p.add_argument("--root", default=None)
     p.add_argument("--max-items", type=int, default=None)
     p.add_argument("--out", default="runs/pimorph_bench")
