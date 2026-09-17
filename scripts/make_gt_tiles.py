@@ -46,6 +46,7 @@ def main() -> int:
     ap.add_argument("--max-items", type=int, default=None)
     ap.add_argument("--min-cells", type=int, default=3, help="skip tiles with fewer GT cells")
     ap.add_argument("--shard", default=None, help="k/n: process every n-th field starting at k (parallel runs)")
+    ap.add_argument("--id-list", default=None, help="path.json:key restricting fields to a split")
     args = ap.parse_args()
     if args.split:
         os.environ["PIMORPH_LIVECELL_SPLIT"] = args.split
@@ -54,7 +55,9 @@ def main() -> int:
     out.mkdir(parents=True, exist_ok=True)
     rows = []
     k = 0
-    for idx, item in enumerate(load_dataset(args.dataset, root=args.root, max_items=args.max_items)):
+    for idx, item in enumerate(
+        load_dataset(args.dataset, root=args.root, max_items=args.max_items, id_list=args.id_list)
+    ):
         if idx % shard_n != shard_k:
             continue
         g = geometry_for_bright_boundaries(item)  # dark boundaries inverted so junction-like
@@ -69,11 +72,13 @@ def main() -> int:
                     continue
                 t = make_targets(lab_t)
                 fname = f"field_{idx:05d}_r{r0:04d}_c{c0:04d}.npz"
+                has_nuc = item.nuclei is not None and item.nuclei.shape == lab.shape
+                nuc_t = item.nuclei[rs, cs].astype(np.float32) if has_nuc else np.zeros(lab_t.shape, np.float32)
                 np.savez_compressed(
                     out / fname,
                     junction=g[rs, cs].astype(np.float32),
-                    nuclei=np.zeros(lab_t.shape, np.float32),
-                    has_nuclei=np.array(False),
+                    nuclei=nuc_t,
+                    has_nuclei=np.array(bool(has_nuc)),
                     labels=lab_t,
                     ignore=np.zeros(lab_t.shape, bool),
                     **t,

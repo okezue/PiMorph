@@ -153,6 +153,9 @@ def load_mcellseg(root: Path, max_items: Optional[int] = None, cell_line: Option
     if cell_line:
         want_huvec = cell_line.upper() == "HUVEC"
         items = [(ip, mp) for ip, mp in items if ("HUVEC" in ip.name) == want_huvec]
+    ids = _active_id_list()
+    if ids is not None:
+        items = [(ip, mp) for ip, mp in items if ip.stem in ids]
     if max_items and len(items) > max_items:
         step = len(items) / max_items
         items = [items[int(i * step)] for i in range(max_items)]
@@ -203,6 +206,9 @@ def load_haec(root: Path, max_items: Optional[int] = None) -> Iterator[BenchItem
     gt_dir = root / "gtruth_uint8"
     hoechst_dir = root / "Hoechst_1"
     ids = sorted(int(p.stem) for p in gfp_dir.glob("*.tif") if p.stem.isdigit())
+    keep = _active_id_list()
+    if keep is not None:
+        ids = [n for n in ids if f"{n:04d}" in keep or str(n) in keep]
     if max_items and len(ids) > max_items:
         step = len(ids) / max_items
         ids = [ids[int(i * step)] for i in range(max_items)]
@@ -384,10 +390,62 @@ def list_datasets() -> List[str]:
     return sorted(LOADERS)
 
 
-def load_dataset(name: str, root: Optional[Path | str] = None, max_items: Optional[int] = None) -> Iterator[BenchItem]:
+_ID_LIST_OVERRIDE: Optional[str] = None
+
+
+def _active_id_list() -> Optional[set]:
+    """Id set from the load_dataset call (or env PIMORPH_ID_LIST); loaders that support
+    it filter before any expensive decoding."""
+    return load_id_list(_ID_LIST_OVERRIDE or os.environ.get("PIMORPH_ID_LIST"))
+
+
+def load_id_list(spec: Optional[str]) -> Optional[set]:
+    """``path.json:key`` -> set of image ids (as strings) from that JSON list, or None.
+    Used to restrict a dataset to a train or test split."""
+    if not spec:
+        return None
+    import json
+
+    path, _, key = spec.partition(":")
+    data = json.load(open(path))
+    vals = data[key] if key else data
+    out = set()
+    for v in vals:
+        out.add(str(v))
+        if isinstance(v, int):
+            out.add(f"{v:04d}")
+    return out
+
+
+def load_dataset(
+    name: str,
+    root: Optional[Path | str] = None,
+    max_items: Optional[int] = None,
+    id_list: Optional[str] = None,
+) -> Iterator[BenchItem]:
+    """Iterate a dataset. ``id_list`` (or env PIMORPH_ID_LIST) restricts to the given
+    image ids; ``max_items`` then applies to the filtered stream."""
     if name not in LOADERS:
         raise KeyError(f"unknown dataset {name!r}; known: {list_datasets()}")
     r = Path(root) if root is not None else DEFAULT_ROOTS[name]
     if not r.exists():
         raise FileNotFoundError(f"dataset root {r} does not exist")
-    return LOADERS[name](r, max_items)
+    global _ID_LIST_OVERRIDE
+    ids = load_id_list(id_list or os.environ.get("PIMORPH_ID_LIST"))
+    if ids is None:
+        yield from LOADERS[name](r, max_items)
+        return
+    _ID_LIST_OVERRIDE = id_list or os.environ.get("PIMORPH_ID_LIST")
+    try:
+        n = 0
+        # loaders with native id filtering (mcellseg, haec) already restricted the stream;
+        # the check below is a no-op for them and the fallback for the others
+        for item in LOADERS[name](r, None):
+            if item.image_id not in ids and item.image_id.split("/")[-1] not in ids:
+                continue
+            yield item
+            n += 1
+            if max_items and n >= max_items:
+                break
+    finally:
+        _ID_LIST_OVERRIDE = None
