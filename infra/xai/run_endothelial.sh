@@ -43,19 +43,20 @@ EOF
 
 # ------------------------------------------------- 1. every method on both datasets
 # One GPU per (dataset, method). Neural checkpoints: v0 synth, v0 mixed, v1 multi.
-bench() {  # dataset gpu method ckpt outdir extra_env
+V1=runs/neural/v3_multi/best.pt   # v1_multi lives here on the box (models/ holds v0 only)
+bench() {  # dataset gpu method ckpt outdir [extra cli args...]
   local ds=$1 gpu=$2 m=$3 ckpt=$4 out=$5; shift 5
-  env "$@" CUDA_VISIBLE_DEVICES=$gpu PIMORPH_NEURAL_CKPT=$ckpt $PY -m pimorph.cli benchmark --dataset $ds --methods $m --out $out > $out.log 2>&1
+  CUDA_VISIBLE_DEVICES=$gpu PIMORPH_NEURAL_CKPT=$ckpt $PY -m pimorph.cli benchmark --dataset $ds --methods $m --out $out "$@" > $out.log 2>&1
 }
 if has bench_all; then
   log "bench_all: cellpose_sam, classical, neural(v0_synth, v0_mixed, v1_multi) on mCellSeg (200) and HAEC (200 sampled)"
   bench mcellseg 0 cellpose_sam none $OUT/mcellseg_cellpose &
   bench mcellseg 1 neural models/pimorph_proposals_v0_synth.pt $OUT/mcellseg_v0synth &
   bench mcellseg 2 neural models/pimorph_proposals_v0_mixed.pt $OUT/mcellseg_v0mixed &
-  bench mcellseg 3 neural models/pimorph_proposals_v1_multi.pt $OUT/mcellseg_v1multi &
+  bench mcellseg 3 neural $V1 $OUT/mcellseg_v1multi &
   bench haec 4 cellpose_sam none $OUT/haec_cellpose --max-items 200 &
   bench haec 5 neural models/pimorph_proposals_v0_mixed.pt $OUT/haec_v0mixed --max-items 200 &
-  bench haec 6 neural models/pimorph_proposals_v1_multi.pt $OUT/haec_v1multi --max-items 200 &
+  bench haec 6 neural $V1 $OUT/haec_v1multi --max-items 200 &
   bench haec 7 neural models/pimorph_proposals_v0_synth.pt $OUT/haec_v0synth --max-items 200 &
   $PY -m pimorph.cli benchmark --dataset mcellseg --methods classical --out $OUT/mcellseg_classical > $OUT/mcellseg_classical.log 2>&1 &
   $PY -m pimorph.cli benchmark --dataset haec --methods classical --max-items 100 --out $OUT/haec_classical > $OUT/haec_classical.log 2>&1 &
@@ -91,16 +92,13 @@ fi
 # ---------------------------------------------- 4. held-out test splits, all methods
 if has bench_v2; then
   log "bench_v2: held-out HAEC test (87) and mCellSeg test (40) for v2_endo, v1_multi, cellpose_sam"
-  export PIMORPH_ID_LIST=runs/endo/splits.json:haec_test
-  bench haec 0 neural runs/neural/v2_endo/best.pt $OUT/haec_test_v2endo &
-  bench haec 1 neural models/pimorph_proposals_v1_multi.pt $OUT/haec_test_v1multi &
-  bench haec 2 cellpose_sam none $OUT/haec_test_cellpose &
-  export PIMORPH_ID_LIST=runs/endo/splits.json:mcellseg_test
-  bench mcellseg 3 neural runs/neural/v2_endo/best.pt $OUT/mcellseg_test_v2endo &
-  bench mcellseg 4 neural models/pimorph_proposals_v1_multi.pt $OUT/mcellseg_test_v1multi &
-  bench mcellseg 5 cellpose_sam none $OUT/mcellseg_test_cellpose &
+  PIMORPH_ID_LIST=runs/endo/splits.json:haec_test bench haec 0 neural runs/neural/v2_endo/best.pt $OUT/haec_test_v2endo &
+  PIMORPH_ID_LIST=runs/endo/splits.json:haec_test bench haec 1 neural $V1 $OUT/haec_test_v1multi &
+  PIMORPH_ID_LIST=runs/endo/splits.json:haec_test bench haec 2 cellpose_sam none $OUT/haec_test_cellpose &
+  PIMORPH_ID_LIST=runs/endo/splits.json:mcellseg_test bench mcellseg 3 neural runs/neural/v2_endo/best.pt $OUT/mcellseg_test_v2endo &
+  PIMORPH_ID_LIST=runs/endo/splits.json:mcellseg_test bench mcellseg 4 neural $V1 $OUT/mcellseg_test_v1multi &
+  PIMORPH_ID_LIST=runs/endo/splits.json:mcellseg_test bench mcellseg 5 cellpose_sam none $OUT/mcellseg_test_cellpose &
   wait
-  unset PIMORPH_ID_LIST
   log "bench_v2 done"
 fi
 log "endothelial campaign finished"
