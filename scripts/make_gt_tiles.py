@@ -45,14 +45,18 @@ def main() -> int:
     ap.add_argument("--stride", type=int, default=512)
     ap.add_argument("--max-items", type=int, default=None)
     ap.add_argument("--min-cells", type=int, default=3, help="skip tiles with fewer GT cells")
+    ap.add_argument("--shard", default=None, help="k/n: process every n-th field starting at k (parallel runs)")
     args = ap.parse_args()
     if args.split:
         os.environ["PIMORPH_LIVECELL_SPLIT"] = args.split
+    shard_k, shard_n = (0, 1) if not args.shard else (int(args.shard.split("/")[0]), int(args.shard.split("/")[1]))
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     rows = []
     k = 0
-    for item in load_dataset(args.dataset, root=args.root, max_items=args.max_items):
+    for idx, item in enumerate(load_dataset(args.dataset, root=args.root, max_items=args.max_items)):
+        if idx % shard_n != shard_k:
+            continue
         g = geometry_for_bright_boundaries(item)  # dark boundaries inverted so junction-like
         pol = resolve_polarity(item)
         lab = item.labels_gt
@@ -64,7 +68,7 @@ def main() -> int:
                 if len(np.unique(lab_t[lab_t > 0])) < args.min_cells:
                     continue
                 t = make_targets(lab_t)
-                fname = f"field_{k:05d}_r{r0:04d}_c{c0:04d}.npz"
+                fname = f"field_{idx:05d}_r{r0:04d}_c{c0:04d}.npz"
                 np.savez_compressed(
                     out / fname,
                     junction=g[rs, cs].astype(np.float32),
@@ -88,8 +92,9 @@ def main() -> int:
         if k % 50 == 0:
             print(f"{k} fields, {len(rows)} tiles", flush=True)
     df = pd.DataFrame(rows)
-    df.to_csv(out / "manifest.csv", index=False)
-    print(f"wrote {len(df)} tiles from {k} fields to {out}")
+    mname = "manifest.csv" if shard_n == 1 else f"manifest_shard{shard_k:02d}.csv"
+    df.to_csv(out / mname, index=False)
+    print(f"wrote {len(df)} tiles from {k} fields to {out} ({mname})")
     return 0
 
 

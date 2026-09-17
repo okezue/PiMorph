@@ -28,10 +28,18 @@ if has tiles; then
   done
   $PY -m pimorph.cli synth --n 400 --out data/tiles/synth_val_big --shape 512 --seed 9999 > "$OUT/synth_val_big.log" 2>&1
   wait
-  log "tiles: real GT tiles from LIVECell train and NeurIPS CellSeg (exact targets from masks)"
-  $PY scripts/make_gt_tiles.py --dataset livecell --split train --out data/tiles/gt_livecell_train --tile 512 --max-items 1500 > "$OUT/gt_livecell.log" 2>&1
-  $PY scripts/make_gt_tiles.py --dataset neurips_cellseg --out data/tiles/gt_neurips --tile 512 > "$OUT/gt_neurips.log" 2>&1
-  tail -1 "$OUT/gt_livecell.log" "$OUT/gt_neurips.log" | tee -a "$OUT/campaign.log"
+fi
+if has tiles || has tiles_gt; then
+  log "tiles: real GT tiles from LIVECell train and NeurIPS CellSeg (exact targets from masks), 16 shards each"
+  for k in $(seq 0 15); do
+    $PY scripts/make_gt_tiles.py --dataset livecell --split train --out data/tiles/gt_livecell_train --tile 512 --max-items 1500 --shard $k/16 > "$OUT/gt_livecell_$k.log" 2>&1 &
+  done
+  wait
+  for k in $(seq 0 15); do
+    $PY scripts/make_gt_tiles.py --dataset neurips_cellseg --out data/tiles/gt_neurips --tile 512 --shard $k/16 > "$OUT/gt_neurips_$k.log" 2>&1 &
+  done
+  wait
+  log "tiles: gt_livecell_train=$(find data/tiles/gt_livecell_train -name '*.npz' | wc -l) gt_neurips=$(find data/tiles/gt_neurips -name '*.npz' | wc -l)"
 fi
 
 # ----------------------------------------------- 3. baselines on every dataset, 8 GPUs
