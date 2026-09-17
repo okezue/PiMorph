@@ -8,6 +8,7 @@ becomes a complex benchmark.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+import os
 from pathlib import Path
 from typing import Callable, Dict, Iterator, List, Optional
 
@@ -167,16 +168,25 @@ def load_mcellseg(root: Path, max_items: Optional[int] = None) -> Iterator[Bench
 
 
 # ---------------------------------------------------------------------- LIVECell
-def load_livecell(root: Path, max_items: Optional[int] = None) -> Iterator[BenchItem]:
-    """LIVECell COCO validation annotations plus images under root/images/."""
+LIVECELL_SPLIT = os.environ.get("PIMORPH_LIVECELL_SPLIT", "val")
+
+
+def load_livecell(root: Path, max_items: Optional[int] = None, split: Optional[str] = None) -> Iterator[BenchItem]:
+    """LIVECell COCO annotations (split from PIMORPH_LIVECELL_SPLIT: train | val | test,
+    default val) plus images under root/images/. The 8 cell lines are recorded in meta."""
     try:
         from pycocotools.coco import COCO
         from pycocotools import mask as mask_utils
     except Exception as e:  # pragma: no cover
         raise ImportError("pycocotools is required for LIVECell") from e
-    ann = root / "livecell_coco_val.json"
+    split = split or LIVECELL_SPLIT
+    ann = root / f"livecell_coco_{split}.json"
     coco = COCO(str(ann))
     img_ids = sorted(coco.imgs.keys())
+    if max_items and len(img_ids) > max_items:
+        # deterministic stratified-ish subsample: every k-th image keeps cell lines mixed
+        step = len(img_ids) / max_items
+        img_ids = [img_ids[int(i * step)] for i in range(max_items)]
     n = 0
     for iid in img_ids:
         info = coco.imgs[iid]
@@ -201,16 +211,68 @@ def load_livecell(root: Path, max_items: Optional[int] = None) -> Iterator[Bench
             else:
                 m = mask_utils.decode(seg)
             lab[m.astype(bool) & (lab == 0)] = k
+        stem = Path(info["file_name"]).stem
         yield BenchItem(
-            image_id=Path(info["file_name"]).stem,
+            image_id=stem,
             geometry=_read_gray(ip),
             labels_gt=fill_gt_slivers(lab, 12),
             boundary_polarity="auto",
-            meta={"dataset": "livecell", "modality": "phase-contrast", "gt_sliver_fill_px": 12},
+            meta={
+                "dataset": "livecell",
+                "split": split,
+                "cell_line": stem.split("_")[0],
+                "modality": "phase-contrast",
+                "gt_sliver_fill_px": 12,
+            },
         )
         n += 1
         if max_items and n >= max_items:
             break
+
+
+# ------------------------------------------------------------ NeurIPS CellSeg 2022
+def load_neurips_cellseg(root: Path, max_items: Optional[int] = None) -> Iterator[BenchItem]:
+    """NeurIPS 2022 Cell Segmentation Challenge (Zenodo 10719375).
+
+    Layout after unzip: root/Training-labeled/images/*.{png,tif,tiff,bmp} and
+    root/Training-labeled/labels/<stem>_label.tiff (instance ids); Tuning/ has the same
+    layout. Modalities (brightfield, fluorescence, phase contrast, DIC) are mixed; the
+    image is converted to gray by channel mean when RGB.
+    """
+    items = []
+    for sub in ("Training-labeled", "Tuning"):
+        img_dir = root / sub / "images"
+        lab_dir = root / sub / "labels"
+        if not img_dir.exists():
+            continue
+        for ip in sorted(img_dir.iterdir()):
+            if ip.suffix.lower() not in (".png", ".tif", ".tiff", ".bmp", ".jpg"):
+                continue
+            cands = [
+                lab_dir / f"{ip.stem}_label.tiff",
+                lab_dir / f"{ip.stem}_label.tif",
+                lab_dir / f"{ip.stem}_label.png",
+            ]
+            lp = next((c for c in cands if c.exists()), None)
+            if lp is not None:
+                items.append((sub, ip, lp))
+    if max_items and len(items) > max_items:
+        step = len(items) / max_items
+        items = [items[int(i * step)] for i in range(max_items)]
+    for sub, ip, lp in items:
+        lab = np.asarray(tifffile.imread(str(lp)) if lp.suffix.lower() in (".tif", ".tiff") else _read_gray(lp))
+        if lab.ndim == 3:
+            lab = lab[..., 0]
+        lab = lab.astype(np.int64)
+        if lab.max() <= 1:
+            lab = cc_label(lab > 0, connectivity=1)
+        yield BenchItem(
+            image_id=f"{sub}/{ip.stem}",
+            geometry=_read_gray(ip),
+            labels_gt=fill_gt_slivers(lab.astype(np.int32), 12),
+            boundary_polarity="auto",
+            meta={"dataset": "neurips_cellseg", "subset": sub, "modality": "mixed", "gt_sliver_fill_px": 12},
+        )
 
 
 # ----------------------------------------------------------------------- synth
@@ -237,6 +299,7 @@ LOADERS: Dict[str, Callable[[Path, Optional[int]], Iterator[BenchItem]]] = {
     "nuinsseg": load_nuinsseg,
     "mcellseg": load_mcellseg,
     "livecell": load_livecell,
+    "neurips_cellseg": load_neurips_cellseg,
     "synth": load_synth,
 }
 
@@ -245,6 +308,7 @@ DEFAULT_ROOTS = {
     "nuinsseg": Path("data/NuInsSeg"),
     "mcellseg": Path("data/mcellseg"),
     "livecell": Path("data/LIVECell"),
+    "neurips_cellseg": Path("data/neurips_cellseg"),
     "synth": Path("data/tiles/synth_val"),
 }
 
