@@ -36,7 +36,14 @@ ENV/
 # Downloaded datasets (large files)
 data/LIVECell/
 data/NuInsSeg/
+data/cornea_cells/
+data/mcellseg/
+data/tiles/
+data/_download_logs/
 paper/
+
+# Hypothesis property-test database
+.hypothesis/
 
 # Labeler runtime data
 labeler_data.db

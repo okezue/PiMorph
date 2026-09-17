@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "endopigraph-ajmorph"
-version = "1.0.0"
-description = "EndoPiGraph-AJmorph v1: build endothelial pi-graphs and adherens-junction morphology features from microscopy images."
+version = "1.1.0.dev0"
+description = "PiMorph: endothelial cell-complex inference (pimorph) plus the legacy EndoPiGraph-AJmorph pi-graph pipeline (endopigraph)."
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}
@@ -27,25 +27,48 @@ dependencies = [
 
 [project.optional-dependencies]
 cellpose = [
-  "cellpose>=3.0.0"
+  "cellpose>=4.0.0"
 ]
 ml = [
   "scikit-learn>=1.3"
 ]
+complex = [
+  "shapely>=2.0",
+  "pyarrow>=15.0",
+  "zarr>=2.18",
+  "ome-zarr>=0.9",
+  "hypothesis>=6.100",
+  "numba>=0.59"
+]
+torch = [
+  "torch>=2.3",
+  "torchvision>=0.18",
+  "cellpose>=4.0.0"
+]
+aws = [
+  "boto3>=1.34"
+]
 dev = [
   "pytest>=7.4",
   "ruff>=0.5.0",
-  "scikit-learn>=1.3"
+  "scikit-learn>=1.3",
+  "hypothesis>=6.100"
 ]
 
 [project.scripts]
 endopigraph = "endopigraph.cli:main"
+pimorph = "pimorph.cli:main"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/endopigraph"]
+packages = ["src/endopigraph", "src/pimorph"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+markers = [
+  "torch: tests that require torch (skipped when torch is not installed)",
+  "slow: long-running tests (deselect with -m 'not slow')",
+  "data: tests that need local datasets under data/ (skipped when absent)"
+]
 
 [tool.ruff]
 target-version = "py310"
