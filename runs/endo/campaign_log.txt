@@ -1,0 +1,18 @@
+[21:26:04] fetch: code + mCellSeg + HAEC from presigned URLs
+[21:28:58] fetch: mcellseg images=200 haec fields=434
+[21:28:58] bench_all: cellpose_sam, classical, neural(v0_synth, v0_mixed, v1_multi) on mCellSeg (200) and HAEC (200 sampled)
+[21:37:59] fix: relaunch HAEC gpu jobs + mCellSeg v1_multi
+[21:41:56] fix2: relaunch mCellSeg cellpose_sam, v0_synth, v0_mixed, classical
+[21:41:56] bench_all done (after fix2)
+[21:41:56] tiles: HAEC train fields (GFP geometry + Hoechst nuclei) and mCellSeg train
+[21:45:35] fix3: relaunched HAEC gpu jobs + mCellSeg v1_multi detached
+[22:05:02] tiles: gt_haec_train=3132 gt_mcellseg_train=2914
+[22:05:02] train: v2_endo = v1_multi resumed on HAEC + mCellSeg train tiles + synthetic (DDP 8 GPUs, 40 epochs)
+[22:14:33] restart: HAEC polarity fixed to dark (inverted GFP); first-pass HAEC classical/v0/v1 moved to first_pass_wrong_polarity/
+[22:14:33] tiles: HAEC train fields (inverted GFP geometry + Hoechst nuclei) and mCellSeg train
+[22:38:05] tiles: gt_haec_train=3132 gt_mcellseg_train=2914
+[22:38:05] train: v2_endo = v1_multi resumed on HAEC + mCellSeg train tiles + synthetic (DDP 8 GPUs, 40 epochs)
+[22:58:53] train done: {"epoch": 99, "step": 17700, "lr": 0.0008183429621780925, "time_s": 30.30617356300354, "train_loss": -0.8763833877520036, "train_parts": {"boundary": 0.27700339
+[22:58:53] bench_v2: held-out HAEC test (87) and mCellSeg test (40) for v2_endo, v1_multi, cellpose_sam
+[23:12:58] bench_v2 done
+[23:12:58] endothelial campaign finished

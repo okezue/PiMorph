@@ -81,7 +81,9 @@ Everything below is implemented and tested under `tests/pimorph/`; the linked do
   LIVECell and NeurIPS CellSeg. Through the same decoder on held-out synthetic tiles the learned proposals
   reach adjacency F1 0.86 to 0.89 vs 0.37 to 0.45 for the classical filters; on held-out LIVECell phase
   contrast v1_multi reaches 0.23 vs 0.62 for Cellpose-SAM (400 images each; [`docs/SCALE_RESULTS.md`](docs/SCALE_RESULTS.md)).
-  On real endothelial fluorescence they are self-consistency checked only. See [`docs/NEURAL_PROPOSALS.md`](docs/NEURAL_PROPOSALS.md);
+  On held-out human aortic endothelial fields with instance truth, `v2_endo` (fine-tuned on 3,000 endothelial tiles)
+  reaches PQ 0.41 and boundary F1 0.84 vs 0.35 / 0.71 for Cellpose-SAM, while vertex accuracy stays low for both
+  ([`docs/ENDOTHELIAL_RESULTS.md`](docs/ENDOTHELIAL_RESULTS.md)). See [`docs/NEURAL_PROPOSALS.md`](docs/NEURAL_PROPOSALS.md);
   GPU training on AWS follows [`docs/AWS_RUNBOOK.md`](docs/AWS_RUNBOOK.md) (named profile, tag-scoped
   cleanup, no keys in the repo).
 

@@ -1,0 +1,35 @@
+{
+  "train_dirs": [
+    "data/tiles/gt_haec_train",
+    "data/tiles/gt_mcellseg_train",
+    "data/tiles/gt_haec_train",
+    "data/tiles/synth_train",
+    "data/tiles/pseudo_sbiad1540",
+    "data/tiles/pseudo_ve_strat"
+  ],
+  "val_dirs": [
+    "data/tiles/synth_val"
+  ],
+  "out_dir": "runs/neural/v2_endo",
+  "epochs": 100,
+  "batch_size": 8,
+  "crop": 512,
+  "lr": 0.00015,
+  "weight_decay": 0.0001,
+  "base": 48,
+  "depth": 4,
+  "amp": true,
+  "num_workers": 6,
+  "seed": 5,
+  "device": "cuda",
+  "log_every": 100,
+  "max_steps": null,
+  "resume": "runs/neural/v3_multi/best.pt",
+  "val_fraction": 0.1,
+  "p_membrane_as_geometry": 0.5,
+  "p_nuclei": 0.85,
+  "p_junction": 0.9,
+  "warmup_fraction": 0.03,
+  "grad_clip": 1.0,
+  "world_size": 8
+}

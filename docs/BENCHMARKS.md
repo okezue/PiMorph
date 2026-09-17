@@ -43,6 +43,10 @@ All from `metrics/structural.py` and `complex/matching.py`; details in `COMPLEX.
 
 The per-image CSV also holds AP50, AP75, VI with its merge and split components, Hausdorff distances, split and merge counts, Euler residuals, and the arclength relative errors of matched edges. `tests/pimorph/test_metrics.py::test_missing_border_barely_moves_pixels_but_changes_adjacency` shows why the structural columns are there: merging one small cell changes under 2 % of pixels, leaves PQ above 0.97 and boundary F1 above 0.99, and still removes a face, at least two contacts, and the incident sets around it.
 
+## Endothelial ground truth (HAEC, mCellSeg)
+
+`docs/ENDOTHELIAL_RESULTS.md` holds the first endothelial accuracy numbers: held-out human aortic endothelial cells (GFP + Hoechst, Zenodo 4898011) and mCellSeg (expert HUVEC/HEK DIC masks) for `v2_endo`, Cellpose-SAM, the classical filters and earlier checkpoints.
+
 ## Scaled results (400 images per dataset, 8x H100)
 
 `docs/SCALE_RESULTS.md` holds the large-sample tables run on xAI compute on 2026-09-17: Cellpose-SAM and classical baselines on LIVECell test (all 8 cell lines), NeurIPS 2022 CellSeg, cornea and 400 synthetic tiles, plus the first model trained on real instance ground truth (`models/pimorph_proposals_v1_multi.pt`). The small-sample tables below were produced earlier on the laptop and are kept because the docs and model cards cite them.
