@@ -39,13 +39,79 @@ Additional validation:
 
 ---
 
+## PiMorph complex (v1.1, in development)
+
+`src/pimorph/` is the new canonical package (import `pimorph`, CLI `pimorph`). It replaces the 4-neighbor
+pixel-contact adjacency of `endopigraph` with an exact embedded cell complex and adds uncertainty-aware
+inference. The legacy package stays and is fed through adapters: `pimorph.io.legacy` writes the same
+`cells.csv`, `edges.csv`, and GraphML that `scripts/harden_network_stats.py` and the labeler read.
+Everything below is implemented and tested under `tests/pimorph/`; the linked docs list what is not.
+
+- **Exact half-edge cell complex** from any label image (`pimorph.complex.extract_complex`). Faces are
+  cells, enclosed gaps, and one outer face; one edge per connected contact component (two disconnected
+  contacts between the same cells are two edges); vertices where 3 or 4 cracks meet, with exact cyclic
+  order. `validate()` checks `B1 @ B2 == 0`, two faces per edge, consistent vertex links, and a zero
+  Euler residual. This is the only hard constraint in the system. Conventions: [`docs/COMPLEX.md`](docs/COMPLEX.md).
+- **Subpixel geometry.** Endpoint-fixed smoothing removes the staircase bias of pixel-count contact
+  lengths: a diagonal boundary measures 41 % too long as a crack trace and 0.05 % off after smoothing;
+  a disk perimeter is within 0.24 %.
+- **Exact identities as QC:** Euler residual, boundary-corrected defect law, Weaire sum rule, topological charge.
+- **Event library** (`pimorph.complex.events`): T1 exchange, contact birth and death, division,
+  extrusion (T2), gap nucleation, rupture, reseal, each with preconditions and an asserted `(dV, dE, dF)`.
+  Operations only; no movie tracking yet.
+- **Fields on the complex** (`pimorph.fields`): oriented strip sampling along each interface, arclength
+  profiles `z_e(s)` (occupancy, continuity, width, left and right side intensity), and functionals that
+  reproduce the legacy `AJ_*` features.
+- **Inference chain** (`pimorph.infer`): proposal maps (classical filters or a neural multi-head UNet),
+  a constrained watershed decoder that emits a valid complex by construction, an energy whose
+  biological terms (one nucleus per cell, trivalent vertices, area and aspect priors) are soft and
+  zeroable, and a posterior ensemble of legal complexes with contact probabilities, cell probabilities,
+  vertex credible radii, and credible intervals for any statistic. See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
+- **Structural metrics and benchmarks** (`pimorph.metrics`, `pimorph.bench`): adjacency P/R/F1 with
+  multiplicity, vertex localization, incident-set and cyclic-order accuracy, PQ, VI, boundary F1,
+  validity fraction, plus ECE, Brier, and risk-coverage curves for probabilities. Current tables and
+  their caveats (cornea GT is derived and over-segmented, LIVECell slivers filled at 12 px, the classical
+  proposer fails on phase contrast without nuclei): [`docs/BENCHMARKS.md`](docs/BENCHMARKS.md).
+- **Synthetic tissues and neural proposals** (`pimorph.synth`, `pimorph.infer.neural`): Lloyd-relaxed
+  anisotropic Voronoi sheets with gaps and broken junctions rendered through a PSF and noise model with
+  exact targets; a six-channel UNet (geometry, nuclei, junction plus presence indicators) with boundary,
+  distance, seed, vertex, gap, and log-sigma heads, trained with `python -m pimorph.infer.neural.train`.
+  No trained checkpoint is committed yet. See [`docs/NEURAL_PROPOSALS.md`](docs/NEURAL_PROPOSALS.md);
+  GPU training on AWS follows [`docs/AWS_RUNBOOK.md`](docs/AWS_RUNBOOK.md) (named profile, tag-scoped
+  cleanup, no keys in the repo).
+
+Data notes that changed since v1.0. The VE-strat manifest had the channels backwards (`w2` is
+VE-cadherin, `w4` is nuclei), which is why the legacy run found zero contacts;
+`data/ve_strat/manifest_paired.csv` pairs both files per site. On S-BIAD1540 and VE-strat the junction
+channel doubles as the geometry channel, and outputs record `geometry_source = junction_channel`
+because scoring junction continuity along boundaries found with the same signal is circular.
+`NETWORK_DISCOVERIES.md` now separates measured graph quantities from hypothesized biology and reports
+3-cliques (not "triangles") against a conditional null.
+
+Quickstart:
+
+```bash
+uv venv --python 3.12 .venv && source .venv/bin/activate
+uv pip install -e ".[dev,ml,complex]"          # add torch for neural proposals, aws for boto3
+pimorph validate --labels path/to/labels.tif   # validity report, defect law and Weaire residuals
+pimorph reconstruct --manifest data/ve_strat/manifest_paired.csv --out runs/pimorph_ve_strat --posterior
+pimorph benchmark --dataset synth --root data/tiles/synth_val --methods classical --out runs/pimorph_bench
+pimorph synth --n 200 --out data/tiles/synth_val --shape 512
+pytest tests/pimorph -q                        # torch tests skip when torch is absent
+```
+
+---
+
 ## Installation
 
 ```bash
-python -m venv .venv
+python -m venv .venv                 # or: uv venv --python 3.12 .venv  (recommended; system Python 3.14 has no torch or cellpose wheels)
 source .venv/bin/activate
 pip install -e ".[dev]"           # core + tests
 pip install -e ".[cellpose]"      # optional: deep learning segmentation
+pip install -e ".[complex]"       # pimorph complex extras: shapely, pyarrow, zarr, ome-zarr, hypothesis, numba
+pip install -e ".[torch]"         # pimorph neural proposals and Cellpose-SAM: torch, torchvision, cellpose>=4
+pip install -e ".[aws]"           # boto3 for the AWS training runbook
 ```
 
 ---

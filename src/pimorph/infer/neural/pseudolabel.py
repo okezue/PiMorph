@@ -137,10 +137,15 @@ def segment_field(
     iou_thresh: float = 0.7,
     boundary_tol_px: float = 3.0,
     downsample_radius_px: float = 35.0,
+    policy: str = "consensus",
 ) -> Dict:
-    """Classical + optional Cellpose consensus on one field. Fields whose classical cell
-    radius exceeds ``downsample_radius_px`` are downsampled by 2 first so cell scale
-    roughly matches the synthetic prior."""
+    """Classical + optional Cellpose pseudo-labels on one field. Fields whose classical
+    cell radius exceeds ``downsample_radius_px`` are downsampled by 2 first so cell scale
+    roughly matches the synthetic prior.
+
+    ``policy``: "consensus" keeps only cells both segmenters agree on (strict, can ignore
+    almost everything when they differ); "cellpose_primary" uses Cellpose masks and
+    ignores only unsupported or disputed boundaries (denser, inherits Cellpose bias)."""
     proposer = ClassicalProposer()
     maps: ProposalMaps = proposer(geometry, nuclei, junction)
     scale = 1
@@ -160,9 +165,21 @@ def segment_field(
         if cellpose_available():
             model = cellpose_model if cellpose_model is not None else CellposeSAM()
             labels_cp = model(geometry, nuclei)
-    if labels_cp is not None:
+    if labels_cp is not None and policy == "consensus":
         labels, ignore = consensus_labels(labels_cl, labels_cp, iou_thresh=iou_thresh, boundary_tol_px=boundary_tol_px)
         consensus = "classical+cellpose"
+    elif labels_cp is not None and policy == "cellpose_primary":
+        # Cellpose masks as labels; 1 to 3 px background seams between touching cells are
+        # filled so cells share crack edges; boundaries without support in the boundary
+        # map, and cells the two segmenters disagree on (IoU < iou_thresh with any
+        # classical cell), are ignored.
+        from ...bench.datasets import fill_gt_slivers
+
+        labels = fill_gt_slivers(labels_cp, max_area_px=12)
+        ignore = classical_only_ignore(labels, maps.boundary, support=0.3, tol_px=boundary_tol_px)
+        _, ign_disagree = consensus_labels(labels, labels_cl, iou_thresh=iou_thresh, boundary_tol_px=boundary_tol_px)
+        ignore = ignore | (ign_disagree & find_boundaries(labels, connectivity=1, mode="thick"))
+        consensus = "cellpose_primary"
     else:
         labels = labels_cl
         ignore = classical_only_ignore(labels_cl, maps.boundary, support=0.3, tol_px=boundary_tol_px)
@@ -192,6 +209,7 @@ def make_pseudolabel_tiles(
     root: Optional[PathLike] = None,
     iou_thresh: float = 0.7,
     boundary_tol_px: float = 3.0,
+    policy: str = "consensus",
 ) -> pd.DataFrame:
     """Write ``field_XXX_rYYYY_cZZZZ.npz`` tiles plus ``manifest.csv`` into ``out_dir``.
 
@@ -226,6 +244,7 @@ def make_pseudolabel_tiles(
             cellpose_model=cellpose_model,
             iou_thresh=iou_thresh,
             boundary_tol_px=boundary_tol_px,
+            policy=policy,
         )
         g, n, j = seg["geometry"], seg["nuclei"], seg["junction"]
         labels, ignore = seg["labels"], seg["ignore"]

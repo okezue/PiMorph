@@ -9,6 +9,7 @@ from .calibration import (
     reliability_table,
     risk_coverage_curve,
 )
+from .sensitivity import posterior_statistics, hypothesis_statistics  # noqa: F401
 from .structural import (
     boundary_scores,
     instance_ap,

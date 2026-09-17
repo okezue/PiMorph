@@ -50,3 +50,4 @@ labeler_data.db
 runs/upload_*/
 data/lymphatic_ec/5w/diaphragm/overview diaphragm + individual capillaries/5 week old diaphrgam overview.pdf
 infra/aws/env.sh
+infra/aws/urls.txt

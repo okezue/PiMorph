@@ -28,4 +28,15 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - run: pip install -e ".[dev,ml]"
-      - run: pytest tests/ -v --tb=short
+      - run: pytest tests/ --ignore=tests/pimorph -v --tb=short
+
+  pimorph:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      # torch-free: tests marked "torch" skip themselves via importorskip
+      - run: pip install -e ".[dev,ml,complex]"
+      - run: pytest tests/pimorph -q --tb=short -m "not slow"

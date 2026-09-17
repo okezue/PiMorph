@@ -31,3 +31,6 @@ Tag policy for everything we create: `Project=PiMorph`, `Owner=okebell-grok`, `S
 | 2026-09-17T02:14:59Z | s3 bucket | pimorph-train-545338549082-01a0ac4c | us-east-1 | training tiles + checkpoints | |
 | 2026-09-17T02:16:16Z | key pair | pimorph-01a0ac4c (/Users/okebell/.ssh/pimorph-01a0ac4c.pem) | us-east-1 | ssh to training instance | |
 | 2026-09-17T02:16:16Z | security group | sg-0f1d1d76725853b7d (pimorph-ssh-01a0ac4c) | us-east-1 | ssh from 12.227.149.36/32 | |
+| 2026-09-17T04:05:30Z | ec2 instance | i-0ffe4688aa1ae952b | us-east-1 | g5.xlarge ondemand, neural proposal training | |
+| i-0ffe4688aa1ae952b | g5.xlarge (ondemand) | 2026-09-17T04:05:30Z | | | |
+| 2026-09-17T04:08:34Z | sg ingress | sg-0f1d1d76725853b7d | us-east-1 | added 12.227.149.35/32 and current ip 12.227.149.36/32 (NAT pool flips) | |

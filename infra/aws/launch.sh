@@ -11,19 +11,20 @@ LOG="$HERE/aws_log.md"
 STAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 TAGS="{Key=Project,Value=PiMorph},{Key=Owner,Value=okebell-grok},{Key=Session,Value=${PIMORPH_SESSION}},{Key=Purpose,Value=neural-proposal-training},{Key=Name,Value=pimorph-train-${PIMORPH_SESSION}}"
 
-MARKET_OPTS=()
+MARKET_OPTS=""
 if [ "$MARKET" = "spot" ]; then
-  MARKET_OPTS=(--instance-market-options 'MarketType=spot,SpotOptions={SpotInstanceType=one-time,InstanceInterruptionBehavior=terminate}')
+  MARKET_OPTS="--instance-market-options MarketType=spot,SpotOptions={SpotInstanceType=one-time,InstanceInterruptionBehavior=terminate}"
 fi
 
 set +e
+# shellcheck disable=SC2086
 OUT=$(aws ec2 run-instances \
   --image-id "$AMI" --instance-type "$TYPE" \
   --key-name "$PIMORPH_KEY_NAME" --security-group-ids "$PIMORPH_SG_ID" \
   --block-device-mappings 'DeviceName=/dev/sda1,Ebs={VolumeSize=150,VolumeType=gp3,DeleteOnTermination=true}' \
   --instance-initiated-shutdown-behavior terminate \
   --tag-specifications "ResourceType=instance,Tags=[${TAGS}]" "ResourceType=volume,Tags=[${TAGS}]" \
-  "${MARKET_OPTS[@]}" \
+  ${MARKET_OPTS} \
   --query 'Instances[0].InstanceId' --output text 2>&1)
 RC=$?
 set -e
