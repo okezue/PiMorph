@@ -13,6 +13,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import os
 import time
 from dataclasses import asdict, dataclass, field, fields
 from pathlib import Path
@@ -221,27 +222,69 @@ def load_model(checkpoint_path, device: torch.device = torch.device("cpu")) -> T
 
 
 # ------------------------------------------------------------------- train
+def _dist_init() -> Tuple[bool, int, int]:
+    """Initialize torch.distributed when launched by torchrun. Returns (is_dist, rank, world)."""
+    if "RANK" in os.environ and "WORLD_SIZE" in os.environ and int(os.environ["WORLD_SIZE"]) > 1:
+        import torch.distributed as dist
+
+        if not dist.is_initialized():
+            dist.init_process_group(backend="nccl" if torch.cuda.is_available() else "gloo")
+        rank = dist.get_rank()
+        if torch.cuda.is_available():
+            torch.cuda.set_device(int(os.environ.get("LOCAL_RANK", rank % max(torch.cuda.device_count(), 1))))
+        return True, rank, dist.get_world_size()
+    return False, 0, 1
+
+
+def _dist_mean(x: float, device: torch.device) -> float:
+    import torch.distributed as dist
+
+    t = torch.tensor([x], dtype=torch.float64, device=device)
+    dist.all_reduce(t, op=dist.ReduceOp.SUM)
+    return float(t.item() / dist.get_world_size())
+
+
 def train(cfg: TrainConfig) -> Path:
+    is_dist, rank, world = _dist_init()
+    main_rank = rank == 0
     out_dir = Path(cfg.out_dir)
-    out_dir.mkdir(parents=True, exist_ok=True)
-    (out_dir / "config.json").write_text(json.dumps(asdict(cfg), indent=2))
-    torch.manual_seed(cfg.seed)
-    np.random.seed(cfg.seed)
-    device = resolve_device(cfg.device)
+    if main_rank:
+        out_dir.mkdir(parents=True, exist_ok=True)
+        (out_dir / "config.json").write_text(json.dumps({**asdict(cfg), "world_size": world}, indent=2))
+    torch.manual_seed(cfg.seed + rank)
+    np.random.seed(cfg.seed + rank)
+    if is_dist and torch.cuda.is_available():
+        device = torch.device("cuda", torch.cuda.current_device())
+    else:
+        device = resolve_device(cfg.device)
     amp = bool(cfg.amp and device.type == "cuda")
 
     train_paths, val_paths = _resolve_splits(cfg)
     ds_kw = dict(p_membrane_as_geometry=cfg.p_membrane_as_geometry, p_nuclei=cfg.p_nuclei, p_junction=cfg.p_junction)
     train_loader = make_loader(
-        train_paths, cfg.batch_size, cfg.crop, train=True, num_workers=cfg.num_workers, seed=cfg.seed, **ds_kw
+        train_paths,
+        cfg.batch_size,
+        cfg.crop,
+        train=True,
+        num_workers=cfg.num_workers,
+        seed=cfg.seed,
+        distributed=is_dist,
+        **ds_kw,
     )
+    # validation runs on rank 0 only (val sets are small)
     val_loader = make_loader(
         val_paths, cfg.batch_size, cfg.crop, train=False, num_workers=cfg.num_workers, seed=cfg.seed, **ds_kw
     )
 
     model = MultiHeadUNet(in_channels=6, base=cfg.base, depth=cfg.depth).to(device)
+    raw_model = model
+    if is_dist:
+        from torch.nn.parallel import DistributedDataParallel as DDP
+
+        model = DDP(model, device_ids=[device.index] if device.type == "cuda" else None)
     criterion = MultiHeadLoss()
-    optimizer = torch.optim.AdamW(model.parameters(), lr=cfg.lr, weight_decay=cfg.weight_decay)
+    # linear LR scaling with the number of data-parallel replicas
+    optimizer = torch.optim.AdamW(model.parameters(), lr=cfg.lr * world, weight_decay=cfg.weight_decay)
     steps_per_epoch = max(len(train_loader), 1)
     total_steps = (
         cfg.epochs * steps_per_epoch if cfg.max_steps is None else min(cfg.max_steps, cfg.epochs * steps_per_epoch)
@@ -253,25 +296,29 @@ def train(cfg: TrainConfig) -> Path:
     start_epoch, best_val, step = 0, float("inf"), 0
     if cfg.resume:
         ck = torch.load(Path(cfg.resume), map_location="cpu", weights_only=False)
-        model.load_state_dict(ck["model"])
-        if "optimizer" in ck:
+        raw_model.load_state_dict(ck["model"])
+        if "optimizer" in ck and not is_dist:
             optimizer.load_state_dict(ck["optimizer"])
-        if "scheduler" in ck:
+        if "scheduler" in ck and not is_dist:
             scheduler.load_state_dict(ck["scheduler"])
         start_epoch = int(ck.get("epoch", -1)) + 1
         best_val = float(ck.get("best_val", best_val))
         step = start_epoch * steps_per_epoch
 
-    print(
-        f"[train] device={device} params={count_parameters(model):,} train_tiles={len(train_paths)} "
-        f"val_tiles={len(val_paths)} steps/epoch={steps_per_epoch} total_steps={total_steps} amp={amp}",
-        flush=True,
-    )
+    if main_rank:
+        print(
+            f"[train] device={device} world={world} params={count_parameters(raw_model):,} "
+            f"train_tiles={len(train_paths)} val_tiles={len(val_paths)} steps/epoch={steps_per_epoch} "
+            f"total_steps={total_steps} amp={amp}",
+            flush=True,
+        )
     log_path = out_dir / "train_log.jsonl"
     done = False
     for epoch in range(start_epoch, cfg.epochs):
         model.train()
         train_loader.dataset.set_epoch(epoch)
+        if is_dist:
+            train_loader.sampler.set_epoch(epoch)
         t0 = time.time()
         parts: List[Dict[str, float]] = []
         totals: List[float] = []
@@ -290,42 +337,54 @@ def train(cfg: TrainConfig) -> Path:
             step += 1
             totals.append(float(total.detach()))
             parts.append(part)
-            if cfg.log_every and step % cfg.log_every == 0:
+            if cfg.log_every and step % cfg.log_every == 0 and main_rank:
                 print(f"[train] epoch {epoch} step {step} loss {np.mean(totals[-cfg.log_every :]):.4f}", flush=True)
             if cfg.max_steps is not None and step >= cfg.max_steps:
                 done = True
                 break
 
-        val_total, val_parts, val_metrics = evaluate(model, val_loader, criterion, device, amp)
-        record = {
-            "epoch": epoch,
-            "step": step,
-            "lr": float(optimizer.param_groups[0]["lr"]),
-            "time_s": time.time() - t0,
-            "train_loss": float(np.mean(totals)) if totals else float("nan"),
-            "train_parts": _mean_parts(parts),
-            "val_loss": val_total,
-            "val_parts": val_parts,
-            "val_metrics": val_metrics,
-        }
-        with log_path.open("a") as f:
-            f.write(json.dumps(record) + "\n")
-        print(
-            f"[val] epoch {epoch} loss {val_total:.4f} "
-            + " ".join(f"{k}={v:.3f}" for k, v in val_metrics.items() if not np.isnan(v)),
-            flush=True,
-        )
-        val_record = {"loss": val_total, "parts": val_parts, "metrics": val_metrics}
-        is_best = val_total < best_val or not math.isfinite(best_val)
-        if is_best:
-            best_val = val_total
-        save_checkpoint(out_dir / "last.pt", model, cfg, epoch, val_record, optimizer, scheduler, best_val)
-        if is_best:
-            save_checkpoint(out_dir / "best.pt", model, cfg, epoch, val_record, best_val=best_val)
+        train_loss = float(np.mean(totals)) if totals else float("nan")
+        if is_dist:
+            train_loss = _dist_mean(train_loss, device)
+        if main_rank:
+            val_total, val_parts, val_metrics = evaluate(raw_model, val_loader, criterion, device, amp)
+            record = {
+                "epoch": epoch,
+                "step": step,
+                "lr": float(optimizer.param_groups[0]["lr"]),
+                "time_s": time.time() - t0,
+                "train_loss": train_loss,
+                "train_parts": _mean_parts(parts),
+                "val_loss": val_total,
+                "val_parts": val_parts,
+                "val_metrics": val_metrics,
+            }
+            with log_path.open("a") as f:
+                f.write(json.dumps(record) + "\n")
+            print(
+                f"[val] epoch {epoch} loss {val_total:.4f} "
+                + " ".join(f"{k}={v:.3f}" for k, v in val_metrics.items() if not np.isnan(v)),
+                flush=True,
+            )
+            val_record = {"loss": val_total, "parts": val_parts, "metrics": val_metrics}
+            is_best = val_total < best_val or not math.isfinite(best_val)
+            if is_best:
+                best_val = val_total
+            save_checkpoint(out_dir / "last.pt", raw_model, cfg, epoch, val_record, optimizer, scheduler, best_val)
+            if is_best:
+                save_checkpoint(out_dir / "best.pt", raw_model, cfg, epoch, val_record, best_val=best_val)
+        if is_dist:
+            import torch.distributed as dist
+
+            dist.barrier()
         if done:
             break
-    if not (out_dir / "best.pt").exists():
-        save_checkpoint(out_dir / "best.pt", model, cfg, start_epoch, {}, best_val=best_val)
+    if main_rank and not (out_dir / "best.pt").exists():
+        save_checkpoint(out_dir / "best.pt", raw_model, cfg, start_epoch, {}, best_val=best_val)
+    if is_dist:
+        import torch.distributed as dist
+
+        dist.destroy_process_group()
     return out_dir / "best.pt"
 
 

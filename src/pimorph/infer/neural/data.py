@@ -232,19 +232,28 @@ def make_loader(
     num_workers: int = 0,
     seed: int = 0,
     drop_last: Optional[bool] = None,
+    distributed: bool = False,
     **dataset_kw,
 ) -> DataLoader:
+    """``distributed=True`` shards the dataset across torch.distributed ranks with a
+    DistributedSampler (call ``loader.sampler.set_epoch(e)`` each epoch)."""
     ds = TileDataset(paths, crop=crop, train=train, seed=seed, **dataset_kw)
     g = torch.Generator()
     g.manual_seed(int(seed))
+    sampler = None
+    if distributed:
+        from torch.utils.data.distributed import DistributedSampler
+
+        sampler = DistributedSampler(ds, shuffle=bool(train), seed=int(seed), drop_last=bool(train))
     return DataLoader(
         ds,
         batch_size=int(batch_size),
-        shuffle=bool(train),
+        shuffle=bool(train) and sampler is None,
+        sampler=sampler,
         num_workers=int(num_workers),
         drop_last=bool(train and len(ds) > batch_size) if drop_last is None else bool(drop_last),
         generator=g,
-        pin_memory=False,
+        pin_memory=distributed,
         persistent_workers=bool(num_workers > 0),
     )
 
