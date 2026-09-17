@@ -35,3 +35,4 @@ Tag policy for everything we create: `Project=PiMorph`, `Owner=okebell-grok`, `S
 | i-0ffe4688aa1ae952b | g5.xlarge (ondemand) | 2026-09-17T04:05:30Z | | | |
 | 2026-09-17T04:08:34Z | sg ingress | sg-0f1d1d76725853b7d | us-east-1 | added 12.227.149.35/32 and current ip 12.227.149.36/32 (NAT pool flips) | |
 | 2026-09-17T04:37:39Z | training job | tmux:train on i-0ffe4688aa1ae952b | us-east-1 | stage 1: 40 epochs synthetic (2000 tiles), out runs/neural/v1_synth | |
+| 2026-09-17T05:56:22Z | training job | tmux:train2 on i-0ffe4688aa1ae952b | us-east-1 | stage 2: resume from v1_synth, synthetic + 135 S-BIAD1540 + 40 VE-strat pseudo-label tiles, to epoch 60 | |

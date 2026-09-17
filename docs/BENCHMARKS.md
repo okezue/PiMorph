@@ -47,22 +47,26 @@ The per-image CSV also holds AP50, AP75, VI with its merge and split components,
 
 ### Synthetic tiles (exact ground truth)
 
-Source: `runs/pimorph_bench/synth_summary.md`, 2026-09-16. 24 tiles of 384 x 384 px from `pimorph synth` (junction channel as geometry, nuclei channel present). Mean GT cells per tile 175.0; mean predicted cells 133.5.
+Source: `runs/pimorph_bench/synth_summary.md`, 2026-09-17. 40 held-out tiles of 512 x 512 px from `data/tiles/synth_val` (seed 777, never used in training; junction channel as geometry, nuclei channel present). Both methods run through the same constrained decoder; only the proposal maps differ. `neural` is `models/pimorph_proposals_v0_synth.pt` (stage 1, synthetic training only, see `models/pimorph_proposals_v0_synth.md`).
 
 | Method | Adjacency F1 (pair) | Adjacency F1 (component) | Vertex F1 | Vertex loc. err. median (px) | Incident-set acc. | Cyclic-order acc. | PQ | Boundary F1 | Edit dist. (approx) | Valid | Legacy 4-nbr adj. F1 | Runtime (s) |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| classical | 0.394 | 0.325 | 0.479 | 1.207 | 0.302 | 0.302 | 0.516 | 0.847 | 717.708 | 1.000 | 0.379 | 3.086 |
+| classical | 0.447 | 0.362 | 0.503 | 1.000 | 0.372 | 0.372 | 0.554 | 0.852 | 879.750 | 1.000 | 0.434 | 4.529 |
+| neural | 0.889 | 0.739 | 0.733 | 1.000 | 0.860 | 0.860 | 0.891 | 0.981 | 398.425 | 1.000 | 0.854 | 3.575 |
 
-Pair precision 0.442, pair recall 0.359; 21.2 splits and 36.8 merges per tile on average (from `synth_summary.json`).
+Learned proposals double adjacency F1 and incident-set accuracy over the classical filters with an identical decoder. Synthetic validation is in-distribution for the neural model (same generator, different seeds), so this measures what the decoder can extract from good proposal maps, not real-data accuracy.
 
 ### LIVECell (phase contrast, COCO polygon ground truth)
 
-Source: `runs/pimorph_bench/livecell_summary.md`, 2026-09-16. 6 validation images of the BT474 line, 520 x 704 px, no nuclei channel. GT background slivers below 12 px filled. Mean GT cells per image 201.0; mean predicted cells 178.3 (Cellpose-SAM) and 639.2 (classical).
+Source: `runs/pimorph_bench/livecell_summary.md` and `livecell_per_image.csv`, 2026-09-16/17. 6 validation images of the BT474 line, 520 x 704 px, no nuclei channel. GT background slivers below 12 px filled. Mean GT cells per image 201.0; mean predicted cells 178.3 (Cellpose-SAM) and 639.2 (classical).
 
 | Method | Adjacency F1 (pair) | Adjacency F1 (component) | Vertex F1 | Vertex loc. err. median (px) | Incident-set acc. | Cyclic-order acc. | PQ | Boundary F1 | Edit dist. (approx) | Valid | Legacy 4-nbr adj. F1 | Runtime (s) |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
 | cellpose_sam | 0.558 | 0.466 | 0.327 | 1.707 | 0.657 | 0.657 | 0.628 | 0.894 | 325.667 | 1.000 | 0.546 | 8.384 |
+| neural (synthetic only) | 0.000 | 0.000 | 0.027 | 1.414 | 0.000 | 0.000 | 0.031 | 0.460 | 750.333 | 1.000 | 0.000 | 6.906 |
 | classical | 0.006 | 0.003 | 0.046 | 2.059 | 0.004 | 0.004 | 0.044 | 0.506 | 2897.333 | 1.000 | 0.004 | 13.171 |
+
+The synthetic-only neural model does not transfer to phase contrast: the generator renders fluorescent junction lines, and BT474 phase-contrast images look nothing like them. Cellpose-SAM, trained on broad real data, is the baseline to beat there. On fluorescence VE-cadherin (VE-strat crop, no instance truth) the same model produces a continuous boundary map and 43 cells with every vertex trivalent (`runs/pimorph_dev/ve_strat_neural_vs_classical.png`).
 
 ### Cornea (specular microscopy, derived instance ground truth)
 
@@ -74,7 +78,7 @@ Source: `runs/pimorph_bench/cornea_summary.md`, 2026-09-16. 6 crops of 500 x 500
 
 ### Not yet run
 
-NuInsSeg (loader present, `data/NuInsSeg`) and mCellSeg (loader present; `data/mcellseg` is absent in this workspace, it needs a Kaggle token) have no `pimorph benchmark` output yet. No neural proposal method is registered in `bench/run.py`, so there are no neural numbers.
+NuInsSeg (loader present, `data/NuInsSeg`) and mCellSeg (loader present; `data/mcellseg` is absent in this workspace, it needs a Kaggle token) have no `pimorph benchmark` output yet. The stage-2 model (synthetic plus real pseudo-labels) has not been benchmarked yet.
 
 ## Caveats
 
