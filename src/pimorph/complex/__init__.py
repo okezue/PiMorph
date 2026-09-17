@@ -13,7 +13,7 @@ Conventions (docs/COMPLEX.md):
 """
 
 from .halfedge import FaceKind, HalfEdgeComplex, VertexKind
-from .extract import extract_complex
+from .extract import extract_complex, rebuild_topology
 from .incidence import ValidationReport, boundary_matrices, validate
 from .invariants import (
     defect_law_residual,
@@ -22,8 +22,32 @@ from .invariants import (
     weaire_sum_rule_residual,
 )
 from .dual import clique_vertex_report, to_multigraph, to_simple_graph
+from .events import (
+    EventPreconditionError,
+    EventResult,
+    EventRewriteError,
+    contact_birth,
+    contact_death,
+    divide,
+    extrude,
+    nucleate_gap,
+    reseal,
+    rupture,
+    t1_exchange,
+)
 
 __all__ = [
+    "EventPreconditionError",
+    "EventResult",
+    "EventRewriteError",
+    "contact_birth",
+    "contact_death",
+    "divide",
+    "extrude",
+    "nucleate_gap",
+    "reseal",
+    "rupture",
+    "t1_exchange",
     "FaceKind",
     "HalfEdgeComplex",
     "VertexKind",
@@ -33,6 +57,7 @@ __all__ = [
     "defect_law_residual",
     "euler_characteristic",
     "extract_complex",
+    "rebuild_topology",
     "to_multigraph",
     "to_simple_graph",
     "topological_charge",

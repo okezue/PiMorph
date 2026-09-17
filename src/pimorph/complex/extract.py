@@ -310,6 +310,24 @@ def extract_complex(
     return cx
 
 
+def rebuild_topology(cx: HalfEdgeComplex) -> HalfEdgeComplex:
+    """Recompute rotation system, he_next, face loops and vertex kinds from the
+    current vertex/edge arrays and polylines. Used after a combinatorial rewrite.
+
+    Raises RuntimeError if the edge_faces assignment is inconsistent with the
+    embedded geometry (a loop would mix faces).
+    """
+    cx.invalidate_caches()
+    rot = build_rotation_system(cx)
+    object.__setattr__(cx, "_rotation_cache", rot)
+    cx.he_next = next_from_rotation(cx, rot)
+    cx.face_loops = _trace_loops(cx)
+    degs = cx.vertex_degrees()
+    kinds = np.where(degs <= 2, VertexKind.ARTIFICIAL, VertexKind.REGULAR).astype(np.int8)
+    cx.vertex_kind = kinds
+    return cx
+
+
 def _trace_loops(cx: HalfEdgeComplex) -> List[List[List[int]]]:
     """Orbits of he_next grouped by the face on their left. Raises if an orbit
     mixes faces, which would indicate a broken rotation convention."""
