@@ -156,9 +156,8 @@ def run_benchmark(
             if verbose:
                 f1 = r.get("adjacency_pair_f1", float("nan"))
                 vf = r.get("vertex_f1", float("nan"))
-                print(
-                    f"[{dataset}] {item.image_id:40s} {method:13s} adjF1={f1:.3f} vertexF1={vf:.3f} rt={r.get('method_runtime_s', 0):.1f}s"
-                )
+                rt = r.get("method_runtime_s", 0.0)
+                print(f"[{dataset}] {item.image_id:40s} {method:13s} adjF1={f1:.3f} vertexF1={vf:.3f} rt={rt:.1f}s")
     df = pd.DataFrame(rows)
     if out_dir is not None:
         out_dir = Path(out_dir)
@@ -215,7 +214,6 @@ def summary_markdown(dataset: str, df: pd.DataFrame, summ: pd.DataFrame) -> str:
         lines.append(f"| {method} | " + " | ".join(vals) + " |")
     lines.append("")
     lines.append("Vertex metrics compare multicellular vertices (>= 3 incident cells) derived exactly from the GT")
-    lines.append(
-        "label image with those of the reconstruction; incident-set and cyclic-order accuracy are over matched vertices."
-    )
+    lines.append("label image with those of the reconstruction; incident-set and cyclic-order accuracy are over")
+    lines.append("matched vertices.")
     return "\n".join(lines)

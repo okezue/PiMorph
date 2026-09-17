@@ -13,7 +13,7 @@ from .losses import MultiHeadLoss, bce_with_pos_weight, focal_bce, heteroscedast
 from .model import DISTANCE_SCALE, HEADS, MultiHeadUNet, count_parameters
 from .proposer import NeuralProposer, tiled_predict
 from .pseudolabel import consensus_labels, make_pseudolabel_tiles
-from .train import TrainConfig, load_model, train
+from .train import TrainConfig, load_model, train  # the function shadows the submodule name on purpose
 
 __all__ = [
     "DISTANCE_SCALE",

@@ -30,6 +30,20 @@ class BenchItem:
     meta: Dict = field(default_factory=dict)
 
 
+def fill_gt_slivers(labels: np.ndarray, max_area_px: int = 12) -> np.ndarray:
+    """Assign enclosed background components smaller than ``max_area_px`` to the
+    neighbouring cell with the most contact.
+
+    Polygon annotations rasterized independently per cell leave 1 to 3 px background
+    slivers where cells meet. They are annotation artifacts, not biological gaps, and
+    they turn every tricellular vertex into a cell-cell-gap vertex, which makes vertex
+    metrics meaningless. Filling them restores the shared crack geometry.
+    """
+    from ..infer.decoder import _fill_small_background
+
+    return _fill_small_background(np.asarray(labels).astype(np.int32), max_area_px)
+
+
 def _read_gray(path: Path) -> np.ndarray:
     if path.suffix.lower() in (".tif", ".tiff"):
         a = tifffile.imread(str(path))
@@ -141,9 +155,14 @@ def load_mcellseg(root: Path, max_items: Optional[int] = None) -> Iterator[Bench
         yield BenchItem(
             image_id=s,
             geometry=_read_gray(imgs[s]),
-            labels_gt=lab.astype(np.int32),
+            labels_gt=fill_gt_slivers(lab.astype(np.int32), 12),
             boundary_polarity="auto",
-            meta={"dataset": "mcellseg", "image_path": str(imgs[s]), "mask_path": str(masks[s])},
+            meta={
+                "dataset": "mcellseg",
+                "image_path": str(imgs[s]),
+                "mask_path": str(masks[s]),
+                "gt_sliver_fill_px": 12,
+            },
         )
 
 
@@ -185,9 +204,9 @@ def load_livecell(root: Path, max_items: Optional[int] = None) -> Iterator[Bench
         yield BenchItem(
             image_id=Path(info["file_name"]).stem,
             geometry=_read_gray(ip),
-            labels_gt=lab,
+            labels_gt=fill_gt_slivers(lab, 12),
             boundary_polarity="auto",
-            meta={"dataset": "livecell", "modality": "phase-contrast"},
+            meta={"dataset": "livecell", "modality": "phase-contrast", "gt_sliver_fill_px": 12},
         )
         n += 1
         if max_items and n >= max_items:

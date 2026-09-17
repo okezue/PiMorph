@@ -288,7 +288,7 @@ def train(cfg: TrainConfig) -> Path:
             scaler.update()
             scheduler.step()
             step += 1
-            totals.append(float(total))
+            totals.append(float(total.detach()))
             parts.append(part)
             if cfg.log_every and step % cfg.log_every == 0:
                 print(f"[train] epoch {epoch} step {step} loss {np.mean(totals[-cfg.log_every :]):.4f}", flush=True)
