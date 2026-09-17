@@ -1,0 +1,14 @@
+[12:09:52] tests: full suite incl. torch and data-marked tests
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+259 passed, 2 skipped, 6 warnings in 135.05s (0:02:15)
+[12:12:18] tiles: 8000 synthetic train tiles (16 parallel workers) + 400 val
+[12:29:14] tiles: real GT tiles from LIVECell train and NeurIPS CellSeg (exact targets from masks)
+[13:00:22] tiles: real GT tiles from LIVECell train and NeurIPS CellSeg (exact targets from masks), 16 shards each
+[14:50:19] train: v3_multi (base 48, DDP over 8 GPUs, mixed synthetic + real GT)
+[14:50:19] bench_base: Cellpose-SAM (400/dataset) + classical (100/dataset) on LIVECell test, NeurIPS CellSeg, cornea, synth_val_big
+[15:21:16] bench_base done
+[15:42:41] train done: {"epoch": 59, "step": 16740, "lr": 0.0, "time_s": 49.95815634727478, "train_loss": -2.7918755175499084, "train_parts": {"boundary": 0.14904779564308865, "distance": -3.3124592312775207, "seed": 0.1977
+[15:42:41] bench_neural: v3_multi vs Cellpose-SAM on LIVECell test, NeurIPS CellSeg, synth_val_big
+[16:12:00] bench_neural done
+[16:12:00] campaign finished
