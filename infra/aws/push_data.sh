@@ -3,6 +3,8 @@
 # infra/aws/urls.txt with presigned GET URLs (valid 48 h) for bootstrap.sh.
 # Usage: infra/aws/push_data.sh [tile_dir ...]   (default: synth_train synth_val pseudo_ve_strat pseudo_sbiad1540)
 set -euo pipefail
+# keep macOS from adding ._* AppleDouble entries to the tarballs
+export COPYFILE_DISABLE=1
 HERE="$(cd "$(dirname "$0")" && pwd)"
 source "$HERE/env.sh"
 cd "$HERE/../.."

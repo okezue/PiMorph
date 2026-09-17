@@ -36,7 +36,9 @@ def list_tiles(dirs: Iterable[PathLike]) -> List[Path]:
         if d.is_file() and d.suffix == ".npz":
             out.append(d)
         else:
-            out.extend(sorted(d.glob("*.npz")))
+            # recursive so sharded sets (synth_train/part0..7) can be passed as one dir;
+            # skip macOS AppleDouble sidecars (._name) that tar can carry along
+            out.extend(sorted(p for p in d.rglob("*.npz") if not p.name.startswith("._")))
     return out
 
 
