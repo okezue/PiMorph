@@ -1,0 +1,11 @@
+image_id,condition,n_cells,n_contact_components,n_pairs_double_contact,n_vertices,frac_trivalent,n_gaps,reticular_frac,n_hypotheses,contacts_p>=0.9,contacts_uncertain,proposer,downsample,geometry_source
+Control_s1,Control,541,1529,3,1082,0.996,3,0.048,32,1522,10,neural,2,junction_channel
+Control_s2,Control,568,1609,0,1135,0.997,2,0.045,16,1608,7,neural,2,junction_channel
+Control_s3,Control,561,1587,3,1120,0.998,1,0.05,24,1572,12,neural,2,junction_channel
+Control_s5,Control,527,1480,4,1049,0.995,1,0.051,24,1475,2,neural,2,junction_channel
+Control_s6,Control,554,1569,5,1108,0.998,2,0.06,24,1562,3,neural,2,junction_channel
+Histamine_s1,Histamine,648,1844,7,1304,0.997,7,0.059,32,1824,14,neural,2,junction_channel
+Histamine_s2,Histamine,675,1902,10,1351,0.996,4,0.067,24,1880,14,neural,2,junction_channel
+Histamine_s4,Histamine,667,1887,11,1331,0.996,2,0.072,32,1860,20,neural,2,junction_channel
+Histamine_s5,Histamine,620,1744,6,1238,0.995,3,0.082,32,1736,4,neural,2,junction_channel
+Histamine_s6,Histamine,616,1751,4,1232,0.997,3,0.08,24,1737,5,neural,2,junction_channel

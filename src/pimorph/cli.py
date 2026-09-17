@@ -83,6 +83,19 @@ def _cmd_reconstruct(args: argparse.Namespace) -> int:
             geom = geom[r0:r1, c0:c1]
             nuc = None if nuc is None else nuc[r0:r1, c0:c1]
             junc = None if junc is None else junc[r0:r1, c0:c1]
+        scale = int(args.downsample)
+        if scale > 1:
+            # mean-pool so large-cell fields match the scale the proposal model was trained at;
+            # geometry is then in downsampled pixels and pixel_size_um is scaled accordingly
+            def _pool(x):
+                H, W = (x.shape[0] // scale) * scale, (x.shape[1] // scale) * scale
+                return x[:H, :W].reshape(H // scale, scale, W // scale, scale).mean(axis=(1, 3)).astype(np.float32)
+
+            geom = _pool(geom)
+            nuc = None if nuc is None else _pool(nuc)
+            junc = None if junc is None else _pool(junc)
+            if im.pixel_size_um is not None:
+                im.pixel_size_um = float(im.pixel_size_um) * scale
         maps = proposer(geom, nuc, junc)
         dec = ConstrainedDecoder(pixel_size_um=im.pixel_size_um)
         base = DecoderParams(cell_radius_px=float(maps.meta.get("cell_radius_px", 15.0)))
@@ -110,6 +123,8 @@ def _cmd_reconstruct(args: argparse.Namespace) -> int:
         cx.provenance.update(
             {
                 "image_id": sp.image_id,
+                "downsample": scale,
+                "proposer": maps.source,
                 "geometry_source": sp.geometry_source,
                 "roles": sp.roles,
                 "pixel_size_source": im.pixel_size_source,
@@ -192,6 +207,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--ess", type=float, default=4.0)
     p.add_argument("--no-profiles", action="store_true")
     p.add_argument("--checkpoint", default=None, help="neural proposal checkpoint; classical filters when omitted")
+    p.add_argument("--downsample", type=int, default=1, help="integer mean-pool factor applied before inference")
     p.set_defaults(_handler=_cmd_reconstruct)
 
     p = sub.add_parser("benchmark", help="score reconstruction methods against ground-truth label images")

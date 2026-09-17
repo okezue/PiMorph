@@ -76,7 +76,10 @@ Everything below is implemented and tested under `tests/pimorph/`; the linked do
   anisotropic Voronoi sheets with gaps and broken junctions rendered through a PSF and noise model with
   exact targets; a six-channel UNet (geometry, nuclei, junction plus presence indicators) with boundary,
   distance, seed, vertex, gap, and log-sigma heads, trained with `python -m pimorph.infer.neural.train`.
-  No trained checkpoint is committed yet. See [`docs/NEURAL_PROPOSALS.md`](docs/NEURAL_PROPOSALS.md);
+  Two checkpoints are committed (LFS) with model cards under `models/`: a synthetic-only stage 1 and a stage 2
+  fine-tuned on real pseudo-labels. Through the same decoder on held-out synthetic tiles the learned proposals
+  reach adjacency F1 0.89 vs 0.45 for the classical filters, and vertex incident-set accuracy 0.86 vs 0.37;
+  on real fluorescence fields they are self-consistency checked only. See [`docs/NEURAL_PROPOSALS.md`](docs/NEURAL_PROPOSALS.md);
   GPU training on AWS follows [`docs/AWS_RUNBOOK.md`](docs/AWS_RUNBOOK.md) (named profile, tag-scoped
   cleanup, no keys in the repo).
 

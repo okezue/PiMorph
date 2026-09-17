@@ -1,0 +1,66 @@
+{
+  "n_cells": 569,
+  "n_gaps": 2,
+  "n_split_labels": 0,
+  "n_border_background_components": 3,
+  "decoder": "watershed",
+  "params": {
+    "seed_threshold": 0.2,
+    "seed_drop_frac": 0.0,
+    "boundary_gamma": 1.0,
+    "boundary_smooth_sigma": 0.0,
+    "distance_mix": 0.0,
+    "cell_radius_px": 27.9615567867552,
+    "compactness": 0.0,
+    "gap_threshold": 0.7,
+    "min_cell_area_px": 60,
+    "min_gap_area_px": 12,
+    "fill_gaps": false,
+    "smooth_iters": 4,
+    "label": "st0.2_drop0.0_bs0.0_dm0.0_gap0.7"
+  },
+  "proposal_source": "neural",
+  "connectivity": 4,
+  "smoothing": {
+    "iterations": 4,
+    "lam": 0.5
+  },
+  "move": {
+    "merge": [
+      550,
+      117
+    ]
+  },
+  "image_id": "Control_s2",
+  "downsample": 2,
+  "proposer": "neural",
+  "geometry_source": "junction_channel",
+  "roles": {
+    "geometry": "geometry",
+    "nuclei": "nuclei",
+    "junction": "geometry"
+  },
+  "pixel_size_source": "none",
+  "proposals": {
+    "cell_radius_px": 27.9615567867552,
+    "ridge_width_px": 2.8284271247461903,
+    "nuclei_used": true,
+    "junction_used": true,
+    "n_seed_candidates": 658,
+    "checkpoint": "models/pimorph_proposals_v0_synth.pt",
+    "tile": 512,
+    "overlap": 64,
+    "device": "mps",
+    "nucleus_radius_px": 11.18462271470208
+  },
+  "units": "px",
+  "pixel_size_um": null,
+  "shape": [
+    1024,
+    1024
+  ],
+  "geometry": "smoothed",
+  "n_vertices": 1135,
+  "n_edges": 1702,
+  "n_faces": 571
+}

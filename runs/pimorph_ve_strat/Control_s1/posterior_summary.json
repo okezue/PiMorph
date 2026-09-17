@@ -1,0 +1,15 @@
+{
+  "n_hypotheses": 32,
+  "ess": 4.000000000000002,
+  "temperature": 0.0004211865857464533,
+  "map_energy": 5.697064996434847,
+  "energy_range": [
+    5.697064996434847,
+    5.801878071709212
+  ],
+  "n_contacts_any": 2096,
+  "n_contacts_p_ge_0.5": 1528,
+  "n_contacts_uncertain_0.2_0.8": 10,
+  "expected_n_cells": 541.9763223370553,
+  "expected_n_gaps": 2.9999999999999996
+}

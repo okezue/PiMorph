@@ -2,7 +2,12 @@
 
 `pimorph.infer.neural` trains a multi-head UNet that produces the dense evidence maps consumed by the constrained decoder. It is an alternative front end to `ClassicalProposer`: both return the same `ProposalMaps` container, and everything downstream (decoder, energy, posterior, benchmark) is unchanged.
 
-Status: the model, dataset, losses, training loop, pseudo-labelling, and `NeuralProposer` are implemented and covered by `tests/pimorph/test_neural.py` (a tiny UNet trained for two steps on CPU). No trained checkpoint is committed. `models/` contains only the legacy `ajmorph_classifier*.joblib` files; there is no `models/*.pt`. Any number attributed to "neural proposals" must come from a run you can point to (`train_log.jsonl` plus `pimorph benchmark` output).
+Status: the model, dataset, losses, training loop, pseudo-labelling, and `NeuralProposer` are implemented and covered by `tests/pimorph/test_neural.py` (a tiny UNet trained for two steps on CPU). Two trained checkpoints are committed through git LFS, each with a model card next to it:
+
+- `models/pimorph_proposals_v0_synth.pt` (stage 1): 40 epochs on 2000 synthetic tiles, no real data. Card: `models/pimorph_proposals_v0_synth.md`.
+- `models/pimorph_proposals_v0_mixed.pt` (stage 2): resumed from stage 1, 20 more epochs with 135 S-BIAD1540 and 40 VE-strat pseudo-label tiles added. Card: `models/pimorph_proposals_v0_mixed.md`.
+
+Training logs are in `runs/neural/v1_synth/` and `runs/neural/v2_mixed/`; benchmark numbers are in `docs/BENCHMARKS.md`. Both were trained on an AWS g5.xlarge following `docs/AWS_RUNBOOK.md`. Any number attributed to "neural proposals" must come from a run you can point to (`train_log.jsonl` plus `pimorph benchmark` output).
 
 Torch is optional. Nothing outside `pimorph.infer.neural` imports it, and `tests/pimorph/test_neural.py` is skipped when torch is absent (`pytest.importorskip`, marker `torch`). Install with the `torch` extra.
 

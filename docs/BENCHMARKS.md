@@ -56,6 +56,23 @@ Source: `runs/pimorph_bench/synth_summary.md`, 2026-09-17. 40 held-out tiles of 
 
 Learned proposals double adjacency F1 and incident-set accuracy over the classical filters with an identical decoder. Synthetic validation is in-distribution for the neural model (same generator, different seeds), so this measures what the decoder can extract from good proposal maps, not real-data accuracy.
 
+Stage 2 (`models/pimorph_proposals_v0_mixed.pt`, resumed from stage 1 with 175 real pseudo-label tiles added; `runs/pimorph_bench_v2/synth_summary.md`, same 40 tiles): adjacency F1 0.887, component F1 0.735, vertex F1 0.764, incident-set accuracy 0.857, PQ 0.893, boundary F1 0.984, validity 1.0. Adding real pseudo-labels did not cost synthetic accuracy.
+
+### Real fluorescence fields (self-consistency only, no instance truth)
+
+Same decoder, three proposal sources, 2026-09-17. `ratio` is the mean VE-cadherin signal on reconstructed cell-cell interfaces over the mean in cell interiors (blueprint audit statistic); `render_ll` is the renderer's mean per-pixel log-likelihood. Neither is accuracy; both should rise when boundaries land on junction signal.
+
+| Field | Proposals | Cells | Gaps | Tricellular vertices | Degree histogram | ratio | render_ll |
+|---|---|---|---|---|---|---|---|
+| VE-strat Histamine_s2, 1024 px crop at 2x down | classical | 181 | 0 | 305 | {3: 358, 4: 1} | 1.54 | -5.517 |
+| | neural (synth) | 174 | 1 | 299 | {2: 1, 3: 344, 4: 1} | 1.49 | -5.525 |
+| | neural (mixed) | 195 | 0 | 338 | {3: 386, 4: 1} | 1.52 | -5.531 |
+| S-BIAD1540 EGM2_regular_6dyn-24, 1024 px | classical | 65 | 0 | 40 | {2: 31, 3: 66} | 2.62 | -5.039 |
+| | neural (synth) | 147 | 2 | 238 | {2: 1, 3: 294} | 2.31 | -4.941 |
+| | neural (mixed) | 169 | 0 | 271 | {2: 2, 3: 332} | 1.97 | -4.974 |
+
+On the flow-aligned S-BIAD1540 field the classical ridge filter is confused by cytoplasmic texture and leaves 31 isolated cells (degree-2 artificial vertices), while both neural models recover the elongated cells with almost all vertices trivalent and a higher render likelihood; the lower `ratio` for neural proposals there reflects that they also find dim boundaries the ratio statistic penalizes. Figures: `runs/pimorph_dev/sbiad1540_6dyn_neural_vs_classical.png`, `runs/pimorph_dev/ve_strat_neural_vs_classical.png`. On the dense VE-strat monolayer the three sources agree closely.
+
 ### LIVECell (phase contrast, COCO polygon ground truth)
 
 Source: `runs/pimorph_bench/livecell_summary.md` and `livecell_per_image.csv`, 2026-09-16/17. 6 validation images of the BT474 line, 520 x 704 px, no nuclei channel. GT background slivers below 12 px filled. Mean GT cells per image 201.0; mean predicted cells 178.3 (Cellpose-SAM) and 639.2 (classical).
@@ -78,7 +95,7 @@ Source: `runs/pimorph_bench/cornea_summary.md`, 2026-09-16. 6 crops of 500 x 500
 
 ### Not yet run
 
-NuInsSeg (loader present, `data/NuInsSeg`) and mCellSeg (loader present; `data/mcellseg` is absent in this workspace, it needs a Kaggle token) have no `pimorph benchmark` output yet. The stage-2 model (synthetic plus real pseudo-labels) has not been benchmarked yet.
+NuInsSeg (loader present, `data/NuInsSeg`) and mCellSeg (loader present; `data/mcellseg` is absent in this workspace, it needs a Kaggle token) have no `pimorph benchmark` output yet. Neither neural model has been scored against expert instance truth on endothelial fluorescence, because no such dataset is on disk; that is the first thing the mCellSeg download unlocks.
 
 ## Caveats
 
