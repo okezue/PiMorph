@@ -66,7 +66,8 @@ fi
 
 # --------------------------------------------- 2. real-GT tiles from the train splits
 if has tiles; then
-  log "tiles: HAEC train fields (GFP geometry + Hoechst nuclei) and mCellSeg train"
+  log "tiles: HAEC train fields (inverted GFP geometry + Hoechst nuclei) and mCellSeg train"
+  rm -rf data/tiles/gt_haec_train
   for k in $(seq 0 15); do
     $PY scripts/make_gt_tiles.py --dataset haec --out data/tiles/gt_haec_train --tile 512 --stride 400 --shard $k/16 --id-list runs/endo/splits.json:haec_train > $OUT/gt_haec_$k.log 2>&1 &
   done
@@ -94,10 +95,13 @@ if has bench_v2; then
   log "bench_v2: held-out HAEC test (87) and mCellSeg test (40) for v2_endo, v1_multi, cellpose_sam"
   PIMORPH_ID_LIST=runs/endo/splits.json:haec_test bench haec 0 neural runs/neural/v2_endo/best.pt $OUT/haec_test_v2endo &
   PIMORPH_ID_LIST=runs/endo/splits.json:haec_test bench haec 1 neural $V1 $OUT/haec_test_v1multi &
-  PIMORPH_ID_LIST=runs/endo/splits.json:haec_test bench haec 2 cellpose_sam none $OUT/haec_test_cellpose &
-  PIMORPH_ID_LIST=runs/endo/splits.json:mcellseg_test bench mcellseg 3 neural runs/neural/v2_endo/best.pt $OUT/mcellseg_test_v2endo &
-  PIMORPH_ID_LIST=runs/endo/splits.json:mcellseg_test bench mcellseg 4 neural $V1 $OUT/mcellseg_test_v1multi &
-  PIMORPH_ID_LIST=runs/endo/splits.json:mcellseg_test bench mcellseg 5 cellpose_sam none $OUT/mcellseg_test_cellpose &
+  PIMORPH_ID_LIST=runs/endo/splits.json:haec_test bench haec 2 cellpose_sam_filled none $OUT/haec_test_cellpose_filled &
+  PIMORPH_ID_LIST=runs/endo/splits.json:haec_test bench haec 3 cellpose_sam none $OUT/haec_test_cellpose &
+  PIMORPH_ID_LIST=runs/endo/splits.json:mcellseg_test bench mcellseg 4 neural runs/neural/v2_endo/best.pt $OUT/mcellseg_test_v2endo &
+  PIMORPH_ID_LIST=runs/endo/splits.json:mcellseg_test bench mcellseg 5 neural $V1 $OUT/mcellseg_test_v1multi &
+  PIMORPH_ID_LIST=runs/endo/splits.json:mcellseg_test bench mcellseg 6 cellpose_sam_filled none $OUT/mcellseg_test_cellpose_filled &
+  PIMORPH_ID_LIST=runs/endo/splits.json:mcellseg_test bench mcellseg 7 cellpose_sam none $OUT/mcellseg_test_cellpose &
+  PIMORPH_ID_LIST=runs/endo/splits.json:haec_test $PY -m pimorph.cli benchmark --dataset haec --methods classical --out $OUT/haec_test_classical > $OUT/haec_test_classical.log 2>&1 &
   wait
   log "bench_v2 done"
 fi

@@ -233,7 +233,8 @@ def load_haec(root: Path, max_items: Optional[int] = None) -> Iterator[BenchItem
             geometry=geometry,
             labels_gt=haec_semantic_to_instance(gt),
             nuclei=nuclei,
-            boundary_polarity="bright",
+            # cytoplasmic reporter: cells are bright, the borders between them are dark seams
+            boundary_polarity="dark",
             meta={
                 "dataset": "haec",
                 "modality": "fluorescence",

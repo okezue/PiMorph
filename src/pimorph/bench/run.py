@@ -123,10 +123,20 @@ def method_neural(item: BenchItem) -> np.ndarray:
     return dec.decode(maps, params).labels
 
 
+def method_cellpose_sam_filled(item: BenchItem) -> np.ndarray:
+    """Cellpose-SAM masks with sub-12 px background seams between touching cells filled,
+    so cells share crack edges and vertex metrics measure the segmentation rather than
+    the mask format. The same rule is applied to polygon ground truth."""
+    from .datasets import fill_gt_slivers
+
+    return fill_gt_slivers(method_cellpose_sam(item), 12)
+
+
 METHODS: Dict[str, Callable[[BenchItem], np.ndarray]] = {
     "gt": method_gt,
     "classical": method_classical,
     "cellpose_sam": method_cellpose_sam,
+    "cellpose_sam_filled": method_cellpose_sam_filled,
     "neural": method_neural,
 }
 
@@ -161,7 +171,7 @@ def run_benchmark(
     methods = list(methods)
     for item in load_dataset(dataset, root=root, max_items=max_items):
         for method in methods:
-            if method in ("cellpose_sam", "neural"):
+            if method in ("cellpose_sam", "cellpose_sam_filled", "neural"):
                 from ..infer.cellpose_sam import cellpose_available
 
                 if not cellpose_available():
