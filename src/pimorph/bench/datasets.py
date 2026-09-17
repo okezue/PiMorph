@@ -187,18 +187,12 @@ def load_livecell(root: Path, max_items: Optional[int] = None, split: Optional[s
         # deterministic stratified-ish subsample: every k-th image keeps cell lines mixed
         step = len(img_ids) / max_items
         img_ids = [img_ids[int(i * step)] for i in range(max_items)]
+    # index the image tree once (the archive nests images two levels deep)
+    index: Dict[str, Path] = {p.name: p for p in (root / "images").rglob("*.tif")} if (root / "images").exists() else {}
     n = 0
     for iid in img_ids:
         info = coco.imgs[iid]
-        ip = None
-        for cand in (root / "images" / info["file_name"], root / "images" / "livecell_test_images" / info["file_name"]):
-            if cand.exists():
-                ip = cand
-                break
-        if ip is None:
-            matches = list((root / "images").rglob(info["file_name"])) if (root / "images").exists() else []
-            if matches:
-                ip = matches[0]
+        ip = index.get(Path(info["file_name"]).name)
         if ip is None:
             continue
         H, W = info["height"], info["width"]
