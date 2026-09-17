@@ -133,36 +133,107 @@ def load_nuinsseg(root: Path, max_items: Optional[int] = None) -> Iterator[Bench
 
 
 # --------------------------------------------------------------------- mCellSeg
-def load_mcellseg(root: Path, max_items: Optional[int] = None) -> Iterator[BenchItem]:
-    """mCellSeg (Kaggle). Pairs every image with a mask of the same stem found under a
-    sibling folder whose name contains 'mask' or 'label'."""
-    imgs: Dict[str, Path] = {}
-    masks: Dict[str, Path] = {}
-    for p in root.rglob("*"):
-        if not p.is_file() or p.suffix.lower() not in (".png", ".tif", ".tiff", ".jpg"):
-            continue
-        parent = p.parent.name.lower()
-        if "mask" in parent or "label" in parent or "gt" in parent:
-            masks[p.stem] = p
-        else:
-            imgs[p.stem] = p
-    stems = sorted(set(imgs) & set(masks))
-    if max_items:
-        stems = stems[:max_items]
-    for s in stems:
-        lab = np.asarray(_read_gray(masks[s])).astype(np.int64)
-        if lab.max() <= 1:  # binary mask: instances by connected components
+def load_mcellseg(root: Path, max_items: Optional[int] = None, cell_line: Optional[str] = None) -> Iterator[BenchItem]:
+    """mCellSeg (Alam et al. 2026; Zenodo 10.5281/zenodo.20174259, Kaggle tukunzil/...).
+
+    200 expert-annotated DIC / transmitted-light images (100 HUVEC, 100 HEK-293T) with
+    uint16 instance masks. Layout: root/labeled/images/<stem>.tif (RGB uint8 with
+    identical channels) and root/labeled/masks/<stem>_mask.tif. The cell line is taken
+    from the file name (HUVEC when present, else HEK293T); ``cell_line`` filters
+    (env PIMORPH_MCELLSEG_LINE does the same for the CLI).
+    """
+    cell_line = cell_line or os.environ.get("PIMORPH_MCELLSEG_LINE") or None
+    img_dir = root / "labeled" / "images"
+    mask_dir = root / "labeled" / "masks"
+    if not img_dir.exists():
+        img_dir, mask_dir = root, root
+    imgs = sorted(p for p in img_dir.rglob("*.tif") if "_mask" not in p.name and "masks" not in p.parts)
+    masks: Dict[str, Path] = {p.name[: -len("_mask.tif")]: p for p in mask_dir.rglob("*_mask.tif")}
+    items = [(ip, masks[ip.stem]) for ip in imgs if ip.stem in masks]
+    if cell_line:
+        want_huvec = cell_line.upper() == "HUVEC"
+        items = [(ip, mp) for ip, mp in items if ("HUVEC" in ip.name) == want_huvec]
+    if max_items and len(items) > max_items:
+        step = len(items) / max_items
+        items = [items[int(i * step)] for i in range(max_items)]
+    for ip, mp in items:
+        lab = np.asarray(tifffile.imread(str(mp))).astype(np.int64)
+        if lab.ndim == 3:
+            lab = lab[..., 0]
+        if lab.max() <= 1:
             lab = cc_label(lab > 0, connectivity=1)
         yield BenchItem(
-            image_id=s,
-            geometry=_read_gray(imgs[s]),
+            image_id=ip.stem,
+            geometry=_read_gray(ip),
             labels_gt=fill_gt_slivers(lab.astype(np.int32), 12),
             boundary_polarity="auto",
             meta={
                 "dataset": "mcellseg",
-                "image_path": str(imgs[s]),
-                "mask_path": str(masks[s]),
+                "cell_line": "HUVEC" if "HUVEC" in ip.name else "HEK293T",
+                "modality": "DIC",
+                "gt_kind": "expert_instance",
                 "gt_sliver_fill_px": 12,
+            },
+        )
+
+
+# ---------------------------------------------- Human aortic endothelial cells (HAEC)
+def haec_semantic_to_instance(gt: np.ndarray) -> np.ndarray:
+    """HAEC ground truth is categorical: 0 background, 1 cell border, 2 cell body,
+    3 nucleus. Instances are the body+nucleus components flooded through the 1 px
+    border class, so touching cells share a crack edge."""
+    body = (gt == 2) | (gt == 3)
+    border = gt == 1
+    markers = cc_label(body, connectivity=1)
+    dist = ndi.distance_transform_edt(~border)
+    inst = watershed(dist, markers, mask=gt > 0)
+    return inst.astype(np.int32)
+
+
+def load_haec(root: Path, max_items: Optional[int] = None) -> Iterator[BenchItem]:
+    """Human aortic endothelial cell ground truth (Harrison, Wu, Fang, Huang; Zenodo
+    4898011, CC-BY 4.0). 434 fields, 1200x1200 16-bit: GFP_original/NNNN.tif is a
+    cytoplasmic Laconic-GFP reporter (an independent whole-cell geometry channel),
+    Hoechst_1/Pos<NNNN-1>/img_*.tif the nuclei, gtruth_uint8/NNNN.png the 4-class
+    ground truth. Instances are derived by ``haec_semantic_to_instance``.
+    """
+    from imageio.v3 import imread
+
+    gfp_dir = root / "GFP_original"
+    gt_dir = root / "gtruth_uint8"
+    hoechst_dir = root / "Hoechst_1"
+    ids = sorted(int(p.stem) for p in gfp_dir.glob("*.tif") if p.stem.isdigit())
+    if max_items and len(ids) > max_items:
+        step = len(ids) / max_items
+        ids = [ids[int(i * step)] for i in range(max_items)]
+    for n in ids:
+        gtp = gt_dir / f"{n:04d}.png"
+        if not gtp.exists():
+            continue
+        gt = np.asarray(imread(str(gtp)))
+        if gt.ndim == 3:
+            gt = gt[..., 0]
+        geometry = np.asarray(tifffile.imread(str(gfp_dir / f"{n:04d}.tif"))).astype(np.float32)
+        nuclei = None
+        pos = hoechst_dir / f"Pos{n - 1}"
+        if pos.exists():
+            tifs = sorted(pos.glob("*.tif"))
+            if tifs:
+                nuclei = np.asarray(tifffile.imread(str(tifs[0]))).astype(np.float32)
+                if nuclei.ndim == 3:
+                    nuclei = nuclei[0]
+        yield BenchItem(
+            image_id=f"{n:04d}",
+            geometry=geometry,
+            labels_gt=haec_semantic_to_instance(gt),
+            nuclei=nuclei,
+            boundary_polarity="bright",
+            meta={
+                "dataset": "haec",
+                "modality": "fluorescence",
+                "geometry_channel": "cytoplasmic GFP (Laconic)",
+                "gt_kind": "derived_from_4class_semantic",
+                "confluent": False,
             },
         )
 
@@ -294,6 +365,7 @@ LOADERS: Dict[str, Callable[[Path, Optional[int]], Iterator[BenchItem]]] = {
     "mcellseg": load_mcellseg,
     "livecell": load_livecell,
     "neurips_cellseg": load_neurips_cellseg,
+    "haec": load_haec,
     "synth": load_synth,
 }
 
@@ -303,6 +375,7 @@ DEFAULT_ROOTS = {
     "mcellseg": Path("data/mcellseg"),
     "livecell": Path("data/LIVECell"),
     "neurips_cellseg": Path("data/neurips_cellseg"),
+    "haec": Path("data/haec_gt"),
     "synth": Path("data/tiles/synth_val"),
 }
 

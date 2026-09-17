@@ -212,7 +212,9 @@ def build_parser() -> argparse.ArgumentParser:
 
     p = sub.add_parser("benchmark", help="score reconstruction methods against ground-truth label images")
     p.add_argument(
-        "--dataset", required=True, choices=["cornea", "nuinsseg", "mcellseg", "livecell", "neurips_cellseg", "synth"]
+        "--dataset",
+        required=True,
+        choices=["cornea", "nuinsseg", "mcellseg", "livecell", "neurips_cellseg", "haec", "synth"],
     )
     p.add_argument(
         "--methods",
