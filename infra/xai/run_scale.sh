@@ -42,17 +42,24 @@ if has tiles || has tiles_gt; then
   log "tiles: gt_livecell_train=$(find data/tiles/gt_livecell_train -name '*.npz' | wc -l) gt_neurips=$(find data/tiles/gt_neurips -name '*.npz' | wc -l)"
 fi
 
-# ----------------------------------------------- 3. baselines on every dataset, 8 GPUs
-# one benchmark process per GPU; datasets split across GPUs
-if has bench_base; then
-  log "bench_base: classical + Cellpose-SAM on LIVECell test (all 8 cell lines), NeurIPS CellSeg, cornea, synth_val_big"
+# ----------------------------------------------- 3. baselines on every dataset
+# Cellpose-SAM runs on GPUs 0-3 (a few GB each, coexists with training); the classical
+# method is CPU-bound and known to fail on phase contrast, so it gets a smaller sample.
+bench_base() {
+  log "bench_base: Cellpose-SAM (400/dataset) + classical (100/dataset) on LIVECell test, NeurIPS CellSeg, cornea, synth_val_big"
   export PIMORPH_LIVECELL_SPLIT=test
-  CUDA_VISIBLE_DEVICES=0 $PY -m pimorph.cli benchmark --dataset livecell --methods cellpose_sam classical --max-items 400 --out $OUT/bench_livecell_test > $OUT/bench_livecell_test.log 2>&1 &
-  CUDA_VISIBLE_DEVICES=1 $PY -m pimorph.cli benchmark --dataset neurips_cellseg --methods cellpose_sam classical --max-items 400 --out $OUT/bench_neurips > $OUT/bench_neurips.log 2>&1 &
-  CUDA_VISIBLE_DEVICES=2 $PY -m pimorph.cli benchmark --dataset synth --root data/tiles/synth_val_big --methods classical --max-items 400 --out $OUT/bench_synth_big > $OUT/bench_synth_big.log 2>&1 &
-  CUDA_VISIBLE_DEVICES=3 $PY -m pimorph.cli benchmark --dataset cornea --methods cellpose_sam classical --max-items 160 --out $OUT/bench_cornea > $OUT/bench_cornea.log 2>&1 &
+  CUDA_VISIBLE_DEVICES=0 $PY -m pimorph.cli benchmark --dataset livecell --methods cellpose_sam --max-items 400 --out $OUT/bench_livecell_test > $OUT/bench_livecell_test.log 2>&1 &
+  CUDA_VISIBLE_DEVICES=1 $PY -m pimorph.cli benchmark --dataset neurips_cellseg --methods cellpose_sam --max-items 400 --out $OUT/bench_neurips > $OUT/bench_neurips.log 2>&1 &
+  CUDA_VISIBLE_DEVICES=2 $PY -m pimorph.cli benchmark --dataset cornea --methods cellpose_sam --max-items 160 --out $OUT/bench_cornea > $OUT/bench_cornea.log 2>&1 &
+  $PY -m pimorph.cli benchmark --dataset synth --root data/tiles/synth_val_big --methods classical --max-items 400 --out $OUT/bench_synth_big > $OUT/bench_synth_big.log 2>&1 &
+  $PY -m pimorph.cli benchmark --dataset livecell --methods classical --max-items 100 --out $OUT/bench_livecell_test_classical > $OUT/bench_livecell_test_classical.log 2>&1 &
+  $PY -m pimorph.cli benchmark --dataset neurips_cellseg --methods classical --max-items 100 --out $OUT/bench_neurips_classical > $OUT/bench_neurips_classical.log 2>&1 &
   wait
   log "bench_base done"
+}
+if has bench_base; then
+  bench_base &
+  BENCH_PID=$!
 fi
 
 # ------------------------------------------------------------ 4. training at scale
@@ -66,6 +73,7 @@ if has train; then
     --device cuda --amp --num-workers 6 --seed 3 --log-every 100 > $OUT/train_v3.log 2>&1
   log "train done: $(tail -1 runs/neural/v3_multi/train_log.jsonl | cut -c1-200)"
 fi
+if [ -n "${BENCH_PID:-}" ]; then wait "$BENCH_PID"; fi
 
 # --------------------------------------------- 5. neural proposals on every dataset
 if has bench_neural; then
