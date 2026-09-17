@@ -235,8 +235,12 @@ def make_dataset(
                 "n_nuclei": int(tissue.nuclei_xy.shape[0]),
                 "snr": float(
                     rp_used.junction_intensity
-                    / np.sqrt(rp_used.junction_intensity + rp_used.background + rp_used.interior_intensity
-                              + rp_used.read_noise_sigma**2)
+                    / np.sqrt(
+                        rp_used.junction_intensity
+                        + rp_used.background
+                        + rp_used.interior_intensity
+                        + rp_used.read_noise_sigma**2
+                    )
                 ),
             }
         )

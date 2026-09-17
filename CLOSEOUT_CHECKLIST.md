@@ -38,10 +38,10 @@ python3 scripts/harden_network_stats.py runs/egm2_full/
 | **All Cells** | `runs/egm2_full/all_cells.csv` | Aggregated cell morphometrics |
 | **All Edges** | `runs/egm2_full/all_edges.csv` | Aggregated edge/junction features |
 | **B3 Results** | `runs/egm2_full/typed_vs_untyped_results.json` | Typed vs Untyped comparison |
-| **Network Stats** | `runs/egm2_full/hardened_network_stats.json` | Per-image network discoveries |
+| **Network Stats** | `runs/egm2_full/hardened_network_stats.json` | Per-image network findings (3-clique keys: `all_reticular_3clique_pct`, `n_3cliques`, `enrichment_z`, `perm_p`) |
 | **Classifier Model** | `models/ajmorph_classifier_v2.joblib` | Trained AJ morphology classifier |
 | **Classifier Eval** | `models/ajmorph_evaluation_report.json` | Cross-validation results |
-| **Network Discoveries** | `NETWORK_DISCOVERIES.md` | Biological findings |
+| **Network Discoveries** | `NETWORK_DISCOVERIES.md` | Network-level findings (measured vs hypothesized) |
 | **Science Summary** | `B1_B3_SCIENCE_TASKS_SUMMARY.md` | B1-B3 task results |
 
 ### QC Images (per processed image)
@@ -105,6 +105,8 @@ provides significant predictive value for flow condition classification.
 
 All statistics use Mann-Whitney U (between conditions) or Wilcoxon signed-rank (within condition) with bootstrap 95% CIs.
 
+The all-reticular 3-clique fraction is additionally tested against a conditional null that preserves each image's reticular-edge count (label permutation, 1000 permutations, seed 0), reported as per-image `enrichment_z` and `perm_p`, with conditions compared by Mann-Whitney U on `enrichment_z` (`tests_enrichment_z` in the JSON). A graph 3-clique is a tricellular junction only when the three cells share a physical vertex; `--complex-dir` reports that fraction from the `pimorph` complex when available.
+
 ---
 
 ## 4. Known Limitations
@@ -141,9 +143,19 @@ All statistics use Mann-Whitney U (between conditions) or Wilcoxon signed-rank (
    - EGM2: 30 static, 30 6dyne, 30 20dyne (adequate)
    - SBIAD1540: 5-6 per condition (underpowered for some tests)
 
+7. **3-cliques are not tricellular junctions by construction**
+   - The all-reticular 3-clique fraction is a graph quantity (three pairwise-adjacent cells)
+   - Its raw increase can follow from the reticular-fraction increase alone; the conditional null in `scripts/harden_network_stats.py` tests for enrichment beyond that
+   - Whether a 3-clique is realized by a common vertex is checked with `--complex-dir` (pimorph complex); results pending
+
+8. **Geometry channel equals junction channel**
+   - Cells were segmented from VE-cadherin, the same channel scored for AJ morphology
+   - Recorded as `geometry_source: junction_channel` in `run_summary.json` provenance; the pipeline warns on this configuration
+   - Biological interpretations (maturation, adhesion strength, barrier function) are hypotheses, not validated findings
+
 ### Naming/Metadata Issues
 
-7. **high_shear naming inconsistency**
+9. **high_shear naming inconsistency**
    - Some datasets use "high_shear" vs "20dyne"
    - Condition parsing logic handles both but may need review
 
@@ -167,7 +179,7 @@ EndoPiGraph-AJmorph/
 │   ├── egm2_full/                          # 102 EGM2 images
 │   └── sbiad1540_full/                     # 15 SBIAD1540 images
 ├── data/                                   # Raw image data
-├── NETWORK_DISCOVERIES.md                  # Biological findings
+├── NETWORK_DISCOVERIES.md                  # Network-level findings
 ├── B1_B3_SCIENCE_TASKS_SUMMARY.md          # Science task results
 ├── CLOSEOUT_CHECKLIST.md                   # This document
 └── README.md                               # Project overview
@@ -181,11 +193,15 @@ EndoPiGraph-AJmorph/
 |-----------|------------------|--------|
 | Patch classifier | GroupKFold by image_id | ✅ No leakage |
 | B3 experiment | LOOCV by image | ✅ Typed > Untyped |
-| Discovery 1 (clustering) | Per-image Mann-Whitney | ✅ p = 7.7e-04 |
+| Discovery 1 (clustering) | Per-image Mann-Whitney + density regression | ⚠️ Confounded by mean degree (R² = 0.94); withdrawn |
 | Discovery 2 (reticular %) | Per-image Mann-Whitney | ✅ p = 3.0e-06 |
 | Discovery 3 (degree-occupancy) | Per-image Wilcoxon | ❌ Withdrawn (p = 0.81) |
-| Discovery 4 (triangles) | Per-image Mann-Whitney | ✅ p = 1.5e-04 |
+| Discovery 4 (all-reticular 3-cliques, raw %) | Per-image Mann-Whitney | ✅ p = 1.5e-04 |
+| Discovery 4 (3-clique enrichment_z vs conditional null) | Per-image Mann-Whitney on `enrichment_z` | ⏳ Pending re-run |
+| Discovery 4 (3-cliques realized by a common vertex) | `--complex-dir` (pimorph complex) | ⏳ Pending |
 | Discovery 5 (area-degree) | Per-image Mann-Whitney | ✅ p = 2.6e-07 |
+
+Statistical status refers to the measured quantities only. Biological interpretations (junction maturation, adhesion strength, barrier function, tricellular hotspots) are hypotheses pending functional validation.
 
 ---
 

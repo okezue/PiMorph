@@ -228,9 +228,7 @@ def _nuclei_expected(nuclei_xy: np.ndarray, shape: Tuple[int, int], rp: RenderPa
 
 
 # ---------------------------------------------------------------------- main
-def render_channels(
-    tissue: SynthTissue, rp: RenderParams, cx: Optional[HalfEdgeComplex] = None
-) -> Dict[str, Any]:
+def render_channels(tissue: SynthTissue, rp: RenderParams, cx: Optional[HalfEdgeComplex] = None) -> Dict[str, Any]:
     """Render ``junction``, ``membrane`` and ``nuclei`` channels plus ``broken_mask``.
 
     Returns a dict with those four arrays and ``params`` (the resolved RenderParams).

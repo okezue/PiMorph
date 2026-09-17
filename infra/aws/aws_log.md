@@ -28,3 +28,6 @@ Tag policy for everything we create: `Project=PiMorph`, `Owner=okebell-grok`, `S
 
 | Instance | Type | Start | Stop | Hours | Est. USD |
 |---|---|---|---|---|---|
+| 2026-09-17T02:14:59Z | s3 bucket | pimorph-train-545338549082-01a0ac4c | us-east-1 | training tiles + checkpoints | |
+| 2026-09-17T02:16:16Z | key pair | pimorph-01a0ac4c (/Users/okebell/.ssh/pimorph-01a0ac4c.pem) | us-east-1 | ssh to training instance | |
+| 2026-09-17T02:16:16Z | security group | sg-0f1d1d76725853b7d (pimorph-ssh-01a0ac4c) | us-east-1 | ssh from 12.227.149.36/32 | |

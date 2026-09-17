@@ -19,7 +19,6 @@ from typing import Dict, Optional, Tuple
 
 import numpy as np
 from scipy import ndimage as ndi
-from skimage.draw import line as draw_line
 
 from ..complex.halfedge import FaceKind, HalfEdgeComplex
 
@@ -34,25 +33,68 @@ class RenderModel:
     fitted: Dict = field(default_factory=dict)
 
 
+def _densify(p: np.ndarray, step: float = 0.5) -> np.ndarray:
+    """Resample a polyline at roughly ``step`` px spacing (vectorized)."""
+    if p.shape[0] < 2:
+        return p
+    seg = np.sqrt(((p[1:] - p[:-1]) ** 2).sum(axis=1))
+    n = np.maximum(np.ceil(seg / step).astype(int), 1)
+    t = np.concatenate([np.linspace(0, 1, k, endpoint=False) for k in n])
+    idx = np.repeat(np.arange(p.shape[0] - 1), n)
+    q = p[idx] + (p[idx + 1] - p[idx]) * t[:, None]
+    return np.vstack([q, p[-1:]])
+
+
+def edge_dense_pixels(cx: HalfEdgeComplex, shape: Tuple[int, int]) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Integer pixel coordinates along every edge plus the owning edge id. Cached on
+    the complex because it is reused by density fitting and rendering."""
+    cache = getattr(cx, "_dense_cache", None)
+    if cache is not None and cache[0] == shape and cache[1] is cx.edge_smooth:
+        return cache[2]
+    H, W = shape
+    rows, cols, ids = [], [], []
+    for e in range(cx.n_edges):
+        q = _densify(cx.edge_geometry(e))
+        rows.append(np.clip(np.round(q[:, 0]).astype(np.int64), 0, H - 1))
+        cols.append(np.clip(np.round(q[:, 1]).astype(np.int64), 0, W - 1))
+        ids.append(np.full(q.shape[0], e, dtype=np.int64))
+    if rows:
+        out = (np.concatenate(rows), np.concatenate(cols), np.concatenate(ids))
+    else:
+        out = (np.zeros(0, np.int64), np.zeros(0, np.int64), np.zeros(0, np.int64))
+    object.__setattr__(cx, "_dense_cache", (shape, cx.edge_smooth, out))
+    return out
+
+
 def rasterize_edges(
     cx: HalfEdgeComplex, shape: Tuple[int, int], values: np.ndarray, width_px: float = 1.0
 ) -> np.ndarray:
     """Draw every edge's smoothed polyline into a float image with the given per-edge value."""
     H, W = shape
     img = np.zeros((H, W), dtype=np.float32)
-    for e in range(cx.n_edges):
-        p = cx.edge_geometry(e)
-        v = float(values[e])
-        if v == 0.0:
-            continue
-        pr = np.clip(np.round(p[:, 0]).astype(int), 0, H - 1)
-        pc = np.clip(np.round(p[:, 1]).astype(int), 0, W - 1)
-        for k in range(len(pr) - 1):
-            rr, cc = draw_line(pr[k], pc[k], pr[k + 1], pc[k + 1])
-            img[rr, cc] = np.maximum(img[rr, cc], v)
+    rr, cc, ee = edge_dense_pixels(cx, shape)
+    if rr.size:
+        np.maximum.at(img, (rr, cc), np.asarray(values, dtype=np.float32)[ee])
     if width_px > 1.0:
         img = ndi.grey_dilation(img, size=(int(round(width_px)), int(round(width_px))))
     return img
+
+
+def _group_median(values: np.ndarray, groups: np.ndarray, n_groups: int) -> np.ndarray:
+    """Median of ``values`` per group id (vectorized via sorting)."""
+    out = np.zeros(n_groups, dtype=np.float64)
+    if values.size == 0:
+        return out
+    order = np.lexsort((values, groups))
+    g = groups[order]
+    v = values[order]
+    starts = np.searchsorted(g, np.arange(n_groups), side="left")
+    ends = np.searchsorted(g, np.arange(n_groups), side="right")
+    cnt = ends - starts
+    has = cnt > 0
+    mid = starts + cnt // 2
+    out[has] = v[np.minimum(mid[has], values.size - 1)]
+    return out
 
 
 def face_id_image(labels: np.ndarray, cx: HalfEdgeComplex) -> np.ndarray:
@@ -97,15 +139,10 @@ def fit_densities(
         seg = si[bounds[f] : bounds[f + 1]]
         face_level[f] = np.median(seg) if seg.size else 0.0
 
-    edge_excess = np.zeros(cx.n_edges, dtype=np.float32)
-    for e in range(cx.n_edges):
-        p = cx.edge_geometry(e)
-        pr = np.clip(np.round(p[:, 0]).astype(int), 0, H - 1)
-        pc = np.clip(np.round(p[:, 1]).astype(int), 0, W - 1)
-        vals = image[pr, pc]
-        a, b = cx.edge_faces[e]
-        base = 0.5 * (face_level[a] + face_level[b])
-        edge_excess[e] = max(float(np.median(vals)) - base, 0.0) if vals.size else 0.0
+    rr, cc, ee = edge_dense_pixels(cx, (H, W))
+    line_med = _group_median(image[rr, cc].astype(np.float64), ee, cx.n_edges) if cx.n_edges else np.zeros(0)
+    base = 0.5 * (face_level[cx.edge_faces[:, 0]] + face_level[cx.edge_faces[:, 1]]) if cx.n_edges else np.zeros(0)
+    edge_excess = np.maximum(line_med - base, 0.0).astype(np.float32)
 
     vertex_spot = np.zeros(cx.n_vertices, dtype=np.float32)
     if cx.n_vertices:
@@ -206,11 +243,11 @@ def boundary_interior_ratio(image: np.ndarray, labels: np.ndarray, cx: HalfEdgeC
     Blueprint self-consistency check (2.96 structured vs 1.48 Voronoi in the audit)."""
     H, W = image.shape
     on = np.zeros((H, W), dtype=bool)
-    for e in cx.cell_cell_edges():
-        p = cx.edge_geometry(int(e))
-        pr = np.clip(np.round(p[:, 0]).astype(int), 0, H - 1)
-        pc = np.clip(np.round(p[:, 1]).astype(int), 0, W - 1)
-        on[pr, pc] = True
+    rr, cc, ee = edge_dense_pixels(cx, (H, W))
+    is_cc = np.zeros(cx.n_edges, dtype=bool)
+    is_cc[cx.cell_cell_edges()] = True
+    sel = is_cc[ee]
+    on[rr[sel], cc[sel]] = True
     on = ndi.binary_dilation(on, iterations=1)
     interior = (labels > 0) & ~ndi.binary_dilation(on, iterations=2)
     if on.sum() == 0 or interior.sum() == 0:

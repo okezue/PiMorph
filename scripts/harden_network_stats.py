@@ -6,16 +6,32 @@ Fixes pseudo-replication issues by:
 1. Computing metrics PER IMAGE first
 2. Then testing across images (proper n = number of images, not cells/edges)
 3. Reporting effect sizes with confidence intervals
+
+A graph 3-clique (three pairwise-adjacent cells) is not automatically a
+tricellular junction; it is one only when the three cells meet at a common
+physical vertex. The all-reticular 3-clique fraction is therefore reported
+against a conditional null that preserves each image's reticular-edge count,
+and optionally against the pimorph half-edge complex (``--complex-dir``).
 """
 
 import json
 from pathlib import Path
 from collections import defaultdict
+from typing import Dict, Hashable, Optional, Tuple
 
 import numpy as np
 import pandas as pd
 from scipy import stats
 import networkx as nx
+
+try:
+    from pimorph.complex import HalfEdgeComplex, clique_vertex_report
+except ImportError:  # pimorph is optional for this script
+    HalfEdgeComplex = None
+    clique_vertex_report = None
+
+N_PERM_DEFAULT = 1000
+PERM_SEED_DEFAULT = 0
 
 
 def load_all_data(runs_dir: Path):
@@ -187,8 +203,116 @@ def compute_per_image_degree_occupancy_corr(cells_df, edges_df):
     return pd.DataFrame(results)
 
 
-def compute_per_image_triangle_stats(cells_df, edges_df):
-    """Compute all-reticular triangle proportion per image."""
+def _lookup_edge_label(labels: Dict[Tuple[Hashable, Hashable], Hashable], u, v):
+    """Edge labels may be keyed in either orientation."""
+    if (u, v) in labels:
+        return labels[(u, v)]
+    return labels.get((v, u))
+
+
+def all_reticular_clique_null(
+    G: nx.Graph,
+    labels: Dict[Tuple[Hashable, Hashable], Hashable],
+    reticular_label: Hashable = "reticular",
+    n_perm: int = N_PERM_DEFAULT,
+    seed: int = PERM_SEED_DEFAULT,
+) -> Dict[str, float]:
+    """Conditional null for the all-reticular 3-clique fraction of one image.
+
+    Edge labels are permuted across the edges of ``G`` (the number of reticular
+    edges is held fixed) and the fraction of 3-cliques whose three edges are all
+    reticular is recomputed for each permutation. Edges without a label count as
+    non-reticular. ``perm_p`` is two-sided: the share of permutations (plus the
+    observed value) at least as far from the null mean as the observation.
+    """
+    edges = list(G.edges())
+    n_edges = len(edges)
+    edge_index = {frozenset(e): i for i, e in enumerate(edges)}
+    is_ret = np.fromiter(
+        (_lookup_edge_label(labels, u, v) == reticular_label for u, v in edges), dtype=bool, count=n_edges
+    )
+    n_ret = int(is_ret.sum())
+
+    cliques = [c for c in nx.enumerate_all_cliques(G) if len(c) == 3]
+    n_cliques = len(cliques)
+
+    out: Dict[str, float] = {
+        "n_edges": n_edges,
+        "n_reticular_edges": n_ret,
+        "reticular_edge_pct": (n_ret / n_edges * 100.0) if n_edges else float("nan"),
+        "n_3cliques": n_cliques,
+        "n_all_reticular": 0,
+        "all_reticular_3clique_pct": float("nan"),
+        "null_mean_pct": float("nan"),
+        "null_sd_pct": float("nan"),
+        "enrichment_z": float("nan"),
+        "perm_p": float("nan"),
+        "n_perm": int(n_perm),
+        "seed": int(seed),
+    }
+    if n_cliques == 0:
+        return out
+
+    # (n_cliques, 3) array of edge indices; enumerated once, reused for every permutation
+    clique_edges = np.array(
+        [[edge_index[frozenset((a, b))], edge_index[frozenset((b, c))], edge_index[frozenset((a, c))]]
+         for a, b, c in cliques],
+        dtype=np.int64,
+    )
+
+    obs_count = int(np.all(is_ret[clique_edges], axis=1).sum())
+    obs_pct = obs_count / n_cliques * 100.0
+
+    rng = np.random.default_rng(seed)
+    null_counts = np.empty(n_perm, dtype=np.int64)
+    for k in range(n_perm):
+        perm = rng.permutation(is_ret)
+        null_counts[k] = np.all(perm[clique_edges], axis=1).sum()
+    null_pct = null_counts / n_cliques * 100.0
+
+    null_mean = float(null_pct.mean())
+    null_sd = float(null_pct.std(ddof=1)) if n_perm > 1 else float("nan")
+    z = (obs_pct - null_mean) / null_sd if null_sd > 0 else float("nan")
+    obs_dev = abs(obs_pct - null_mean)
+    perm_p = (np.sum(np.abs(null_pct - null_mean) >= obs_dev) + 1) / (n_perm + 1)
+
+    out.update({
+        "n_all_reticular": obs_count,
+        "all_reticular_3clique_pct": obs_pct,
+        "null_mean_pct": null_mean,
+        "null_sd_pct": null_sd,
+        "enrichment_z": float(z),
+        "perm_p": float(perm_p),
+    })
+    return out
+
+
+def _load_complex_vertex_report(complex_dir: Optional[Path], image_id: str) -> Optional[Dict[str, object]]:
+    """Return pimorph clique_vertex_report for image_id, or None if unavailable."""
+    if complex_dir is None or HalfEdgeComplex is None:
+        return None
+    path = complex_dir / image_id / "complex.json"
+    if not path.exists():
+        return None
+    with open(path) as f:
+        cx = HalfEdgeComplex.from_dict(json.load(f))
+    return clique_vertex_report(cx)
+
+
+def compute_per_image_3clique_stats(
+    cells_df,
+    edges_df,
+    n_perm: int = N_PERM_DEFAULT,
+    seed: int = PERM_SEED_DEFAULT,
+    complex_dir: Optional[Path] = None,
+):
+    """Compute all-reticular 3-clique proportion per image, with the conditional null.
+
+    A 3-clique is three pairwise-adjacent cells in the contact graph. It is a
+    tricellular junction only if the cells share a physical vertex; when
+    ``complex_dir`` holds pimorph ``complex.json`` files, the fraction of
+    3-cliques realized by a common vertex is reported alongside.
+    """
     results = []
 
     for image_id in cells_df["image_id"].unique():
@@ -209,35 +333,45 @@ def compute_per_image_triangle_stats(cells_df, edges_df):
             G.add_edge(row["cell_i"], row["cell_j"])
             edge_morph[edge] = row["aj_morph"]
 
-        # Find triangles
-        triangles = [c for c in nx.enumerate_all_cliques(G) if len(c) == 3]
+        null = all_reticular_clique_null(G, edge_morph, "reticular", n_perm=n_perm, seed=seed)
 
-        if len(triangles) == 0:
+        if null["n_3cliques"] == 0:
             continue
 
-        # Count all-reticular triangles
-        all_reticular = 0
-        for tri in triangles:
-            edges_in_tri = [
-                tuple(sorted([tri[0], tri[1]])),
-                tuple(sorted([tri[1], tri[2]])),
-                tuple(sorted([tri[0], tri[2]]))
-            ]
-            morphs = [edge_morph.get(e, "unknown") for e in edges_in_tri]
-            if all(m == "reticular" for m in morphs):
-                all_reticular += 1
-
-        pct = all_reticular / len(triangles) * 100
-
-        results.append({
+        row_out = {
             "image_id": image_id,
             "condition": condition,
-            "all_reticular_triangle_pct": pct,
-            "n_all_reticular": all_reticular,
-            "n_triangles": len(triangles)
-        })
+            "all_reticular_3clique_pct": null["all_reticular_3clique_pct"],
+            "n_all_reticular": null["n_all_reticular"],
+            "n_3cliques": null["n_3cliques"],
+            "n_edges": null["n_edges"],
+            "n_reticular_edges": null["n_reticular_edges"],
+            "reticular_edge_pct": null["reticular_edge_pct"],
+            "null_mean_pct": null["null_mean_pct"],
+            "null_sd_pct": null["null_sd_pct"],
+            "enrichment_z": null["enrichment_z"],
+            "perm_p": null["perm_p"],
+            "all_reticular_triangle_pct": null["all_reticular_3clique_pct"],  # deprecated alias, removed in v1.2
+            "n_triangles": null["n_3cliques"],  # deprecated alias, removed in v1.2
+        }
+
+        report = _load_complex_vertex_report(complex_dir, image_id)
+        if report is not None:
+            n_cx = int(report["n_3cliques"])
+            n_with = int(report["n_3cliques_with_common_vertex"])
+            row_out.update({
+                "n_3cliques_complex": n_cx,
+                "n_3cliques_with_common_vertex": n_with,
+                "frac_3cliques_with_common_vertex": (n_with / n_cx) if n_cx else float("nan"),
+                "n_tricellular_vertices": int(report["n_tricellular_vertices"]),
+            })
+
+        results.append(row_out)
 
     return pd.DataFrame(results)
+
+
+compute_per_image_triangle_stats = compute_per_image_3clique_stats  # deprecated alias, removed in v1.2
 
 
 def compute_per_image_area_degree_corr(cells_df, edges_df):
@@ -345,9 +479,27 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("runs_dir", help="Path to runs directory (e.g., runs/egm2_full)")
     parser.add_argument("--output", "-o", help="Output JSON file", default=None)
+    parser.add_argument(
+        "--complex-dir",
+        default=None,
+        help="Directory with <image_id>/complex.json (pimorph half-edge complex); used to report the fraction "
+             "of graph 3-cliques realized by a true multicellular vertex. Skipped silently if absent.",
+    )
+    parser.add_argument("--n-perm", type=int, default=N_PERM_DEFAULT,
+                        help="Permutations for the conditional 3-clique null (default 1000)")
+    parser.add_argument("--seed", type=int, default=PERM_SEED_DEFAULT,
+                        help="RNG seed for the conditional 3-clique null (default 0)")
     args = parser.parse_args()
 
     runs_dir = Path(args.runs_dir)
+    complex_dir = None
+    if args.complex_dir is not None:
+        candidate = Path(args.complex_dir)
+        if candidate.is_dir():
+            if HalfEdgeComplex is None:
+                print(f"NOTE: --complex-dir given but pimorph is not importable; skipping vertex check ({candidate})")
+            else:
+                complex_dir = candidate
 
     print("="*70)
     print("HARDENED NETWORK STATISTICS (Per-Image Replicate Testing)")
@@ -368,7 +520,7 @@ def main():
     print("-"*70)
 
     clustering_df = compute_per_image_clustering(cells, edges)
-    print(f"\nPer-image clustering coefficients:")
+    print("\nPer-image clustering coefficients:")
     for cond in ["static", "6dyne", "high_shear"]:
         subset = clustering_df[clustering_df["condition"] == cond]["mean_clustering"]
         if len(subset) > 0:
@@ -381,7 +533,8 @@ def main():
         test = test_condition_difference(clustering_df, "mean_clustering", cond_a, cond_b)
         if test:
             print(f"\nMann-Whitney U test ({cond_a} vs {cond_b}):")
-            print(f"  Median diff: {test['median_diff']:.3f} [95% CI: {test['ci_95_low']:.3f}, {test['ci_95_high']:.3f}]")
+            print(f"  Median diff: {test['median_diff']:.3f} "
+                  f"[95% CI: {test['ci_95_low']:.3f}, {test['ci_95_high']:.3f}]")
             print(f"  U = {test['mann_whitney_U']:.1f}, p = {test['p_value']:.2e}")
             print(f"  Effect size r = {test['effect_size_r']:.3f}")
             test1_pairs[f"{cond_a}_vs_{cond_b}"] = test
@@ -390,8 +543,6 @@ def main():
     print("\n** Density Control: Regression Analysis **")
     print("  Model: clustering ~ condition + mean_degree + n_cells")
     try:
-        from scipy.stats import pearsonr
-        import statsmodels.api as sm
         from statsmodels.formula.api import ols
 
         # Create condition dummies
@@ -401,7 +552,7 @@ def main():
         # Fit model
         model = ols("mean_clustering ~ is_6dyne + is_high_shear + mean_degree + n_cells",
                    data=clustering_df).fit()
-        print(f"\n  Regression results (controlling for density):")
+        print("\n  Regression results (controlling for density):")
         print(f"    is_6dyne coef: {model.params['is_6dyne']:.4f}, p = {model.pvalues['is_6dyne']:.2e}")
         print(f"    is_high_shear coef: {model.params['is_high_shear']:.4f}, p = {model.pvalues['is_high_shear']:.2e}")
         print(f"    mean_degree coef: {model.params['mean_degree']:.4f}, p = {model.pvalues['mean_degree']:.2e}")
@@ -418,7 +569,7 @@ def main():
         }
 
         # Also test normalized clustering (C / C_random)
-        print(f"\n  Normalized clustering (C / C_random):")
+        print("\n  Normalized clustering (C / C_random):")
         for cond in ["static", "6dyne", "high_shear"]:
             subset = clustering_df[clustering_df["condition"] == cond]["c_normalized"]
             if len(subset) > 0:
@@ -445,7 +596,7 @@ def main():
     print("-"*70)
 
     reticular_df = compute_per_image_reticular_pct(edges)
-    print(f"\nPer-image reticular %:")
+    print("\nPer-image reticular %:")
     for cond in ["static", "6dyne", "high_shear"]:
         subset = reticular_df[reticular_df["condition"] == cond]["reticular_pct"]
         if len(subset) > 0:
@@ -457,7 +608,8 @@ def main():
         test = test_condition_difference(reticular_df, "reticular_pct", cond_a, cond_b)
         if test:
             print(f"\nMann-Whitney U test ({cond_a} vs {cond_b}):")
-            print(f"  Median diff: {test['median_diff']:.1f}% [95% CI: {test['ci_95_low']:.1f}%, {test['ci_95_high']:.1f}%]")
+            print(f"  Median diff: {test['median_diff']:.1f}% "
+                  f"[95% CI: {test['ci_95_low']:.1f}%, {test['ci_95_high']:.1f}%]")
             print(f"  U = {test['mann_whitney_U']:.1f}, p = {test['p_value']:.2e}")
             print(f"  Effect size r = {test['effect_size_r']:.3f}")
             test2_pairs[f"{cond_a}_vs_{cond_b}"] = test
@@ -473,7 +625,7 @@ def main():
     print("-"*70)
 
     deg_occ_df = compute_per_image_degree_occupancy_corr(cells, edges)
-    print(f"\nPer-image Spearman r (degree vs occupancy):")
+    print("\nPer-image Spearman r (degree vs occupancy):")
     for cond in ["static", "6dyne", "high_shear"]:
         subset = deg_occ_df[deg_occ_df["condition"] == cond]["spearman_r"]
         if len(subset) > 0:
@@ -482,39 +634,89 @@ def main():
 
     test3 = test_correlation_differs_from_zero(deg_occ_df)
     if test3:
-        print(f"\nWilcoxon test (median r differs from 0):")
+        print("\nWilcoxon test (median r differs from 0):")
         print(f"  Median r = {test3['median_r']:.3f}, p = {test3['p_value']:.2e}")
         results["discovery_3_degree_occupancy"] = {
             "per_image_stats": deg_occ_df.to_dict(orient="records"),
             "test": test3
         }
 
-    # Discovery 4: All-reticular triangles
+    # Discovery 4: All-reticular 3-cliques
     print("\n" + "-"*70)
-    print("DISCOVERY 4: All-Reticular Triangle % (per-image)")
+    print("DISCOVERY 4: All-Reticular 3-Clique % (per-image)")
     print("-"*70)
+    print("  A 3-clique is three pairwise-adjacent cells; it is a tricellular junction only if")
+    print("  the cells share a physical vertex. Raw % is confounded by the reticular-edge fraction,")
+    print(f"  so enrichment_z against a label-permutation null ({args.n_perm} perms, seed {args.seed})")
+    print("  that fixes each image's reticular-edge count is the primary test.")
 
-    triangle_df = compute_per_image_triangle_stats(cells, edges)
-    print(f"\nPer-image all-reticular triangle %:")
+    clique_df = compute_per_image_3clique_stats(
+        cells, edges, n_perm=args.n_perm, seed=args.seed, complex_dir=complex_dir
+    )
+    print("\nPer-image all-reticular 3-clique % (raw):")
     for cond in ["static", "6dyne", "high_shear"]:
-        subset = triangle_df[triangle_df["condition"] == cond]["all_reticular_triangle_pct"]
+        subset = clique_df[clique_df["condition"] == cond]["all_reticular_3clique_pct"]
         if len(subset) > 0:
             print(f"  {cond}: median={np.median(subset):.1f}%, mean={np.mean(subset):.1f}%, "
                   f"std={np.std(subset):.1f}%, n={len(subset)}")
 
     test4_pairs = {}
     for cond_a, cond_b in [("static", "6dyne"), ("static", "high_shear"), ("6dyne", "high_shear")]:
-        test = test_condition_difference(triangle_df, "all_reticular_triangle_pct", cond_a, cond_b)
+        test = test_condition_difference(clique_df, "all_reticular_3clique_pct", cond_a, cond_b)
         if test:
-            print(f"\nMann-Whitney U test ({cond_a} vs {cond_b}):")
-            print(f"  Median diff: {test['median_diff']:.1f}% [95% CI: {test['ci_95_low']:.1f}%, {test['ci_95_high']:.1f}%]")
+            print(f"\nMann-Whitney U test on raw % ({cond_a} vs {cond_b}):")
+            print(f"  Median diff: {test['median_diff']:.1f}% "
+                  f"[95% CI: {test['ci_95_low']:.1f}%, {test['ci_95_high']:.1f}%]")
             print(f"  U = {test['mann_whitney_U']:.1f}, p = {test['p_value']:.2e}")
             print(f"  Effect size r = {test['effect_size_r']:.3f}")
             test4_pairs[f"{cond_a}_vs_{cond_b}"] = test
 
-    results["discovery_4_triangles"] = {
-        "per_image_stats": triangle_df.to_dict(orient="records"),
-        "tests": test4_pairs
+    print("\nPer-image enrichment_z vs conditional null (reticular-edge count fixed):")
+    for cond in ["static", "6dyne", "high_shear"]:
+        subset = clique_df[clique_df["condition"] == cond]
+        z = subset["enrichment_z"].dropna()
+        if len(z) > 0:
+            print(f"  {cond}: median z={np.median(z):.2f}, mean z={np.mean(z):.2f}, "
+                  f"median null={np.median(subset['null_mean_pct']):.1f}%, "
+                  f"median reticular edges={np.median(subset['reticular_edge_pct']):.1f}%, n={len(z)}")
+
+    test4_z_pairs = {}
+    for cond_a, cond_b in [("static", "6dyne"), ("static", "high_shear"), ("6dyne", "high_shear")]:
+        test = test_condition_difference(clique_df, "enrichment_z", cond_a, cond_b)
+        if test:
+            print(f"\nMann-Whitney U test on enrichment_z ({cond_a} vs {cond_b}):")
+            print(f"  Median diff: {test['median_diff']:.2f} "
+                  f"[95% CI: {test['ci_95_low']:.2f}, {test['ci_95_high']:.2f}]")
+            print(f"  U = {test['mann_whitney_U']:.1f}, p = {test['p_value']:.2e}")
+            print(f"  Effect size r = {test['effect_size_r']:.3f}")
+            test4_z_pairs[f"{cond_a}_vs_{cond_b}"] = test
+
+    complex_check = None
+    if "frac_3cliques_with_common_vertex" in clique_df.columns:
+        print("\nFraction of graph 3-cliques realized by a common multicellular vertex (pimorph complex):")
+        complex_check = {"per_condition": {}}
+        for cond in ["static", "6dyne", "high_shear"]:
+            subset = clique_df[clique_df["condition"] == cond]["frac_3cliques_with_common_vertex"].dropna()
+            if len(subset) > 0:
+                print(f"  {cond}: median={np.median(subset):.3f}, mean={np.mean(subset):.3f}, n={len(subset)}")
+                complex_check["per_condition"][cond] = {
+                    "median_frac": float(np.median(subset)),
+                    "mean_frac": float(np.mean(subset)),
+                    "n_images": int(len(subset)),
+                }
+        complex_check["n_images_with_complex"] = int(clique_df["frac_3cliques_with_common_vertex"].notna().sum())
+
+    results["discovery_4_all_reticular_3cliques"] = {
+        "per_image_stats": clique_df.to_dict(orient="records"),
+        "tests": test4_pairs,
+        "tests_enrichment_z": test4_z_pairs,
+        "null_model": {
+            "description": "edge labels permuted within image, reticular-edge count fixed; "
+                           "enrichment_z = (obs - null_mean) / null_sd; perm_p two-sided",
+            "n_perm": int(args.n_perm),
+            "seed": int(args.seed),
+        },
+        "complex_vertex_check": complex_check,
     }
 
     # Discovery 5: Area-degree correlation
@@ -523,7 +725,7 @@ def main():
     print("-"*70)
 
     area_deg_df = compute_per_image_area_degree_corr(cells, edges)
-    print(f"\nPer-image Spearman r (area vs degree):")
+    print("\nPer-image Spearman r (area vs degree):")
     for cond in ["static", "6dyne", "high_shear"]:
         subset = area_deg_df[area_deg_df["condition"] == cond]["spearman_r"]
         if len(subset) > 0:
@@ -540,7 +742,7 @@ def main():
 
     # Pairwise comparisons
     test5_pairs = {}
-    print(f"\nPairwise condition comparisons:")
+    print("\nPairwise condition comparisons:")
     for cond_a, cond_b in [("static", "6dyne"), ("static", "high_shear"), ("6dyne", "high_shear")]:
         test = test_condition_difference(area_deg_df, "spearman_r", cond_a, cond_b)
         if test:

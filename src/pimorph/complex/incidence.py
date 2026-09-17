@@ -86,7 +86,7 @@ def euler_residual(cx: HalfEdgeComplex) -> int:
 def validate(cx: HalfEdgeComplex) -> ValidationReport:
     msgs: List[str] = []
     B1, B2 = boundary_matrices(cx, include_outer=True)
-    prod = (B1 @ B2)
+    prod = B1 @ B2
     prod.eliminate_zeros()
     b1b2_zero = prod.nnz == 0
     if not b1b2_zero:

@@ -69,12 +69,14 @@ R-squared: 0.937
 
 ## E. Nuclei-Based Segmentation Sanity Check - DOCUMENTED AS FUTURE WORK
 
-**Concern:** VE-cadherin segmentation might bias apparent cell area under conditions that change VE-cadherin intensity/contrast.
+**Concern:** VE-cadherin segmentation might bias apparent cell area under conditions that change VE-cadherin intensity/contrast. It is also circular for junction scoring: junction continuity is measured on boundaries found with the same VE-cadherin signal.
 
 **Status:** The S-BIAD1540/EGM2 images have 3 channels, but channel assignments are not clearly documented. Nuclei-based watershed comparison requires:
 1. Confirmed nuclei channel identification
 2. Watershed implementation for comparison
 3. Side-by-side area/perimeter comparison
+
+The config now declares channel roles explicitly (`channels: {geometry, nuclei, junction}` and `pixel_size_um`); the pipeline warns when the geometry channel is a junction channel and records `geometry_source` in `run_summary.json` provenance. `examples/config_sbiad1540.yaml` documents the current circular configuration (`geometry_source: junction_channel`).
 
 **Documented as future validation requirement.**
 
@@ -89,8 +91,10 @@ R-squared: 0.937
 | 1. Clustering +24% | p < 0.001 | **Confounded by density** (R²=0.94) | ⚠️ REVISED |
 | 2. Reticular +26% | p < 1e-63 | **p = 3.0e-06** (per-image) | ✅ Confirmed |
 | 3. Degree-occupancy | p < 1e-17 | **p = 0.81** (per-image) | ❌ Withdrawn |
-| 4. Triangles +91% | p < 1e-45 | **p = 1.5e-04** (per-image) | ✅ Confirmed |
+| 4. All-reticular 3-cliques +91% | p < 1e-45 | **p = 1.5e-04** (per-image, raw %); enrichment vs conditional null pending | ✅ Raw increase confirmed |
 | 5. Area-degree | r increases | **p = 2.6e-07** (per-image) | ✅ Confirmed |
+
+"Confirmed" refers to the measured per-image quantity. Biological interpretations (junction maturation, adhesion strength, barrier function, tricellular hotspots) are hypotheses, not validated here. Discovery 4 measures graph 3-cliques (three pairwise-adjacent cells), which are tricellular junctions only when the cells share a physical vertex; that check (`--complex-dir`) and the conditional null preserving the reticular-edge count are implemented in `scripts/harden_network_stats.py` (keys `all_reticular_3clique_pct`, `n_3cliques`, `null_mean_pct`, `null_sd_pct`, `enrichment_z`, `perm_p`) and will be reported when re-run.
 
 ### Polarity
 
@@ -112,7 +116,8 @@ R-squared: 0.937
 
 ## Files Updated
 
-- `scripts/harden_network_stats.py` - Fixed high_shear parsing, added density control
+- `scripts/harden_network_stats.py` - Fixed high_shear parsing, added density control, renamed triangle keys to 3-clique keys (old keys kept as deprecated aliases until v1.2), added conditional null and `--complex-dir`
+- `src/endopigraph/config.py`, `src/endopigraph/pipeline.py` - Explicit channel roles, `pixel_size_um`, `geometry_source` provenance
 - `scripts/fix_polarity_reporting.py` - Added |V| metric
 - `runs/egm2_full/hardened_network_stats.json` - Updated results
 - `runs/sbiad1540_full/polarity_summary_fixed.csv` - With |V|

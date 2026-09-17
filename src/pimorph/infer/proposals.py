@@ -48,12 +48,20 @@ def estimate_noise_sigma(img: np.ndarray, window: int = 32) -> np.ndarray:
     """Local noise scale from the MAD of a Laplacian-like residual.
 
     For white noise the Laplacian stencil [[0,1,0],[1,-4,1],[0,1,0]] has variance
-    20 sigma^2, so the residual MAD is divided by 1.4826 * sqrt(20).
+    20 sigma^2, so the residual MAD is divided by 1.4826 * sqrt(20). The median is
+    taken per non-overlapping block and upsampled (a sliding median at this window
+    size costs seconds per megapixel and adds nothing here).
     """
     x = np.asarray(img, dtype=np.float32)
-    lap = ndi.laplace(x)
-    med = ndi.median_filter(np.abs(lap), size=window)
-    return (med / (1.4826 * np.sqrt(20.0))).astype(np.float32)
+    lap = np.abs(ndi.laplace(x))
+    H, W = lap.shape
+    bh, bw = int(np.ceil(H / window)), int(np.ceil(W / window))
+    pad = np.pad(lap, ((0, bh * window - H), (0, bw * window - W)), mode="edge")
+    blocks = pad.reshape(bh, window, bw, window).transpose(0, 2, 1, 3).reshape(bh, bw, -1)
+    med = np.median(blocks, axis=-1)
+    up = np.repeat(np.repeat(med, window, axis=0), window, axis=1)[:H, :W]
+    up = ndi.gaussian_filter(up, sigma=window / 2.0)
+    return (up / (1.4826 * np.sqrt(20.0))).astype(np.float32)
 
 
 def tissue_mask(
@@ -163,19 +171,47 @@ class ClassicalProposer:
             cell_to_nucleus_ratio=self.cell_to_nucleus_ratio,
         )
 
+    def _scaled_from_boundary(self, boundary: np.ndarray) -> "ClassicalProposer":
+        """Without nuclei, take the cell radius from the distance-to-boundary maxima."""
+        dist = ndi.distance_transform_edt(boundary < 0.5)
+        pts = peak_local_max(dist, min_distance=3, threshold_abs=1.5, exclude_border=False)
+        if len(pts) < 5:
+            return self
+        r = float(np.median(dist[pts[:, 0], pts[:, 1]]))
+        r = float(np.clip(r, 3.0, 60.0))
+        return ClassicalProposer(
+            ridge_sigmas=self.ridge_sigmas,
+            intensity_weight=self.intensity_weight,
+            nucleus_radius_px=r / self.cell_to_nucleus_ratio,
+            seed_min_distance_px=max(int(round(0.6 * r)), 3),
+            seed_rel_threshold=self.seed_rel_threshold,
+            cell_radius_px=r,
+            seed_heatmap_sigma_px=max(r / 4.0, 1.5),
+            use_tissue_mask=self.use_tissue_mask,
+            auto_scale=False,
+            cell_to_nucleus_ratio=self.cell_to_nucleus_ratio,
+        )
+
     def __call__(
         self,
         geometry: np.ndarray,
         nuclei: Optional[np.ndarray] = None,
         junction: Optional[np.ndarray] = None,
+        tissue: Optional[np.ndarray] = None,
     ) -> ProposalMaps:
+        """``tissue`` overrides the mask (e.g. computed on the un-inverted image when
+        boundaries are dark)."""
         if self.auto_scale and nuclei is not None:
-            return self._scaled(geometry, nuclei)(geometry, nuclei, junction)
+            return self._scaled(geometry, nuclei)(geometry, nuclei, junction, tissue)
         g = robust_normalize(geometry)
         ridge = sato(g, sigmas=self.ridge_sigmas, black_ridges=False)
         ridge = robust_normalize(ridge, 0.0, 99.5)
         boundary = np.clip((1.0 - self.intensity_weight) * ridge + self.intensity_weight * g, 0.0, 1.0)
         boundary = robust_normalize(boundary, 0.0, 99.9).astype(np.float32)
+        if self.auto_scale and nuclei is None:
+            scaled = self._scaled_from_boundary(boundary)
+            if scaled is not self:
+                return scaled(geometry, None, junction, tissue)
 
         if nuclei is not None:
             n = robust_normalize(nuclei)
@@ -201,11 +237,14 @@ class ClassicalProposer:
             ref = float(np.percentile(scores, 90)) if scores.size >= 10 else float(scores.max())
             scores = np.clip(scores / max(ref, 1e-6), 0.0, 1.0)
 
-        tissue = (
-            tissue_mask(geometry, scale_px=self.cell_radius_px, seed_points=pts)
-            if self.use_tissue_mask
-            else np.ones(g.shape, dtype=bool)
-        )
+        if tissue is None:
+            tissue = (
+                tissue_mask(geometry, scale_px=self.cell_radius_px, seed_points=pts)
+                if self.use_tissue_mask
+                else np.ones(g.shape, dtype=bool)
+            )
+        else:
+            tissue = np.asarray(tissue, dtype=bool)
         if len(pts):
             inside = tissue[pts[:, 0], pts[:, 1]]
             pts, scores = pts[inside], scores[inside]

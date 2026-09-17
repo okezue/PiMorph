@@ -10,7 +10,7 @@ import tifffile
 from skimage.measure import regionprops_table
 
 from .ajmorph import compute_threshold, compute_interface_features, infer_ajmorph_label_heuristic
-from .config import load_config
+from .config import load_config, resolve_channel_roles
 from .graph_build import build_graph, write_graph_outputs
 from .interfaces import extract_interfaces, interface_mask_from_coords
 from .io import read_image
@@ -204,18 +204,30 @@ def run_pipeline(config_path: str | Path) -> Path:
     if max_images is not None:
         df = df.head(int(max_images))
 
+    # Channel roles are resolved once per run; warns if geometry comes from a junction channel.
+    channel_roles = resolve_channel_roles(cfg)
+    pixel_size_um = cfg.get("pixel_size_um")
+    provenance = {
+        "channel_roles": channel_roles,
+        "geometry_source": channel_roles["geometry_source"],
+        "pixel_size_um": pixel_size_um,
+    }
+
     image_items: List[Dict[str, str]] = []
 
     for _, row in df.iterrows():
         image_id = str(row["image_id"])
         path = Path(row["path"]).expanduser().resolve()
         item = process_one_image(image_id, path, cfg, out_root)
+        item["pixel_size_um"] = pixel_size_um
         image_items.append(item)
 
     report_path = write_html_report(out_root, cfg.get("study_accession"), image_items)
 
     # also write a machine-readable summary
     summary_path = out_root / "run_summary.json"
-    summary_path.write_text(json.dumps({"config": cfg, "items": image_items}, indent=2), encoding="utf-8")
+    summary_path.write_text(
+        json.dumps({"config": cfg, "provenance": provenance, "items": image_items}, indent=2), encoding="utf-8"
+    )
 
     return report_path

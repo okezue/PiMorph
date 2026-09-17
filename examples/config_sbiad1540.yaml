@@ -10,8 +10,18 @@ bioimagearchive:
 manifest_csv: data/manifest.csv
 output_dir: outputs/sbiad1540_run1
 
-# set if you know it; otherwise leave null
-pixel_size_um: null
+# S-BIAD1540 EGM2 TIFF tags: XResolution/YResolution = 2.408867 px/um, i.e. 0.4151 um/px.
+pixel_size_um: 0.4151
+
+# Explicit channel roles. `geometry` is the signal cell boundaries are found with,
+# `junction` lists the signals scored for junction morphology. Here both are
+# VE-cadherin, so the pipeline warns and records geometry_source: junction_channel
+# in run_summary.json (junction continuity is scored on boundaries found with the
+# same signal). Point `geometry` at a membrane or nuclei-based channel to avoid this.
+channels:
+  geometry: "VE-cadherin"
+  nuclei: "DAPI"
+  junction: ["VE-cadherin"]
 
 segmentation:
   # recommended: cellpose (requires `pip install -e '.[cellpose]'`)

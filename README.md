@@ -34,7 +34,7 @@ EndoPiGraph outperforms competing approaches on the Cornea Cells benchmark:
 
 Additional validation:
 - **Blur robustness**: 93.3% label consistency under 1-2px Gaussian blur (vs 46.9% Junction Mapper)
-- **Network statistics**: 4 confirmed biological discoveries validated with per-image replicate testing (Mann-Whitney U, bootstrap CIs)
+- **Network statistics**: 3 network-level findings (per-image replicate testing: Mann-Whitney U, bootstrap CIs). These are measured graph quantities (reticular edge fraction, all-reticular 3-clique fraction, area-degree correlation); their biological interpretation (junction maturation, adhesion, barrier function) is hypothesized, not validated. See `NETWORK_DISCOVERIES.md`.
 - **Unit tests**: 107 tests covering all modules (pytest + CI)
 
 ---

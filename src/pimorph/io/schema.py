@@ -187,7 +187,7 @@ def write_tables(tables: ComplexTables, out_dir: Path | str, prefix: str = "", f
     paths: Dict[str, Path] = {}
     for name in ("cells", "interfaces", "vertices", "gaps"):
         df: pd.DataFrame = getattr(tables, name)
-        p = out_dir / f"{prefix}{name}.{ 'parquet' if fmt == 'parquet' else 'csv'}"
+        p = out_dir / f"{prefix}{name}.{'parquet' if fmt == 'parquet' else 'csv'}"
         if fmt == "parquet":
             df.to_parquet(p, index=False)
         else:

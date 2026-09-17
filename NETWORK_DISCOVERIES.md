@@ -6,7 +6,29 @@ Using graph/network analysis on the EndoPiGraph-AJmorph pipeline results, we ide
 
 **Statistical validation:** All statistics use **per-image replicate testing** (n = number of images, not cells/edges) to avoid pseudo-replication. Effect sizes reported as rank-biserial correlation r.
 
-**Regime caveat:** These findings compare static vs 6 dyn cm⁻². The 18-20 dyn cm⁻² regime is *not* a monotonic continuation of the 6 dyn cm⁻² phenotype — see "High-shear regime" below.
+**Regime caveat:** These findings compare static vs 6 dyn cm⁻². The 18-20 dyn cm⁻² regime is *not* a monotonic continuation of the 6 dyn cm⁻² phenotype; see "High-shear regime" below.
+
+---
+
+## Measured vs hypothesized
+
+This document separates what the pipeline measured from how those measurements might be interpreted. Only the first list is supported by the data in this repository.
+
+**Measured (per-image quantities and tests on them):**
+- Per-image fraction of edges labelled reticular by the heuristic AJ classifier
+- Per-image fraction of contact-graph 3-cliques whose three edges are all labelled reticular
+- Per-image Spearman correlation between cell area and degree (number of neighbours)
+- Per-image clustering coefficient and mean degree (used for the withdrawn Discovery 1)
+- Per-image Spearman correlation between degree and AJ occupancy (used for the withdrawn degree-occupancy claim)
+- Mann-Whitney U and Wilcoxon signed-rank tests, bootstrap CIs and rank-biserial effect sizes across images
+
+**Hypothesized (interpretations, not tested here):**
+- That reticular junctions represent "junction maturation"
+- That reticular junctions indicate stronger cell-cell adhesion or barrier function
+- That 3-cliques are tricellular junctions, or that tricellular junctions are permeability "hotspots" in these samples
+- That a tighter area-degree correlation means the tissue is "more geometrically ordered"
+
+Two further measurement caveats apply to every finding below. First, the AJ morphology labels are heuristic (see `CLOSEOUT_CHECKLIST.md`, Known Limitations). Second, cell geometry was segmented from the VE-cadherin channel, which is also the junction channel scored for morphology; the pipeline now records this as `geometry_source: junction_channel` in run provenance.
 
 ---
 
@@ -40,7 +62,7 @@ Normalized clustering (C/C_random): static vs 6dyne **p = 0.68** (NOT significan
 
 ## Discovery 2: Reticular Junctions Increase Under Flow
 
-**Finding:** The proportion of mature, reticular-type adherens junctions increases under flow.
+**Finding:** The proportion of edges labelled reticular by the heuristic AJ classifier increases under flow.
 
 | Condition | Median % Reticular | Mean | Std | n |
 |-----------|-------------------|------|-----|---|
@@ -52,7 +74,7 @@ Normalized clustering (C/C_random): static vs 6dyne **p = 0.68** (NOT significan
 - Mann-Whitney U = 133.5, **p = 2.98e-06**
 - Effect size r = 0.703 (large)
 
-**Biological interpretation:** Flow promotes junction maturation. Reticular junctions indicate stronger cell-cell adhesion and barrier function.
+**Hypothesis (not tested here):** Flow promotes junction maturation, and reticular junctions indicate stronger cell-cell adhesion and barrier function. Neither claim is tested by this dataset; both require functional validation (for example permeability or adhesion assays).
 
 ---
 
@@ -68,21 +90,25 @@ Normalized clustering (C/C_random): static vs 6dyne **p = 0.68** (NOT significan
 
 ---
 
-## Discovery 3 (renumbered): Tricellular Vertices Are Junction Hotspots
+## Discovery 3 (renumbered): All-Reticular 3-Cliques Increase Under Flow
 
-**Finding:** "All-reticular" triangles (where all 3 edges are reticular-type) increase dramatically under flow.
+**What was measured:** a 3-clique in the cell contact graph, i.e. three cells that are pairwise adjacent. The quantity below is the per-image fraction of 3-cliques whose three edges are all labelled reticular. A graph 3-clique is *not* automatically a tricellular junction: it corresponds to one only when the three cells meet at a common physical vertex. That correspondence is now measurable with the `pimorph` half-edge complex (`scripts/harden_network_stats.py --complex-dir`, which reports the fraction of 3-cliques realized by a common vertex per image); results are pending.
 
-| Condition | Median % All-Reticular | Mean | Std | n |
-|-----------|----------------------|------|-----|---|
-| Static    | 15.9%                | 15.9%| 4.4%| 30 |
-| 6 dyne    | 25.4%                | 25.3%| 10.2%| 30 |
+**Finding (raw):** The per-image fraction of all-reticular 3-cliques is higher at 6 dyn cm⁻² than static.
 
-**Per-image replicate statistics:**
+| Condition | Median % All-Reticular 3-Cliques | Mean | Std | n |
+|-----------|----------------------------------|------|-----|---|
+| Static    | 15.9%                            | 15.9%| 4.4%| 30 |
+| 6 dyne    | 25.4%                            | 25.3%| 10.2%| 30 |
+
+**Per-image replicate statistics (raw fraction):**
 - Median difference: +9.6% [95% CI: 4.2%, 13.8%]
 - Mann-Whitney U = 193.5, **p = 1.54e-04**
 - Effect size r = 0.570 (large)
 
-**Biological interpretation:** Tricellular junctions (where 3 cells meet) are known hotspots for permeability. Flow drives junction maturation specifically at these multi-cell vertices.
+**Confound to be checked:** the raw fraction rises trivially when more edges are reticular (Discovery 2), because a 3-clique with three randomly placed reticular edges is more likely when the reticular fraction is higher. The claim that reticular edges *concentrate* on 3-cliques therefore has to be tested against a conditional null that preserves each image's reticular-edge count: labels are permuted across edges within the image (1000 permutations, seed 0), the all-reticular 3-clique fraction is recomputed, and each image gets `enrichment_z = (observed - null mean) / null sd` plus a two-sided permutation p-value. The condition comparison is then a Mann-Whitney U test on per-image `enrichment_z`. This check is implemented in `scripts/harden_network_stats.py` (`tests_enrichment_z` in the JSON output); its result will be reported here when the script is re-run on `runs/egm2_full`. Until then, the raw increase above should be read as consistent with, but not independent of, the reticular-fraction increase in Discovery 2.
+
+**Hypothesis (not tested here):** Tricellular junctions (where 3 cells meet) are reported in the literature as permeability hotspots, and flow might drive junction maturation specifically at multi-cell vertices. This dataset does not test permeability, does not yet establish that the 3-cliques are tricellular junctions, and does not measure maturation.
 
 ---
 
@@ -101,17 +127,19 @@ Normalized clustering (C/C_random): static vs 6dyne **p = 0.68** (NOT significan
 - Mann-Whitney U = 101.0, **p = 2.57e-07**
 - Effect size r = 0.78 (large)
 
-**Biological interpretation:** Larger cells have more neighbors, and this relationship tightens under flow. The tissue becomes more geometrically ordered.
+**Measured:** Larger cells have more neighbors, and the within-image correlation is stronger under flow.
+
+**Hypothesis (not tested here):** The tighter area-degree relationship reflects a more geometrically ordered tissue. Geometric order was not measured directly; note also that cell areas come from VE-cadherin-based segmentation (see "Measured vs hypothesized").
 
 ---
 
 ## Overall Conclusion
 
-**At 6 dyn cm⁻² relative to static, the contact network shifts toward more reticular junctions concentrated at multi-cell vertices, with tighter geometric ordering of cell area and degree.**
+**At 6 dyn cm⁻² relative to static, the contact network has a higher fraction of edges labelled reticular, a higher raw fraction of all-reticular 3-cliques, and a stronger area-degree correlation.**
 
 Three findings survive hardened per-image statistical testing:
 1. Reticular junction percentage increases
-2. All-reticular triangles increase (concentration at tricellular vertices)
+2. Raw all-reticular 3-clique fraction increases (enrichment beyond the reticular-fraction increase pending the conditional null; correspondence of 3-cliques to tricellular vertices pending the complex check)
 3. Area-degree correlation strengthens
 
 Two original claims were **withdrawn** after proper statistical validation:
@@ -125,9 +153,9 @@ Per-image medians on the 18-20 dyn cm⁻² subset (n = 30) are closer to static 
 | Metric | Static | 6 dyn cm⁻² | 18-20 dyn cm⁻² |
 |---|---:|---:|---:|
 | Reticular fraction (median) | 50.7% | 61.1% | 52.7% |
-| All-reticular triangles (median) | 15.9% | 25.4% | 15.5% |
+| All-reticular 3-cliques (median) | 15.9% | 25.4% | 15.5% |
 
-Subject to batch and density caveats, this is consistent with **intermediate shear producing the strongest reticular-network organization** while higher shear shifts toward a distinct regime. This is reported as exploratory in the manuscript pending balanced-batch validation.
+Subject to batch and density caveats, this is consistent with **intermediate shear producing the highest reticular fraction and all-reticular 3-clique fraction** while higher shear shifts toward a distinct regime. This is reported as exploratory in the manuscript pending balanced-batch validation.
 
 ---
 
@@ -136,6 +164,8 @@ Subject to batch and density caveats, this is consistent with **intermediate she
 - **Sampling unit:** Image (not individual cells/edges)
 - **Between-condition test:** Mann-Whitney U (non-parametric)
 - **Within-condition test:** Wilcoxon signed-rank (for correlations differing from 0)
+- **Conditional null for all-reticular 3-cliques:** per-image label permutation across edges with the reticular-edge count fixed (1000 permutations, seed 0); reports `null_mean_pct`, `null_sd_pct`, `enrichment_z`, `perm_p`; conditions compared by Mann-Whitney U on `enrichment_z`
+- **3-clique vs tricellular vertex:** optional `--complex-dir` check against the `pimorph` half-edge complex (fraction of 3-cliques with a common multicellular vertex)
 - **Effect size:** Rank-biserial correlation r
   - |r| < 0.1: negligible
   - |r| 0.1-0.3: small
