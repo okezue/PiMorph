@@ -1,0 +1,123 @@
+{
+  "dataset": "hcec",
+  "n_images": 5,
+  "summary": {
+    "adjacency_pair_f1_mean": {
+      "neural": 0.7119645566
+    },
+    "adjacency_pair_f1_median": {
+      "neural": 0.6805078022
+    },
+    "adjacency_pair_precision_mean": {
+      "neural": 0.7243801036
+    },
+    "adjacency_pair_precision_median": {
+      "neural": 0.7219416386
+    },
+    "adjacency_pair_recall_mean": {
+      "neural": 0.700664885
+    },
+    "adjacency_pair_recall_median": {
+      "neural": 0.6435717859
+    },
+    "adjacency_component_f1_mean": {
+      "neural": 0.4731885411
+    },
+    "adjacency_component_f1_median": {
+      "neural": 0.5018487824
+    },
+    "vertex_f1_mean": {
+      "neural": 0.3336840943
+    },
+    "vertex_f1_median": {
+      "neural": 0.3551525874
+    },
+    "vertex_loc_error_median_px_mean": {
+      "neural": 2.0
+    },
+    "vertex_loc_error_median_px_median": {
+      "neural": 2.0
+    },
+    "vertex_incident_set_accuracy_mean": {
+      "neural": 0.6747526347
+    },
+    "vertex_incident_set_accuracy_median": {
+      "neural": 0.6576576577
+    },
+    "vertex_cyclic_order_accuracy_mean": {
+      "neural": 0.6747526347
+    },
+    "vertex_cyclic_order_accuracy_median": {
+      "neural": 0.6576576577
+    },
+    "pq_mean": {
+      "neural": 0.670989132
+    },
+    "pq_median": {
+      "neural": 0.6710079617
+    },
+    "ap50_mean": {
+      "neural": 0.748311555
+    },
+    "ap50_median": {
+      "neural": 0.7127249357
+    },
+    "vi_mean": {
+      "neural": 1.4610865498
+    },
+    "vi_median": {
+      "neural": 1.4135190418
+    },
+    "boundary_f1_mean": {
+      "neural": 0.8035016601
+    },
+    "boundary_f1_median": {
+      "neural": 0.8110172351
+    },
+    "n_splits_mean": {
+      "neural": 154.0
+    },
+    "n_splits_median": {
+      "neural": 117.0
+    },
+    "n_merges_mean": {
+      "neural": 207.4
+    },
+    "n_merges_median": {
+      "neural": 206.0
+    },
+    "complex_edit_distance_approx_mean": {
+      "neural": 5604.6
+    },
+    "complex_edit_distance_approx_median": {
+      "neural": 5807.0
+    },
+    "validity_fraction_mean": {
+      "neural": 1.0
+    },
+    "validity_fraction_median": {
+      "neural": 1.0
+    },
+    "euler_residual_pred_mean": {
+      "neural": 0.0
+    },
+    "euler_residual_pred_median": {
+      "neural": 0.0
+    },
+    "legacy_f1_mean": {
+      "neural": 0.711047211
+    },
+    "legacy_f1_median": {
+      "neural": 0.6795219989
+    },
+    "method_runtime_s_mean": {
+      "neural": 7.61108284
+    },
+    "method_runtime_s_median": {
+      "neural": 5.9167358875
+    },
+    "n_images": {
+      "neural": 5
+    }
+  }
+}

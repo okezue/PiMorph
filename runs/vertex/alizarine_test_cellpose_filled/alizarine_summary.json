@@ -1,0 +1,123 @@
+{
+  "dataset": "alizarine",
+  "n_images": 10,
+  "summary": {
+    "adjacency_pair_f1_mean": {
+      "cellpose_sam_filled": 0.9891518021
+    },
+    "adjacency_pair_f1_median": {
+      "cellpose_sam_filled": 0.9917026127
+    },
+    "adjacency_pair_precision_mean": {
+      "cellpose_sam_filled": 0.9835944301
+    },
+    "adjacency_pair_precision_median": {
+      "cellpose_sam_filled": 0.9860189323
+    },
+    "adjacency_pair_recall_mean": {
+      "cellpose_sam_filled": 0.9947954014
+    },
+    "adjacency_pair_recall_median": {
+      "cellpose_sam_filled": 0.9967659085
+    },
+    "adjacency_component_f1_mean": {
+      "cellpose_sam_filled": 0.9890361951
+    },
+    "adjacency_component_f1_median": {
+      "cellpose_sam_filled": 0.991124578
+    },
+    "vertex_f1_mean": {
+      "cellpose_sam_filled": 0.9838801058
+    },
+    "vertex_f1_median": {
+      "cellpose_sam_filled": 0.987417581
+    },
+    "vertex_loc_error_median_px_mean": {
+      "cellpose_sam_filled": 1.0
+    },
+    "vertex_loc_error_median_px_median": {
+      "cellpose_sam_filled": 1.0
+    },
+    "vertex_incident_set_accuracy_mean": {
+      "cellpose_sam_filled": 0.9914543209
+    },
+    "vertex_incident_set_accuracy_median": {
+      "cellpose_sam_filled": 0.9947234646
+    },
+    "vertex_cyclic_order_accuracy_mean": {
+      "cellpose_sam_filled": 0.9914543209
+    },
+    "vertex_cyclic_order_accuracy_median": {
+      "cellpose_sam_filled": 0.9947234646
+    },
+    "pq_mean": {
+      "cellpose_sam_filled": 0.8976808752
+    },
+    "pq_median": {
+      "cellpose_sam_filled": 0.903952439
+    },
+    "ap50_mean": {
+      "cellpose_sam_filled": 0.9839604971
+    },
+    "ap50_median": {
+      "cellpose_sam_filled": 0.986232396
+    },
+    "vi_mean": {
+      "cellpose_sam_filled": 0.1723092526
+    },
+    "vi_median": {
+      "cellpose_sam_filled": 0.1634333565
+    },
+    "boundary_f1_mean": {
+      "cellpose_sam_filled": 0.9996681827
+    },
+    "boundary_f1_median": {
+      "cellpose_sam_filled": 0.9998738393
+    },
+    "n_splits_mean": {
+      "cellpose_sam_filled": 0.5
+    },
+    "n_splits_median": {
+      "cellpose_sam_filled": 0.0
+    },
+    "n_merges_mean": {
+      "cellpose_sam_filled": 3.2
+    },
+    "n_merges_median": {
+      "cellpose_sam_filled": 2.5
+    },
+    "complex_edit_distance_approx_mean": {
+      "cellpose_sam_filled": 30.0
+    },
+    "complex_edit_distance_approx_median": {
+      "cellpose_sam_filled": 22.0
+    },
+    "validity_fraction_mean": {
+      "cellpose_sam_filled": 1.0
+    },
+    "validity_fraction_median": {
+      "cellpose_sam_filled": 1.0
+    },
+    "euler_residual_pred_mean": {
+      "cellpose_sam_filled": 0.0
+    },
+    "euler_residual_pred_median": {
+      "cellpose_sam_filled": 0.0
+    },
+    "legacy_f1_mean": {
+      "cellpose_sam_filled": 0.9521088613
+    },
+    "legacy_f1_median": {
+      "cellpose_sam_filled": 0.9554823775
+    },
+    "method_runtime_s_mean": {
+      "cellpose_sam_filled": 1.5543478251
+    },
+    "method_runtime_s_median": {
+      "cellpose_sam_filled": 0.2945020199
+    },
+    "n_images": {
+      "cellpose_sam_filled": 10
+    }
+  }
+}

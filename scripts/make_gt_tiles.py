@@ -19,6 +19,7 @@ import os
 from pathlib import Path
 
 import numpy as np
+from scipy import ndimage as ndi
 import pandas as pd
 
 from pimorph.bench.datasets import load_dataset
@@ -74,13 +75,22 @@ def main() -> int:
                 fname = f"field_{idx:05d}_r{r0:04d}_c{c0:04d}.npz"
                 has_nuc = item.nuclei is not None and item.nuclei.shape == lab.shape
                 nuc_t = item.nuclei[rs, cs].astype(np.float32) if has_nuc else np.zeros(lab_t.shape, np.float32)
+                # outside the annotated ROI the image still shows cells; those pixels are
+                # unknown, not background, and must not train the distance and gap heads
+                if item.roi is not None:
+                    # 3 px rim: the ROI edge cuts cells and would read as a boundary target
+                    ignore = ndi.binary_dilation(~item.roi[rs, cs], iterations=3)
+                    if ignore.mean() > 0.9:
+                        continue
+                else:
+                    ignore = np.zeros(lab_t.shape, bool)
                 np.savez_compressed(
                     out / fname,
                     junction=g[rs, cs].astype(np.float32),
                     nuclei=nuc_t,
                     has_nuclei=np.array(bool(has_nuc)),
                     labels=lab_t,
-                    ignore=np.zeros(lab_t.shape, bool),
+                    ignore=ignore,
                     **t,
                 )
                 rows.append(

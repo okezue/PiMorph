@@ -89,9 +89,11 @@ Everything below is implemented and tested under `tests/pimorph/`; the linked do
 - **Multicellular vertices against real truth on confluent monolayers** ([`docs/CONFLUENT_BENCHMARK.md`](docs/CONFLUENT_BENCHMARK.md)):
   three new truth sets (`hcec`: manually traced human corneal endothelial monolayers with NCAM + DAPI, 15 fields of
   about 1,700 cells and 3,000 tricellular vertices each; `alizarine`: expert-contoured porcine corneal endothelium;
-  `flywing`: E-cadherin Drosophila epithelium). Vertex F1 is 0.96 to 0.98 on alizarine for every method, PiMorph's
-  proposals give the best vertex F1 on FlyWing (0.864), and Cellpose-SAM masks lead zero-shot on the cultured hCEC
-  monolayer (0.58 vs 0.33); an in-domain fine-tune on field-disjoint splits is reported there. The decoder now
+  `flywing`: E-cadherin Drosophila epithelium). Vertex F1 is 0.96 to 0.99 on alizarine for every method (PiMorph
+  fine-tuned 0.990, the best), PiMorph's zero-shot proposals give the best vertex F1 on FlyWing (0.868), and on the
+  cultured hCEC monolayer Cellpose-SAM leads zero-shot (0.635 vs 0.334) while a fine-tune on 10 field-disjoint
+  training fields (`v4_confluent`) reaches 0.611 on the 5 held-out fields with higher vertex recall and boundary F1
+  than Cellpose-SAM. The decoder now
   excludes pixels the signed-distance head places outside every cell (open background was being flooded, which
   produced about 12 false vertices per true one on HAEC) and adds nuclear peaks as seeds where the seed head is silent.
   The search that found these sets, and the negative verdict on public VE-cadherin monolayers with expert masks, is

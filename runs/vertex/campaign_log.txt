@@ -1,0 +1,30 @@
+[2026-09-18T20:55:45Z] tiles: rebuilding gt_haec_train with the corrected reference (8-connected markers, no specks)
+[2026-09-18T21:02:32Z] tiles: gt_haec_train=3132
+[2026-09-18T21:02:32Z] train: v3_endo = v1_multi resumed on corrected HAEC + mCellSeg tiles + synthetic + pseudo (same recipe as v2_endo)
+[2026-09-18T21:22:37Z] train done: {"epoch": 99, "step": 17700, "lr": 0.0008183429621780925, "time_s": 29.1769380569458, "train_loss": -1.0713367045009878, "train_parts": {"boundary": 0.267869307
+[2026-09-18T21:22:37Z] vertex campaign finished
+[2026-09-18T21:25:25Z] tune: decoder variants on 40 HAEC train fields, v2_endo and v3_endo
+[2026-09-18T21:40:19Z] tune done
+[2026-09-18T21:40:19Z] bench: HAEC test (86) and mCellSeg test (40): v3_endo, v2_endo, cellpose_sam(_filled), classical, with the current decoder defaults
+[2026-09-18T21:48:04Z] bench done
+[2026-09-18T21:48:04Z] bench_new: hCEC (15 confluent corneal endothelium fields, NCAM), alizarine (30), FlyWing (42): v3_endo, v2_endo, v1_multi, cellpose_sam(_filled), classical
+[2026-09-18T21:48:05Z] bench_new done
+[2026-09-18T21:48:05Z] shear: neural (runs/neural/v3_endo/best.pt) posteriors + 1000-permutation conditional null on all 102 EGM2 fields, 8 shards
+[2026-09-18T21:53:12Z] bench_new: hCEC (15 confluent corneal endothelium fields, NCAM), alizarine (30), FlyWing (42): v3_endo, v2_endo, v1_multi, cellpose_sam(_filled), classical
+[2026-09-18T22:00:31Z] bench_new done
+[2026-09-18T22:00:31Z] vertex campaign finished
+[2026-09-18T22:06:19Z] shear done: 919 rows
+[2026-09-18T22:06:19Z] vertex campaign finished
+[2026-09-18T22:06:48Z] finetune: tiles from hcec/alizarine/flywing TRAIN splits, v4_confluent = v3_endo resumed 40 epochs
+[2026-09-18T22:07:31Z] finetune tiles: hcec=250 alizarine=80 flywing=32
+[2026-09-18T22:11:09Z] rerun_roi done (hcec + alizarine with ROI restriction and nucleus seeds)
+[2026-09-18T22:42:30Z] finetune done: {"epoch": 139, "step": 20020, "lr": 0.00033643253447251134, "time_s": 25.75467586517334, "train_loss": -1.5794624824441605, "train_parts": {"boundary": 0.227247
+[2026-09-18T22:42:30Z] bench_ft: TEST splits of hcec (5), alizarine (10), flywing (10): v4_confluent, v3_endo, cellpose_sam_filled
+[2026-09-18T22:49:04Z] bench_ft done
+[2026-09-18T22:49:04Z] vertex campaign finished
+[2026-09-18T22:51:07Z] finetune: tiles from hcec/alizarine/flywing TRAIN splits, v4_confluent = v3_endo resumed 40 epochs
+[2026-09-18T22:51:50Z] finetune tiles: hcec=250 alizarine=80 flywing=32
+[2026-09-18T23:26:35Z] finetune done: {"epoch": 139, "step": 20020, "lr": 0.00033643253447251134, "time_s": 25.24117374420166, "train_loss": -1.5853837311163648, "train_parts": {"boundary": 0.226926
+[2026-09-18T23:26:35Z] bench_ft: TEST splits of hcec (5), alizarine (10), flywing (10): v4_confluent, v3_endo, cellpose_sam_filled
+[2026-09-18T23:33:11Z] bench_ft done
+[2026-09-18T23:33:11Z] vertex campaign finished

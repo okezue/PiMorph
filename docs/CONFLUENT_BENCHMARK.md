@@ -105,7 +105,70 @@ Reading:
 
 ## In-domain fine-tune (field-disjoint splits, `runs/vertex/splits_confluent.json`)
 
-`v4_confluent` = `v3_endo` fine-tuned on the TRAIN splits (10 hCEC fields, 20 alizarine, 32
-FlyWing; 362 tiles mixed with the earlier real and synthetic tiles), evaluated on the TEST splits
-(5 hCEC fields, 10 alizarine, 10 FlyWing) that no model saw. Results are appended below when the
-run finishes (`runs/vertex/*_test_v4confluent`).
+`v4_confluent` = `v3_endo` fine-tuned to epoch 140 on the TRAIN splits (10 hCEC fields, 20
+alizarine, 32 FlyWing; 362 tiles mixed with the earlier real and synthetic tiles), evaluated on
+the TEST splits (5 hCEC fields, 10 alizarine, 10 FlyWing) that no model saw. Cellpose-SAM and
+`v3_endo` are evaluated on the same test fields.
+
+First attempt (`runs/vertex/v4_roi_as_background/`): tiles treated pixels outside the annotated
+ROI as background. On hCEC test this already lifted vertex F1 from 0.334 to 0.618 (Cellpose-SAM
+0.635) and adjacency from 0.712 to 0.816 (0.830), and HAEC test improved too (vertex F1 0.262 to
+0.297, PQ 0.609). But on alizarine, where the ROI is 28% of the frame and the rest is full of
+cells, the model learned that visible cells outside the ROI are background (test vertex F1 0.977
+to 0.595, 203 of 320 cells found), and FlyWing vertex localization degraded (0.868 to 0.759).
+Pixels outside a ROI are unknown, not background: `scripts/make_gt_tiles.py` now writes them
+(plus a 3 px rim) into the tile `ignore` mask, which zeroes their loss weight. The second attempt
+with those tiles is the reported one:
+
+`v4_confluent` (`models/pimorph_proposals_v4_confluent.pt`, best epoch 137, 34 minutes on 8 H100)
+on the held-out TEST splits (`runs/vertex/test_split_summary.csv`):
+
+| Test split | Method | n | Adj F1 pair / comp. | Vertex F1 | Vertex prec. / rec. | pred / true vertices | Loc. median (px) | PQ | AP50 | Boundary F1 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| hCEC (5 fields) | Cellpose-SAM (filled) | 5 | **0.830** / **0.745** | **0.635** | 0.721 / 0.581 | 2298 / 2974 | **1.17** | **0.790** | 0.814 | 0.880 |
+| hCEC | **v4_confluent** | 5 | 0.822 / 0.711 | 0.611 | 0.579 / **0.648** | 3377 / 2974 | 1.53 | 0.776 | **0.817** | **0.896** |
+| hCEC | v3_endo (zero-shot) | 5 | 0.712 / 0.473 | 0.334 | 0.350 / 0.320 | 2750 / 2974 | 2.00 | 0.671 | 0.748 | 0.804 |
+| alizarine (10 fields) | **v4_confluent** | 10 | 0.977 / 0.976 | **0.990** | 0.995 / 0.985 | 564 / 570 | 1.00 | **0.911** | 0.974 | 0.998 |
+| alizarine | Cellpose-SAM (filled) | 10 | **0.989** / **0.989** | 0.984 | 0.979 / 0.989 | 576 / 570 | 1.00 | 0.898 | **0.984** | **1.000** |
+| alizarine | v3_endo (zero-shot) | 10 | 0.941 / 0.939 | 0.977 | 0.993 / 0.961 | 550 / 570 | 1.00 | 0.888 | 0.945 | 0.995 |
+| FlyWing (10 fields) | **Cellpose-SAM (filled)** | 10 | **0.966** / **0.940** | 0.849 | 0.834 / 0.864 | 1306 / 1260 | **1.47** | **0.795** | **0.950** | **0.996** |
+| FlyWing | v3_endo (zero-shot) | 10 | 0.802 / 0.774 | **0.868** | 0.897 / 0.842 | 1185 / 1260 | 1.68 | 0.726 | 0.784 | 0.986 |
+| FlyWing | v4_confluent | 10 | 0.894 / 0.865 | 0.833 | 0.831 / 0.836 | 1268 / 1260 | 2.00 | 0.741 | 0.875 | 0.994 |
+| HAEC test (86 fields, for reference) | **v4_confluent** | 86 | **0.521** / **0.332** | **0.292** | 0.294 / 0.304 | 108 / 92 | 1.43 | **0.612** | **0.631** | **0.852** |
+| HAEC test | v3_endo | 86 | 0.505 / 0.306 | 0.262 | 0.279 / 0.258 | 95 / 92 | 1.48 | 0.600 | 0.616 | 0.844 |
+
+Reading:
+
+- Ten manually traced hCEC fields (about 17,000 cells) fine-tune the proposal model from
+  vertex F1 0.33 to 0.61 on the five held-out fields, within 0.024 of Cellpose-SAM (0.635), with
+  higher vertex recall (0.648 vs 0.581), lower precision (it predicts 14% too many vertices)
+  and boundary F1 0.896 vs 0.880. Cellpose-SAM keeps the better vertex localization (1.17 vs
+  1.53 px) and PQ (0.790 vs 0.776). Cellpose-SAM was trained on orders of magnitude more data;
+  that PiMorph's small in-domain fine-tune reaches parity on the structural metrics says the
+  representation and decoder are not the bottleneck, data is.
+- On in situ corneal endothelium (alizarine) the fine-tuned model has the best vertex F1
+  (0.990) and PQ (0.911); on FlyWing its adjacency improved (0.802 to 0.894) but vertex
+  localization degraded (1.68 to 2.00 px median) and vertex F1 fell to 0.833, below its own
+  zero-shot 0.868; 32 FlyWing tiles at a different cell scale were not enough to keep both.
+- The confluent data also improved the sub-confluent HAEC test (vertex F1 0.262 to 0.292, PQ
+  0.612, boundary F1 0.852), the best PiMorph numbers on that set.
+- Decoder observations on hCEC training fields (`runs/decoder_tuning/hcec_train_variants.csv`,
+  v3_endo): `boundary_gamma` is a no-op (the watershed is order-based), `boundary_smooth_sigma =
+  1` adds about 0.02 vertex F1, `distance_mix = 0.2` adds 0.04 to 0.05 adjacency F1, compactness
+  hurts vertices. Defaults were not changed on this basis (they were tuned on HAEC train); the
+  posterior grid already spans smoothing and distance mixing.
+
+## Verdict on "does PiMorph solve multicellular vertices"
+
+- Where borders are clean and the tissue is confluent, yes, for every method: vertex F1 0.98 to
+  0.99 on corneal endothelium in situ and 0.83 to 0.87 on E-cadherin epithelium, with exact
+  incidence sets and cyclic orders from the complex.
+- On cultured endothelial monolayers with real truth (hCEC), the best vertex F1 is 0.61 to 0.64
+  (PiMorph fine-tuned, Cellpose-SAM zero-shot) at a 3 px tolerance on 0.65 um pixels; the
+  remaining errors are missed or split cells in weak-signal regions, not vertex placement.
+- On sub-confluent cultures (HAEC) vertex F1 stays near 0.3 for the best method because whether
+  two cells touch is a 1 px decision in the reference; the predicted vertex count is calibrated
+  and 6.7x more accurate than Cellpose-SAM's, but the metric ceiling is the data.
+- No public VE-cadherin or PECAM-1 monolayer with expert instance masks exists to close the last
+  gap; the raw PECAM-1 HUVEC pairs from Zenodo 10611092 (484 fields, no masks) are the natural
+  target for a small annotation effort, and `hcec` is the benchmark to beat until then.

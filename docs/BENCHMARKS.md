@@ -45,7 +45,9 @@ The per-image CSV also holds AP50, AP75, VI with its merge and split components,
 
 ## Endothelial ground truth (HAEC, mCellSeg)
 
-`docs/ENDOTHELIAL_RESULTS.md` holds the first endothelial accuracy numbers: held-out human aortic endothelial cells (GFP + Hoechst, Zenodo 4898011) and mCellSeg (expert HUVEC/HEK DIC masks) for `v2_endo`, Cellpose-SAM, the classical filters and earlier checkpoints.
+`docs/ENDOTHELIAL_RESULTS.md` holds the endothelial accuracy numbers: held-out human aortic endothelial cells (GFP + Hoechst, Zenodo 4898011) and mCellSeg (expert HUVEC/HEK DIC masks) for `v3_endo`, `v2_endo`, Cellpose-SAM, the classical filters and earlier checkpoints, with the 2026-09-18 correction of the HAEC reference and the decoder flood mask at the top.
+
+`docs/CONFLUENT_BENCHMARK.md` (2026-09-18) holds the multicellular-vertex results against real truth on confluent monolayers: `hcec` (manually traced human corneal endothelial cells, NCAM + DAPI), `alizarine` (expert-contoured porcine corneal endothelium) and `flywing` (E-cadherin Drosophila epithelium), zero-shot for every method and after an in-domain fine-tune on field-disjoint splits. Partially annotated fields are scored inside their ROI.
 
 ## Scaled results (400 images per dataset, 8x H100)
 
