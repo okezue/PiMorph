@@ -1,0 +1,10 @@
+statistic,mean,sd,ci_lo,ci_hi,map,n_hypotheses,ess,image_id,condition,replicate,geometry_source,proposer,n_hypotheses_total,downsample
+reticular_fraction,0.15496779774731084,0.004240129400972249,0.152,0.16533333333333333,0.15363881401617252,32,3.999999999999999,EGM2_regular_static-18,static,rep 1,junction_channel,neural:best.pt,32,1
+all_reticular_3clique_fraction,1.8891271009557492e-21,3.0137045236204564e-12,0.0,0.0,0.0,32,3.999999999999999,EGM2_regular_static-18,static,rep 1,junction_channel,neural:best.pt,32,1
+area_degree_spearman,0.7301624331683908,0.0042145050998417645,0.7228456582117201,0.7361581477287041,0.7285813829030535,32,3.999999999999999,EGM2_regular_static-18,static,rep 1,junction_channel,neural:best.pt,32,1
+all_reticular_3clique_enrichment_z,-0.9668767977397794,0.04298656626906895,-1.075347589795712,-0.9374229708700085,-0.9487792981026996,32,3.999999999999999,EGM2_regular_static-18,static,rep 1,junction_channel,neural:best.pt,32,1
+all_reticular_3clique_null_mean,0.00387032541253079,0.0003750233307237983,0.0036347826086956525,0.004808695652173913,0.003726872246696035,32,3.999999999999999,EGM2_regular_static-18,static,rep 1,junction_channel,neural:best.pt,32,1
+tricellular_realized_3clique_fraction,0.9716997153221858,0.0019894119098378647,0.9695652173913043,0.973568281938326,0.973568281938326,32,3.999999999999999,EGM2_regular_static-18,static,rep 1,junction_channel,neural:best.pt,32,1
+n_cells,142.81753716284513,0.9643816385365459,142.0,144.0,142.0,32,3.999999999999999,EGM2_regular_static-18,static,rep 1,junction_channel,neural:best.pt,32,1
+n_cell_cell_edges,372.7229290203263,1.9291772980276471,371.0,375.0,371.0,32,3.999999999999999,EGM2_regular_static-18,static,rep 1,junction_channel,neural:best.pt,32,1
+mean_degree,5.092280153260347,0.009498584468941994,5.083333333333333,5.104895104895105,5.098591549295775,32,3.999999999999999,EGM2_regular_static-18,static,rep 1,junction_channel,neural:best.pt,32,1

@@ -81,11 +81,33 @@ Everything below is implemented and tested under `tests/pimorph/`; the linked do
   LIVECell and NeurIPS CellSeg. Through the same decoder on held-out synthetic tiles the learned proposals
   reach adjacency F1 0.86 to 0.89 vs 0.37 to 0.45 for the classical filters; on held-out LIVECell phase
   contrast v1_multi reaches 0.23 vs 0.62 for Cellpose-SAM (400 images each; [`docs/SCALE_RESULTS.md`](docs/SCALE_RESULTS.md)).
-  On held-out human aortic endothelial fields with instance truth, `v2_endo` (fine-tuned on 3,000 endothelial tiles)
-  reaches PQ 0.41 and boundary F1 0.84 vs 0.35 / 0.71 for Cellpose-SAM, while vertex accuracy stays low for both
-  ([`docs/ENDOTHELIAL_RESULTS.md`](docs/ENDOTHELIAL_RESULTS.md)). See [`docs/NEURAL_PROPOSALS.md`](docs/NEURAL_PROPOSALS.md);
-  GPU training on AWS follows [`docs/AWS_RUNBOOK.md`](docs/AWS_RUNBOOK.md) (named profile, tag-scoped
-  cleanup, no keys in the repo).
+  On held-out human aortic endothelial fields with instance truth (corrected reference), `v3_endo` reaches
+  adjacency F1 0.51, vertex F1 0.26 (95 predicted vs 92 true vertices per field), PQ 0.60 and boundary F1 0.84
+  vs 0.31 / 0.04 / 0.47 / 0.71 for Cellpose-SAM ([`docs/ENDOTHELIAL_RESULTS.md`](docs/ENDOTHELIAL_RESULTS.md)).
+  See [`docs/NEURAL_PROPOSALS.md`](docs/NEURAL_PROPOSALS.md); GPU training on AWS follows
+  [`docs/AWS_RUNBOOK.md`](docs/AWS_RUNBOOK.md) (named profile, tag-scoped cleanup, no keys in the repo).
+- **Multicellular vertices against real truth on confluent monolayers** ([`docs/CONFLUENT_BENCHMARK.md`](docs/CONFLUENT_BENCHMARK.md)):
+  three new truth sets (`hcec`: manually traced human corneal endothelial monolayers with NCAM + DAPI, 15 fields of
+  about 1,700 cells and 3,000 tricellular vertices each; `alizarine`: expert-contoured porcine corneal endothelium;
+  `flywing`: E-cadherin Drosophila epithelium). Vertex F1 is 0.96 to 0.98 on alizarine for every method, PiMorph's
+  proposals give the best vertex F1 on FlyWing (0.864), and Cellpose-SAM masks lead zero-shot on the cultured hCEC
+  monolayer (0.58 vs 0.33); an in-domain fine-tune on field-disjoint splits is reported there. The decoder now
+  excludes pixels the signed-distance head places outside every cell (open background was being flooded, which
+  produced about 12 false vertices per true one on HAEC) and adds nuclear peaks as seeds where the seed head is silent.
+  The search that found these sets, and the negative verdict on public VE-cadherin monolayers with expert masks, is
+  in [`docs/DATASET_HUNT_2026-09-18.md`](docs/DATASET_HUNT_2026-09-18.md).
+- **Later blueprint phases** ([`docs/LATER_PHASES.md`](docs/LATER_PHASES.md)): `pimorph.dynamics` (IoU/Hungarian
+  tracking, exact event detection with summed `(dV, dE, dF)` admissibility; T1 F1 0.91 against the TissueMiner
+  database), `pimorph.mechanics` (vertex model, force inference with curvature-pressure rows; tension Pearson 1.00
+  noiseless, 0.88 at 0.5 px noise), `pimorph.complex3d` (3-D crack complex with exact `B1 B2 = 0`, `B2 B3 = 0`,
+  quadruple points, per-cell Euler, curved-surface monolayers), `pimorph.fields.multichannel` and `pimorph.function`
+  (VE-cadherin + claudin-5 + F-actin vector states on S-BIAD1169, resistor-network transport proxy flagged
+  `validated: False`).
+- **Shear findings re-tested with posteriors on all 102 EGM2 fields** (`NETWORK_DISCOVERIES.md`, top section):
+  the reticular-fraction increase at 6 dyn cm^-2 survives (p = 2.6e-9, consistent in all three replicates, high shear
+  distinct); the all-reticular 3-clique increase is explained entirely by the reticular fraction (conditional-null
+  enrichment z 0.00 vs 0.03, p = 0.95); the area-degree correlation strengthening does not replicate (0.72 vs 0.75,
+  p = 0.43). About 95% of graph 3-cliques are realized by a multicellular vertex.
 
 Data notes that changed since v1.0. The VE-strat manifest had the channels backwards (`w2` is
 VE-cadherin, `w4` is nuclei), which is why the legacy run found zero contacts;

@@ -24,7 +24,7 @@ import numpy as np
 import pandas as pd
 
 from pimorph.bench.datasets import load_dataset
-from pimorph.bench.run import geometry_for_bright_boundaries, tissue_for_item
+from pimorph.bench.run import geometry_for_bright_boundaries, restrict_to_roi, tissue_for_item
 from pimorph.infer.decoder import ConstrainedDecoder, DecoderParams
 from pimorph.infer.neural.proposer import NeuralProposer
 from pimorph.metrics.structural import structural_metrics
@@ -99,7 +99,8 @@ def main() -> int:
             maps = maps_perm if perm else maps_neur
             t1 = time.time()
             res = dec.decode(maps, DecoderParams(cell_radius_px=cr, **over))
-            met = structural_metrics(res.labels, item.labels_gt, pixel_size_um=item.pixel_size_um, tol_px=3.0)
+            labels = restrict_to_roi(res.labels, item.roi)
+            met = structural_metrics(labels, item.labels_gt, pixel_size_um=item.pixel_size_um, tol_px=3.0)
             r = {k: met.get(k, np.nan) for k in KEYS}
             r.update(
                 variant=name,

@@ -1,0 +1,123 @@
+{
+  "dataset": "alizarine",
+  "n_images": 30,
+  "summary": {
+    "adjacency_pair_f1_mean": {
+      "classical": 0.4426742727
+    },
+    "adjacency_pair_f1_median": {
+      "classical": 0.4522434157
+    },
+    "adjacency_pair_precision_mean": {
+      "classical": 0.3007570888
+    },
+    "adjacency_pair_precision_median": {
+      "classical": 0.2994713073
+    },
+    "adjacency_pair_recall_mean": {
+      "classical": 0.8875649827
+    },
+    "adjacency_pair_recall_median": {
+      "classical": 0.9080366975
+    },
+    "adjacency_component_f1_mean": {
+      "classical": 0.4408847872
+    },
+    "adjacency_component_f1_median": {
+      "classical": 0.4509325242
+    },
+    "vertex_f1_mean": {
+      "classical": 0.4642525414
+    },
+    "vertex_f1_median": {
+      "classical": 0.4623514293
+    },
+    "vertex_loc_error_median_px_mean": {
+      "classical": 1.0
+    },
+    "vertex_loc_error_median_px_median": {
+      "classical": 1.0
+    },
+    "vertex_incident_set_accuracy_mean": {
+      "classical": 0.8921144237
+    },
+    "vertex_incident_set_accuracy_median": {
+      "classical": 0.9026727293
+    },
+    "vertex_cyclic_order_accuracy_mean": {
+      "classical": 0.8921144237
+    },
+    "vertex_cyclic_order_accuracy_median": {
+      "classical": 0.9026727293
+    },
+    "pq_mean": {
+      "classical": 0.4307321163
+    },
+    "pq_median": {
+      "classical": 0.435567301
+    },
+    "ap50_mean": {
+      "classical": 0.3214793283
+    },
+    "ap50_median": {
+      "classical": 0.3234037162
+    },
+    "vi_mean": {
+      "classical": 6.3673355754
+    },
+    "vi_median": {
+      "classical": 6.3651258258
+    },
+    "boundary_f1_mean": {
+      "classical": 0.5089062648
+    },
+    "boundary_f1_median": {
+      "classical": 0.4947424535
+    },
+    "n_splits_mean": {
+      "classical": 4.0666666667
+    },
+    "n_splits_median": {
+      "classical": 4.0
+    },
+    "n_merges_mean": {
+      "classical": 11.0666666667
+    },
+    "n_merges_median": {
+      "classical": 10.0
+    },
+    "complex_edit_distance_approx_mean": {
+      "classical": 2930.1
+    },
+    "complex_edit_distance_approx_median": {
+      "classical": 2852.0
+    },
+    "validity_fraction_mean": {
+      "classical": 1.0
+    },
+    "validity_fraction_median": {
+      "classical": 1.0
+    },
+    "euler_residual_pred_mean": {
+      "classical": 0.0
+    },
+    "euler_residual_pred_median": {
+      "classical": 0.0
+    },
+    "legacy_f1_mean": {
+      "classical": 0.4271880128
+    },
+    "legacy_f1_median": {
+      "classical": 0.4324892734
+    },
+    "method_runtime_s_mean": {
+      "classical": 1.7929286877
+    },
+    "method_runtime_s_median": {
+      "classical": 1.7791306973
+    },
+    "n_images": {
+      "classical": 30
+    }
+  }
+}

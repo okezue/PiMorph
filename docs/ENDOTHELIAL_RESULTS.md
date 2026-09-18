@@ -1,4 +1,39 @@
-# Endothelial ground-truth datasets and results (2026-09-17)
+# Endothelial ground-truth datasets and results (2026-09-17, corrected 2026-09-18)
+
+## Correction (2026-09-18)
+
+The tables under "Held-out results" below were computed against a flawed HAEC reference and with
+the old decoder flood mask; they are kept for the record and superseded by `runs/vertex/SUMMARY.md`
+and `docs/CONFLUENT_BENCHMARK.md`. Two things changed:
+
+1. The HAEC instance derivation used 4-connected body components; along the ragged 1 px border
+   class this split off 1 to 3 px specks that counted as cells (field 0005: 939 "cells", 386 under
+   60 px; 522 after the fix). `haec_semantic_to_instance` now uses 8-connected markers, drops
+   markers under 30 px and makes the labels 4-connected up front.
+2. The decoder flooded open background (the gap head is trained on enclosed background only), so
+   cells that never touch were joined and every false contact produced false vertices. Pixels the
+   signed-distance head places outside every cell are now excluded (`DecoderParams.outside_px = 0`).
+
+Corrected held-out numbers (same 86 HAEC and 40 mCellSeg test fields, all methods re-run):
+
+| Dataset | Method | n | Adj F1 pair / component | Vertex F1 (pred / true vertices per field) | Incident-set acc. | PQ | AP50 | Boundary F1 |
+|---|---|---|---|---|---|---|---|---|
+| HAEC test | **v3_endo** (`models/pimorph_proposals_v3_endo.pt`) | 86 | **0.505 / 0.306** | **0.262** (95 / 92) | **0.677** | **0.600** | **0.616** | **0.844** |
+| HAEC test | v2_endo | 86 | 0.504 / 0.308 | 0.261 (112 / 92) | 0.670 | 0.597 | 0.612 | 0.843 |
+| HAEC test | Cellpose-SAM (filled) | 86 | 0.314 / 0.087 | 0.039 (110 / 92) | 0.607 | 0.465 | 0.487 | 0.708 |
+| HAEC test | v1_multi | 86 | 0.001 / 0.000 | 0.003 | 0.581 | 0.011 | 0.009 | 0.235 |
+| HAEC test | classical | 86 | 0.039 / 0.004 | 0.002 | 0.539 | 0.162 | 0.152 | 0.271 |
+| mCellSeg test | **Cellpose-SAM (filled)** | 40 | **0.170 / 0.060** | **0.117** | 0.941 | **0.215** | **0.208** | 0.203 |
+| mCellSeg test | v3_endo | 40 | 0.064 / 0.013 | 0.014 | 0.525 | 0.134 | 0.119 | **0.349** |
+| mCellSeg test | v2_endo | 40 | 0.073 / 0.013 | 0.014 | 0.593 | 0.140 | 0.124 | 0.341 |
+
+The corrected reference has 569 cells and 92 multicellular vertices per HAEC test field (was 1,151
+and 124). The decoder fix, not the retraining, accounts for nearly all of the gain (v2_endo and
+v3_endo agree within 0.01; the retrain calibrated the vertex count). Vertex F1 0.26 is bounded by
+cell-level accuracy (PQ 0.60) and by the 1 px ambiguity of whether two cells in a sub-confluent
+culture touch: the missed true vertices are topological (median 17 px from the nearest predicted
+vertex), not mislocalized. Confluent monolayers with real truth, where this ambiguity is absent,
+are in `docs/CONFLUENT_BENCHMARK.md`.
 
 Until this campaign, no dataset in the project combined endothelial cells with instance ground truth, so every endothelial number was a self-consistency check. This document records the search for such data, what was found, and the first accuracy numbers. Raw outputs: `runs/endo/` (per-image CSVs, summaries, `splits.json`, `campaign_log.txt`).
 
@@ -21,7 +56,7 @@ Until this campaign, no dataset in the project combined endothelial cells with i
 - Real-GT training tiles: `scripts/make_gt_tiles.py` on the train splits (3,132 HAEC tiles with the Hoechst channel, 2,914 mCellSeg tiles), exact targets from the masks.
 - `v2_endo` = `v1_multi` fine-tuned 40 epochs on those tiles plus synthetic and pseudo-label tiles, DDP over 8 H100s, 21 minutes. Card: `models/pimorph_proposals_v2_endo.md`.
 
-## Held-out results (all methods through the same constrained decoder)
+## Held-out results, 2026-09-17 (superseded: flawed reference and old flood mask, see the correction above)
 
 | Dataset | Method | n | Adj F1 pair | Adj F1 component | Vertex F1 | Incident-set acc. | PQ | AP50 | Boundary F1 | Valid |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -36,7 +71,7 @@ Until this campaign, no dataset in the project combined endothelial cells with i
 
 First-pass numbers on 200 HAEC fields (train + test mixed, used only to choose the protocol) agree with the held-out table to within 0.01 for Cellpose-SAM (0.324 / 0.350) and the classical method (0.038 / 0.107).
 
-## What this establishes
+## What this established on 2026-09-17 (points 2 and 4 are superseded by the correction above and by `docs/CONFLUENT_BENCHMARK.md`)
 
 1. Endothelial fluorescence accuracy is now measured, not assumed. With about 3,000 real endothelial tiles the PiMorph model goes from unusable (PQ 0.006) to the best instance quality on this data (PQ 0.407, boundary F1 0.842), finding dim cells Cellpose-SAM misses (679 vs 753 predicted against 1,151 true cells, with far higher boundary agreement). Figure: `runs/pimorph_dev/haec_test_example.png`.
 2. Multicellular vertices are still not solved by anyone here. v2_endo over-splits (about 1,060 predicted vertices per field against 124 in the ground truth), Cellpose-SAM places the right number in the wrong places (F1 0.038, median error 2.0 px). Vertex-aware training targets exist in the tiles but the soft priors and decoder moves that would suppress over-splitting were not tuned for this data.

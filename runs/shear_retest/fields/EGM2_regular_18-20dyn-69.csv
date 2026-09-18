@@ -1,0 +1,10 @@
+statistic,mean,sd,ci_lo,ci_hi,map,n_hypotheses,ess,image_id,condition,replicate,geometry_source,proposer,n_hypotheses_total,downsample
+reticular_fraction,0.23361421204479144,0.0009756589648484706,0.233502538071066,0.233502538071066,0.233502538071066,32,4.0,EGM2_regular_18-20dyn-69,high_shear,rep 3,junction_channel,neural:best.pt,32,1
+all_reticular_3clique_fraction,0.026351531901197118,0.0006504469301706813,0.02631578947368421,0.02631578947368421,0.02631578947368421,32,4.0,EGM2_regular_18-20dyn-69,high_shear,rep 3,junction_channel,neural:best.pt,32,1
+area_degree_spearman,0.8581259264283317,0.004161065046660938,0.8574496062951961,0.8640172156752525,0.8574496062951961,32,4.0,EGM2_regular_18-20dyn-69,high_shear,rep 3,junction_channel,neural:best.pt,32,1
+all_reticular_3clique_enrichment_z,1.2472241389048198,0.06747450122700828,1.211730708066073,1.3004726952981795,1.211730708066073,32,4.0,EGM2_regular_18-20dyn-69,high_shear,rep 3,junction_channel,neural:best.pt,32,1
+all_reticular_3clique_null_mean,0.01357553039569385,0.00034338529224579807,0.01319298245614035,0.013921052631578947,0.013921052631578947,32,4.0,EGM2_regular_18-20dyn-69,high_shear,rep 3,junction_channel,neural:best.pt,32,1
+tricellular_realized_3clique_fraction,0.9298136475743173,0.0002669645642850251,0.9298245614035088,0.9298245614035088,0.9298245614035088,32,4.0,EGM2_regular_18-20dyn-69,high_shear,rep 3,junction_channel,neural:best.pt,32,1
+n_cells,77.93968350948877,0.348305471108852,78.0,78.0,78.0,32,4.0,EGM2_regular_18-20dyn-69,high_shear,rep 3,junction_channel,neural:best.pt,32,1
+n_cell_cell_edges,196.92141246927235,0.6572349140779039,197.0,197.0,197.0,32,4.0,EGM2_regular_18-20dyn-69,high_shear,rep 3,junction_channel,neural:best.pt,32,1
+mean_degree,4.7709428942815855,0.009032085132255264,4.769230769230769,4.769230769230769,4.769230769230769,32,4.0,EGM2_regular_18-20dyn-69,high_shear,rep 3,junction_channel,neural:best.pt,32,1

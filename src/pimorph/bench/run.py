@@ -141,10 +141,25 @@ METHODS: Dict[str, Callable[[BenchItem], np.ndarray]] = {
 }
 
 
+def restrict_to_roi(labels: np.ndarray, roi: Optional[np.ndarray], min_area_px: int = 30) -> np.ndarray:
+    """Zero predictions outside the annotated region and drop the fragments this leaves
+    behind, so partially annotated fields score only what the annotators traced."""
+    if roi is None:
+        return labels
+    from skimage.measure import label as cc_label
+
+    from ..infer.decoder import merge_small_regions
+
+    out = np.where(roi, labels, 0).astype(np.int32)
+    out = cc_label(out, connectivity=1).astype(np.int32)
+    return merge_small_regions(out, min_area_px)
+
+
 def evaluate_item(item: BenchItem, method: str, tol_px: float = 3.0) -> Dict:
     t0 = time.time()
     labels_pred = METHODS[method](item)
     rt = time.time() - t0
+    labels_pred = restrict_to_roi(labels_pred, item.roi)
     m = structural_metrics(labels_pred, item.labels_gt, pixel_size_um=item.pixel_size_um, tol_px=tol_px)
     leg = legacy_adjacency_f1(labels_pred, item.labels_gt)
     m["legacy_f1"] = float(leg.get("f1", np.nan))

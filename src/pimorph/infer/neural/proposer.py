@@ -9,13 +9,26 @@ from typing import List, Optional, Tuple, Union
 import numpy as np
 import torch
 from scipy import ndimage as ndi
+from scipy.spatial import cKDTree
 from skimage.feature import peak_local_max
+from skimage.filters import gaussian
 from skimage.morphology import remove_small_holes, remove_small_objects
 
-from ..proposals import ProposalMaps, estimate_nucleus_radius, estimate_ridge_width
+from ..proposals import ProposalMaps, estimate_nucleus_radius, estimate_ridge_width, robust_normalize
 from .data import build_input
 from .model import DISTANCE_SCALE, HEAD_INDEX, MultiHeadUNet
 from .train import load_model, resolve_device
+
+
+def nucleus_peaks(nuclei: np.ndarray, nucleus_radius_px: float, rel_threshold: float = 0.15) -> np.ndarray:
+    """(N, 2) nuclear intensity peaks: smoothed at half the nucleus radius, at least one
+    radius apart, above ``rel_threshold`` of the maximum (same rule as ClassicalProposer)."""
+    n = robust_normalize(np.asarray(nuclei, dtype=np.float32))
+    ns = gaussian(n, sigma=max(nucleus_radius_px / 2.0, 1.0), preserve_range=True)
+    pts = peak_local_max(
+        ns, min_distance=max(int(round(nucleus_radius_px)), 3), threshold_rel=rel_threshold, exclude_border=False
+    )
+    return np.asarray(pts, dtype=np.int64).reshape(-1, 2)
 
 
 def _taper(n: int, overlap: int) -> np.ndarray:
@@ -109,6 +122,8 @@ class NeuralProposer:
         batch_size: int = 4,
         seed_rel_threshold: float = 0.05,
         cell_to_nucleus_ratio: float = 2.5,
+        nucleus_seeds: bool = True,
+        nucleus_seed_score: float = 0.5,
     ):
         self.checkpoint_path = Path(checkpoint_path)
         self.device = resolve_device(device)
@@ -118,6 +133,11 @@ class NeuralProposer:
         self.batch_size = int(batch_size)
         self.seed_rel_threshold = float(seed_rel_threshold)
         self.cell_to_nucleus_ratio = float(cell_to_nucleus_ratio)
+        # nuclear peaks with no neural seed within 0.6 cell radii are added as seeds
+        # (the one-nucleus-per-cell prior applied where the seed head is silent, e.g.
+        # in regions of weak membrane signal that annotators still split by nuclei)
+        self.nucleus_seeds = bool(nucleus_seeds)
+        self.nucleus_seed_score = float(nucleus_seed_score)
 
     def predict_raw(
         self, geometry: np.ndarray, nuclei: Optional[np.ndarray] = None, junction: Optional[np.ndarray] = None
@@ -176,7 +196,25 @@ class NeuralProposer:
             inside = tissue[pts[:, 0], pts[:, 1]]
             pts, scores = pts[inside], scores[inside]
 
+        n_nucleus_seeds = 0
+        if self.nucleus_seeds and nuclei is not None and nucleus_radius is not None:
+            npts = nucleus_peaks(nuclei, nucleus_radius)
+            if len(npts):
+                keep = tissue[npts[:, 0], npts[:, 1]] & (distance[npts[:, 0], npts[:, 1]] > 0)
+                npts = npts[keep]
+            if len(npts):
+                if len(pts):
+                    d, _ = cKDTree(pts).query(npts)
+                    npts = npts[d > 0.6 * cell_radius]
+                if len(npts):
+                    pts = np.concatenate([pts, npts], axis=0) if len(pts) else npts
+                    scores = np.concatenate([scores, np.full(len(npts), self.nucleus_seed_score, dtype=np.float32)])
+                    order = np.argsort(-scores, kind="stable")
+                    pts, scores = pts[order], scores[order]
+                    n_nucleus_seeds = int(len(npts))
+
         meta = {
+            "n_nucleus_seeds": n_nucleus_seeds,
             "cell_radius_px": float(cell_radius),
             "ridge_width_px": float(estimate_ridge_width(geometry)),
             "nuclei_used": nuclei is not None,

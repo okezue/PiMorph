@@ -1,0 +1,123 @@
+{
+  "dataset": "flywing",
+  "n_images": 42,
+  "summary": {
+    "adjacency_pair_f1_mean": {
+      "classical": 0.7344690864
+    },
+    "adjacency_pair_f1_median": {
+      "classical": 0.7404124313
+    },
+    "adjacency_pair_precision_mean": {
+      "classical": 0.7704960256
+    },
+    "adjacency_pair_precision_median": {
+      "classical": 0.7872247725
+    },
+    "adjacency_pair_recall_mean": {
+      "classical": 0.7021724199
+    },
+    "adjacency_pair_recall_median": {
+      "classical": 0.6977425819
+    },
+    "adjacency_component_f1_mean": {
+      "classical": 0.7102464171
+    },
+    "adjacency_component_f1_median": {
+      "classical": 0.7269416168
+    },
+    "vertex_f1_mean": {
+      "classical": 0.8183499332
+    },
+    "vertex_f1_median": {
+      "classical": 0.8237252802
+    },
+    "vertex_loc_error_median_px_mean": {
+      "classical": 1.5397392276
+    },
+    "vertex_loc_error_median_px_median": {
+      "classical": 1.4142135624
+    },
+    "vertex_incident_set_accuracy_mean": {
+      "classical": 0.7200873642
+    },
+    "vertex_incident_set_accuracy_median": {
+      "classical": 0.7338519883
+    },
+    "vertex_cyclic_order_accuracy_mean": {
+      "classical": 0.7200873642
+    },
+    "vertex_cyclic_order_accuracy_median": {
+      "classical": 0.7338519883
+    },
+    "pq_mean": {
+      "classical": 0.6796546568
+    },
+    "pq_median": {
+      "classical": 0.6798765831
+    },
+    "ap50_mean": {
+      "classical": 0.7247541137
+    },
+    "ap50_median": {
+      "classical": 0.7261363636
+    },
+    "vi_mean": {
+      "classical": 1.3929640213
+    },
+    "vi_median": {
+      "classical": 1.4152713154
+    },
+    "boundary_f1_mean": {
+      "classical": 0.9687469937
+    },
+    "boundary_f1_median": {
+      "classical": 0.9707029123
+    },
+    "n_splits_mean": {
+      "classical": 34.4285714286
+    },
+    "n_splits_median": {
+      "classical": 23.0
+    },
+    "n_merges_mean": {
+      "classical": 54.4523809524
+    },
+    "n_merges_median": {
+      "classical": 52.5
+    },
+    "complex_edit_distance_approx_mean": {
+      "classical": 1697.4047619048
+    },
+    "complex_edit_distance_approx_median": {
+      "classical": 1728.5
+    },
+    "validity_fraction_mean": {
+      "classical": 1.0
+    },
+    "validity_fraction_median": {
+      "classical": 1.0
+    },
+    "euler_residual_pred_mean": {
+      "classical": 0.0
+    },
+    "euler_residual_pred_median": {
+      "classical": 0.0
+    },
+    "legacy_f1_mean": {
+      "classical": 0.7080087729
+    },
+    "legacy_f1_median": {
+      "classical": 0.7116161587
+    },
+    "method_runtime_s_mean": {
+      "classical": 1.127640077
+    },
+    "method_runtime_s_median": {
+      "classical": 1.110216856
+    },
+    "n_images": {
+      "classical": 42
+    }
+  }
+}

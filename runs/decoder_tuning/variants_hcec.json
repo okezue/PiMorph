@@ -1,0 +1,10 @@
+{
+ "base": [false, {}],
+ "gamma2": [false, {"boundary_gamma": 2.0}],
+ "gamma3": [false, {"boundary_gamma": 3.0}],
+ "smooth1": [false, {"boundary_smooth_sigma": 1.0}],
+ "dist0.2": [false, {"distance_mix": 0.2}],
+ "compact0.01": [false, {"compactness": 0.01}],
+ "gap0.5_gamma2": [false, {"gap_threshold": 0.5, "boundary_gamma": 2.0}],
+ "merge0.3": [false, {"merge_boundary_max": 0.3, "max_merges": 400}]
+}

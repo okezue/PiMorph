@@ -2,6 +2,16 @@
 
 ## v1.1.0.dev0 (unreleased)
 
+### 2026-09-18: vertices against real truth, later phases, shear re-test
+- HAEC reference derivation corrected (8-connected body markers, no sub-30 px specks, 4-connected labels): about 40% of the former "cells" were 1 to 3 px fringe specks. All HAEC and mCellSeg held-out tables were recomputed (`runs/vertex/`, `docs/ENDOTHELIAL_RESULTS.md`).
+- Decoder: pixels the signed-distance head places outside every cell are excluded from the flood (`DecoderParams.outside_px`, default 0). The gap head only knows enclosed background, so open background was flooded and cells that never touch were joined (HAEC field 0005: 1,167 predicted multicellular vertices against 81 true; now 89). Optional vertex-consistent merges (`max_merges`). Vectorized small-background fill.
+- `NeuralProposer(nucleus_seeds=True)`: nuclear peaks with no neural seed nearby are added as seeds.
+- New loaders with real instance truth on confluent tissue: `hcec` (manually traced human corneal endothelial monolayers, NCAM + DAPI), `alizarine` (expert-contoured porcine corneal endothelium), `flywing` (E-cadherin Drosophila epithelium); `BenchItem.roi` restricts scoring to the annotated region; `pimorph benchmark --dataset` accepts every registered loader. `docs/DATASET_HUNT_2026-09-18.md`, `docs/CONFLUENT_BENCHMARK.md`.
+- Checkpoints `models/pimorph_proposals_v3_endo.pt` (v2 recipe on the corrected reference) and `v4_confluent` (fine-tuned on the hCEC / alizarine / FlyWing train splits) with cards.
+- `pimorph.metrics.sensitivity`: conditional-null enrichment z for all-reticular 3-cliques and the tricellular realization fraction; `scripts/pimorph_sensitivity_egm2.py` runs the neural proposer over every field with shards; `NETWORK_DISCOVERIES.md` records the posterior re-test of the three shear findings.
+- Later blueprint phases: `pimorph.dynamics`, `pimorph.mechanics`, `pimorph.complex3d`, `pimorph.fields.multichannel`, `pimorph.function`, `pimorph.io.sbiad1169` with 65 tests (`docs/LATER_PHASES.md`).
+- Tooling: `scripts/tune_decoder.py`, `scripts/select_checkpoint_egm2.py`, `infra/xai/sync_code.sh`, `infra/xai/run_vertex.sh`.
+
 New canonical package `src/pimorph/` next to the legacy `src/endopigraph/`. Package version `1.1.0.dev0`; both packages ship in one wheel (`hatch` packages `src/endopigraph`, `src/pimorph`); new console script `pimorph`; new extras `complex` (shapely, pyarrow, zarr, ome-zarr, hypothesis, numba), `torch` (torch, torchvision, cellpose>=4), `aws` (boto3); pytest markers `torch`, `slow`, `data`. Documentation: `docs/ARCHITECTURE.md`, `docs/COMPLEX.md`, `docs/NEURAL_PROPOSALS.md`, `docs/BENCHMARKS.md`, `docs/AWS_RUNBOOK.md`.
 
 ### Exact cell complex (`pimorph.complex`)

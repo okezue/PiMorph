@@ -96,6 +96,43 @@ if has bench_new; then
   log "bench_new done"
 fi
 
+# ------------- 4c. in-domain fine-tune on the confluent truth sets (field-disjoint splits)
+SPL=runs/vertex/splits_confluent.json
+V4=runs/neural/v4_confluent/best.pt
+if has finetune; then
+  log "finetune: tiles from hcec/alizarine/flywing TRAIN splits, v4_confluent = v3_endo resumed 40 epochs"
+  rm -rf data/tiles/gt_hcec_train data/tiles/gt_alizarine_train data/tiles/gt_flywing_train
+  for k in $(seq 0 9); do
+    $PY scripts/make_gt_tiles.py --dataset hcec --out data/tiles/gt_hcec_train --tile 512 --stride 384 --shard $k/10 --id-list $SPL:hcec_train > $OUT/gt_hcec_$k.log 2>&1 &
+  done
+  for k in $(seq 0 3); do
+    $PY scripts/make_gt_tiles.py --dataset alizarine --out data/tiles/gt_alizarine_train --tile 512 --stride 256 --shard $k/4 --id-list $SPL:alizarine_train > $OUT/gt_alizarine_$k.log 2>&1 &
+    $PY scripts/make_gt_tiles.py --dataset flywing --out data/tiles/gt_flywing_train --tile 512 --stride 512 --shard $k/4 --id-list $SPL:flywing_train > $OUT/gt_flywing_$k.log 2>&1 &
+  done
+  wait
+  log "finetune tiles: hcec=$(find data/tiles/gt_hcec_train -name '*.npz' | wc -l) alizarine=$(find data/tiles/gt_alizarine_train -name '*.npz' | wc -l) flywing=$(find data/tiles/gt_flywing_train -name '*.npz' | wc -l)"
+  $PY -m torch.distributed.run --standalone --nproc_per_node 8 -m pimorph.infer.neural.train \
+    --train-dirs data/tiles/gt_hcec_train data/tiles/gt_hcec_train data/tiles/gt_hcec_train data/tiles/gt_alizarine_train data/tiles/gt_alizarine_train data/tiles/gt_flywing_train data/tiles/gt_flywing_train data/tiles/gt_haec_train data/tiles/gt_mcellseg_train data/tiles/synth_train data/tiles/pseudo_sbiad1540 \
+    --val-dirs data/tiles/synth_val \
+    --out runs/neural/v4_confluent --resume $V3 --epochs 140 --batch-size 8 --crop 512 --base 48 --depth 4 \
+    --device cuda --amp --num-workers 6 --seed 7 --log-every 100 --lr 1.0e-4 > $OUT/train_v4_confluent.log 2>&1
+  log "finetune done: $(tail -1 runs/neural/v4_confluent/train_log.jsonl | cut -c1-160)"
+  log "bench_ft: TEST splits of hcec (5), alizarine (10), flywing (10): v4_confluent, v3_endo, cellpose_sam_filled"
+  PIMORPH_ID_LIST=$SPL:hcec_test bench hcec 0 neural $V4 $OUT/hcec_test_v4confluent &
+  PIMORPH_ID_LIST=$SPL:hcec_test bench hcec 1 neural $V3 $OUT/hcec_test_v3endo &
+  PIMORPH_ID_LIST=$SPL:hcec_test bench hcec 2 cellpose_sam_filled none $OUT/hcec_test_cellpose_filled &
+  PIMORPH_ID_LIST=$SPL:alizarine_test bench alizarine 3 neural $V4 $OUT/alizarine_test_v4confluent &
+  PIMORPH_ID_LIST=$SPL:alizarine_test bench alizarine 4 neural $V3 $OUT/alizarine_test_v3endo &
+  PIMORPH_ID_LIST=$SPL:alizarine_test bench alizarine 5 cellpose_sam_filled none $OUT/alizarine_test_cellpose_filled &
+  PIMORPH_ID_LIST=$SPL:flywing_test bench flywing 6 neural $V4 $OUT/flywing_test_v4confluent &
+  PIMORPH_ID_LIST=$SPL:flywing_test bench flywing 7 neural $V3 $OUT/flywing_test_v3endo &
+  wait
+  PIMORPH_ID_LIST=$SPL:flywing_test bench flywing 0 cellpose_sam_filled none $OUT/flywing_test_cellpose_filled &
+  PIMORPH_ID_LIST=runs/endo/splits.json:haec_test bench haec 1 neural $V4 $OUT/haec_test_v4confluent &
+  wait
+  log "bench_ft done"
+fi
+
 # ------------------------------------- 5. shear re-test: posteriors on every EGM2 field
 if has shear; then
   CK=${SHEAR_CKPT:-$V3}

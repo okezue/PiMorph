@@ -28,6 +28,9 @@ class BenchItem:
     junction: Optional[np.ndarray] = None
     pixel_size_um: Optional[float] = None
     boundary_polarity: str = "bright"  # "bright" | "dark" ridges in the geometry channel
+    # annotated region when the truth covers only part of the field; predictions
+    # outside it are not scored (None: the whole field is annotated)
+    roi: Optional[np.ndarray] = None
     meta: Dict = field(default_factory=dict)
 
 
@@ -426,6 +429,7 @@ def load_hcec(root: Path, max_items: Optional[int] = None) -> Iterator[BenchItem
             junction=stack[0].astype(np.float32),
             pixel_size_um=0.65,
             boundary_polarity="bright",
+            roi=roi > 0,
             meta={
                 "dataset": "hcec",
                 "modality": "fluorescence",
@@ -466,6 +470,7 @@ def load_alizarine(root: Path, max_items: Optional[int] = None) -> Iterator[Benc
             geometry=img,
             labels_gt=skeleton_roi_to_instance(gt, roi, min_area_px=40),
             boundary_polarity="dark",
+            roi=roi > 0,
             meta={
                 "dataset": "alizarine",
                 "modality": "phase_contrast_alizarine",

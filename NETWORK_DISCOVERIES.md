@@ -1,8 +1,35 @@
 # Network-Level Findings in Endothelial Biology
 
-## Summary
+## Re-test with PiMorph posteriors (2026-09-18)
 
-Using graph/network analysis on the EndoPiGraph-AJmorph pipeline results, we identified **three robust findings** about how 6 dyn cm⁻² shear stress reorganizes endothelial cell contact networks relative to static. Two originally claimed effects (raw clustering coefficient, degree-occupancy correlation) were **withdrawn** after hardened per-image statistical testing.
+The three findings below were re-tested on every EGM2 field (34 static, 30 at 6 dyn cm⁻², 38 at
+18-20 dyn cm⁻²) with the PiMorph reconstruction instead of the legacy watershed: neural proposals
+(`pimorph_proposals_v3_endo`, chosen by label-free self-consistency in
+`runs/shear_retest/checkpoint_selection.csv`), the constrained decoder with open background
+excluded from cells, and a posterior of 32 legal complexes per field. Every statistic was
+evaluated per hypothesis and the condition test was run on posterior means
+(`scripts/pimorph_sensitivity_egm2.py --proposer neural --per-condition 0 --n-perm 1000`;
+outputs in `runs/shear_retest/`). Reconstruction ambiguity is negligible for all three
+statistics (median 90% credible half-width 0.001 for the reticular fraction, 0.006 for the
+area-degree correlation), so the verdicts below are about the segmentation model, not about
+sampling noise within one model.
+
+| Finding | Legacy (30 + 30) | PiMorph posterior (34 static, 30 at 6 dyn) | Verdict |
+|---|---|---|---|
+| Reticular fraction higher at 6 dyn cm⁻² | 51.0% vs 62.1%, +9.5 pp, p = 3e-6 | 0.112 vs 0.207, +0.095, MWU p = 2.6e-9; balanced 30 + 30 subset p = 1.6e-8; 6 dyn above static in all three biological replicates (0.261/0.136, 0.170/0.109, 0.190/0.135); 18-20 dyn 0.127 (p = 0.41 vs static) | **survives**, including the distinct high-shear regime. The absolute level is much lower under PiMorph's edge labeler (1-D strip profiles, Otsu threshold pooled over edges) than under the legacy band features, so the fraction itself is labeler-dependent; the condition difference is not. |
+| All-reticular 3-cliques enriched at 6 dyn cm⁻² | 15.9% vs 25.4% raw, p = 1.5e-4; conditional null pending | raw 0.002 vs 0.011 (p = 3e-7) but enrichment z against the conditional null that fixes each field's reticular count: static 0.003, 6 dyn 0.025, MWU p = 0.95 | **withdrawn as an independent finding**: reticular edges do not concentrate on 3-cliques beyond what the higher reticular fraction predicts. The raw increase is a corollary of the finding above. 94.5% (static) and 96.6% (6 dyn) of graph 3-cliques are realized by a multicellular vertex of the complex, so "3-clique" and "tricellular junction" can be used interchangeably on these fields (p = 6e-4 for the small difference). Exploratory: 18-20 dyn shows z = 0.38 (p = 0.01 vs static). |
+| Area-degree correlation stronger at 6 dyn cm⁻² | median r 0.455 vs 0.642, +0.187, p = 2.6e-7 | posterior-mean r 0.722 vs 0.746, +0.024, MWU p = 0.43; balanced 30 + 30 medians 0.746 vs 0.761, p = 0.96; no replicate shows a difference | **does not replicate**. With background excluded from cells the within-field correlation is 0.70 to 0.80 in every condition. The legacy watershed flooded background into cells (see the red outlines across empty regions in `runs/egm2_full/*/qc_cells.png`), which is most severe in sparse static fields and is the likely source of the weaker legacy static correlation. |
+
+Two of the earlier caveats are now measured rather than assumed: reconstruction uncertainty
+(negligible here) and the 3-clique / tricellular-vertex correspondence (about 95%). The remaining
+caveats stand: morphology labels are heuristic, geometry is segmented from the VE-cadherin channel,
+and no functional readout was tested. The four `rep1` fields from the 060721 batch (static) and
+the eight high-shear `rep1` fields have reticular fractions near 0.002 and are excluded from the
+balanced subset, as in the legacy analysis.
+
+## Summary (legacy, 2026-09-17 and earlier)
+
+Using graph/network analysis on the EndoPiGraph-AJmorph pipeline results, we identified **three robust findings** about how 6 dyn cm⁻² shear stress reorganizes endothelial cell contact networks relative to static. Two originally claimed effects (raw clustering coefficient, degree-occupancy correlation) were **withdrawn** after hardened per-image statistical testing. See the re-test above for their current status: one survives, one is reduced to a corollary, one does not replicate.
 
 **Statistical validation:** All statistics use **per-image replicate testing** (n = number of images, not cells/edges) to avoid pseudo-replication. Effect sizes reported as rank-biserial correlation r.
 
