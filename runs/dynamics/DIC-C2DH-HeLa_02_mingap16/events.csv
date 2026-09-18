@@ -1,0 +1,1383 @@
+frame,kind,participants,dV,dE,dF,evidence,run
+0,division,"{""parent"": 5, ""children"": [5, 11]}",2.0,3.0,1.0,"{""source"": ""heuristic_asymmetric""}",tracker
+0,rupture,"{""gap"": -1, ""cells"": [1, 2], ""caps"": []}",2.0,3.0,1.0,{},tracker
+0,contact_death,"{""cells"": [7, 8]}",,,,"{""connectivity_change"": true}",tracker
+0,contact_death,"{""cells"": [9, 10]}",,,,"{""connectivity_change"": true}",tracker
+1,extrusion,"{""cell"": 11, ""sides"": 3, ""neighbours"": [0, 4, 5]}",-2.0,-3.0,-1.0,"{""neighbours_meet_at_vertex"": true, ""new_contacts_among_neighbours"": 0}",tracker
+1,entry,"{""cell"": 12, ""sides"": 1}",,,,"{""neighbours"": [0]}",tracker
+1,reseal,"{""gap"": -1, ""cells"": [1, 2], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+1,contact_birth,"{""cells"": [1, 3]}",,,,"{""connectivity_change"": true}",tracker
+1,contact_birth,"{""cells"": [2, 3]}",,,,"{""connectivity_change"": true}",tracker
+1,contact_birth,"{""cells"": [3, 4]}",,,,"{""connectivity_change"": true}",tracker
+2,exit,"{""cell"": 12, ""sides"": 1}",,,,"{""neighbours"": [0]}",tracker
+2,gap_appearance,"{""gap"": -1, ""cells"": [9]}",,,,{},tracker
+2,contact_death,"{""cells"": [1, 3]}",,,,"{""connectivity_change"": true}",tracker
+2,contact_death,"{""cells"": [1, 4]}",,,,"{""connectivity_change"": true}",tracker
+2,contact_death,"{""cells"": [2, 3]}",,,,"{""connectivity_change"": true}",tracker
+2,contact_death,"{""cells"": [3, 4]}",,,,"{""connectivity_change"": true}",tracker
+3,gap_disappearance,"{""gap"": -1, ""cells"": [9]}",,,,{},tracker
+3,contact_birth,"{""cells"": [1, 3]}",,,,"{""connectivity_change"": true}",tracker
+3,contact_birth,"{""cells"": [1, 4]}",,,,"{""connectivity_change"": true}",tracker
+3,contact_birth,"{""cells"": [3, 4]}",,,,"{""connectivity_change"": true}",tracker
+3,contact_birth,"{""cells"": [3, 8]}",,,,"{""connectivity_change"": true}",tracker
+4,gap_nucleation,"{""gap"": -2, ""cells"": [1, 3, 4], ""sides"": 3}",2.0,3.0,1.0,{},tracker
+4,rupture,"{""gap"": -1, ""cells"": [1, 3], ""caps"": []}",2.0,3.0,1.0,{},tracker
+5,rupture,"{""gap"": -3, ""cells"": [6, 7], ""caps"": []}",2.0,3.0,1.0,{},tracker
+5,reseal,"{""gap"": -2, ""cells"": [1, 3], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+5,contact_death,"{""cells"": [-1, 1]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+5,contact_death,"{""cells"": [3, 8]}",,,,"{""connectivity_change"": true}",tracker
+6,exit,"{""cell"": 10, ""sides"": 1}",,,,"{""neighbours"": [0]}",tracker
+6,gap_appearance,"{""gap"": -4, ""cells"": [1, 2, 3]}",,,,{},tracker
+6,gap_appearance,"{""gap"": -3, ""cells"": [2, 3]}",,,,{},tracker
+6,contact_birth,"{""cells"": [-1, 1]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+6,contact_birth,"{""cells"": [2, 3]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+6,contact_birth,"{""cells"": [3, 8]}",,,,"{""connectivity_change"": true}",tracker
+7,reseal,"{""gap"": -4, ""cells"": [6, 7], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+7,reseal,"{""gap"": -3, ""cells"": [2, 3], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+7,gap_disappearance,"{""gap"": -1, ""cells"": [1, 3, 4]}",,,,{},tracker
+7,contact_death,"{""cells"": [1, 4]}",,,,"{""connectivity_change"": true}",tracker
+7,contact_death,"{""cells"": [3, 4]}",,,,"{""connectivity_change"": true}",tracker
+7,contact_death,"{""cells"": [3, 8]}",,,,"{""connectivity_change"": true}",tracker
+7,contact_birth,"{""cells"": [7, 8]}",,,,"{""connectivity_change"": true}",tracker
+8,gap_appearance,"{""gap"": -2, ""cells"": [3, 4]}",,,,{},tracker
+8,gap_disappearance,"{""gap"": -1, ""cells"": [1, 2, 3]}",,,,{},tracker
+8,contact_death,"{""cells"": [2, 3]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+8,contact_birth,"{""cells"": [1, 4]}",,,,"{""connectivity_change"": true}",tracker
+8,contact_birth,"{""cells"": [3, 4]}",,,,"{""connectivity_change"": true}",tracker
+9,entry,"{""cell"": 13, ""sides"": 1}",,,,"{""neighbours"": [0]}",tracker
+9,gap_disappearance,"{""gap"": -1, ""cells"": [3, 4]}",,,,{},tracker
+9,contact_death,"{""cells"": [1, 4]}",,,,"{""connectivity_change"": true}",tracker
+9,contact_death,"{""cells"": [3, 4]}",,,,"{""connectivity_change"": true}",tracker
+9,contact_death,"{""cells"": [7, 8]}",,,,"{""connectivity_change"": true}",tracker
+9,contact_birth,"{""cells"": [2, 3]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+10,exit,"{""cell"": 13, ""sides"": 1}",,,,"{""neighbours"": [0]}",tracker
+10,contact_death,"{""cells"": [1, 2]}",,,,"{""connectivity_change"": true}",tracker
+10,contact_death,"{""cells"": [1, 3]}",,,,"{""connectivity_change"": true}",tracker
+10,contact_death,"{""cells"": [2, 3]}",,,,"{""connectivity_change"": true}",tracker
+10,contact_death,"{""cells"": [4, 5]}",,,,"{""connectivity_change"": true}",tracker
+10,contact_death,"{""cells"": [6, 7]}",,,,"{""connectivity_change"": true}",tracker
+12,gap_appearance,"{""gap"": -1, ""cells"": [4, 5]}",,,,{},tracker
+12,contact_birth,"{""cells"": [1, 2]}",,,,"{""connectivity_change"": true}",tracker
+12,contact_birth,"{""cells"": [1, 3]}",,,,"{""connectivity_change"": true}",tracker
+12,contact_birth,"{""cells"": [2, 3]}",,,,"{""connectivity_change"": true}",tracker
+12,contact_birth,"{""cells"": [4, 5]}",,,,"{""connectivity_change"": true}",tracker
+12,contact_birth,"{""cells"": [6, 7]}",,,,"{""connectivity_change"": true}",tracker
+13,rupture,"{""gap"": -3, ""cells"": [2, 3], ""caps"": []}",2.0,3.0,1.0,{},tracker
+13,rupture,"{""gap"": -2, ""cells"": [6, 7], ""caps"": []}",2.0,3.0,1.0,{},tracker
+13,contact_death,"{""cells"": [1, 3]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+13,contact_birth,"{""cells"": [7, 8]}",,,,"{""connectivity_change"": true}",tracker
+14,gap_appearance,"{""gap"": -4, ""cells"": [1, 3, 4, 6, 7, 8]}",,,,{},tracker
+14,reseal,"{""gap"": -3, ""cells"": [6, 7], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+14,reseal,"{""gap"": -2, ""cells"": [2, 3], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+14,reseal,"{""gap"": -1, ""cells"": [4, 5], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+14,contact_birth,"{""cells"": [1, 3]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+14,contact_birth,"{""cells"": [1, 4]}",,,,"{""connectivity_change"": true}",tracker
+14,contact_birth,"{""cells"": [3, 8]}",,,,"{""connectivity_change"": true}",tracker
+14,contact_birth,"{""cells"": [4, 6]}",,,,"{""connectivity_change"": true}",tracker
+15,gap_appearance,"{""gap"": -2, ""cells"": [3, 6]}",,,,{},tracker
+15,gap_disappearance,"{""gap"": -1, ""cells"": [1, 3, 4, 6, 7, 8]}",,,,{},tracker
+15,contact_death,"{""cells"": [1, 2]}",,,,"{""connectivity_change"": true}",tracker
+15,contact_death,"{""cells"": [1, 3]}",,,,"{""connectivity_change"": true}",tracker
+15,contact_death,"{""cells"": [1, 4]}",,,,"{""connectivity_change"": true}",tracker
+15,contact_death,"{""cells"": [2, 3]}",,,,"{""connectivity_change"": true}",tracker
+15,contact_death,"{""cells"": [3, 8]}",,,,"{""connectivity_change"": true}",tracker
+15,contact_death,"{""cells"": [4, 5]}",,,,"{""connectivity_change"": true}",tracker
+15,contact_death,"{""cells"": [4, 6]}",,,,"{""connectivity_change"": true}",tracker
+15,contact_death,"{""cells"": [7, 8]}",,,,"{""connectivity_change"": true}",tracker
+15,contact_birth,"{""cells"": [3, 6]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+16,gap_disappearance,"{""gap"": -1, ""cells"": [3, 6]}",,,,{},tracker
+16,contact_death,"{""cells"": [3, 6]}",,,,"{""connectivity_change"": true}",tracker
+16,contact_birth,"{""cells"": [1, 2]}",,,,"{""connectivity_change"": true}",tracker
+16,contact_birth,"{""cells"": [4, 5]}",,,,"{""connectivity_change"": true}",tracker
+17,gap_appearance,"{""gap"": -1, ""cells"": [7, 8]}",,,,{},tracker
+17,contact_birth,"{""cells"": [3, 8]}",,,,"{""connectivity_change"": true}",tracker
+17,contact_birth,"{""cells"": [7, 8]}",,,,"{""connectivity_change"": true}",tracker
+18,gap_disappearance,"{""gap"": -1, ""cells"": [7, 8]}",,,,{},tracker
+18,contact_death,"{""cells"": [7, 8]}",,,,"{""connectivity_change"": true}",tracker
+18,contact_birth,"{""cells"": [4, 6]}",,,,"{""connectivity_change"": true}",tracker
+19,rupture,"{""gap"": -1, ""cells"": [4, 6], ""caps"": []}",2.0,3.0,1.0,{},tracker
+19,contact_birth,"{""cells"": [1, 3]}",,,,"{""connectivity_change"": true}",tracker
+19,contact_birth,"{""cells"": [3, 6]}",,,,"{""connectivity_change"": true}",tracker
+19,contact_birth,"{""cells"": [3, 7]}",,,,"{""connectivity_change"": true}",tracker
+19,contact_birth,"{""cells"": [7, 8]}",,,,"{""connectivity_change"": true}",tracker
+20,gap_appearance,"{""gap"": -2, ""cells"": [3, 4]}",,,,{},tracker
+20,gap_disappearance,"{""gap"": -1, ""cells"": [4, 6]}",,,,{},tracker
+20,contact_death,"{""cells"": [3, 6]}",,,,"{""connectivity_change"": true}",tracker
+20,contact_death,"{""cells"": [3, 7]}",,,,"{""connectivity_change"": true}",tracker
+20,contact_death,"{""cells"": [3, 8]}",,,,"{""connectivity_change"": true}",tracker
+20,contact_death,"{""cells"": [4, 6]}",,,,"{""connectivity_change"": true}",tracker
+20,contact_birth,"{""cells"": [3, 4]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+21,rupture,"{""gap"": -3, ""cells"": [4, 5], ""caps"": []}",2.0,3.0,1.0,{},tracker
+21,gap_appearance,"{""gap"": -2, ""cells"": [6]}",,,,{},tracker
+21,gap_disappearance,"{""gap"": -1, ""cells"": [3, 4]}",,,,{},tracker
+21,contact_death,"{""cells"": [1, 3]}",,,,"{""connectivity_change"": true}",tracker
+21,contact_death,"{""cells"": [3, 4]}",,,,"{""connectivity_change"": true}",tracker
+21,contact_death,"{""cells"": [7, 8]}",,,,"{""connectivity_change"": true}",tracker
+21,contact_birth,"{""cells"": [3, 8]}",,,,"{""connectivity_change"": true}",tracker
+21,contact_birth,"{""cells"": [5, 6]}",,,,"{""connectivity_change"": true}",tracker
+22,gap_disappearance,"{""gap"": -2, ""cells"": [6]}",,,,{},tracker
+22,reseal,"{""gap"": -1, ""cells"": [4, 5], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+22,contact_death,"{""cells"": [3, 8]}",,,,"{""connectivity_change"": true}",tracker
+22,contact_birth,"{""cells"": [7, 8]}",,,,"{""connectivity_change"": true}",tracker
+23,rupture,"{""gap"": -3, ""cells"": [1, 2], ""caps"": []}",2.0,3.0,1.0,{},tracker
+23,rupture,"{""gap"": -2, ""cells"": [1, 2], ""caps"": []}",2.0,3.0,1.0,{},tracker
+23,gap_appearance,"{""gap"": -1, ""cells"": [1, 2, 3]}",,,,{},tracker
+23,contact_death,"{""cells"": [5, 6]}",,,,"{""connectivity_change"": true}",tracker
+23,contact_death,"{""cells"": [7, 8]}",,,,"{""connectivity_change"": true}",tracker
+23,contact_birth,"{""cells"": [2, 3]}",,,,"{""connectivity_change"": true}",tracker
+23,contact_birth,"{""cells"": [3, 8]}",,,,"{""connectivity_change"": true}",tracker
+24,entry,"{""cell"": 14, ""sides"": 1}",,,,"{""neighbours"": [0]}",tracker
+24,gap_disappearance,"{""gap"": -3, ""cells"": [1, 2, 3]}",,,,{},tracker
+24,reseal,"{""gap"": -1, ""cells"": [1, 2], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+24,contact_death,"{""cells"": [2, 3]}",,,,"{""connectivity_change"": true}",tracker
+24,contact_birth,"{""cells"": [3, 6]}",,,,"{""connectivity_change"": true}",tracker
+24,contact_birth,"{""cells"": [3, 7]}",,,,"{""connectivity_change"": true}",tracker
+24,contact_birth,"{""cells"": [4, 6]}",,,,"{""connectivity_change"": true}",tracker
+24,contact_birth,"{""cells"": [7, 8]}",,,,"{""connectivity_change"": true}",tracker
+25,exit,"{""cell"": 14, ""sides"": 1}",,,,"{""neighbours"": [0]}",tracker
+25,appearance,"{""cell"": 15, ""sides"": 2}",,,,"{""neighbours"": [0, 9]}",tracker
+25,reseal,"{""gap"": -1, ""cells"": [1, 2], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+25,contact_death,"{""cells"": [3, 6]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+25,contact_death,"{""cells"": [3, 7]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+25,contact_death,"{""cells"": [4, 6]}",,,,"{""connectivity_change"": true}",tracker
+25,contact_birth,"{""cells"": [2, 3]}",,,,"{""connectivity_change"": true}",tracker
+26,entry,"{""cell"": 16, ""sides"": 2}",,,,"{""neighbours"": [0, 9]}",tracker
+26,rupture,"{""gap"": -3, ""cells"": [4, 5], ""caps"": []}",2.0,3.0,1.0,{},tracker
+26,rupture,"{""gap"": -2, ""cells"": [2, 3], ""caps"": []}",2.0,3.0,1.0,{},tracker
+26,gap_appearance,"{""gap"": -1, ""cells"": [3, 6, 7]}",,,,{},tracker
+26,contact_death,"{""cells"": [3, 8]}",,,,"{""connectivity_change"": true}",tracker
+26,contact_death,"{""cells"": [7, 8]}",,,,"{""connectivity_change"": true}",tracker
+26,contact_death,"{""cells"": [9, 15]}",,,,"{""connectivity_change"": true}",tracker
+26,contact_birth,"{""cells"": [3, 4]}",,,,"{""connectivity_change"": true}",tracker
+26,contact_birth,"{""cells"": [3, 6]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+26,contact_birth,"{""cells"": [3, 7]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+27,exit,"{""cell"": 15, ""sides"": 1}",,,,"{""neighbours"": [0]}",tracker
+27,gap_disappearance,"{""gap"": -3, ""cells"": [3, 6, 7]}",,,,{},tracker
+27,gap_disappearance,"{""gap"": -2, ""cells"": [2, 3]}",,,,{},tracker
+27,gap_disappearance,"{""gap"": -1, ""cells"": [4, 5]}",,,,{},tracker
+27,contact_death,"{""cells"": [1, 2]}",,,,"{""connectivity_change"": true}",tracker
+27,contact_death,"{""cells"": [2, 3]}",,,,"{""connectivity_change"": true}",tracker
+27,contact_death,"{""cells"": [3, 4]}",,,,"{""connectivity_change"": true}",tracker
+27,contact_death,"{""cells"": [3, 6]}",,,,"{""connectivity_change"": true}",tracker
+27,contact_death,"{""cells"": [3, 7]}",,,,"{""connectivity_change"": true}",tracker
+27,contact_death,"{""cells"": [4, 5]}",,,,"{""connectivity_change"": true}",tracker
+27,contact_death,"{""cells"": [6, 7]}",,,,"{""connectivity_change"": true}",tracker
+27,contact_death,"{""cells"": [9, 16]}",,,,"{""connectivity_change"": true}",tracker
+28,exit,"{""cell"": 16, ""sides"": 1}",,,,"{""neighbours"": [0]}",tracker
+28,entry,"{""cell"": 17, ""sides"": 2}",,,,"{""neighbours"": [0, 9]}",tracker
+28,gap_appearance,"{""gap"": -3, ""cells"": [1, 3]}",,,,{},tracker
+28,gap_appearance,"{""gap"": -2, ""cells"": [1, 2]}",,,,{},tracker
+28,gap_appearance,"{""gap"": -1, ""cells"": [1, 2, 3]}",,,,{},tracker
+28,contact_birth,"{""cells"": [1, 2]}",,,,"{""connectivity_change"": true}",tracker
+28,contact_birth,"{""cells"": [1, 3]}",,,,"{""connectivity_change"": true}",tracker
+28,contact_birth,"{""cells"": [2, 3]}",,,,"{""connectivity_change"": true}",tracker
+28,contact_birth,"{""cells"": [4, 5]}",,,,"{""connectivity_change"": true}",tracker
+28,contact_birth,"{""cells"": [4, 6]}",,,,"{""connectivity_change"": true}",tracker
+28,contact_birth,"{""cells"": [5, 6]}",,,,"{""connectivity_change"": true}",tracker
+28,contact_birth,"{""cells"": [6, 7]}",,,,"{""connectivity_change"": true}",tracker
+29,gap_disappearance,"{""gap"": -3, ""cells"": [1, 2, 3]}",,,,{},tracker
+29,reseal,"{""gap"": -2, ""cells"": [1, 2], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+29,gap_disappearance,"{""gap"": -1, ""cells"": [1, 3]}",,,,{},tracker
+29,contact_death,"{""cells"": [1, 3]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+29,contact_death,"{""cells"": [5, 6]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+29,contact_birth,"{""cells"": [3, 8]}",,,,"{""connectivity_change"": true}",tracker
+30,rupture,"{""gap"": -2, ""cells"": [6, 7], ""caps"": []}",2.0,3.0,1.0,{},tracker
+30,rupture,"{""gap"": -1, ""cells"": [6, 7], ""caps"": []}",2.0,3.0,1.0,{},tracker
+30,contact_birth,"{""cells"": [7, 8]}",,,,"{""connectivity_change"": true}",tracker
+31,entry,"{""cell"": 18, ""sides"": 1}",,,,"{""neighbours"": [0]}",tracker
+31,reseal,"{""gap"": -1, ""cells"": [6, 7], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+31,contact_death,"{""cells"": [3, 8]}",,,,"{""connectivity_change"": true}",tracker
+31,contact_death,"{""cells"": [4, 6]}",,,,"{""connectivity_change"": true}",tracker
+31,contact_death,"{""cells"": [9, 17]}",,,,"{""connectivity_change"": true}",tracker
+32,exit,"{""cell"": 18, ""sides"": 1}",,,,"{""neighbours"": [0]}",tracker
+32,reseal,"{""gap"": -1, ""cells"": [6, 7], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+32,contact_birth,"{""cells"": [3, 6]}",,,,"{""connectivity_change"": true}",tracker
+32,contact_birth,"{""cells"": [5, 6]}",,,,"{""connectivity_change"": true}",tracker
+32,contact_birth,"{""cells"": [9, 17]}",,,,"{""connectivity_change"": true}",tracker
+33,contact_death,"{""cells"": [1, 2]}",,,,"{""connectivity_change"": true}",tracker
+33,contact_death,"{""cells"": [2, 3]}",,,,"{""connectivity_change"": true}",tracker
+33,contact_death,"{""cells"": [3, 6]}",,,,"{""connectivity_change"": true}",tracker
+33,contact_death,"{""cells"": [4, 5]}",,,,"{""connectivity_change"": true}",tracker
+33,contact_death,"{""cells"": [5, 6]}",,,,"{""connectivity_change"": true}",tracker
+33,contact_death,"{""cells"": [9, 17]}",,,,"{""connectivity_change"": true}",tracker
+33,contact_birth,"{""cells"": [4, 6]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+34,gap_appearance,"{""gap"": -2, ""cells"": [9, 17]}",,,,{},tracker
+34,gap_appearance,"{""gap"": -1, ""cells"": [3, 4]}",,,,{},tracker
+34,contact_death,"{""cells"": [4, 6]}",,,,"{""connectivity_change"": true}",tracker
+34,contact_birth,"{""cells"": [1, 2]}",,,,"{""connectivity_change"": true}",tracker
+34,contact_birth,"{""cells"": [3, 4]}",,,,"{""connectivity_change"": true}",tracker
+34,contact_birth,"{""cells"": [4, 5]}",,,,"{""connectivity_change"": true}",tracker
+34,contact_birth,"{""cells"": [9, 17]}",,,,"{""connectivity_change"": true}",tracker
+35,reseal,"{""gap"": -2, ""cells"": [3, 4], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+35,reseal,"{""gap"": -1, ""cells"": [9, 17], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+35,contact_death,"{""cells"": [6, 7]}",,,,"{""connectivity_change"": true}",tracker
+35,contact_birth,"{""cells"": [3, 7]}",,,,"{""connectivity_change"": true}",tracker
+35,contact_birth,"{""cells"": [3, 8]}",,,,"{""connectivity_change"": true}",tracker
+36,rupture,"{""gap"": -1, ""cells"": [9, 17], ""caps"": []}",2.0,3.0,1.0,{},tracker
+36,contact_death,"{""cells"": [3, 4]}",,,,"{""connectivity_change"": true}",tracker
+36,contact_death,"{""cells"": [3, 7]}",,,,"{""connectivity_change"": true}",tracker
+36,contact_death,"{""cells"": [3, 8]}",,,,"{""connectivity_change"": true}",tracker
+36,contact_death,"{""cells"": [4, 5]}",,,,"{""connectivity_change"": true}",tracker
+36,contact_death,"{""cells"": [7, 8]}",,,,"{""connectivity_change"": true}",tracker
+37,entry,"{""cell"": 19, ""sides"": 1}",,,,"{""neighbours"": [0]}",tracker
+37,rupture,"{""gap"": -6, ""cells"": [1, 2], ""caps"": []}",2.0,3.0,1.0,{},tracker
+37,gap_appearance,"{""gap"": -5, ""cells"": [3, 4]}",,,,{},tracker
+37,gap_appearance,"{""gap"": -4, ""cells"": [3, 4]}",,,,{},tracker
+37,gap_appearance,"{""gap"": -3, ""cells"": [3, 4, 6, 7]}",,,,{},tracker
+37,gap_appearance,"{""gap"": -2, ""cells"": [6, 7]}",,,,{},tracker
+37,contact_birth,"{""cells"": [3, 4]}",,,,"{""connectivity_change"": true}",tracker
+37,contact_birth,"{""cells"": [3, 7]}",,,,"{""connectivity_change"": true}",tracker
+37,contact_birth,"{""cells"": [3, 8]}",,,,"{""connectivity_change"": true}",tracker
+37,contact_birth,"{""cells"": [4, 5]}",,,,"{""connectivity_change"": true}",tracker
+37,contact_birth,"{""cells"": [4, 6]}",,,,"{""connectivity_change"": true}",tracker
+37,contact_birth,"{""cells"": [5, 6]}",,,,"{""connectivity_change"": true}",tracker
+37,contact_birth,"{""cells"": [6, 7]}",,,,"{""connectivity_change"": true}",tracker
+37,contact_birth,"{""cells"": [7, 8]}",,,,"{""connectivity_change"": true}",tracker
+38,exit,"{""cell"": 19, ""sides"": 1}",,,,"{""neighbours"": [0]}",tracker
+38,gap_disappearance,"{""gap"": -6, ""cells"": [6, 7]}",,,,{},tracker
+38,gap_disappearance,"{""gap"": -5, ""cells"": [3, 4, 6, 7]}",,,,{},tracker
+38,gap_disappearance,"{""gap"": -4, ""cells"": [3, 4]}",,,,{},tracker
+38,gap_disappearance,"{""gap"": -3, ""cells"": [3, 4]}",,,,{},tracker
+38,gap_disappearance,"{""gap"": -2, ""cells"": [1, 2]}",,,,{},tracker
+38,reseal,"{""gap"": -1, ""cells"": [9, 17], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+38,contact_death,"{""cells"": [1, 2]}",,,,"{""connectivity_change"": true}",tracker
+38,contact_death,"{""cells"": [3, 4]}",,,,"{""connectivity_change"": true}",tracker
+38,contact_death,"{""cells"": [3, 7]}",,,,"{""connectivity_change"": true}",tracker
+38,contact_death,"{""cells"": [3, 8]}",,,,"{""connectivity_change"": true}",tracker
+38,contact_death,"{""cells"": [4, 5]}",,,,"{""connectivity_change"": true}",tracker
+38,contact_death,"{""cells"": [4, 6]}",,,,"{""connectivity_change"": true}",tracker
+38,contact_death,"{""cells"": [5, 6]}",,,,"{""connectivity_change"": true}",tracker
+38,contact_death,"{""cells"": [6, 7]}",,,,"{""connectivity_change"": true}",tracker
+38,contact_death,"{""cells"": [7, 8]}",,,,"{""connectivity_change"": true}",tracker
+39,contact_birth,"{""cells"": [1, 2]}",,,,"{""connectivity_change"": true}",tracker
+39,contact_birth,"{""cells"": [4, 5]}",,,,"{""connectivity_change"": true}",tracker
+39,contact_birth,"{""cells"": [5, 6]}",,,,"{""connectivity_change"": true}",tracker
+39,contact_birth,"{""cells"": [6, 7]}",,,,"{""connectivity_change"": true}",tracker
+40,rupture,"{""gap"": -1, ""cells"": [4, 5], ""caps"": []}",2.0,3.0,1.0,{},tracker
+40,contact_death,"{""cells"": [5, 6]}",,,,"{""connectivity_change"": true}",tracker
+40,contact_death,"{""cells"": [6, 7]}",,,,"{""connectivity_change"": true}",tracker
+40,contact_birth,"{""cells"": [3, 8]}",,,,"{""connectivity_change"": true}",tracker
+40,contact_birth,"{""cells"": [7, 8]}",,,,"{""connectivity_change"": true}",tracker
+41,rupture,"{""gap"": -2, ""cells"": [1, 2], ""caps"": []}",2.0,3.0,1.0,{},tracker
+41,reseal,"{""gap"": -1, ""cells"": [4, 5], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+41,contact_death,"{""cells"": [3, 8]}",,,,"{""connectivity_change"": true}",tracker
+41,contact_death,"{""cells"": [9, 17]}",,,,"{""connectivity_change"": true}",tracker
+41,contact_birth,"{""cells"": [5, 6]}",,,,"{""connectivity_change"": true}",tracker
+41,contact_birth,"{""cells"": [6, 7]}",,,,"{""connectivity_change"": true}",tracker
+42,rupture,"{""gap"": -4, ""cells"": [4, 5], ""caps"": []}",2.0,3.0,1.0,{},tracker
+42,gap_appearance,"{""gap"": -3, ""cells"": [3, 4]}",,,,{},tracker
+42,gap_appearance,"{""gap"": -2, ""cells"": [3, 7]}",,,,{},tracker
+42,reseal,"{""gap"": -1, ""cells"": [1, 2], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+42,contact_death,"{""cells"": [6, 7]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+42,contact_birth,"{""cells"": [3, 4]}",,,,"{""connectivity_change"": true}",tracker
+42,contact_birth,"{""cells"": [3, 7]}",,,,"{""connectivity_change"": true}",tracker
+42,contact_birth,"{""cells"": [9, 17]}",,,,"{""connectivity_change"": true}",tracker
+43,entry,"{""cell"": 20, ""sides"": 1}",,,,"{""neighbours"": [0]}",tracker
+43,rupture,"{""gap"": -4, ""cells"": [1, 2], ""caps"": []}",2.0,3.0,1.0,{},tracker
+43,reseal,"{""gap"": -3, ""cells"": [3, 7], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+43,gap_disappearance,"{""gap"": -2, ""cells"": [3, 4]}",,,,{},tracker
+43,gap_disappearance,"{""gap"": -1, ""cells"": [4, 5]}",,,,{},tracker
+43,contact_death,"{""cells"": [3, 4]}",,,,"{""connectivity_change"": true}",tracker
+43,contact_death,"{""cells"": [4, 5]}",,,,"{""connectivity_change"": true}",tracker
+43,contact_death,"{""cells"": [5, 6]}",,,,"{""connectivity_change"": true}",tracker
+43,contact_death,"{""cells"": [7, 8]}",,,,"{""connectivity_change"": true}",tracker
+44,exit,"{""cell"": 20, ""sides"": 1}",,,,"{""neighbours"": [0]}",tracker
+44,reseal,"{""gap"": -1, ""cells"": [1, 2], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+44,contact_death,"{""cells"": [3, 7]}",,,,"{""connectivity_change"": true}",tracker
+44,contact_birth,"{""cells"": [2, 3]}",,,,"{""connectivity_change"": true}",tracker
+44,contact_birth,"{""cells"": [3, 8]}",,,,"{""connectivity_change"": true}",tracker
+44,contact_birth,"{""cells"": [5, 6]}",,,,"{""connectivity_change"": true}",tracker
+45,division,"{""parent"": 3, ""children"": [3, 21]}",2.0,3.0,1.0,"{""source"": ""heuristic_asymmetric""}",tracker
+45,contact_death,"{""cells"": [5, 6]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+45,contact_birth,"{""cells"": [4, 5]}",,,,"{""connectivity_change"": true}",tracker
+46,entry,"{""cell"": 22, ""sides"": 1}",,,,"{""neighbours"": [0]}",tracker
+46,gap_appearance,"{""gap"": -1, ""cells"": [3, 4, 5, 6, 7, 21]}",,,,{},tracker
+46,contact_death,"{""cells"": [3, 6]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+46,contact_death,"{""cells"": [9, 17]}",,,,"{""connectivity_change"": true}",tracker
+46,contact_birth,"{""cells"": [5, 6]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+46,contact_birth,"{""cells"": [6, 7]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+47,gap_appearance,"{""gap"": -5, ""cells"": [5]}",,,,{},tracker
+47,rupture,"{""gap"": -4, ""cells"": [3, 7], ""caps"": []}",2.0,3.0,1.0,{},tracker
+47,rupture,"{""gap"": -3, ""cells"": [3, 7], ""caps"": []}",2.0,3.0,1.0,{},tracker
+47,rupture,"{""gap"": -2, ""cells"": [6, 7], ""caps"": []}",2.0,3.0,1.0,{},tracker
+47,contact_death,"{""cells"": [-1, 4]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+47,contact_death,"{""cells"": [-1, 5]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+47,contact_death,"{""cells"": [-1, 21]}",,,,"{""connectivity_change"": true}",tracker
+47,contact_death,"{""cells"": [3, 8]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+47,contact_death,"{""cells"": [3, 21]}",,,,"{""connectivity_change"": true}",tracker
+47,contact_death,"{""cells"": [4, 21]}",,,,"{""connectivity_change"": true}",tracker
+47,contact_birth,"{""cells"": [3, 6]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+47,contact_birth,"{""cells"": [7, 8]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+47,contact_birth,"{""cells"": [9, 17]}",,,,"{""connectivity_change"": true}",tracker
+48,division,"{""parent"": 1, ""children"": [23, 24]}",2.0,3.0,1.0,"{""source"": ""lineage""}",tracker
+48,exit,"{""cell"": 22, ""sides"": 1}",,,,"{""neighbours"": [0]}",tracker
+48,gap_appearance,"{""gap"": -6, ""cells"": [4]}",,,,{},tracker
+48,reseal,"{""gap"": -4, ""cells"": [3, 7], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+48,reseal,"{""gap"": -3, ""cells"": [3, 7], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+48,contact_death,"{""cells"": [7, 8]}",,,,"{""connectivity_change"": true}",tracker
+48,contact_birth,"{""cells"": [-1, 4]}",,,,"{""connectivity_change"": true}",tracker
+48,contact_birth,"{""cells"": [3, 21]}",,,,"{""connectivity_change"": true}",tracker
+48,contact_birth,"{""cells"": [4, 6]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+49,entry,"{""cell"": 25, ""sides"": 1}",,,,"{""neighbours"": [0]}",tracker
+49,gap_disappearance,"{""gap"": -4, ""cells"": [6, 7]}",,,,{},tracker
+49,gap_disappearance,"{""gap"": -3, ""cells"": [3, 6, 7]}",,,,{},tracker
+49,reseal,"{""gap"": -2, ""cells"": [4, 5], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+49,gap_disappearance,"{""gap"": -1, ""cells"": [4]}",,,,{},tracker
+49,contact_death,"{""cells"": [3, 6]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+49,contact_death,"{""cells"": [3, 7]}",,,,"{""connectivity_change"": true}",tracker
+49,contact_death,"{""cells"": [3, 21]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+49,contact_death,"{""cells"": [5, 6]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+49,contact_death,"{""cells"": [6, 7]}",,,,"{""connectivity_change"": true}",tracker
+49,contact_birth,"{""cells"": [2, 3]}",,,,"{""connectivity_change"": true}",tracker
+49,contact_birth,"{""cells"": [2, 23]}",,,,"{""connectivity_change"": true}",tracker
+49,contact_birth,"{""cells"": [3, 24]}",,,,"{""connectivity_change"": true}",tracker
+49,contact_birth,"{""cells"": [4, 21]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+49,contact_birth,"{""cells"": [7, 8]}",,,,"{""connectivity_change"": true}",tracker
+49,contact_birth,"{""cells"": [21, 24]}",,,,"{""connectivity_change"": true}",tracker
+50,exit,"{""cell"": 25, ""sides"": 1}",,,,"{""neighbours"": [0]}",tracker
+50,contact_death,"{""cells"": [3, 24]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+50,contact_death,"{""cells"": [4, 6]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+50,contact_death,"{""cells"": [21, 24]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+50,contact_birth,"{""cells"": [3, 21]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+50,contact_birth,"{""cells"": [6, 21]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+51,entry,"{""cell"": 26, ""sides"": 1}",,,,"{""neighbours"": [0]}",tracker
+51,gap_appearance,"{""gap"": -1, ""cells"": [5]}",,,,{},tracker
+51,contact_death,"{""cells"": [2, 23]}",,,,"{""connectivity_change"": true}",tracker
+51,contact_death,"{""cells"": [3, 21]}",,,,"{""connectivity_change"": true}",tracker
+51,contact_death,"{""cells"": [7, 8]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+51,contact_birth,"{""cells"": [6, 7]}",,,,"{""connectivity_change"": true}",tracker
+51,contact_birth,"{""cells"": [23, 24]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+52,rupture,"{""gap"": -2, ""cells"": [23, 24], ""caps"": []}",2.0,3.0,1.0,{},tracker
+52,gap_disappearance,"{""gap"": -1, ""cells"": [5]}",,,,{},tracker
+52,contact_death,"{""cells"": [2, 3]}",,,,"{""connectivity_change"": true}",tracker
+52,contact_death,"{""cells"": [6, 7]}",,,,"{""connectivity_change"": true}",tracker
+53,division,"{""parent"": 2, ""children"": [27, 28]}",2.0,3.0,1.0,"{""source"": ""lineage""}",tracker
+53,rupture,"{""gap"": -6, ""cells"": [4, 21], ""caps"": []}",2.0,3.0,1.0,{},tracker
+53,rupture,"{""gap"": -5, ""cells"": [4, 21], ""caps"": []}",2.0,3.0,1.0,{},tracker
+53,gap_appearance,"{""gap"": -4, ""cells"": [3, 24, 28]}",,,,{},tracker
+53,gap_appearance,"{""gap"": -3, ""cells"": [3, 7, 8]}",,,,{},tracker
+53,gap_appearance,"{""gap"": -2, ""cells"": [7, 8]}",,,,{},tracker
+53,gap_disappearance,"{""gap"": -1, ""cells"": [23, 24]}",,,,{},tracker
+53,contact_death,"{""cells"": [6, 21]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+53,contact_death,"{""cells"": [23, 24]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+53,contact_birth,"{""cells"": [3, 7]}",,,,"{""connectivity_change"": true}",tracker
+53,contact_birth,"{""cells"": [3, 8]}",,,,"{""connectivity_change"": true}",tracker
+53,contact_birth,"{""cells"": [3, 24]}",,,,"{""connectivity_change"": true}",tracker
+53,contact_birth,"{""cells"": [4, 6]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+53,contact_birth,"{""cells"": [7, 8]}",,,,"{""connectivity_change"": true}",tracker
+53,contact_birth,"{""cells"": [21, 24]}",,,,"{""connectivity_change"": true}",tracker
+54,exit,"{""cell"": 26, ""sides"": 1}",,,,"{""neighbours"": [0]}",tracker
+54,rupture,"{""gap"": -8, ""cells"": [4, 5], ""caps"": []}",2.0,3.0,1.0,{},tracker
+54,gap_appearance,"{""gap"": -7, ""cells"": [23, 24]}",,,,{},tracker
+54,gap_appearance,"{""gap"": -6, ""cells"": [23, 24, 28]}",,,,{},tracker
+54,gap_disappearance,"{""gap"": -5, ""cells"": [7, 8]}",,,,{},tracker
+54,gap_disappearance,"{""gap"": -4, ""cells"": [3, 7, 8]}",,,,{},tracker
+54,reseal,"{""gap"": -2, ""cells"": [4, 21], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+54,reseal,"{""gap"": -1, ""cells"": [4, 21], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+54,contact_death,"{""cells"": [3, 8]}",,,,"{""connectivity_change"": true}",tracker
+54,contact_death,"{""cells"": [4, 6]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+54,contact_death,"{""cells"": [7, 8]}",,,,"{""connectivity_change"": true}",tracker
+54,contact_birth,"{""cells"": [3, 21]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+54,contact_birth,"{""cells"": [6, 7]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+54,contact_birth,"{""cells"": [23, 24]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+54,contact_birth,"{""cells"": [27, 28]}",,,,"{""connectivity_change"": true}",tracker
+55,entry,"{""cell"": 29, ""sides"": 1}",,,,"{""neighbours"": [0]}",tracker
+55,rupture,"{""gap"": -9, ""cells"": [4, 21], ""caps"": []}",2.0,3.0,1.0,{},tracker
+55,rupture,"{""gap"": -8, ""cells"": [3, 7], ""caps"": []}",2.0,3.0,1.0,{},tracker
+55,rupture,"{""gap"": -7, ""cells"": [3, 7], ""caps"": []}",2.0,3.0,1.0,{},tracker
+55,rupture,"{""gap"": -6, ""cells"": [3, 7], ""caps"": []}",2.0,3.0,1.0,{},tracker
+55,rupture,"{""gap"": -5, ""cells"": [3, 7], ""caps"": []}",2.0,3.0,1.0,{},tracker
+55,gap_closure,"{""gap"": -4, ""cells"": [3, 24, 28], ""sides"": 3}",-2.0,-3.0,-1.0,{},tracker
+55,gap_disappearance,"{""gap"": -3, ""cells"": [23, 24, 28]}",,,,{},tracker
+55,reseal,"{""gap"": -2, ""cells"": [23, 24], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+55,gap_disappearance,"{""gap"": -1, ""cells"": [4, 5]}",,,,{},tracker
+55,contact_death,"{""cells"": [3, 21]}",,,,"{""connectivity_change"": true}",tracker
+55,contact_death,"{""cells"": [4, 5]}",,,,"{""connectivity_change"": true}",tracker
+55,contact_death,"{""cells"": [21, 24]}",,,,"{""connectivity_change"": true}",tracker
+55,contact_death,"{""cells"": [23, 28]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+55,contact_birth,"{""cells"": [3, 8]}",,,,"{""connectivity_change"": true}",tracker
+56,exit,"{""cell"": 29, ""sides"": 1}",,,,"{""neighbours"": [0]}",tracker
+56,reseal,"{""gap"": -5, ""cells"": [3, 7], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+56,reseal,"{""gap"": -4, ""cells"": [3, 7], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+56,reseal,"{""gap"": -3, ""cells"": [3, 7], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+56,reseal,"{""gap"": -2, ""cells"": [3, 7], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+56,reseal,"{""gap"": -1, ""cells"": [4, 21], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+56,contact_death,"{""cells"": [3, 8]}",,,,"{""connectivity_change"": true}",tracker
+56,contact_death,"{""cells"": [3, 24]}",,,,"{""connectivity_change"": true}",tracker
+56,contact_death,"{""cells"": [3, 28]}",,,,"{""connectivity_change"": true}",tracker
+56,contact_death,"{""cells"": [6, 7]}",,,,"{""connectivity_change"": true}",tracker
+56,contact_death,"{""cells"": [27, 28]}",,,,"{""connectivity_change"": true}",tracker
+56,contact_birth,"{""cells"": [17, 23]}",,,,"{""connectivity_change"": true}",tracker
+57,gap_appearance,"{""gap"": -2, ""cells"": [3, 28]}",,,,{},tracker
+57,gap_appearance,"{""gap"": -1, ""cells"": [8]}",,,,{},tracker
+57,contact_death,"{""cells"": [3, 7]}",,,,"{""connectivity_change"": true}",tracker
+57,contact_death,"{""cells"": [23, 24]}",,,,"{""connectivity_change"": true}",tracker
+57,contact_birth,"{""cells"": [3, 28]}",,,,"{""connectivity_change"": true}",tracker
+57,contact_birth,"{""cells"": [6, 7]}",,,,"{""connectivity_change"": true}",tracker
+57,contact_birth,"{""cells"": [27, 28]}",,,,"{""connectivity_change"": true}",tracker
+58,gap_disappearance,"{""gap"": -2, ""cells"": [8]}",,,,{},tracker
+58,gap_disappearance,"{""gap"": -1, ""cells"": [3, 28]}",,,,{},tracker
+58,contact_death,"{""cells"": [3, 28]}",,,,"{""connectivity_change"": true}",tracker
+58,contact_death,"{""cells"": [6, 7]}",,,,"{""connectivity_change"": true}",tracker
+58,contact_death,"{""cells"": [17, 23]}",,,,"{""connectivity_change"": true}",tracker
+58,contact_death,"{""cells"": [27, 28]}",,,,"{""connectivity_change"": true}",tracker
+58,contact_birth,"{""cells"": [3, 8]}",,,,"{""connectivity_change"": true}",tracker
+58,contact_birth,"{""cells"": [4, 5]}",,,,"{""connectivity_change"": true}",tracker
+58,contact_birth,"{""cells"": [4, 6]}",,,,"{""connectivity_change"": true}",tracker
+58,contact_birth,"{""cells"": [6, 21]}",,,,"{""connectivity_change"": true}",tracker
+58,contact_birth,"{""cells"": [23, 24]}",,,,"{""connectivity_change"": true}",tracker
+58,contact_birth,"{""cells"": [23, 28]}",,,,"{""connectivity_change"": true}",tracker
+59,division,"{""parent"": 5, ""children"": [30, 31]}",2.0,3.0,1.0,"{""source"": ""lineage""}",tracker
+59,entry,"{""cell"": 32, ""sides"": 2}",,,,"{""neighbours"": [0, 9]}",tracker
+59,gap_appearance,"{""gap"": -2, ""cells"": [4, 30]}",,,,{},tracker
+59,gap_appearance,"{""gap"": -1, ""cells"": [7]}",,,,{},tracker
+59,contact_death,"{""cells"": [3, 8]}",,,,"{""connectivity_change"": true}",tracker
+59,contact_death,"{""cells"": [4, 6]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+59,contact_death,"{""cells"": [23, 28]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+59,contact_birth,"{""cells"": [3, 6]}",,,,"{""connectivity_change"": true}",tracker
+59,contact_birth,"{""cells"": [3, 7]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+59,contact_birth,"{""cells"": [6, 7]}",,,,"{""connectivity_change"": true}",tracker
+59,contact_birth,"{""cells"": [21, 24]}",,,,"{""connectivity_change"": true}",tracker
+60,rupture,"{""gap"": -5, ""cells"": [4, 21], ""caps"": []}",2.0,3.0,1.0,{},tracker
+60,gap_appearance,"{""gap"": -4, ""cells"": [23, 28]}",,,,{},tracker
+60,rupture,"{""gap"": -3, ""cells"": [24, 28], ""caps"": []}",2.0,3.0,1.0,{},tracker
+60,gap_disappearance,"{""gap"": -2, ""cells"": [7]}",,,,{},tracker
+60,reseal,"{""gap"": -1, ""cells"": [4, 30], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+60,contact_death,"{""cells"": [3, 6]}",,,,"{""connectivity_change"": true}",tracker
+60,contact_death,"{""cells"": [3, 7]}",,,,"{""connectivity_change"": true}",tracker
+60,contact_death,"{""cells"": [6, 7]}",,,,"{""connectivity_change"": true}",tracker
+60,contact_death,"{""cells"": [6, 21]}",,,,"{""connectivity_change"": true}",tracker
+60,contact_death,"{""cells"": [21, 24]}",,,,"{""connectivity_change"": true}",tracker
+60,contact_birth,"{""cells"": [3, 24]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+60,contact_birth,"{""cells"": [23, 28]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+60,contact_birth,"{""cells"": [27, 28]}",,,,"{""connectivity_change"": true}",tracker
+61,exit,"{""cell"": 32, ""sides"": 2}",,,,"{""neighbours"": [0, 9]}",tracker
+61,reseal,"{""gap"": -2, ""cells"": [23, 28], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+61,reseal,"{""gap"": -1, ""cells"": [4, 21], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+61,contact_death,"{""cells"": [4, 30]}",,,,"{""connectivity_change"": true}",tracker
+61,contact_death,"{""cells"": [23, 24]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+61,contact_death,"{""cells"": [27, 28]}",,,,"{""connectivity_change"": true}",tracker
+61,contact_death,"{""cells"": [30, 31]}",,,,"{""connectivity_change"": true}",tracker
+61,contact_birth,"{""cells"": [-3, 3]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+61,contact_birth,"{""cells"": [3, 21]}",,,,"{""connectivity_change"": true}",tracker
+61,contact_birth,"{""cells"": [6, 7]}",,,,"{""connectivity_change"": true}",tracker
+61,contact_birth,"{""cells"": [9, 23]}",,,,"{""connectivity_change"": true}",tracker
+61,contact_birth,"{""cells"": [17, 23]}",,,,"{""connectivity_change"": true}",tracker
+62,entry,"{""cell"": 33, ""sides"": 2}",,,,"{""neighbours"": [0, 9]}",tracker
+62,rupture,"{""gap"": -3, ""cells"": [4, 21], ""caps"": []}",2.0,3.0,1.0,{},tracker
+62,gap_appearance,"{""gap"": -2, ""cells"": [28]}",,,,{},tracker
+62,gap_disappearance,"{""gap"": -1, ""cells"": [3, 24, 28]}",,,,{},tracker
+62,contact_death,"{""cells"": [3, 21]}",,,,"{""connectivity_change"": true}",tracker
+62,contact_death,"{""cells"": [3, 24]}",,,,"{""connectivity_change"": true}",tracker
+62,contact_death,"{""cells"": [6, 7]}",,,,"{""connectivity_change"": true}",tracker
+62,contact_death,"{""cells"": [9, 23]}",,,,"{""connectivity_change"": true}",tracker
+62,contact_death,"{""cells"": [17, 23]}",,,,"{""connectivity_change"": true}",tracker
+62,contact_death,"{""cells"": [24, 28]}",,,,"{""connectivity_change"": true}",tracker
+62,contact_birth,"{""cells"": [4, 30]}",,,,"{""connectivity_change"": true}",tracker
+62,contact_birth,"{""cells"": [6, 21]}",,,,"{""connectivity_change"": true}",tracker
+62,contact_birth,"{""cells"": [27, 28]}",,,,"{""connectivity_change"": true}",tracker
+63,rupture,"{""gap"": -6, ""cells"": [4, 30], ""caps"": []}",2.0,3.0,1.0,{},tracker
+63,rupture,"{""gap"": -5, ""cells"": [4, 30], ""caps"": []}",2.0,3.0,1.0,{},tracker
+63,gap_appearance,"{""gap"": -4, ""cells"": [3, 7]}",,,,{},tracker
+63,gap_appearance,"{""gap"": -3, ""cells"": [8]}",,,,{},tracker
+63,gap_disappearance,"{""gap"": -2, ""cells"": [28]}",,,,{},tracker
+63,reseal,"{""gap"": -1, ""cells"": [4, 21], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+63,contact_death,"{""cells"": [6, 21]}",,,,"{""connectivity_change"": true}",tracker
+63,contact_death,"{""cells"": [23, 28]}",,,,"{""connectivity_change"": true}",tracker
+63,contact_birth,"{""cells"": [3, 7]}",,,,"{""connectivity_change"": true}",tracker
+63,contact_birth,"{""cells"": [3, 24]}",,,,"{""connectivity_change"": true}",tracker
+63,contact_birth,"{""cells"": [6, 7]}",,,,"{""connectivity_change"": true}",tracker
+63,contact_birth,"{""cells"": [9, 23]}",,,,"{""connectivity_change"": true}",tracker
+63,contact_birth,"{""cells"": [30, 31]}",,,,"{""connectivity_change"": true}",tracker
+64,gap_appearance,"{""gap"": -5, ""cells"": [3, 23, 24, 28]}",,,,{},tracker
+64,gap_disappearance,"{""gap"": -3, ""cells"": [3, 7]}",,,,{},tracker
+64,contact_death,"{""cells"": [3, 7]}",,,,"{""connectivity_change"": true}",tracker
+64,contact_death,"{""cells"": [6, 7]}",,,,"{""connectivity_change"": true}",tracker
+64,contact_birth,"{""cells"": [3, 28]}",,,,"{""connectivity_change"": true}",tracker
+64,contact_birth,"{""cells"": [23, 24]}",,,,"{""connectivity_change"": true}",tracker
+65,rupture,"{""gap"": -7, ""cells"": [9, 23], ""caps"": []}",2.0,3.0,1.0,{},tracker
+65,gap_appearance,"{""gap"": -6, ""cells"": [3, 7]}",,,,{},tracker
+65,gap_appearance,"{""gap"": -5, ""cells"": [3, 7]}",,,,{},tracker
+65,gap_disappearance,"{""gap"": -4, ""cells"": [8]}",,,,{},tracker
+65,gap_disappearance,"{""gap"": -3, ""cells"": [3, 23, 24, 28]}",,,,{},tracker
+65,reseal,"{""gap"": -2, ""cells"": [4, 30], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+65,reseal,"{""gap"": -1, ""cells"": [4, 30], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+65,contact_death,"{""cells"": [3, 28]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+65,contact_death,"{""cells"": [9, 33]}",,,,"{""connectivity_change"": true}",tracker
+65,contact_death,"{""cells"": [23, 24]}",,,,"{""connectivity_change"": true}",tracker
+65,contact_death,"{""cells"": [27, 28]}",,,,"{""connectivity_change"": true}",tracker
+65,contact_birth,"{""cells"": [3, 7]}",,,,"{""connectivity_change"": true}",tracker
+65,contact_birth,"{""cells"": [24, 28]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+66,exit,"{""cell"": 8, ""sides"": 1}",,,,"{""neighbours"": [0]}",tracker
+66,gap_appearance,"{""gap"": -7, ""cells"": [23, 24]}",,,,{},tracker
+66,gap_appearance,"{""gap"": -6, ""cells"": [23, 24]}",,,,{},tracker
+66,gap_appearance,"{""gap"": -5, ""cells"": [3, 23, 24, 28]}",,,,{},tracker
+66,gap_appearance,"{""gap"": -4, ""cells"": [27, 28]}",,,,{},tracker
+66,reseal,"{""gap"": -3, ""cells"": [3, 7], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+66,reseal,"{""gap"": -2, ""cells"": [3, 7], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+66,gap_disappearance,"{""gap"": -1, ""cells"": [9, 23]}",,,,{},tracker
+66,contact_death,"{""cells"": [9, 23]}",,,,"{""connectivity_change"": true}",tracker
+66,contact_death,"{""cells"": [24, 28]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+66,contact_birth,"{""cells"": [3, 28]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+66,contact_birth,"{""cells"": [23, 24]}",,,,"{""connectivity_change"": true}",tracker
+66,contact_birth,"{""cells"": [23, 28]}",,,,"{""connectivity_change"": true}",tracker
+66,contact_birth,"{""cells"": [27, 28]}",,,,"{""connectivity_change"": true}",tracker
+67,entry,"{""cell"": 34, ""sides"": 1}",,,,"{""neighbours"": [0]}",tracker
+67,rupture,"{""gap"": -5, ""cells"": [4, 30], ""caps"": []}",2.0,3.0,1.0,{},tracker
+67,gap_disappearance,"{""gap"": -4, ""cells"": [27, 28]}",,,,{},tracker
+67,gap_disappearance,"{""gap"": -3, ""cells"": [3, 23, 24, 28]}",,,,{},tracker
+67,gap_disappearance,"{""gap"": -2, ""cells"": [23, 24]}",,,,{},tracker
+67,gap_disappearance,"{""gap"": -1, ""cells"": [23, 24]}",,,,{},tracker
+67,contact_death,"{""cells"": [3, 7]}",,,,"{""connectivity_change"": true}",tracker
+67,contact_death,"{""cells"": [3, 28]}",,,,"{""connectivity_change"": true}",tracker
+67,contact_death,"{""cells"": [4, 21]}",,,,"{""connectivity_change"": true}",tracker
+67,contact_death,"{""cells"": [23, 24]}",,,,"{""connectivity_change"": true}",tracker
+67,contact_death,"{""cells"": [23, 28]}",,,,"{""connectivity_change"": true}",tracker
+67,contact_death,"{""cells"": [27, 28]}",,,,"{""connectivity_change"": true}",tracker
+67,contact_birth,"{""cells"": [9, 33]}",,,,"{""connectivity_change"": true}",tracker
+68,division,"{""parent"": 7, ""children"": [35, 36]}",2.0,3.0,1.0,"{""source"": ""lineage""}",tracker
+68,rupture,"{""gap"": -3, ""cells"": [9, 17], ""caps"": []}",2.0,3.0,1.0,{},tracker
+68,rupture,"{""gap"": -2, ""cells"": [9, 17], ""caps"": []}",2.0,3.0,1.0,{},tracker
+68,reseal,"{""gap"": -1, ""cells"": [4, 30], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+68,contact_death,"{""cells"": [9, 33]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+68,contact_birth,"{""cells"": [4, 21]}",,,,"{""connectivity_change"": true}",tracker
+68,contact_birth,"{""cells"": [17, 23]}",,,,"{""connectivity_change"": true}",tracker
+68,contact_birth,"{""cells"": [23, 24]}",,,,"{""connectivity_change"": true}",tracker
+68,contact_birth,"{""cells"": [24, 28]}",,,,"{""connectivity_change"": true}",tracker
+68,contact_birth,"{""cells"": [27, 28]}",,,,"{""connectivity_change"": true}",tracker
+69,exit,"{""cell"": 33, ""sides"": 1}",,,,"{""neighbours"": [0]}",tracker
+69,gap_appearance,"{""gap"": -3, ""cells"": [35, 36]}",,,,{},tracker
+69,reseal,"{""gap"": -2, ""cells"": [9, 17], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+69,reseal,"{""gap"": -1, ""cells"": [9, 17], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+69,contact_death,"{""cells"": [3, 35]}",,,,"{""connectivity_change"": true}",tracker
+69,contact_death,"{""cells"": [3, 36]}",,,,"{""connectivity_change"": true}",tracker
+69,contact_death,"{""cells"": [4, 30]}",,,,"{""connectivity_change"": true}",tracker
+69,contact_death,"{""cells"": [23, 24]}",,,,"{""connectivity_change"": true}",tracker
+69,contact_death,"{""cells"": [27, 28]}",,,,"{""connectivity_change"": true}",tracker
+69,contact_birth,"{""cells"": [3, 28]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+69,contact_birth,"{""cells"": [35, 36]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+70,gap_appearance,"{""gap"": -4, ""cells"": [9, 17, 23]}",,,,{},tracker
+70,gap_appearance,"{""gap"": -3, ""cells"": [23, 24]}",,,,{},tracker
+70,rupture,"{""gap"": -2, ""cells"": [4, 21], ""caps"": []}",2.0,3.0,1.0,{},tracker
+70,reseal,"{""gap"": -1, ""cells"": [35, 36], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+70,contact_death,"{""cells"": [3, 24]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+70,contact_birth,"{""cells"": [9, 23]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+70,contact_birth,"{""cells"": [23, 24]}",,,,"{""connectivity_change"": true}",tracker
+71,exit,"{""cell"": 34, ""sides"": 1}",,,,"{""neighbours"": [0]}",tracker
+71,entry,"{""cell"": 37, ""sides"": 2}",,,,"{""neighbours"": [0, 9]}",tracker
+71,gap_appearance,"{""gap"": -6, ""cells"": [23]}",,,,{},tracker
+71,gap_appearance,"{""gap"": -5, ""cells"": [4, 30]}",,,,{},tracker
+71,gap_appearance,"{""gap"": -4, ""cells"": [23, 28]}",,,,{},tracker
+71,reseal,"{""gap"": -3, ""cells"": [4, 21], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+71,contact_death,"{""cells"": [-2, 24]}",,,,"{""connectivity_change"": true}",tracker
+71,contact_death,"{""cells"": [-1, 9]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+71,contact_death,"{""cells"": [3, 28]}",,,,"{""connectivity_change"": true}",tracker
+71,contact_death,"{""cells"": [24, 28]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+71,contact_death,"{""cells"": [30, 31]}",,,,"{""connectivity_change"": true}",tracker
+71,contact_birth,"{""cells"": [3, 35]}",,,,"{""connectivity_change"": true}",tracker
+71,contact_birth,"{""cells"": [4, 30]}",,,,"{""connectivity_change"": true}",tracker
+71,contact_birth,"{""cells"": [23, 28]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+72,exit,"{""cell"": 31, ""sides"": 1}",,,,"{""neighbours"": [0]}",tracker
+72,entry,"{""cell"": 38, ""sides"": 1}",,,,"{""neighbours"": [0]}",tracker
+72,rupture,"{""gap"": -7, ""cells"": [4, 21], ""caps"": []}",2.0,3.0,1.0,{},tracker
+72,rupture,"{""gap"": -6, ""cells"": [4, 21], ""caps"": []}",2.0,3.0,1.0,{},tracker
+72,reseal,"{""gap"": -3, ""cells"": [17, 23], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+72,gap_disappearance,"{""gap"": -1, ""cells"": [23]}",,,,{},tracker
+72,contact_death,"{""cells"": [6, 36]}",,,,"{""connectivity_change"": true}",tracker
+72,contact_death,"{""cells"": [9, 37]}",,,,"{""connectivity_change"": true}",tracker
+72,contact_death,"{""cells"": [23, 24]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+72,contact_death,"{""cells"": [35, 36]}",,,,"{""connectivity_change"": true}",tracker
+72,contact_birth,"{""cells"": [-2, 28]}",,,,"{""connectivity_change"": true}",tracker
+72,contact_birth,"{""cells"": [24, 28]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+73,exit,"{""cell"": 38, ""sides"": 1}",,,,"{""neighbours"": [0]}",tracker
+73,gap_appearance,"{""gap"": -6, ""cells"": [6, 36]}",,,,{},tracker
+73,gap_disappearance,"{""gap"": -5, ""cells"": [23, 28]}",,,,{},tracker
+73,gap_disappearance,"{""gap"": -4, ""cells"": [23, 28]}",,,,{},tracker
+73,reseal,"{""gap"": -3, ""cells"": [4, 21], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+73,reseal,"{""gap"": -1, ""cells"": [4, 30], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+73,contact_death,"{""cells"": [9, 23]}",,,,"{""connectivity_change"": true}",tracker
+73,contact_death,"{""cells"": [17, 23]}",,,,"{""connectivity_change"": true}",tracker
+73,contact_death,"{""cells"": [23, 28]}",,,,"{""connectivity_change"": true}",tracker
+73,contact_birth,"{""cells"": [3, 24]}",,,,"{""connectivity_change"": true}",tracker
+73,contact_birth,"{""cells"": [6, 36]}",,,,"{""connectivity_change"": true}",tracker
+73,contact_birth,"{""cells"": [27, 28]}",,,,"{""connectivity_change"": true}",tracker
+73,contact_birth,"{""cells"": [35, 36]}",,,,"{""connectivity_change"": true}",tracker
+74,reseal,"{""gap"": -1, ""cells"": [4, 21], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+74,contact_death,"{""cells"": [3, 24]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+74,contact_death,"{""cells"": [27, 28]}",,,,"{""connectivity_change"": true}",tracker
+74,contact_birth,"{""cells"": [9, 23]}",,,,"{""connectivity_change"": true}",tracker
+74,contact_birth,"{""cells"": [17, 23]}",,,,"{""connectivity_change"": true}",tracker
+75,rupture,"{""gap"": -3, ""cells"": [17, 23], ""caps"": []}",2.0,3.0,1.0,{},tracker
+75,rupture,"{""gap"": -2, ""cells"": [4, 21], ""caps"": []}",2.0,3.0,1.0,{},tracker
+75,contact_death,"{""cells"": [3, 35]}",,,,"{""connectivity_change"": true}",tracker
+75,contact_death,"{""cells"": [4, 30]}",,,,"{""connectivity_change"": true}",tracker
+75,contact_death,"{""cells"": [9, 23]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+75,contact_death,"{""cells"": [24, 28]}",,,,"{""connectivity_change"": true}",tracker
+75,contact_birth,"{""cells"": [9, 37]}",,,,"{""connectivity_change"": true}",tracker
+75,contact_birth,"{""cells"": [23, 24]}",,,,"{""connectivity_change"": true}",tracker
+76,exit,"{""cell"": 37, ""sides"": 2}",,,,"{""neighbours"": [0, 9]}",tracker
+76,gap_disappearance,"{""gap"": -3, ""cells"": [6, 36]}",,,,{},tracker
+76,reseal,"{""gap"": -2, ""cells"": [4, 21], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+76,contact_death,"{""cells"": [6, 36]}",,,,"{""connectivity_change"": true}",tracker
+76,contact_death,"{""cells"": [23, 24]}",,,,"{""connectivity_change"": true}",tracker
+76,contact_birth,"{""cells"": [3, 35]}",,,,"{""connectivity_change"": true}",tracker
+76,contact_birth,"{""cells"": [4, 30]}",,,,"{""connectivity_change"": true}",tracker
+77,division,"{""parent"": 35, ""children"": [35, 39]}",2.0,3.0,1.0,"{""source"": ""heuristic_asymmetric""}",tracker
+77,entry,"{""cell"": 40, ""sides"": 1}",,,,"{""neighbours"": [0]}",tracker
+77,gap_appearance,"{""gap"": -2, ""cells"": [9, 23]}",,,,{},tracker
+77,contact_death,"{""cells"": [4, 21]}",,,,"{""connectivity_change"": true}",tracker
+77,contact_birth,"{""cells"": [-1, 9]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+77,contact_birth,"{""cells"": [3, 24]}",,,,"{""connectivity_change"": true}",tracker
+77,contact_birth,"{""cells"": [3, 28]}",,,,"{""connectivity_change"": true}",tracker
+77,contact_birth,"{""cells"": [9, 23]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+77,contact_birth,"{""cells"": [23, 24]}",,,,"{""connectivity_change"": true}",tracker
+78,rupture,"{""gap"": -3, ""cells"": [35, 36], ""caps"": []}",2.0,3.0,1.0,{},tracker
+78,contact_death,"{""cells"": [-2, 9]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+78,contact_death,"{""cells"": [3, 28]}",,,,"{""connectivity_change"": true}",tracker
+78,contact_death,"{""cells"": [23, 24]}",,,,"{""connectivity_change"": true}",tracker
+78,contact_death,"{""cells"": [35, 39]}",,,,"{""connectivity_change"": true}",tracker
+78,contact_birth,"{""cells"": [-1, 17]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+78,contact_birth,"{""cells"": [3, 39]}",,,,"{""connectivity_change"": true}",tracker
+78,contact_birth,"{""cells"": [23, 28]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+79,exit,"{""cell"": 40, ""sides"": 1}",,,,"{""neighbours"": [0]}",tracker
+79,entry,"{""cell"": 41, ""sides"": 3}",,,,"{""neighbours"": [0, 4, 30]}",tracker
+79,entry,"{""cell"": 42, ""sides"": 1}",,,,"{""neighbours"": [0]}",tracker
+79,gap_appearance,"{""gap"": -5, ""cells"": [4, 21]}",,,,{},tracker
+79,gap_appearance,"{""gap"": -4, ""cells"": [4, 21]}",,,,{},tracker
+79,gap_disappearance,"{""gap"": -3, ""cells"": [35, 36]}",,,,{},tracker
+79,reseal,"{""gap"": -2, ""cells"": [17, 23], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+79,gap_closure,"{""gap"": -1, ""cells"": [9, 17, 23], ""sides"": 3}",-2.0,-3.0,-1.0,{},tracker
+79,contact_death,"{""cells"": [3, 24]}",,,,"{""connectivity_change"": true}",tracker
+79,contact_death,"{""cells"": [23, 28]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",tracker
+79,contact_death,"{""cells"": [35, 36]}",,,,"{""connectivity_change"": true}",tracker
+79,contact_birth,"{""cells"": [4, 21]}",,,,"{""connectivity_change"": true}",tracker
+79,contact_birth,"{""cells"": [23, 24]}",,,,"{""connectivity_change"": true}",tracker
+79,contact_birth,"{""cells"": [24, 28]}",,,,"{""connectivity_change"": true}",tracker
+80,entry,"{""cell"": 43, ""sides"": 1}",,,,"{""neighbours"": [0]}",tracker
+80,rupture,"{""gap"": -3, ""cells"": [23, 24], ""caps"": []}",2.0,3.0,1.0,{},tracker
+80,reseal,"{""gap"": -2, ""cells"": [4, 21], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+80,reseal,"{""gap"": -1, ""cells"": [4, 21], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+80,contact_death,"{""cells"": [3, 39]}",,,,"{""connectivity_change"": true}",tracker
+80,contact_death,"{""cells"": [4, 41]}",,,,"{""connectivity_change"": true}",tracker
+80,contact_death,"{""cells"": [9, 23]}",,,,"{""connectivity_change"": true}",tracker
+80,contact_death,"{""cells"": [17, 23]}",,,,"{""connectivity_change"": true}",tracker
+80,contact_death,"{""cells"": [30, 41]}",,,,"{""connectivity_change"": true}",tracker
+80,contact_birth,"{""cells"": [3, 21]}",,,,"{""connectivity_change"": true}",tracker
+80,contact_birth,"{""cells"": [6, 36]}",,,,"{""connectivity_change"": true}",tracker
+80,contact_birth,"{""cells"": [35, 36]}",,,,"{""connectivity_change"": true}",tracker
+81,rupture,"{""gap"": -4, ""cells"": [4, 21], ""caps"": []}",2.0,3.0,1.0,{},tracker
+81,rupture,"{""gap"": -3, ""cells"": [4, 21], ""caps"": []}",2.0,3.0,1.0,{},tracker
+81,gap_appearance,"{""gap"": -2, ""cells"": [3, 24]}",,,,{},tracker
+81,reseal,"{""gap"": -1, ""cells"": [23, 24], ""caps"": []}",-2.0,-3.0,-1.0,{},tracker
+81,contact_death,"{""cells"": [6, 36]}",,,,"{""connectivity_change"": true}",tracker
+81,contact_death,"{""cells"": [24, 28]}",,,,"{""connectivity_change"": true}",tracker
+81,contact_death,"{""cells"": [35, 36]}",,,,"{""connectivity_change"": true}",tracker
+81,contact_birth,"{""cells"": [3, 24]}",,,,"{""connectivity_change"": true}",tracker
+81,contact_birth,"{""cells"": [6, 21]}",,,,"{""connectivity_change"": true}",tracker
+81,contact_birth,"{""cells"": [9, 23]}",,,,"{""connectivity_change"": true}",tracker
+81,contact_birth,"{""cells"": [17, 23]}",,,,"{""connectivity_change"": true}",tracker
+81,contact_birth,"{""cells"": [30, 41]}",,,,"{""connectivity_change"": true}",tracker
+81,contact_birth,"{""cells"": [39, 42]}",,,,"{""connectivity_change"": true}",tracker
+82,gap_disappearance,"{""gap"": -3, ""cells"": [3, 24]}",,,,{},tracker
+82,gap_disappearance,"{""gap"": -2, ""cells"": [4, 21]}",,,,{},tracker
+82,gap_disappearance,"{""gap"": -1, ""cells"": [4, 21]}",,,,{},tracker
+82,contact_death,"{""cells"": [3, 24]}",,,,"{""connectivity_change"": true}",tracker
+82,contact_death,"{""cells"": [4, 21]}",,,,"{""connectivity_change"": true}",tracker
+82,contact_death,"{""cells"": [4, 30]}",,,,"{""connectivity_change"": true}",tracker
+82,contact_death,"{""cells"": [6, 21]}",,,,"{""connectivity_change"": true}",tracker
+82,contact_death,"{""cells"": [39, 42]}",,,,"{""connectivity_change"": true}",tracker
+82,contact_birth,"{""cells"": [9, 24]}",1.0,1.0,0.0,"{""connectivity_change"": false}",tracker
+82,contact_birth,"{""cells"": [35, 36]}",,,,"{""connectivity_change"": true}",tracker
+0,division,"{""parent"": 18, ""children"": [18, 41]}",2.0,3.0,1.0,"{""source"": ""heuristic_asymmetric""}",gt_ids
+0,rupture,"{""gap"": -1, ""cells"": [1, 5], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+0,contact_death,"{""cells"": [23, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+0,contact_death,"{""cells"": [28, 32]}",,,,"{""connectivity_change"": true}",gt_ids
+1,reseal,"{""gap"": -1, ""cells"": [1, 5], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+1,contact_death,"{""cells"": [13, 41]}",,,,"{""connectivity_change"": true}",gt_ids
+1,contact_death,"{""cells"": [18, 41]}",,,,"{""connectivity_change"": true}",gt_ids
+1,contact_birth,"{""cells"": [1, 9]}",,,,"{""connectivity_change"": true}",gt_ids
+1,contact_birth,"{""cells"": [5, 9]}",,,,"{""connectivity_change"": true}",gt_ids
+1,contact_birth,"{""cells"": [9, 13]}",,,,"{""connectivity_change"": true}",gt_ids
+2,exit,"{""cell"": 41, ""sides"": 1}",,,,"{""neighbours"": [0]}",gt_ids
+2,gap_appearance,"{""gap"": -1, ""cells"": [28]}",,,,{},gt_ids
+2,contact_death,"{""cells"": [1, 9]}",,,,"{""connectivity_change"": true}",gt_ids
+2,contact_death,"{""cells"": [1, 13]}",,,,"{""connectivity_change"": true}",gt_ids
+2,contact_death,"{""cells"": [5, 9]}",,,,"{""connectivity_change"": true}",gt_ids
+2,contact_death,"{""cells"": [9, 13]}",,,,"{""connectivity_change"": true}",gt_ids
+3,gap_disappearance,"{""gap"": -1, ""cells"": [28]}",,,,{},gt_ids
+3,contact_birth,"{""cells"": [1, 9]}",,,,"{""connectivity_change"": true}",gt_ids
+3,contact_birth,"{""cells"": [1, 13]}",,,,"{""connectivity_change"": true}",gt_ids
+3,contact_birth,"{""cells"": [9, 13]}",,,,"{""connectivity_change"": true}",gt_ids
+3,contact_birth,"{""cells"": [9, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+4,gap_nucleation,"{""gap"": -2, ""cells"": [1, 9, 13], ""sides"": 3}",2.0,3.0,1.0,{},gt_ids
+4,rupture,"{""gap"": -1, ""cells"": [1, 9], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+5,rupture,"{""gap"": -3, ""cells"": [22, 23], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+5,reseal,"{""gap"": -2, ""cells"": [1, 9], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+5,contact_death,"{""cells"": [-1, 1]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+5,contact_death,"{""cells"": [9, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+6,exit,"{""cell"": 32, ""sides"": 1}",,,,"{""neighbours"": [0]}",gt_ids
+6,gap_appearance,"{""gap"": -4, ""cells"": [1, 5, 9]}",,,,{},gt_ids
+6,gap_appearance,"{""gap"": -3, ""cells"": [5, 9]}",,,,{},gt_ids
+6,contact_birth,"{""cells"": [-1, 1]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+6,contact_birth,"{""cells"": [5, 9]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+6,contact_birth,"{""cells"": [9, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+7,reseal,"{""gap"": -4, ""cells"": [22, 23], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+7,reseal,"{""gap"": -3, ""cells"": [5, 9], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+7,gap_disappearance,"{""gap"": -1, ""cells"": [1, 9, 13]}",,,,{},gt_ids
+7,contact_death,"{""cells"": [1, 13]}",,,,"{""connectivity_change"": true}",gt_ids
+7,contact_death,"{""cells"": [9, 13]}",,,,"{""connectivity_change"": true}",gt_ids
+7,contact_death,"{""cells"": [9, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+7,contact_birth,"{""cells"": [23, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+8,gap_appearance,"{""gap"": -2, ""cells"": [9, 13]}",,,,{},gt_ids
+8,gap_disappearance,"{""gap"": -1, ""cells"": [1, 5, 9]}",,,,{},gt_ids
+8,contact_death,"{""cells"": [5, 9]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+8,contact_birth,"{""cells"": [1, 13]}",,,,"{""connectivity_change"": true}",gt_ids
+8,contact_birth,"{""cells"": [9, 13]}",,,,"{""connectivity_change"": true}",gt_ids
+9,entry,"{""cell"": 32, ""sides"": 1}",,,,"{""neighbours"": [0]}",gt_ids
+9,gap_disappearance,"{""gap"": -1, ""cells"": [9, 13]}",,,,{},gt_ids
+9,contact_death,"{""cells"": [1, 13]}",,,,"{""connectivity_change"": true}",gt_ids
+9,contact_death,"{""cells"": [9, 13]}",,,,"{""connectivity_change"": true}",gt_ids
+9,contact_death,"{""cells"": [23, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+9,contact_birth,"{""cells"": [5, 9]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+10,exit,"{""cell"": 32, ""sides"": 1}",,,,"{""neighbours"": [0]}",gt_ids
+10,contact_death,"{""cells"": [1, 5]}",,,,"{""connectivity_change"": true}",gt_ids
+10,contact_death,"{""cells"": [1, 9]}",,,,"{""connectivity_change"": true}",gt_ids
+10,contact_death,"{""cells"": [5, 9]}",,,,"{""connectivity_change"": true}",gt_ids
+10,contact_death,"{""cells"": [13, 18]}",,,,"{""connectivity_change"": true}",gt_ids
+10,contact_death,"{""cells"": [22, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+12,gap_appearance,"{""gap"": -1, ""cells"": [13, 18]}",,,,{},gt_ids
+12,contact_birth,"{""cells"": [1, 5]}",,,,"{""connectivity_change"": true}",gt_ids
+12,contact_birth,"{""cells"": [1, 9]}",,,,"{""connectivity_change"": true}",gt_ids
+12,contact_birth,"{""cells"": [5, 9]}",,,,"{""connectivity_change"": true}",gt_ids
+12,contact_birth,"{""cells"": [13, 18]}",,,,"{""connectivity_change"": true}",gt_ids
+12,contact_birth,"{""cells"": [22, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+13,rupture,"{""gap"": -3, ""cells"": [5, 9], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+13,rupture,"{""gap"": -2, ""cells"": [22, 23], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+13,contact_death,"{""cells"": [1, 9]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+13,contact_birth,"{""cells"": [23, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+14,gap_appearance,"{""gap"": -4, ""cells"": [1, 9, 13, 22, 23, 26]}",,,,{},gt_ids
+14,reseal,"{""gap"": -3, ""cells"": [22, 23], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+14,reseal,"{""gap"": -2, ""cells"": [5, 9], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+14,reseal,"{""gap"": -1, ""cells"": [13, 18], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+14,contact_birth,"{""cells"": [1, 9]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+14,contact_birth,"{""cells"": [1, 13]}",,,,"{""connectivity_change"": true}",gt_ids
+14,contact_birth,"{""cells"": [9, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+14,contact_birth,"{""cells"": [13, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+15,gap_appearance,"{""gap"": -2, ""cells"": [9, 22]}",,,,{},gt_ids
+15,gap_disappearance,"{""gap"": -1, ""cells"": [1, 9, 13, 22, 23, 26]}",,,,{},gt_ids
+15,contact_death,"{""cells"": [1, 5]}",,,,"{""connectivity_change"": true}",gt_ids
+15,contact_death,"{""cells"": [1, 9]}",,,,"{""connectivity_change"": true}",gt_ids
+15,contact_death,"{""cells"": [1, 13]}",,,,"{""connectivity_change"": true}",gt_ids
+15,contact_death,"{""cells"": [5, 9]}",,,,"{""connectivity_change"": true}",gt_ids
+15,contact_death,"{""cells"": [9, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+15,contact_death,"{""cells"": [13, 18]}",,,,"{""connectivity_change"": true}",gt_ids
+15,contact_death,"{""cells"": [13, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+15,contact_death,"{""cells"": [23, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+15,contact_birth,"{""cells"": [9, 22]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+16,gap_disappearance,"{""gap"": -1, ""cells"": [9, 22]}",,,,{},gt_ids
+16,contact_death,"{""cells"": [9, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+16,contact_birth,"{""cells"": [1, 5]}",,,,"{""connectivity_change"": true}",gt_ids
+16,contact_birth,"{""cells"": [13, 18]}",,,,"{""connectivity_change"": true}",gt_ids
+17,gap_appearance,"{""gap"": -1, ""cells"": [23, 26]}",,,,{},gt_ids
+17,contact_birth,"{""cells"": [9, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+17,contact_birth,"{""cells"": [23, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+18,gap_disappearance,"{""gap"": -1, ""cells"": [23, 26]}",,,,{},gt_ids
+18,contact_death,"{""cells"": [23, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+18,contact_birth,"{""cells"": [13, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+19,rupture,"{""gap"": -1, ""cells"": [13, 22], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+19,contact_birth,"{""cells"": [1, 9]}",,,,"{""connectivity_change"": true}",gt_ids
+19,contact_birth,"{""cells"": [9, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+19,contact_birth,"{""cells"": [9, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+19,contact_birth,"{""cells"": [23, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+20,gap_appearance,"{""gap"": -2, ""cells"": [9, 13]}",,,,{},gt_ids
+20,gap_disappearance,"{""gap"": -1, ""cells"": [13, 22]}",,,,{},gt_ids
+20,contact_death,"{""cells"": [9, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+20,contact_death,"{""cells"": [9, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+20,contact_death,"{""cells"": [9, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+20,contact_death,"{""cells"": [13, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+20,contact_birth,"{""cells"": [9, 13]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+21,rupture,"{""gap"": -3, ""cells"": [13, 18], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+21,gap_appearance,"{""gap"": -2, ""cells"": [22]}",,,,{},gt_ids
+21,gap_disappearance,"{""gap"": -1, ""cells"": [9, 13]}",,,,{},gt_ids
+21,contact_death,"{""cells"": [1, 9]}",,,,"{""connectivity_change"": true}",gt_ids
+21,contact_death,"{""cells"": [9, 13]}",,,,"{""connectivity_change"": true}",gt_ids
+21,contact_death,"{""cells"": [23, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+21,contact_birth,"{""cells"": [9, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+21,contact_birth,"{""cells"": [18, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+22,gap_disappearance,"{""gap"": -2, ""cells"": [22]}",,,,{},gt_ids
+22,reseal,"{""gap"": -1, ""cells"": [13, 18], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+22,contact_death,"{""cells"": [9, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+22,contact_birth,"{""cells"": [23, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+23,rupture,"{""gap"": -3, ""cells"": [1, 5], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+23,rupture,"{""gap"": -2, ""cells"": [1, 5], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+23,gap_appearance,"{""gap"": -1, ""cells"": [1, 5, 9]}",,,,{},gt_ids
+23,contact_death,"{""cells"": [18, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+23,contact_death,"{""cells"": [23, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+23,contact_birth,"{""cells"": [5, 9]}",,,,"{""connectivity_change"": true}",gt_ids
+23,contact_birth,"{""cells"": [9, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+24,entry,"{""cell"": 42, ""sides"": 1}",,,,"{""neighbours"": [0]}",gt_ids
+24,gap_disappearance,"{""gap"": -3, ""cells"": [1, 5, 9]}",,,,{},gt_ids
+24,reseal,"{""gap"": -1, ""cells"": [1, 5], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+24,contact_death,"{""cells"": [5, 9]}",,,,"{""connectivity_change"": true}",gt_ids
+24,contact_birth,"{""cells"": [9, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+24,contact_birth,"{""cells"": [9, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+24,contact_birth,"{""cells"": [13, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+24,contact_birth,"{""cells"": [23, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+25,division,"{""parent"": 28, ""children"": [43, 44]}",2.0,3.0,1.0,"{""source"": ""lineage""}",gt_ids
+25,exit,"{""cell"": 42, ""sides"": 1}",,,,"{""neighbours"": [0]}",gt_ids
+25,reseal,"{""gap"": -1, ""cells"": [1, 5], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+25,contact_death,"{""cells"": [9, 22]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+25,contact_death,"{""cells"": [9, 23]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+25,contact_death,"{""cells"": [13, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+25,contact_birth,"{""cells"": [5, 9]}",,,,"{""connectivity_change"": true}",gt_ids
+26,entry,"{""cell"": 42, ""sides"": 2}",,,,"{""neighbours"": [0, 44]}",gt_ids
+26,rupture,"{""gap"": -3, ""cells"": [13, 18], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+26,rupture,"{""gap"": -2, ""cells"": [5, 9], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+26,gap_appearance,"{""gap"": -1, ""cells"": [9, 22, 23]}",,,,{},gt_ids
+26,contact_death,"{""cells"": [9, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+26,contact_death,"{""cells"": [23, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+26,contact_death,"{""cells"": [43, 44]}",,,,"{""connectivity_change"": true}",gt_ids
+26,contact_birth,"{""cells"": [9, 13]}",,,,"{""connectivity_change"": true}",gt_ids
+26,contact_birth,"{""cells"": [9, 22]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+26,contact_birth,"{""cells"": [9, 23]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+27,exit,"{""cell"": 43, ""sides"": 1}",,,,"{""neighbours"": [0]}",gt_ids
+27,gap_disappearance,"{""gap"": -3, ""cells"": [9, 22, 23]}",,,,{},gt_ids
+27,gap_disappearance,"{""gap"": -2, ""cells"": [5, 9]}",,,,{},gt_ids
+27,gap_disappearance,"{""gap"": -1, ""cells"": [13, 18]}",,,,{},gt_ids
+27,contact_death,"{""cells"": [1, 5]}",,,,"{""connectivity_change"": true}",gt_ids
+27,contact_death,"{""cells"": [5, 9]}",,,,"{""connectivity_change"": true}",gt_ids
+27,contact_death,"{""cells"": [9, 13]}",,,,"{""connectivity_change"": true}",gt_ids
+27,contact_death,"{""cells"": [9, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+27,contact_death,"{""cells"": [9, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+27,contact_death,"{""cells"": [13, 18]}",,,,"{""connectivity_change"": true}",gt_ids
+27,contact_death,"{""cells"": [22, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+27,contact_death,"{""cells"": [42, 44]}",,,,"{""connectivity_change"": true}",gt_ids
+28,exit,"{""cell"": 42, ""sides"": 1}",,,,"{""neighbours"": [0]}",gt_ids
+28,entry,"{""cell"": 45, ""sides"": 2}",,,,"{""neighbours"": [0, 44]}",gt_ids
+28,gap_appearance,"{""gap"": -3, ""cells"": [1, 9]}",,,,{},gt_ids
+28,gap_appearance,"{""gap"": -2, ""cells"": [1, 5]}",,,,{},gt_ids
+28,gap_appearance,"{""gap"": -1, ""cells"": [1, 5, 9]}",,,,{},gt_ids
+28,contact_birth,"{""cells"": [1, 5]}",,,,"{""connectivity_change"": true}",gt_ids
+28,contact_birth,"{""cells"": [1, 9]}",,,,"{""connectivity_change"": true}",gt_ids
+28,contact_birth,"{""cells"": [5, 9]}",,,,"{""connectivity_change"": true}",gt_ids
+28,contact_birth,"{""cells"": [13, 18]}",,,,"{""connectivity_change"": true}",gt_ids
+28,contact_birth,"{""cells"": [13, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+28,contact_birth,"{""cells"": [18, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+28,contact_birth,"{""cells"": [22, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+29,gap_disappearance,"{""gap"": -3, ""cells"": [1, 5, 9]}",,,,{},gt_ids
+29,reseal,"{""gap"": -2, ""cells"": [1, 5], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+29,gap_disappearance,"{""gap"": -1, ""cells"": [1, 9]}",,,,{},gt_ids
+29,contact_death,"{""cells"": [1, 9]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+29,contact_death,"{""cells"": [18, 22]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+29,contact_birth,"{""cells"": [9, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+30,rupture,"{""gap"": -2, ""cells"": [22, 23], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+30,rupture,"{""gap"": -1, ""cells"": [22, 23], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+30,contact_birth,"{""cells"": [23, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+31,entry,"{""cell"": 34, ""sides"": 1}",,,,"{""neighbours"": [0]}",gt_ids
+31,reseal,"{""gap"": -1, ""cells"": [22, 23], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+31,contact_death,"{""cells"": [9, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+31,contact_death,"{""cells"": [13, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+31,contact_death,"{""cells"": [44, 45]}",,,,"{""connectivity_change"": true}",gt_ids
+32,exit,"{""cell"": 34, ""sides"": 1}",,,,"{""neighbours"": [0]}",gt_ids
+32,reseal,"{""gap"": -1, ""cells"": [22, 23], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+32,contact_birth,"{""cells"": [9, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+32,contact_birth,"{""cells"": [18, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+32,contact_birth,"{""cells"": [44, 45]}",,,,"{""connectivity_change"": true}",gt_ids
+33,contact_death,"{""cells"": [1, 5]}",,,,"{""connectivity_change"": true}",gt_ids
+33,contact_death,"{""cells"": [5, 9]}",,,,"{""connectivity_change"": true}",gt_ids
+33,contact_death,"{""cells"": [9, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+33,contact_death,"{""cells"": [13, 18]}",,,,"{""connectivity_change"": true}",gt_ids
+33,contact_death,"{""cells"": [18, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+33,contact_death,"{""cells"": [44, 45]}",,,,"{""connectivity_change"": true}",gt_ids
+33,contact_birth,"{""cells"": [13, 22]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+34,gap_appearance,"{""gap"": -2, ""cells"": [44, 45]}",,,,{},gt_ids
+34,gap_appearance,"{""gap"": -1, ""cells"": [9, 13]}",,,,{},gt_ids
+34,contact_death,"{""cells"": [13, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+34,contact_birth,"{""cells"": [1, 5]}",,,,"{""connectivity_change"": true}",gt_ids
+34,contact_birth,"{""cells"": [9, 13]}",,,,"{""connectivity_change"": true}",gt_ids
+34,contact_birth,"{""cells"": [13, 18]}",,,,"{""connectivity_change"": true}",gt_ids
+34,contact_birth,"{""cells"": [44, 45]}",,,,"{""connectivity_change"": true}",gt_ids
+35,reseal,"{""gap"": -2, ""cells"": [9, 13], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+35,reseal,"{""gap"": -1, ""cells"": [44, 45], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+35,contact_death,"{""cells"": [22, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+35,contact_birth,"{""cells"": [9, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+35,contact_birth,"{""cells"": [9, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+36,rupture,"{""gap"": -1, ""cells"": [44, 45], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+36,contact_death,"{""cells"": [9, 13]}",,,,"{""connectivity_change"": true}",gt_ids
+36,contact_death,"{""cells"": [9, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+36,contact_death,"{""cells"": [9, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+36,contact_death,"{""cells"": [13, 18]}",,,,"{""connectivity_change"": true}",gt_ids
+36,contact_death,"{""cells"": [23, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+37,entry,"{""cell"": 35, ""sides"": 1}",,,,"{""neighbours"": [0]}",gt_ids
+37,rupture,"{""gap"": -6, ""cells"": [1, 5], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+37,gap_appearance,"{""gap"": -5, ""cells"": [9, 13]}",,,,{},gt_ids
+37,gap_appearance,"{""gap"": -4, ""cells"": [9, 13]}",,,,{},gt_ids
+37,gap_appearance,"{""gap"": -3, ""cells"": [9, 13, 22, 23]}",,,,{},gt_ids
+37,gap_appearance,"{""gap"": -2, ""cells"": [22, 23]}",,,,{},gt_ids
+37,contact_birth,"{""cells"": [9, 13]}",,,,"{""connectivity_change"": true}",gt_ids
+37,contact_birth,"{""cells"": [9, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+37,contact_birth,"{""cells"": [9, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+37,contact_birth,"{""cells"": [13, 18]}",,,,"{""connectivity_change"": true}",gt_ids
+37,contact_birth,"{""cells"": [13, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+37,contact_birth,"{""cells"": [18, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+37,contact_birth,"{""cells"": [22, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+37,contact_birth,"{""cells"": [23, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+38,exit,"{""cell"": 35, ""sides"": 1}",,,,"{""neighbours"": [0]}",gt_ids
+38,gap_disappearance,"{""gap"": -6, ""cells"": [22, 23]}",,,,{},gt_ids
+38,gap_disappearance,"{""gap"": -5, ""cells"": [9, 13, 22, 23]}",,,,{},gt_ids
+38,gap_disappearance,"{""gap"": -4, ""cells"": [9, 13]}",,,,{},gt_ids
+38,gap_disappearance,"{""gap"": -3, ""cells"": [9, 13]}",,,,{},gt_ids
+38,gap_disappearance,"{""gap"": -2, ""cells"": [1, 5]}",,,,{},gt_ids
+38,reseal,"{""gap"": -1, ""cells"": [44, 45], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+38,contact_death,"{""cells"": [1, 5]}",,,,"{""connectivity_change"": true}",gt_ids
+38,contact_death,"{""cells"": [9, 13]}",,,,"{""connectivity_change"": true}",gt_ids
+38,contact_death,"{""cells"": [9, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+38,contact_death,"{""cells"": [9, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+38,contact_death,"{""cells"": [13, 18]}",,,,"{""connectivity_change"": true}",gt_ids
+38,contact_death,"{""cells"": [13, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+38,contact_death,"{""cells"": [18, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+38,contact_death,"{""cells"": [22, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+38,contact_death,"{""cells"": [23, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+39,contact_birth,"{""cells"": [1, 5]}",,,,"{""connectivity_change"": true}",gt_ids
+39,contact_birth,"{""cells"": [13, 18]}",,,,"{""connectivity_change"": true}",gt_ids
+39,contact_birth,"{""cells"": [18, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+39,contact_birth,"{""cells"": [22, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+40,rupture,"{""gap"": -1, ""cells"": [13, 18], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+40,contact_death,"{""cells"": [18, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+40,contact_death,"{""cells"": [22, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+40,contact_birth,"{""cells"": [9, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+40,contact_birth,"{""cells"": [23, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+41,rupture,"{""gap"": -2, ""cells"": [1, 5], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+41,reseal,"{""gap"": -1, ""cells"": [13, 18], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+41,contact_death,"{""cells"": [9, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+41,contact_death,"{""cells"": [44, 45]}",,,,"{""connectivity_change"": true}",gt_ids
+41,contact_birth,"{""cells"": [18, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+41,contact_birth,"{""cells"": [22, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+42,rupture,"{""gap"": -4, ""cells"": [13, 18], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+42,gap_appearance,"{""gap"": -3, ""cells"": [9, 13]}",,,,{},gt_ids
+42,gap_appearance,"{""gap"": -2, ""cells"": [9, 23]}",,,,{},gt_ids
+42,reseal,"{""gap"": -1, ""cells"": [1, 5], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+42,contact_death,"{""cells"": [22, 23]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+42,contact_birth,"{""cells"": [9, 13]}",,,,"{""connectivity_change"": true}",gt_ids
+42,contact_birth,"{""cells"": [9, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+42,contact_birth,"{""cells"": [44, 45]}",,,,"{""connectivity_change"": true}",gt_ids
+43,entry,"{""cell"": 35, ""sides"": 1}",,,,"{""neighbours"": [0]}",gt_ids
+43,rupture,"{""gap"": -4, ""cells"": [1, 5], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+43,reseal,"{""gap"": -3, ""cells"": [9, 23], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+43,gap_disappearance,"{""gap"": -2, ""cells"": [9, 13]}",,,,{},gt_ids
+43,gap_disappearance,"{""gap"": -1, ""cells"": [13, 18]}",,,,{},gt_ids
+43,contact_death,"{""cells"": [9, 13]}",,,,"{""connectivity_change"": true}",gt_ids
+43,contact_death,"{""cells"": [13, 18]}",,,,"{""connectivity_change"": true}",gt_ids
+43,contact_death,"{""cells"": [18, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+43,contact_death,"{""cells"": [23, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+44,exit,"{""cell"": 35, ""sides"": 1}",,,,"{""neighbours"": [0]}",gt_ids
+44,reseal,"{""gap"": -1, ""cells"": [1, 5], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+44,contact_death,"{""cells"": [9, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+44,contact_birth,"{""cells"": [5, 9]}",,,,"{""connectivity_change"": true}",gt_ids
+44,contact_birth,"{""cells"": [9, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+44,contact_birth,"{""cells"": [18, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+45,division,"{""parent"": 13, ""children"": [16, 17]}",2.0,3.0,1.0,"{""source"": ""lineage""}",gt_ids
+45,contact_death,"{""cells"": [5, 9]}",,,,"{""connectivity_change"": true}",gt_ids
+45,contact_death,"{""cells"": [18, 22]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+45,contact_birth,"{""cells"": [9, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+45,contact_birth,"{""cells"": [9, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+46,entry,"{""cell"": 35, ""sides"": 1}",,,,"{""neighbours"": [0]}",gt_ids
+46,gap_appearance,"{""gap"": -1, ""cells"": [9, 16, 17, 18, 22, 23]}",,,,{},gt_ids
+46,contact_death,"{""cells"": [9, 22]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+46,contact_death,"{""cells"": [44, 45]}",,,,"{""connectivity_change"": true}",gt_ids
+46,contact_birth,"{""cells"": [18, 22]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+46,contact_birth,"{""cells"": [22, 23]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+47,gap_appearance,"{""gap"": -5, ""cells"": [18]}",,,,{},gt_ids
+47,rupture,"{""gap"": -4, ""cells"": [9, 23], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+47,rupture,"{""gap"": -3, ""cells"": [9, 23], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+47,rupture,"{""gap"": -2, ""cells"": [22, 23], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+47,contact_death,"{""cells"": [-1, 16]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+47,contact_death,"{""cells"": [-1, 17]}",,,,"{""connectivity_change"": true}",gt_ids
+47,contact_death,"{""cells"": [-1, 18]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+47,contact_death,"{""cells"": [9, 17]}",,,,"{""connectivity_change"": true}",gt_ids
+47,contact_death,"{""cells"": [9, 26]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+47,contact_death,"{""cells"": [16, 17]}",,,,"{""connectivity_change"": true}",gt_ids
+47,contact_birth,"{""cells"": [9, 22]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+47,contact_birth,"{""cells"": [23, 26]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+47,contact_birth,"{""cells"": [44, 45]}",,,,"{""connectivity_change"": true}",gt_ids
+48,division,"{""parent"": 1, ""children"": [2, 4]}",2.0,3.0,1.0,"{""source"": ""lineage""}",gt_ids
+48,exit,"{""cell"": 35, ""sides"": 1}",,,,"{""neighbours"": [0]}",gt_ids
+48,gap_appearance,"{""gap"": -6, ""cells"": [16]}",,,,{},gt_ids
+48,reseal,"{""gap"": -4, ""cells"": [9, 23], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+48,reseal,"{""gap"": -3, ""cells"": [9, 23], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+48,contact_death,"{""cells"": [23, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+48,contact_birth,"{""cells"": [-1, 16]}",,,,"{""connectivity_change"": true}",gt_ids
+48,contact_birth,"{""cells"": [9, 17]}",,,,"{""connectivity_change"": true}",gt_ids
+48,contact_birth,"{""cells"": [16, 22]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+49,entry,"{""cell"": 35, ""sides"": 1}",,,,"{""neighbours"": [0]}",gt_ids
+49,gap_disappearance,"{""gap"": -4, ""cells"": [22, 23]}",,,,{},gt_ids
+49,gap_disappearance,"{""gap"": -3, ""cells"": [9, 22, 23]}",,,,{},gt_ids
+49,reseal,"{""gap"": -2, ""cells"": [16, 18], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+49,gap_disappearance,"{""gap"": -1, ""cells"": [16]}",,,,{},gt_ids
+49,contact_death,"{""cells"": [9, 17]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+49,contact_death,"{""cells"": [9, 22]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+49,contact_death,"{""cells"": [9, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+49,contact_death,"{""cells"": [18, 22]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+49,contact_death,"{""cells"": [22, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+49,contact_birth,"{""cells"": [2, 5]}",,,,"{""connectivity_change"": true}",gt_ids
+49,contact_birth,"{""cells"": [4, 9]}",,,,"{""connectivity_change"": true}",gt_ids
+49,contact_birth,"{""cells"": [4, 17]}",,,,"{""connectivity_change"": true}",gt_ids
+49,contact_birth,"{""cells"": [5, 9]}",,,,"{""connectivity_change"": true}",gt_ids
+49,contact_birth,"{""cells"": [16, 17]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+49,contact_birth,"{""cells"": [23, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+50,exit,"{""cell"": 35, ""sides"": 1}",,,,"{""neighbours"": [0]}",gt_ids
+50,contact_death,"{""cells"": [4, 9]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+50,contact_death,"{""cells"": [4, 17]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+50,contact_death,"{""cells"": [16, 22]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+50,contact_birth,"{""cells"": [9, 17]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+50,contact_birth,"{""cells"": [17, 22]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+51,entry,"{""cell"": 35, ""sides"": 1}",,,,"{""neighbours"": [0]}",gt_ids
+51,gap_appearance,"{""gap"": -1, ""cells"": [18]}",,,,{},gt_ids
+51,contact_death,"{""cells"": [2, 5]}",,,,"{""connectivity_change"": true}",gt_ids
+51,contact_death,"{""cells"": [9, 17]}",,,,"{""connectivity_change"": true}",gt_ids
+51,contact_death,"{""cells"": [23, 26]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+51,contact_birth,"{""cells"": [2, 4]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+51,contact_birth,"{""cells"": [22, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+52,rupture,"{""gap"": -2, ""cells"": [2, 4], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+52,gap_disappearance,"{""gap"": -1, ""cells"": [18]}",,,,{},gt_ids
+52,contact_death,"{""cells"": [5, 9]}",,,,"{""connectivity_change"": true}",gt_ids
+52,contact_death,"{""cells"": [22, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+53,division,"{""parent"": 5, ""children"": [6, 8]}",2.0,3.0,1.0,"{""source"": ""lineage""}",gt_ids
+53,exit,"{""cell"": 35, ""sides"": 1}",,,,"{""neighbours"": [0]}",gt_ids
+53,entry,"{""cell"": 36, ""sides"": 1}",,,,"{""neighbours"": [0]}",gt_ids
+53,rupture,"{""gap"": -6, ""cells"": [16, 17], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+53,rupture,"{""gap"": -5, ""cells"": [16, 17], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+53,gap_appearance,"{""gap"": -4, ""cells"": [4, 8, 9]}",,,,{},gt_ids
+53,gap_appearance,"{""gap"": -3, ""cells"": [9, 23, 26]}",,,,{},gt_ids
+53,gap_appearance,"{""gap"": -2, ""cells"": [23, 26]}",,,,{},gt_ids
+53,gap_disappearance,"{""gap"": -1, ""cells"": [2, 4]}",,,,{},gt_ids
+53,contact_death,"{""cells"": [2, 4]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+53,contact_death,"{""cells"": [17, 22]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+53,contact_birth,"{""cells"": [4, 9]}",,,,"{""connectivity_change"": true}",gt_ids
+53,contact_birth,"{""cells"": [4, 17]}",,,,"{""connectivity_change"": true}",gt_ids
+53,contact_birth,"{""cells"": [9, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+53,contact_birth,"{""cells"": [9, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+53,contact_birth,"{""cells"": [16, 22]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+53,contact_birth,"{""cells"": [23, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+54,exit,"{""cell"": 36, ""sides"": 1}",,,,"{""neighbours"": [0]}",gt_ids
+54,rupture,"{""gap"": -8, ""cells"": [16, 18], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+54,gap_appearance,"{""gap"": -7, ""cells"": [2, 4]}",,,,{},gt_ids
+54,gap_appearance,"{""gap"": -6, ""cells"": [2, 4, 8]}",,,,{},gt_ids
+54,gap_disappearance,"{""gap"": -5, ""cells"": [23, 26]}",,,,{},gt_ids
+54,gap_disappearance,"{""gap"": -4, ""cells"": [9, 23, 26]}",,,,{},gt_ids
+54,reseal,"{""gap"": -2, ""cells"": [16, 17], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+54,reseal,"{""gap"": -1, ""cells"": [16, 17], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+54,contact_death,"{""cells"": [9, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+54,contact_death,"{""cells"": [16, 22]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+54,contact_death,"{""cells"": [23, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+54,contact_birth,"{""cells"": [2, 4]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+54,contact_birth,"{""cells"": [6, 8]}",,,,"{""connectivity_change"": true}",gt_ids
+54,contact_birth,"{""cells"": [9, 17]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+54,contact_birth,"{""cells"": [22, 23]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+55,entry,"{""cell"": 36, ""sides"": 1}",,,,"{""neighbours"": [0]}",gt_ids
+55,rupture,"{""gap"": -9, ""cells"": [16, 17], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+55,rupture,"{""gap"": -8, ""cells"": [9, 23], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+55,rupture,"{""gap"": -7, ""cells"": [9, 23], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+55,rupture,"{""gap"": -6, ""cells"": [9, 23], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+55,rupture,"{""gap"": -5, ""cells"": [9, 23], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+55,gap_closure,"{""gap"": -4, ""cells"": [4, 8, 9], ""sides"": 3}",-2.0,-3.0,-1.0,{},gt_ids
+55,gap_disappearance,"{""gap"": -3, ""cells"": [2, 4, 8]}",,,,{},gt_ids
+55,reseal,"{""gap"": -2, ""cells"": [2, 4], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+55,gap_disappearance,"{""gap"": -1, ""cells"": [16, 18]}",,,,{},gt_ids
+55,contact_death,"{""cells"": [2, 8]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+55,contact_death,"{""cells"": [4, 17]}",,,,"{""connectivity_change"": true}",gt_ids
+55,contact_death,"{""cells"": [9, 17]}",,,,"{""connectivity_change"": true}",gt_ids
+55,contact_death,"{""cells"": [16, 18]}",,,,"{""connectivity_change"": true}",gt_ids
+55,contact_birth,"{""cells"": [9, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+56,exit,"{""cell"": 36, ""sides"": 1}",,,,"{""neighbours"": [0]}",gt_ids
+56,reseal,"{""gap"": -5, ""cells"": [9, 23], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+56,reseal,"{""gap"": -4, ""cells"": [9, 23], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+56,reseal,"{""gap"": -3, ""cells"": [9, 23], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+56,reseal,"{""gap"": -2, ""cells"": [9, 23], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+56,reseal,"{""gap"": -1, ""cells"": [16, 17], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+56,contact_death,"{""cells"": [4, 9]}",,,,"{""connectivity_change"": true}",gt_ids
+56,contact_death,"{""cells"": [6, 8]}",,,,"{""connectivity_change"": true}",gt_ids
+56,contact_death,"{""cells"": [8, 9]}",,,,"{""connectivity_change"": true}",gt_ids
+56,contact_death,"{""cells"": [9, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+56,contact_death,"{""cells"": [22, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+56,contact_birth,"{""cells"": [2, 45]}",,,,"{""connectivity_change"": true}",gt_ids
+57,gap_appearance,"{""gap"": -2, ""cells"": [8, 9]}",,,,{},gt_ids
+57,gap_appearance,"{""gap"": -1, ""cells"": [26]}",,,,{},gt_ids
+57,contact_death,"{""cells"": [2, 4]}",,,,"{""connectivity_change"": true}",gt_ids
+57,contact_death,"{""cells"": [9, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+57,contact_birth,"{""cells"": [6, 8]}",,,,"{""connectivity_change"": true}",gt_ids
+57,contact_birth,"{""cells"": [8, 9]}",,,,"{""connectivity_change"": true}",gt_ids
+57,contact_birth,"{""cells"": [22, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+58,gap_disappearance,"{""gap"": -2, ""cells"": [26]}",,,,{},gt_ids
+58,gap_disappearance,"{""gap"": -1, ""cells"": [8, 9]}",,,,{},gt_ids
+58,contact_death,"{""cells"": [2, 45]}",,,,"{""connectivity_change"": true}",gt_ids
+58,contact_death,"{""cells"": [6, 8]}",,,,"{""connectivity_change"": true}",gt_ids
+58,contact_death,"{""cells"": [8, 9]}",,,,"{""connectivity_change"": true}",gt_ids
+58,contact_death,"{""cells"": [22, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+58,contact_birth,"{""cells"": [2, 4]}",,,,"{""connectivity_change"": true}",gt_ids
+58,contact_birth,"{""cells"": [2, 8]}",,,,"{""connectivity_change"": true}",gt_ids
+58,contact_birth,"{""cells"": [9, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+58,contact_birth,"{""cells"": [16, 18]}",,,,"{""connectivity_change"": true}",gt_ids
+58,contact_birth,"{""cells"": [16, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+58,contact_birth,"{""cells"": [17, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+59,division,"{""parent"": 18, ""children"": [19, 20]}",2.0,3.0,1.0,"{""source"": ""heuristic""}",gt_ids
+59,entry,"{""cell"": 36, ""sides"": 2}",,,,"{""neighbours"": [0, 44]}",gt_ids
+59,gap_appearance,"{""gap"": -2, ""cells"": [16, 19]}",,,,{},gt_ids
+59,gap_appearance,"{""gap"": -1, ""cells"": [23]}",,,,{},gt_ids
+59,contact_death,"{""cells"": [2, 8]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+59,contact_death,"{""cells"": [9, 26]}",,,,"{""connectivity_change"": true}",gt_ids
+59,contact_death,"{""cells"": [16, 22]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+59,contact_birth,"{""cells"": [4, 17]}",,,,"{""connectivity_change"": true}",gt_ids
+59,contact_birth,"{""cells"": [9, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+59,contact_birth,"{""cells"": [9, 23]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+59,contact_birth,"{""cells"": [22, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+60,rupture,"{""gap"": -5, ""cells"": [16, 17], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+60,gap_appearance,"{""gap"": -4, ""cells"": [2, 8]}",,,,{},gt_ids
+60,rupture,"{""gap"": -3, ""cells"": [4, 8], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+60,gap_disappearance,"{""gap"": -2, ""cells"": [23]}",,,,{},gt_ids
+60,reseal,"{""gap"": -1, ""cells"": [16, 19], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+60,contact_death,"{""cells"": [4, 17]}",,,,"{""connectivity_change"": true}",gt_ids
+60,contact_death,"{""cells"": [9, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+60,contact_death,"{""cells"": [9, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+60,contact_death,"{""cells"": [17, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+60,contact_death,"{""cells"": [22, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+60,contact_birth,"{""cells"": [2, 8]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+60,contact_birth,"{""cells"": [4, 9]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+60,contact_birth,"{""cells"": [6, 8]}",,,,"{""connectivity_change"": true}",gt_ids
+61,exit,"{""cell"": 36, ""sides"": 2}",,,,"{""neighbours"": [0, 44]}",gt_ids
+61,reseal,"{""gap"": -2, ""cells"": [2, 8], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+61,reseal,"{""gap"": -1, ""cells"": [16, 17], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+61,contact_death,"{""cells"": [2, 4]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+61,contact_death,"{""cells"": [6, 8]}",,,,"{""connectivity_change"": true}",gt_ids
+61,contact_death,"{""cells"": [16, 19]}",,,,"{""connectivity_change"": true}",gt_ids
+61,contact_death,"{""cells"": [19, 20]}",,,,"{""connectivity_change"": true}",gt_ids
+61,contact_birth,"{""cells"": [-3, 9]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+61,contact_birth,"{""cells"": [2, 44]}",,,,"{""connectivity_change"": true}",gt_ids
+61,contact_birth,"{""cells"": [2, 45]}",,,,"{""connectivity_change"": true}",gt_ids
+61,contact_birth,"{""cells"": [9, 17]}",,,,"{""connectivity_change"": true}",gt_ids
+61,contact_birth,"{""cells"": [22, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+62,entry,"{""cell"": 36, ""sides"": 2}",,,,"{""neighbours"": [0, 44]}",gt_ids
+62,rupture,"{""gap"": -3, ""cells"": [16, 17], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+62,gap_appearance,"{""gap"": -2, ""cells"": [8]}",,,,{},gt_ids
+62,gap_disappearance,"{""gap"": -1, ""cells"": [4, 8, 9]}",,,,{},gt_ids
+62,contact_death,"{""cells"": [2, 44]}",,,,"{""connectivity_change"": true}",gt_ids
+62,contact_death,"{""cells"": [2, 45]}",,,,"{""connectivity_change"": true}",gt_ids
+62,contact_death,"{""cells"": [4, 8]}",,,,"{""connectivity_change"": true}",gt_ids
+62,contact_death,"{""cells"": [4, 9]}",,,,"{""connectivity_change"": true}",gt_ids
+62,contact_death,"{""cells"": [9, 17]}",,,,"{""connectivity_change"": true}",gt_ids
+62,contact_death,"{""cells"": [22, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+62,contact_birth,"{""cells"": [6, 8]}",,,,"{""connectivity_change"": true}",gt_ids
+62,contact_birth,"{""cells"": [16, 19]}",,,,"{""connectivity_change"": true}",gt_ids
+62,contact_birth,"{""cells"": [17, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+63,rupture,"{""gap"": -6, ""cells"": [16, 19], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+63,rupture,"{""gap"": -5, ""cells"": [16, 19], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+63,gap_appearance,"{""gap"": -4, ""cells"": [9, 23]}",,,,{},gt_ids
+63,gap_appearance,"{""gap"": -3, ""cells"": [26]}",,,,{},gt_ids
+63,gap_disappearance,"{""gap"": -2, ""cells"": [8]}",,,,{},gt_ids
+63,reseal,"{""gap"": -1, ""cells"": [16, 17], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+63,contact_death,"{""cells"": [2, 8]}",,,,"{""connectivity_change"": true}",gt_ids
+63,contact_death,"{""cells"": [17, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+63,contact_birth,"{""cells"": [2, 44]}",,,,"{""connectivity_change"": true}",gt_ids
+63,contact_birth,"{""cells"": [4, 9]}",,,,"{""connectivity_change"": true}",gt_ids
+63,contact_birth,"{""cells"": [9, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+63,contact_birth,"{""cells"": [19, 20]}",,,,"{""connectivity_change"": true}",gt_ids
+63,contact_birth,"{""cells"": [22, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+64,gap_appearance,"{""gap"": -5, ""cells"": [2, 4, 8, 9]}",,,,{},gt_ids
+64,gap_disappearance,"{""gap"": -3, ""cells"": [9, 23]}",,,,{},gt_ids
+64,contact_death,"{""cells"": [9, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+64,contact_death,"{""cells"": [22, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+64,contact_birth,"{""cells"": [2, 4]}",,,,"{""connectivity_change"": true}",gt_ids
+64,contact_birth,"{""cells"": [8, 9]}",,,,"{""connectivity_change"": true}",gt_ids
+65,rupture,"{""gap"": -7, ""cells"": [2, 44], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+65,gap_appearance,"{""gap"": -6, ""cells"": [9, 23]}",,,,{},gt_ids
+65,gap_appearance,"{""gap"": -5, ""cells"": [9, 23]}",,,,{},gt_ids
+65,gap_disappearance,"{""gap"": -4, ""cells"": [26]}",,,,{},gt_ids
+65,gap_disappearance,"{""gap"": -3, ""cells"": [2, 4, 8, 9]}",,,,{},gt_ids
+65,reseal,"{""gap"": -2, ""cells"": [16, 19], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+65,reseal,"{""gap"": -1, ""cells"": [16, 19], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+65,contact_death,"{""cells"": [2, 4]}",,,,"{""connectivity_change"": true}",gt_ids
+65,contact_death,"{""cells"": [6, 8]}",,,,"{""connectivity_change"": true}",gt_ids
+65,contact_death,"{""cells"": [8, 9]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+65,contact_death,"{""cells"": [36, 44]}",,,,"{""connectivity_change"": true}",gt_ids
+65,contact_birth,"{""cells"": [4, 8]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+65,contact_birth,"{""cells"": [9, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+66,exit,"{""cell"": 26, ""sides"": 1}",,,,"{""neighbours"": [0]}",gt_ids
+66,gap_appearance,"{""gap"": -7, ""cells"": [2, 4]}",,,,{},gt_ids
+66,gap_appearance,"{""gap"": -6, ""cells"": [2, 4]}",,,,{},gt_ids
+66,gap_appearance,"{""gap"": -5, ""cells"": [2, 4, 8, 9]}",,,,{},gt_ids
+66,gap_appearance,"{""gap"": -4, ""cells"": [6, 8]}",,,,{},gt_ids
+66,reseal,"{""gap"": -3, ""cells"": [9, 23], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+66,reseal,"{""gap"": -2, ""cells"": [9, 23], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+66,gap_disappearance,"{""gap"": -1, ""cells"": [2, 44]}",,,,{},gt_ids
+66,contact_death,"{""cells"": [2, 44]}",,,,"{""connectivity_change"": true}",gt_ids
+66,contact_death,"{""cells"": [4, 8]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+66,contact_birth,"{""cells"": [2, 4]}",,,,"{""connectivity_change"": true}",gt_ids
+66,contact_birth,"{""cells"": [2, 8]}",,,,"{""connectivity_change"": true}",gt_ids
+66,contact_birth,"{""cells"": [6, 8]}",,,,"{""connectivity_change"": true}",gt_ids
+66,contact_birth,"{""cells"": [8, 9]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+67,entry,"{""cell"": 26, ""sides"": 1}",,,,"{""neighbours"": [0]}",gt_ids
+67,rupture,"{""gap"": -5, ""cells"": [16, 19], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+67,gap_disappearance,"{""gap"": -4, ""cells"": [6, 8]}",,,,{},gt_ids
+67,gap_disappearance,"{""gap"": -3, ""cells"": [2, 4, 8, 9]}",,,,{},gt_ids
+67,gap_disappearance,"{""gap"": -2, ""cells"": [2, 4]}",,,,{},gt_ids
+67,gap_disappearance,"{""gap"": -1, ""cells"": [2, 4]}",,,,{},gt_ids
+67,contact_death,"{""cells"": [2, 4]}",,,,"{""connectivity_change"": true}",gt_ids
+67,contact_death,"{""cells"": [2, 8]}",,,,"{""connectivity_change"": true}",gt_ids
+67,contact_death,"{""cells"": [6, 8]}",,,,"{""connectivity_change"": true}",gt_ids
+67,contact_death,"{""cells"": [8, 9]}",,,,"{""connectivity_change"": true}",gt_ids
+67,contact_death,"{""cells"": [9, 23]}",,,,"{""connectivity_change"": true}",gt_ids
+67,contact_death,"{""cells"": [16, 17]}",,,,"{""connectivity_change"": true}",gt_ids
+67,contact_birth,"{""cells"": [36, 44]}",,,,"{""connectivity_change"": true}",gt_ids
+68,division,"{""parent"": 22, ""children"": [22, 25]}",2.0,3.0,1.0,"{""source"": ""heuristic_asymmetric""}",gt_ids
+68,disappearance,"{""cell"": 23, ""sides"": 1}",,,,"{""neighbours"": [0]}",gt_ids
+68,appearance,"{""cell"": 24, ""sides"": 2}",,,,"{""neighbours"": [0, 9]}",gt_ids
+68,rupture,"{""gap"": -3, ""cells"": [44, 45], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+68,rupture,"{""gap"": -2, ""cells"": [44, 45], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+68,reseal,"{""gap"": -1, ""cells"": [16, 19], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+68,contact_death,"{""cells"": [36, 44]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+68,contact_birth,"{""cells"": [2, 4]}",,,,"{""connectivity_change"": true}",gt_ids
+68,contact_birth,"{""cells"": [2, 45]}",,,,"{""connectivity_change"": true}",gt_ids
+68,contact_birth,"{""cells"": [4, 8]}",,,,"{""connectivity_change"": true}",gt_ids
+68,contact_birth,"{""cells"": [6, 8]}",,,,"{""connectivity_change"": true}",gt_ids
+68,contact_birth,"{""cells"": [16, 17]}",,,,"{""connectivity_change"": true}",gt_ids
+69,exit,"{""cell"": 36, ""sides"": 1}",,,,"{""neighbours"": [0]}",gt_ids
+69,gap_appearance,"{""gap"": -3, ""cells"": [24, 25]}",,,,{},gt_ids
+69,reseal,"{""gap"": -2, ""cells"": [44, 45], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+69,reseal,"{""gap"": -1, ""cells"": [44, 45], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+69,contact_death,"{""cells"": [2, 4]}",,,,"{""connectivity_change"": true}",gt_ids
+69,contact_death,"{""cells"": [6, 8]}",,,,"{""connectivity_change"": true}",gt_ids
+69,contact_death,"{""cells"": [9, 24]}",,,,"{""connectivity_change"": true}",gt_ids
+69,contact_death,"{""cells"": [9, 25]}",,,,"{""connectivity_change"": true}",gt_ids
+69,contact_death,"{""cells"": [16, 19]}",,,,"{""connectivity_change"": true}",gt_ids
+69,contact_birth,"{""cells"": [8, 9]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+69,contact_birth,"{""cells"": [24, 25]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+70,gap_appearance,"{""gap"": -4, ""cells"": [2, 44, 45]}",,,,{},gt_ids
+70,gap_appearance,"{""gap"": -3, ""cells"": [2, 4]}",,,,{},gt_ids
+70,rupture,"{""gap"": -2, ""cells"": [16, 17], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+70,reseal,"{""gap"": -1, ""cells"": [24, 25], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+70,contact_death,"{""cells"": [4, 9]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+70,contact_birth,"{""cells"": [2, 4]}",,,,"{""connectivity_change"": true}",gt_ids
+70,contact_birth,"{""cells"": [2, 44]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+71,exit,"{""cell"": 26, ""sides"": 1}",,,,"{""neighbours"": [0]}",gt_ids
+71,entry,"{""cell"": 36, ""sides"": 2}",,,,"{""neighbours"": [0, 44]}",gt_ids
+71,gap_appearance,"{""gap"": -6, ""cells"": [2]}",,,,{},gt_ids
+71,gap_appearance,"{""gap"": -5, ""cells"": [16, 19]}",,,,{},gt_ids
+71,gap_appearance,"{""gap"": -4, ""cells"": [2, 8]}",,,,{},gt_ids
+71,reseal,"{""gap"": -3, ""cells"": [16, 17], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+71,contact_death,"{""cells"": [-2, 4]}",,,,"{""connectivity_change"": true}",gt_ids
+71,contact_death,"{""cells"": [-1, 44]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+71,contact_death,"{""cells"": [4, 8]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+71,contact_death,"{""cells"": [8, 9]}",,,,"{""connectivity_change"": true}",gt_ids
+71,contact_death,"{""cells"": [19, 20]}",,,,"{""connectivity_change"": true}",gt_ids
+71,contact_birth,"{""cells"": [2, 8]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+71,contact_birth,"{""cells"": [9, 24]}",,,,"{""connectivity_change"": true}",gt_ids
+71,contact_birth,"{""cells"": [16, 19]}",,,,"{""connectivity_change"": true}",gt_ids
+72,exit,"{""cell"": 20, ""sides"": 1}",,,,"{""neighbours"": [0]}",gt_ids
+72,entry,"{""cell"": 26, ""sides"": 1}",,,,"{""neighbours"": [0]}",gt_ids
+72,rupture,"{""gap"": -7, ""cells"": [16, 17], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+72,rupture,"{""gap"": -6, ""cells"": [16, 17], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+72,reseal,"{""gap"": -3, ""cells"": [2, 45], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+72,gap_disappearance,"{""gap"": -1, ""cells"": [2]}",,,,{},gt_ids
+72,contact_death,"{""cells"": [2, 4]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+72,contact_death,"{""cells"": [22, 25]}",,,,"{""connectivity_change"": true}",gt_ids
+72,contact_death,"{""cells"": [24, 25]}",,,,"{""connectivity_change"": true}",gt_ids
+72,contact_death,"{""cells"": [36, 44]}",,,,"{""connectivity_change"": true}",gt_ids
+72,contact_birth,"{""cells"": [-2, 8]}",,,,"{""connectivity_change"": true}",gt_ids
+72,contact_birth,"{""cells"": [4, 8]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+73,exit,"{""cell"": 26, ""sides"": 1}",,,,"{""neighbours"": [0]}",gt_ids
+73,gap_appearance,"{""gap"": -6, ""cells"": [22, 25]}",,,,{},gt_ids
+73,gap_disappearance,"{""gap"": -5, ""cells"": [2, 8]}",,,,{},gt_ids
+73,gap_disappearance,"{""gap"": -4, ""cells"": [2, 8]}",,,,{},gt_ids
+73,reseal,"{""gap"": -3, ""cells"": [16, 17], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+73,reseal,"{""gap"": -1, ""cells"": [16, 19], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+73,contact_death,"{""cells"": [2, 8]}",,,,"{""connectivity_change"": true}",gt_ids
+73,contact_death,"{""cells"": [2, 44]}",,,,"{""connectivity_change"": true}",gt_ids
+73,contact_death,"{""cells"": [2, 45]}",,,,"{""connectivity_change"": true}",gt_ids
+73,contact_birth,"{""cells"": [4, 9]}",,,,"{""connectivity_change"": true}",gt_ids
+73,contact_birth,"{""cells"": [6, 8]}",,,,"{""connectivity_change"": true}",gt_ids
+73,contact_birth,"{""cells"": [22, 25]}",,,,"{""connectivity_change"": true}",gt_ids
+73,contact_birth,"{""cells"": [24, 25]}",,,,"{""connectivity_change"": true}",gt_ids
+74,reseal,"{""gap"": -1, ""cells"": [16, 17], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+74,contact_death,"{""cells"": [4, 9]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+74,contact_death,"{""cells"": [6, 8]}",,,,"{""connectivity_change"": true}",gt_ids
+74,contact_birth,"{""cells"": [2, 44]}",,,,"{""connectivity_change"": true}",gt_ids
+74,contact_birth,"{""cells"": [2, 45]}",,,,"{""connectivity_change"": true}",gt_ids
+75,rupture,"{""gap"": -3, ""cells"": [2, 45], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+75,rupture,"{""gap"": -2, ""cells"": [16, 17], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+75,contact_death,"{""cells"": [2, 44]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+75,contact_death,"{""cells"": [4, 8]}",,,,"{""connectivity_change"": true}",gt_ids
+75,contact_death,"{""cells"": [9, 24]}",,,,"{""connectivity_change"": true}",gt_ids
+75,contact_death,"{""cells"": [16, 19]}",,,,"{""connectivity_change"": true}",gt_ids
+75,contact_birth,"{""cells"": [2, 4]}",,,,"{""connectivity_change"": true}",gt_ids
+75,contact_birth,"{""cells"": [36, 44]}",,,,"{""connectivity_change"": true}",gt_ids
+76,exit,"{""cell"": 36, ""sides"": 2}",,,,"{""neighbours"": [0, 44]}",gt_ids
+76,gap_disappearance,"{""gap"": -3, ""cells"": [22, 25]}",,,,{},gt_ids
+76,reseal,"{""gap"": -2, ""cells"": [16, 17], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+76,contact_death,"{""cells"": [2, 4]}",,,,"{""connectivity_change"": true}",gt_ids
+76,contact_death,"{""cells"": [22, 25]}",,,,"{""connectivity_change"": true}",gt_ids
+76,contact_birth,"{""cells"": [9, 24]}",,,,"{""connectivity_change"": true}",gt_ids
+76,contact_birth,"{""cells"": [16, 19]}",,,,"{""connectivity_change"": true}",gt_ids
+77,division,"{""parent"": 9, ""children"": [11, 12]}",2.0,3.0,1.0,"{""source"": ""lineage""}",gt_ids
+77,entry,"{""cell"": 36, ""sides"": 1}",,,,"{""neighbours"": [0]}",gt_ids
+77,gap_appearance,"{""gap"": -2, ""cells"": [2, 44]}",,,,{},gt_ids
+77,contact_death,"{""cells"": [16, 17]}",,,,"{""connectivity_change"": true}",gt_ids
+77,contact_birth,"{""cells"": [-1, 44]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+77,contact_birth,"{""cells"": [2, 4]}",,,,"{""connectivity_change"": true}",gt_ids
+77,contact_birth,"{""cells"": [2, 44]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+78,rupture,"{""gap"": -3, ""cells"": [24, 25], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+78,contact_death,"{""cells"": [-2, 44]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+78,contact_death,"{""cells"": [2, 4]}",,,,"{""connectivity_change"": true}",gt_ids
+78,contact_death,"{""cells"": [8, 12]}",,,,"{""connectivity_change"": true}",gt_ids
+78,contact_death,"{""cells"": [11, 24]}",,,,"{""connectivity_change"": true}",gt_ids
+78,contact_birth,"{""cells"": [-1, 45]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+78,contact_birth,"{""cells"": [2, 8]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+78,contact_birth,"{""cells"": [11, 12]}",,,,"{""connectivity_change"": true}",gt_ids
+79,exit,"{""cell"": 36, ""sides"": 1}",,,,"{""neighbours"": [0]}",gt_ids
+79,entry,"{""cell"": 21, ""sides"": 3}",,,,"{""neighbours"": [0, 16, 19]}",gt_ids
+79,entry,"{""cell"": 27, ""sides"": 1}",,,,"{""neighbours"": [0]}",gt_ids
+79,gap_appearance,"{""gap"": -5, ""cells"": [16, 17]}",,,,{},gt_ids
+79,gap_appearance,"{""gap"": -4, ""cells"": [16, 17]}",,,,{},gt_ids
+79,gap_disappearance,"{""gap"": -3, ""cells"": [24, 25]}",,,,{},gt_ids
+79,reseal,"{""gap"": -2, ""cells"": [2, 45], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+79,gap_closure,"{""gap"": -1, ""cells"": [2, 44, 45], ""sides"": 3}",-2.0,-3.0,-1.0,{},gt_ids
+79,contact_death,"{""cells"": [2, 8]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+79,contact_death,"{""cells"": [4, 12]}",,,,"{""connectivity_change"": true}",gt_ids
+79,contact_death,"{""cells"": [24, 25]}",,,,"{""connectivity_change"": true}",gt_ids
+79,contact_birth,"{""cells"": [2, 4]}",,,,"{""connectivity_change"": true}",gt_ids
+79,contact_birth,"{""cells"": [4, 8]}",,,,"{""connectivity_change"": true}",gt_ids
+79,contact_birth,"{""cells"": [16, 17]}",,,,"{""connectivity_change"": true}",gt_ids
+80,entry,"{""cell"": 36, ""sides"": 1}",,,,"{""neighbours"": [0]}",gt_ids
+80,rupture,"{""gap"": -3, ""cells"": [2, 4], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+80,reseal,"{""gap"": -2, ""cells"": [16, 17], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+80,reseal,"{""gap"": -1, ""cells"": [16, 17], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+80,contact_death,"{""cells"": [2, 44]}",,,,"{""connectivity_change"": true}",gt_ids
+80,contact_death,"{""cells"": [2, 45]}",,,,"{""connectivity_change"": true}",gt_ids
+80,contact_death,"{""cells"": [11, 12]}",,,,"{""connectivity_change"": true}",gt_ids
+80,contact_death,"{""cells"": [16, 21]}",,,,"{""connectivity_change"": true}",gt_ids
+80,contact_death,"{""cells"": [19, 21]}",,,,"{""connectivity_change"": true}",gt_ids
+80,contact_birth,"{""cells"": [12, 17]}",,,,"{""connectivity_change"": true}",gt_ids
+80,contact_birth,"{""cells"": [22, 25]}",,,,"{""connectivity_change"": true}",gt_ids
+80,contact_birth,"{""cells"": [24, 25]}",,,,"{""connectivity_change"": true}",gt_ids
+81,rupture,"{""gap"": -4, ""cells"": [16, 17], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+81,rupture,"{""gap"": -3, ""cells"": [16, 17], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+81,gap_appearance,"{""gap"": -2, ""cells"": [4, 12]}",,,,{},gt_ids
+81,reseal,"{""gap"": -1, ""cells"": [2, 4], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+81,contact_death,"{""cells"": [4, 8]}",,,,"{""connectivity_change"": true}",gt_ids
+81,contact_death,"{""cells"": [22, 25]}",,,,"{""connectivity_change"": true}",gt_ids
+81,contact_death,"{""cells"": [24, 25]}",,,,"{""connectivity_change"": true}",gt_ids
+81,contact_birth,"{""cells"": [2, 44]}",,,,"{""connectivity_change"": true}",gt_ids
+81,contact_birth,"{""cells"": [2, 45]}",,,,"{""connectivity_change"": true}",gt_ids
+81,contact_birth,"{""cells"": [4, 12]}",,,,"{""connectivity_change"": true}",gt_ids
+81,contact_birth,"{""cells"": [11, 27]}",,,,"{""connectivity_change"": true}",gt_ids
+81,contact_birth,"{""cells"": [17, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+81,contact_birth,"{""cells"": [19, 21]}",,,,"{""connectivity_change"": true}",gt_ids
+82,gap_disappearance,"{""gap"": -3, ""cells"": [4, 12]}",,,,{},gt_ids
+82,gap_disappearance,"{""gap"": -2, ""cells"": [16, 17]}",,,,{},gt_ids
+82,gap_disappearance,"{""gap"": -1, ""cells"": [16, 17]}",,,,{},gt_ids
+82,contact_death,"{""cells"": [4, 12]}",,,,"{""connectivity_change"": true}",gt_ids
+82,contact_death,"{""cells"": [11, 27]}",,,,"{""connectivity_change"": true}",gt_ids
+82,contact_death,"{""cells"": [16, 17]}",,,,"{""connectivity_change"": true}",gt_ids
+82,contact_death,"{""cells"": [16, 19]}",,,,"{""connectivity_change"": true}",gt_ids
+82,contact_death,"{""cells"": [17, 22]}",,,,"{""connectivity_change"": true}",gt_ids
+82,contact_birth,"{""cells"": [4, 44]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+82,contact_birth,"{""cells"": [24, 25]}",,,,"{""connectivity_change"": true}",gt_ids
