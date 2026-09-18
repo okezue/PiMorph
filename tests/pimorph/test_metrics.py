@@ -200,3 +200,36 @@ def test_reliability_table_and_plot(tmp_path):
     out = plot_reliability(table, tmp_path / "rel" / "reliability.png")
     assert out.exists() and out.stat().st_size > 0
     assert out.read_bytes()[:8] == b"\x89PNG\r\n\x1a\n"
+
+
+def test_3clique_enrichment_null_and_realization(voronoi40):
+    import pandas as pd
+
+    from pimorph.complex import extract_complex
+    from pimorph.metrics.sensitivity import (
+        RETICULAR,
+        all_reticular_3clique_enrichment,
+        all_reticular_3clique_fraction,
+        tricellular_realized_3clique_fraction,
+    )
+
+    cx = extract_complex(voronoi40)
+    # confluent Voronoi tiling: nearly every graph 3-clique is a tricellular vertex; the
+    # rest are three pairwise-adjacent cells that meet around a fourth (not a junction)
+    assert tricellular_realized_3clique_fraction(cx) > 0.95
+    edges = cx.cell_cell_edges()
+    rng = np.random.default_rng(0)
+    random_labels = pd.Series([RETICULAR if rng.random() < 0.5 else "straight" for _ in edges], index=edges)
+    enr = all_reticular_3clique_enrichment(cx, random_labels, n_perm=400)
+    assert enr["observed"] == all_reticular_3clique_fraction(cx, random_labels)
+    assert abs(enr["z"]) < 3.0 and enr["perm_p"] > 0.01
+    # reticular labels concentrated on the edges of a few vertices: strong enrichment
+    conc = pd.Series("straight", index=edges, dtype=object)
+    for v in range(cx.n_vertices):
+        if len(cx.vertex_cell_set(v)) >= 3 and rng.random() < 0.3:
+            for h in cx.vertex_out_half_edges(v):
+                e = h >> 1
+                if e in conc.index:
+                    conc[e] = RETICULAR
+    enr2 = all_reticular_3clique_enrichment(cx, conc, n_perm=400)
+    assert enr2["z"] > 3.0 and enr2["perm_p"] < 0.01

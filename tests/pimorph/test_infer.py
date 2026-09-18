@@ -206,3 +206,90 @@ def test_merge_small_regions():
     iso = np.zeros((20, 20), np.int32)
     iso[5:7, 5:7] = 4
     assert merge_small_regions(iso, 10).max() == 0
+
+
+def test_fill_small_background_assigns_seams_and_keeps_gaps():
+    from pimorph.infer.decoder import _fill_small_background
+
+    lab = np.zeros((40, 40), np.int32)
+    lab[2:38, 2:19] = 1
+    lab[2:38, 21:38] = 2  # 2 px seam between the cells, enclosed by the image? no: open to the border rows
+    lab[0:2, :] = 0
+    lab[38:, :] = 0
+    # close the seam at both ends so it becomes an enclosed component
+    lab[2, 19:21] = 1
+    lab[37, 19:21] = 2
+    seam = (lab == 0) & (np.arange(40)[None, :] >= 19) & (np.arange(40)[None, :] <= 20)
+    seam[:3] = False
+    seam[37:] = False  # the seam rows that are enclosed by the two closing pixels
+    assert 0 < seam.sum() < 100
+    out = _fill_small_background(lab, min_gap_area=100)
+    assert (out[seam] > 0).all()  # seam assigned to the nearest cells
+    assert (out[0] == 0).all() and (out[39] == 0).all()  # border-touching background is outer, untouched
+    # a large enclosed hole stays a gap
+    lab2 = np.ones((60, 60), np.int32)
+    lab2[20:40, 20:40] = 0
+    assert (_fill_small_background(lab2, min_gap_area=100) == lab2).all()
+
+
+def _two_cell_maps(shape=(40, 60), touching=True):
+    """Two seeded blobs; the signed-distance head says the strip between them is
+    outside every cell unless ``touching``."""
+    from pimorph.infer.proposals import ProposalMaps
+
+    H, W = shape
+    boundary = np.zeros(shape, np.float32)
+    boundary[:, 29:31] = 0.9
+    seed = np.zeros(shape, np.float32)
+    seed[20, 12] = 1.0
+    seed[20, 47] = 1.0
+    rr, cc = np.mgrid[:H, :W]
+    dist = np.minimum(np.abs(cc - 29.5), 6.0).astype(np.float32)
+    if not touching:
+        dist[:, 26:34] = -3.0  # 8 px strip predicted outside any cell
+    return ProposalMaps(
+        boundary=boundary,
+        seed=seed,
+        tissue=np.ones(shape, bool),
+        gap=np.zeros(shape, np.float32),
+        sigma=np.ones(shape, np.float32),
+        seed_points=np.array([[20.0, 12.0], [20.0, 47.0]]),
+        seed_scores=np.array([1.0, 1.0], np.float32),
+        vertex=np.zeros(shape, np.float32),
+        distance=dist,
+        source="test",
+    )
+
+
+def test_decoder_outside_exclusion_separates_non_touching_cells():
+    dec = ConstrainedDecoder()
+    touching = dec.decode(_two_cell_maps(touching=True), DecoderParams(min_cell_area_px=20, min_gap_area_px=4))
+    apart = dec.decode(_two_cell_maps(touching=False), DecoderParams(min_cell_area_px=20, min_gap_area_px=4))
+    assert touching.cx.cell_cell_edges().size >= 1
+    assert apart.cx.cell_faces.size == 2 and apart.cx.cell_cell_edges().size == 0
+    legacy = dec.decode(
+        _two_cell_maps(touching=False), DecoderParams(min_cell_area_px=20, min_gap_area_px=4, outside_px=None)
+    )
+    assert legacy.cx.cell_cell_edges().size >= 1  # without the rule the flood joins them
+
+
+def test_vertex_consistent_merge_removes_unsupported_split():
+    from pimorph.infer.decoder import vertex_consistent_merges
+
+    maps = _two_cell_maps(touching=True)
+    maps.boundary[:] = 0.05  # no boundary evidence for the edge between the two seeds
+    dec = ConstrainedDecoder()
+    base = dec.decode(maps, DecoderParams(min_cell_area_px=20, min_gap_area_px=4))
+    assert base.cx.cell_faces.size == 2
+    lab, n = vertex_consistent_merges(
+        base.labels, base.cx, maps, DecoderParams(merge_boundary_max=0.3, max_merges=5, merge_vertex_min=0.5)
+    )
+    assert n == 1 and len(np.unique(lab[lab > 0])) == 1
+    merged = dec.decode(
+        maps, DecoderParams(min_cell_area_px=20, min_gap_area_px=4, merge_boundary_max=0.3, max_merges=5)
+    )
+    assert merged.cx.cell_faces.size == 1 and merged.info["n_vertex_merges"] == 1
+    # strong vertex-head support at the edge ends vetoes the merge
+    maps.vertex[:, 29:31] = 0.95
+    kept = dec.decode(maps, DecoderParams(min_cell_area_px=20, min_gap_area_px=4, merge_boundary_max=0.3, max_merges=5))
+    assert kept.cx.cell_faces.size == 2

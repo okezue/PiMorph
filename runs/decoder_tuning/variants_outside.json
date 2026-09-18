@@ -1,0 +1,12 @@
+{
+ "legacy": [true, {"outside_px": null}],
+ "outside1": [false, {"outside_px": 1.0}],
+ "outside0.5": [false, {"outside_px": 0.5}],
+ "outside0": [false, {"outside_px": 0.0}],
+ "inside0.5": [false, {"outside_px": -0.5}],
+ "inside1": [false, {"outside_px": -1.0}],
+ "outside0_perm": [true, {"outside_px": 0.0}],
+ "outside0_merge0.2": [false, {"outside_px": 0.0, "merge_boundary_max": 0.2, "max_merges": 400}],
+ "outside0_merge0.35": [false, {"outside_px": 0.0, "merge_boundary_max": 0.35, "max_merges": 400}],
+ "outside0_gap0.5": [false, {"outside_px": 0.0, "gap_threshold": 0.5}]
+}

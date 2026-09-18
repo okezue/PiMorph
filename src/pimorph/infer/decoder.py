@@ -33,10 +33,23 @@ class DecoderParams:
     cell_radius_px: float = 15.0
     compactness: float = 0.0
     gap_threshold: float = 0.7  # pixels with gap >= threshold are excluded from cells
+    # pixels whose predicted signed distance is below -outside_px are outside every cell
+    # and excluded too (None disables). The gap head only knows ENCLOSED background, so
+    # without this the flood runs through open background and joins cells that never
+    # touch (HAEC field 0005: 1,167 predicted multicellular vertices vs 81 true at None,
+    # 89 at 0.0). Values >= 1 px carve slivers along real contacts in confluent tissue.
+    outside_px: Optional[float] = 0.0
     min_cell_area_px: int = 60
     min_gap_area_px: int = 12
     fill_gaps: bool = False  # True ignores gap evidence entirely (no explicit gaps)
     smooth_iters: int = 4
+    # vertex-consistency merges: a cell-cell edge whose mean boundary support is below
+    # merge_boundary_max and whose end vertices have no vertex-head support above
+    # merge_vertex_min is a false split; the two cells are merged (0 merges disables)
+    merge_boundary_max: float = 0.0
+    merge_vertex_min: float = 0.5
+    merge_vertex_radius_px: float = 3.0
+    max_merges: int = 0
     label: str = ""
 
     def with_(self, **kw) -> "DecoderParams":
@@ -83,7 +96,9 @@ def merge_small_regions(labels: np.ndarray, min_area: int) -> np.ndarray:
 
 def _fill_small_background(labels: np.ndarray, min_gap_area: int) -> np.ndarray:
     """Assign enclosed background components smaller than ``min_gap_area`` to the
-    dominant neighbouring cell (they are segmentation debris, not gaps)."""
+    nearest cell pixel by pixel (they are segmentation debris or annotation seams,
+    not gaps). Vectorized: label images with thousands of 1 px seams (FlyWing has
+    about 10,000 per field) fill in well under a second."""
     bg = cc_label(labels == 0, connectivity=1)
     if bg.max() == 0:
         return labels
@@ -91,16 +106,76 @@ def _fill_small_background(labels: np.ndarray, min_gap_area: int) -> np.ndarray:
     border = np.zeros(bg.max() + 1, dtype=bool)
     for edge in (bg[0], bg[-1], bg[:, 0], bg[:, -1]):
         border[np.unique(edge)] = True
+    small = (counts < min_gap_area) & ~border
+    small[0] = False
+    fill = small[bg]
+    if not fill.any():
+        return labels
+    idx = ndi.distance_transform_edt(labels == 0, return_distances=False, return_indices=True)
     lab = labels.copy()
-    small = [i for i in range(1, bg.max() + 1) if counts[i] < min_gap_area and not border[i]]
-    for i in small:
-        m = bg == i
-        ring = ndi.binary_dilation(m, structure=np.ones((3, 3), bool)) & ~m
-        vals = lab[ring]
-        vals = vals[vals > 0]
-        if vals.size:
-            lab[m] = int(np.bincount(vals).argmax())
+    lab[fill] = labels[idx[0][fill], idx[1][fill]]
     return lab
+
+
+def edge_support(cx: HalfEdgeComplex, prob: np.ndarray, e: int) -> float:
+    """Mean of a probability map along the pixel path of edge ``e``."""
+    H, W = prob.shape
+    p = cx.edge_geometry(int(e))
+    if p.shape[0] == 0:
+        return 0.0
+    pr = np.clip(np.round(p[:, 0]).astype(int), 0, H - 1)
+    pc = np.clip(np.round(p[:, 1]).astype(int), 0, W - 1)
+    return float(prob[pr, pc].mean())
+
+
+def _local_max(prob: np.ndarray, rc, radius: float) -> float:
+    H, W = prob.shape
+    r, c = int(round(rc[0])), int(round(rc[1]))
+    k = int(np.ceil(radius))
+    win = prob[max(r - k, 0) : min(r + k + 1, H), max(c - k, 0) : min(c + k + 1, W)]
+    return float(win.max()) if win.size else 0.0
+
+
+def vertex_consistent_merges(
+    labels: np.ndarray, cx: HalfEdgeComplex, maps: ProposalMaps, params: DecoderParams
+) -> tuple[np.ndarray, int]:
+    """Merge cell pairs across edges that the evidence does not support.
+
+    A false split of one cell produces an edge with weak boundary probability whose
+    two ends create vertices the vertex head does not predict. Such edges are
+    removed by merging their two cells, weakest first, at most ``params.max_merges``
+    per call and each cell at most once. The vertex test is skipped when the
+    proposal has no vertex map.
+    """
+    cands = []
+    for e in cx.cell_cell_edges():
+        e = int(e)
+        fa, fb = (int(f) for f in cx.edge_faces[e])
+        a, b = int(cx.face_label[fa]), int(cx.face_label[fb])
+        if a == b or a <= 0 or b <= 0:
+            continue
+        b_sup = edge_support(cx, maps.boundary, e)
+        if b_sup >= params.merge_boundary_max:
+            continue
+        if maps.vertex is not None:
+            ends = (int(cx.edge_tail[e]), int(cx.edge_head[e]))
+            v_sup = max(_local_max(maps.vertex, cx.vertex_xy[v], params.merge_vertex_radius_px) for v in ends)
+            if v_sup >= params.merge_vertex_min:
+                continue
+        cands.append((b_sup, a, b))
+    cands.sort()
+    lab = labels.copy()
+    touched: set = set()
+    n = 0
+    for _, a, b in cands:
+        if a in touched or b in touched:
+            continue
+        lab[lab == b] = a
+        touched.update((a, b))
+        n += 1
+        if n >= params.max_merges:
+            break
+    return lab, n
 
 
 class ConstrainedDecoder:
@@ -153,6 +228,8 @@ class ConstrainedDecoder:
         mask = maps.tissue.copy()
         if not params.fill_gaps:
             mask &= maps.gap < params.gap_threshold
+            if params.outside_px is not None and maps.distance is not None:
+                mask &= maps.distance >= -float(params.outside_px)
             # never exclude a seed pixel
             mask[markers > 0] = True
 
@@ -160,11 +237,13 @@ class ConstrainedDecoder:
         lab = _fill_small_background(lab, params.min_gap_area_px)
         lab = merge_small_regions(lab, params.min_cell_area_px)
 
-        cx = extract_complex(
-            lab,
-            pixel_size_um=self.pixel_size_um,
-            provenance={"decoder": "watershed", "params": params.__dict__, "proposal_source": maps.source},
-        )
+        provenance = {"decoder": "watershed", "params": params.__dict__, "proposal_source": maps.source}
+        cx = extract_complex(lab, pixel_size_um=self.pixel_size_um, provenance=provenance)
+        n_merged = 0
+        if params.max_merges > 0:
+            lab, n_merged = vertex_consistent_merges(lab, cx, maps, params)
+            if n_merged:
+                cx = extract_complex(lab, pixel_size_um=self.pixel_size_um, provenance=provenance)
         smooth_complex(cx, iterations=params.smooth_iters)
         used = np.unique(lab[lab > 0]) - 1
         return DecodeResult(
@@ -176,6 +255,7 @@ class ConstrainedDecoder:
                 "n_seeds_selected": int(seed_ids.size),
                 "n_cells": int(cx.cell_faces.size),
                 "n_gaps": int(cx.gap_faces.size),
+                "n_vertex_merges": int(n_merged),
             },
         )
 

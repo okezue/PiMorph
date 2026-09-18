@@ -181,16 +181,40 @@ def load_mcellseg(root: Path, max_items: Optional[int] = None, cell_line: Option
 
 
 # ---------------------------------------------- Human aortic endothelial cells (HAEC)
-def haec_semantic_to_instance(gt: np.ndarray) -> np.ndarray:
+def haec_semantic_to_instance(gt: np.ndarray, min_marker_px: int = 30) -> np.ndarray:
     """HAEC ground truth is categorical: 0 background, 1 cell border, 2 cell body,
     3 nucleus. Instances are the body+nucleus components flooded through the 1 px
-    border class, so touching cells share a crack edge."""
+    border class, so touching cells share a crack edge.
+
+    Body components are 8-connected and components below ``min_marker_px`` are not
+    markers: the border class is ragged, and with 4-connected markers about 40% of
+    the "cells" were 1 to 3 px body specks on cell fringes (field 0005: 939 vs 530
+    components). Speck pixels stay in the flood mask, so they join the neighbouring
+    cell when border-connected to it and otherwise remain background."""
     body = (gt == 2) | (gt == 3)
     border = gt == 1
-    markers = cc_label(body, connectivity=1)
+    markers = cc_label(body, connectivity=2)
+    counts = np.bincount(markers.ravel())
+    small = np.flatnonzero(counts < min_marker_px)
+    small = small[small > 0]
+    if small.size:
+        markers[np.isin(markers, small)] = 0
+        markers = cc_label(markers > 0, connectivity=2)
     dist = ndi.distance_transform_edt(~border)
     inst = watershed(dist, markers, mask=gt > 0)
+    # the complex splits labels into 4-connected faces; make the reference 4-connected
+    # up front so diagonal fringe fragments are absorbed instead of counted as cells
+    inst = cc_label(inst, connectivity=1)
+    inst = merge_small_fragments(inst.astype(np.int32), min_marker_px)
     return inst.astype(np.int32)
+
+
+def merge_small_fragments(labels: np.ndarray, min_area_px: int) -> np.ndarray:
+    """Cells below ``min_area_px`` join the labelled neighbour with the longest
+    contact, or become background when isolated (wrapper over the decoder rule)."""
+    from ..infer.decoder import merge_small_regions
+
+    return merge_small_regions(np.asarray(labels).astype(np.int32), min_area_px)
 
 
 def load_haec(root: Path, max_items: Optional[int] = None) -> Iterator[BenchItem]:
@@ -347,6 +371,145 @@ def load_neurips_cellseg(root: Path, max_items: Optional[int] = None) -> Iterato
         )
 
 
+# ------------------------------------------------ closed border skeleton + ROI -> instances
+def skeleton_roi_to_instance(skeleton: np.ndarray, roi: np.ndarray, min_area_px: int = 100) -> np.ndarray:
+    """Expert border tracings shipped as a closed 1 to 4 px skeleton inside an annotated
+    ROI. Cells are the 4-connected components of ``roi & ~skeleton``; the skeleton pixels
+    are then assigned to the nearest cell so that neighbours share a crack edge (the
+    complex derives vertices from label adjacency, not from the skeleton). Fragments
+    below ``min_area_px`` are not cells. Pixels outside the ROI stay background."""
+    roi = np.asarray(roi) > 0
+    sk = np.asarray(skeleton) > 0
+    cells = cc_label(roi & ~sk, connectivity=1)
+    counts = np.bincount(cells.ravel())
+    small = np.flatnonzero(counts < min_area_px)
+    small = small[small > 0]
+    if small.size:
+        cells[np.isin(cells, small)] = 0
+    dist = ndi.distance_transform_edt(~sk)
+    inst = watershed(dist, cells, mask=roi)
+    return cc_label(inst, connectivity=1).astype(np.int32)
+
+
+def load_hcec(root: Path, max_items: Optional[int] = None) -> Iterator[BenchItem]:
+    """Cultured human corneal endothelial cells (Travers, Coulomb et al. 2025, Sci Rep
+    15:31301, supplementary MOESM6; CC BY-NC-ND 4.0). 15 confluent monolayer fields,
+    2048x2048, 0.65 um/px: plane 0 NCAM (lateral membrane, bright borders), plane 1
+    DAPI. Every cell inside the ROI was traced manually in the Cellpose GUI; the
+    tracings are shipped as a closed border skeleton plus the ROI mask, converted to
+    instances by ``skeleton_roi_to_instance``. Endothelial, confluent, real
+    instance truth with an independent nuclear channel."""
+    from imageio.v3 import imread
+
+    base = root / "HCEC_NCAM_DAPI_Images_Label_ROI_Skel"
+    if not base.exists():
+        base = root
+    imgs = sorted((base / "initial_images_labels").glob("img_label_*.tif"))
+    keep = _active_id_list()
+    ids = [p.stem.replace("img_label_", "") for p in imgs]
+    if keep is not None:
+        imgs = [p for p, i in zip(imgs, ids) if i in keep]
+    if max_items:
+        imgs = imgs[:max_items]
+    for p in imgs:
+        fid = p.stem.replace("img_label_", "")
+        stack = np.asarray(tifffile.imread(str(p)))
+        skel = np.asarray(imread(str(base / "skel_images_labels" / f"skel_label_{fid}.png")))
+        if skel.ndim == 3:
+            skel = skel[..., 0]
+        roi = np.load(base / "roi_images_labels" / f"roi_label_{fid}.npy")
+        yield BenchItem(
+            image_id=fid,
+            geometry=stack[0].astype(np.float32),
+            labels_gt=skeleton_roi_to_instance(skel, roi),
+            nuclei=stack[1].astype(np.float32),
+            junction=stack[0].astype(np.float32),
+            pixel_size_um=0.65,
+            boundary_polarity="bright",
+            meta={
+                "dataset": "hcec",
+                "modality": "fluorescence",
+                "geometry_channel": "NCAM lateral membrane",
+                "gt_kind": "manual_border_tracing",
+                "confluent": True,
+                "roi_fraction": float(np.mean(roi > 0)),
+            },
+        )
+
+
+def load_alizarine(root: Path, max_items: Optional[int] = None) -> Iterator[BenchItem]:
+    """Padova BioImLab alizarine-red corneal endothelium (30 porcine fields, 576x768,
+    phase contrast 200x; mirrored in github.com/adriankucharski/gan-synthetic-corneal-
+    endothelium extra_data/Alizarine; non-commercial research use). Expert 1 px closed
+    contours (gt/), annotated ROI (roi/) and one marker blob per cell (markers/).
+    Borders are dark in the image. In situ confluent endothelium, no nuclei."""
+    from imageio.v3 import imread
+
+    paths = sorted((root / "images").glob("*.png"), key=lambda p: int(p.stem) if p.stem.isdigit() else p.stem)
+    keep = _active_id_list()
+    if keep is not None:
+        paths = [p for p in paths if p.stem in keep]
+    if max_items:
+        paths = paths[:max_items]
+    for p in paths:
+        img = np.asarray(imread(str(p))).astype(np.float32)
+        if img.ndim == 3:
+            img = img[..., 0]
+        gt = np.asarray(imread(str(root / "gt" / p.name)))
+        roi = np.asarray(imread(str(root / "roi" / p.name)))
+        if gt.ndim == 3:
+            gt = gt[..., 0]
+        if roi.ndim == 3:
+            roi = roi[..., 0]
+        yield BenchItem(
+            image_id=p.stem,
+            geometry=img,
+            labels_gt=skeleton_roi_to_instance(gt, roi, min_area_px=40),
+            boundary_polarity="dark",
+            meta={
+                "dataset": "alizarine",
+                "modality": "phase_contrast_alizarine",
+                "gt_kind": "expert_closed_contours",
+                "confluent": True,
+                "roi_fraction": float(np.mean(roi > 0)),
+            },
+        )
+
+
+def load_flywing(root: Path, max_items: Optional[int] = None) -> Iterator[BenchItem]:
+    """FlyWing test set (Funke et al. 2018 epithelial tracking benchmark, DenoiSeg
+    release Zenodo 5156991, CC BY 4.0): 42 Drosophila wing disc E-cadherin:GFP fields,
+    512x512, Tissue Analyzer labels with manual correction. Neighbouring labels are
+    separated by a 1 px background skeleton; ``fill_gt_slivers`` restores shared cracks
+    so vertices are tricellular. Confluent epithelium, bright junctions, no nuclei."""
+    npz = root / "Flywing_n0" / "test" / "test_data.npz"
+    if not npz.exists():
+        npz = root / "test" / "test_data.npz"
+    d = np.load(npz)
+    X, Y = d["X_test"], d["Y_test"]
+    keep = _active_id_list()
+    idx = [i for i in range(X.shape[0]) if keep is None or str(i) in keep or f"{i:04d}" in keep]
+    if max_items:
+        idx = idx[:max_items]
+    for i in idx:
+        lab = cc_label(Y[i].astype(np.int32), connectivity=1)
+        lab = fill_gt_slivers(lab, 12)
+        yield BenchItem(
+            image_id=f"{i:04d}",
+            geometry=X[i].astype(np.float32),
+            labels_gt=lab.astype(np.int32),
+            junction=X[i].astype(np.float32),
+            boundary_polarity="bright",
+            meta={
+                "dataset": "flywing",
+                "modality": "fluorescence",
+                "geometry_channel": "E-cadherin:GFP",
+                "gt_kind": "tissue_analyzer_manually_corrected",
+                "confluent": True,
+            },
+        )
+
+
 # ----------------------------------------------------------------------- synth
 def load_synth(root: Path, max_items: Optional[int] = None) -> Iterator[BenchItem]:
     """Tiles written by pimorph.synth.targets.make_dataset (npz with channels and labels)."""
@@ -373,6 +536,9 @@ LOADERS: Dict[str, Callable[[Path, Optional[int]], Iterator[BenchItem]]] = {
     "livecell": load_livecell,
     "neurips_cellseg": load_neurips_cellseg,
     "haec": load_haec,
+    "hcec": load_hcec,
+    "alizarine": load_alizarine,
+    "flywing": load_flywing,
     "synth": load_synth,
 }
 
@@ -383,6 +549,9 @@ DEFAULT_ROOTS = {
     "livecell": Path("data/LIVECell"),
     "neurips_cellseg": Path("data/neurips_cellseg"),
     "haec": Path("data/haec_gt"),
+    "hcec": Path("data/hcec_ncam"),
+    "alizarine": Path("data/alizarine_padova"),
+    "flywing": Path("data/flywing_denoiseg"),
     "synth": Path("data/tiles/synth_val"),
 }
 

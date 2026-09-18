@@ -1,0 +1,111 @@
+{
+ "features": [
+  "AJ_coverage",
+  "AJ_continuity",
+  "AJ_width_mean_px",
+  "AJ_mean_intensity",
+  "TJ_coverage",
+  "TJ_continuity",
+  "TJ_width_mean_px",
+  "TJ_mean_intensity",
+  "actin_coverage",
+  "actin_continuity",
+  "actin_width_mean_px",
+  "actin_mean_intensity",
+  "co_occupancy_AJ_TJ",
+  "co_occupancy_AJ_actin",
+  "co_occupancy_TJ_actin"
+ ],
+ "n_edges": 546,
+ "k": 4,
+ "k_range_used": [
+  2,
+  6
+ ],
+ "bic": {
+  "2": 10592.724309778952,
+  "3": 10454.67915036223,
+  "4": 9998.883048717382,
+  "5": 10246.67615244617,
+  "6": 10617.50626224717
+ },
+ "stability_ari_mean": 0.5444408387200037,
+ "stability_ari_std": 0.1135135934862832,
+ "n_boot": 20,
+ "state_means": {
+  "0": {
+   "AJ_coverage": 0.43620392448419826,
+   "AJ_continuity": 0.345821358848155,
+   "AJ_width_mean_px": 3.1623186249153004,
+   "AJ_mean_intensity": 73.01058056916187,
+   "TJ_coverage": 0.22741384526322223,
+   "TJ_continuity": 0.1842206855415252,
+   "TJ_width_mean_px": 2.1739658862690776,
+   "TJ_mean_intensity": 36.09718681146594,
+   "actin_coverage": 0.5721042236132992,
+   "actin_continuity": 0.45883385363008955,
+   "actin_width_mean_px": 3.823536702196213,
+   "actin_mean_intensity": 85.68297645979408,
+   "co_occupancy_AJ_TJ": 0.16963951333539978,
+   "co_occupancy_AJ_actin": 0.315964674252203,
+   "co_occupancy_TJ_actin": 0.17735590107677696
+  },
+  "1": {
+   "AJ_coverage": 0.26602225088837606,
+   "AJ_continuity": 0.15705491324459805,
+   "AJ_width_mean_px": 2.584125449427987,
+   "AJ_mean_intensity": 54.689960929532866,
+   "TJ_coverage": 0.11733665125598863,
+   "TJ_continuity": 0.09331620104229338,
+   "TJ_width_mean_px": 1.890959801096201,
+   "TJ_mean_intensity": 26.57898738973488,
+   "actin_coverage": 0.21291612793934936,
+   "actin_continuity": 0.15685624381750188,
+   "actin_width_mean_px": 2.757136016503606,
+   "actin_mean_intensity": 52.25731853080517,
+   "co_occupancy_AJ_TJ": 0.07634702452659231,
+   "co_occupancy_AJ_actin": 0.12397157372891836,
+   "co_occupancy_TJ_actin": 0.06401660513481935
+  },
+  "2": {
+   "AJ_coverage": 0.46744633533298935,
+   "AJ_continuity": 0.3313897708486083,
+   "AJ_width_mean_px": 3.217213082289468,
+   "AJ_mean_intensity": 85.16617868953286,
+   "TJ_coverage": 0.5804909785964305,
+   "TJ_continuity": 0.433653734584067,
+   "TJ_width_mean_px": 3.52890283170644,
+   "TJ_mean_intensity": 66.10369639089754,
+   "actin_coverage": 0.24579775697282014,
+   "actin_continuity": 0.18205933627980198,
+   "actin_width_mean_px": 2.9031620270741376,
+   "actin_mean_intensity": 58.625973723216774,
+   "co_occupancy_AJ_TJ": 0.3683385599749532,
+   "co_occupancy_AJ_actin": 0.17321496614774168,
+   "co_occupancy_TJ_actin": 0.20486054010223753
+  },
+  "3": {
+   "AJ_coverage": 0.7546412679271742,
+   "AJ_continuity": 0.6909954613216407,
+   "AJ_width_mean_px": 4.439201228590378,
+   "AJ_mean_intensity": 118.90748231508903,
+   "TJ_coverage": 0.8336480008670899,
+   "TJ_continuity": 0.7732564802997111,
+   "TJ_width_mean_px": 4.808773584200683,
+   "TJ_mean_intensity": 89.51510207535723,
+   "actin_coverage": 0.7761727969768721,
+   "actin_continuity": 0.7142869197332604,
+   "actin_width_mean_px": 4.761478134962882,
+   "actin_mean_intensity": 116.22979522409229,
+   "co_occupancy_AJ_TJ": 0.6844947832912438,
+   "co_occupancy_AJ_actin": 0.6115687030377921,
+   "co_occupancy_TJ_actin": 0.6845270223364853
+  }
+ },
+ "state_counts": {
+  "0": 104,
+  "1": 156,
+  "2": 221,
+  "3": 65
+ }
+}
