@@ -243,3 +243,139 @@ Where this leaves the frontier:
 | `rpe_zo1` (`pimorph.bench.rpe`) | NIH-NEI RPE monolayer training set (figshare+ 28832501, CC0): 18 confocal stacks x 4 tiles, 130,201 manual VIA polygons, 6,883 cells; green border channel (upstream target "Actin": phalloidin or ZO-1 depending on the stack), red nuclei | benchmark (stack-disjoint splits, `runs/vertex/splits_rpe.json`) and training (13 stacks) |
 | `pimorph.io.jacquemet` | 495 real PECAM-1 HUVEC monolayer fields (Zenodo 10611092, 1022x1024, 0.65 um/px) with a manifest | 1,200 consensus pseudo-label tiles (`data/tiles/pseudo_pecam` on the devbox); label-free self-check `runs/pecam_selfcheck/` (v4: 544 cells and 987 tricellular vertices per field, 1 gap; v3: 686 cells, 72 gaps) |
 | `pimorph.dynamics.epicure` | EpiCure curated movies (Zenodo 20607705) | event calculus on curated ids (`docs/LATER_PHASES.md`) |
+
+## Symmetric comparison (Cellpose-SAM fine-tuned on the same training fields)
+
+The frontier table above compares a fine-tuned PiMorph (`v6_pool`, trained on the TRAIN
+splits of hCEC, alizarine, FlyWing, RPE and HAEC) with a zero-shot Cellpose-SAM. This
+section removes that asymmetry: `cpsam` was fine-tuned on exactly the same training fields
+and evaluated on the same held-out TEST splits with the same metrics and the same
+`cellpose_sam_filled` post-processing (sub-12 px seams filled, ROI restriction, 3 px vertex
+tolerance). Table: `runs/frontier/symmetric_summary.csv` / `.md`
+(`runs/frontier/symmetric_summary.py`); per-image CSVs in `runs/frontier/*_cpsam_ft*`;
+training logs and `train_info.json` in `runs/cellpose_ft/`.
+
+Training pairs (`scripts/export_cellpose_training.py`, TRAIN ids only, written to
+`data/cellpose_train/<dataset>/` on the devbox; manifests are in the repo):
+
+| Pairs | Fields | Cells | Image | Note |
+|---|---|---|---|---|
+| hcec | 10 | 16,733 | 2048x2048, 2 channels [NCAM, DAPI] | full-field ROI |
+| alizarine | 20 | 7,044 | 295x415 to 437x513 ROI crops, 1 channel | cropped to ROI bbox |
+| flywing | 32 | 24,437 | 512x512, 1 channel | |
+| rpe_zo1 | 52 tiles (13 stacks) | 7,670 | ~760x768, 2 channels [green, red] | cropped to ROI bbox |
+| haec | 348 | 196,795 | 1200x1200, 2 channels [GFP, Hoechst] | |
+
+The image is the raw geometry channel plus nuclei, the same stack `method_cellpose_sam`
+feeds the model at test time (the benchmark inverts dark borders only for the classical and
+neural methods, so alizarine and HAEC stay dark-bordered for Cellpose in training and test).
+Items with a ROI are cropped to the ROI bounding box (+8 px) and image pixels outside the
+ROI are set to the in-ROI median; Cellpose has no ignore mask, so untraced cells outside the
+ROI would otherwise be learnt as background, and a flat fill leaves an unambiguous background
+instead. Labels outside the ROI are 0.
+
+Fine-tuning (`runs/cellpose_ft/train_cpsam.py`, cellpose 4.2.1.1, torch 2.7.1+cu128, one
+H100 80GB per run): the official recipe, `cellpose.train.train_seg(model.net, ...)` from
+`cpsam` with AdamW, learning rate 1e-5 (10 warm-up epochs, halving over the last 50),
+weight decay 0.1, batch size 8, 256 px crops with random rotation, flips and 0.75 to 1.25
+rescaling, 100 epochs, final-epoch weights (no model selection). Because the fields differ
+30x in area, each epoch samples `area / 256^2` crops per image (`train_probs` proportional
+to area) so one epoch covers every training pixel about once; the HAEC run was capped at
+2,000 crops per epoch (a full pass is 7,656) to fit in 2 h.
+
+| Model | Training pairs | Crops / epoch | Wall time | Train loss (epoch 0 to 99) |
+|---|---|---|---|---|
+| `cpsam_confluent` | hcec + alizarine + flywing + rpe_zo1 (114 images, 55,884 cells; the v4 to v6 confluent pool) | 1,287 | 80.4 min (48.2 s/epoch) | 3.08 to 1.43 |
+| `cpsam_haec` | haec train (348 fields, 196,795 cells) | 2,000 | 120.1 min (72.1 s/epoch) | 2.24 to 1.15 |
+| `cpsam_hcec` | hcec train only (10 fields, 16,733 cells) | 640 | 45.1 min (27.0 s/epoch) | 2.47 to 0.86 |
+
+Results on the held-out TEST splits (means over test images; localization is the mean of
+per-image medians; PiMorph rows are the `v6_pool tuned` rows of the frontier table):
+
+| Test split | Method | Adj F1 pair | Vertex F1 | Vertex prec. / rec. | pred / true cells | pred / true vertices | Loc. median (px) | PQ | Boundary F1 |
+|---|---|---|---|---|---|---|---|---|---|
+| hCEC (5) | Cellpose-SAM zero-shot | 0.830 | 0.635 | 0.721 / 0.581 | 1635 / 1665 | 2298 / 2974 | **1.17** | 0.790 | 0.880 |
+| hCEC | **Cellpose-SAM ft confluent pool** | **0.937** | **0.695** | 0.691 / 0.700 | 1705 / 1665 | 3023 / 2974 | 1.40 | **0.862** | **0.924** |
+| hCEC | Cellpose-SAM ft hCEC only | 0.937 | 0.696 | 0.691 / 0.701 | 1705 / 1665 | 3025 / 2974 | 1.40 | 0.862 | 0.924 |
+| hCEC | Cellpose-SAM ft HAEC (cross-domain) | 0.207 | 0.098 | 0.258 / 0.077 | 1151 / 1665 | 509 / 2974 | 2.05 | 0.264 | 0.525 |
+| hCEC | PiMorph v6_pool tuned | 0.867 | 0.680 | 0.678 / 0.683 | 1685 / 1665 | 3014 / 2974 | 1.28 | 0.816 | 0.916 |
+| alizarine (10) | Cellpose-SAM zero-shot | 0.989 | 0.984 | 0.979 / 0.989 | 325 / 320 | 576 / 570 | 1.00 | 0.898 | 1.000 |
+| alizarine | Cellpose-SAM ft confluent pool | **0.992** | 0.991 | 0.986 / 0.996 | 325 / 320 | 576 / 570 | 1.00 | 0.903 | 1.000 |
+| alizarine | PiMorph v6_pool tuned | 0.987 | **0.992** | 0.994 / 0.990 | 320 / 320 | 568 / 570 | 1.00 | **0.920** | 0.999 |
+| FlyWing (10) | Cellpose-SAM zero-shot | 0.966 | 0.849 | 0.834 / 0.864 | 711 / 742 | 1306 / 1260 | **1.47** | **0.795** | 0.996 |
+| FlyWing | Cellpose-SAM ft confluent pool | **0.966** | 0.852 | 0.837 / 0.868 | 712 / 742 | 1308 / 1260 | 1.53 | 0.793 | 0.993 |
+| FlyWing | PiMorph v6_pool tuned | 0.911 | **0.875** | 0.869 / 0.881 | 684 / 742 | 1278 / 1260 | 1.59 | 0.780 | 0.994 |
+| RPE (20 tiles, 5 stacks) | Cellpose-SAM zero-shot | 0.622 | 0.287 | 0.254 / 0.331 | 177 / 140 | 269 / 209 | 1.77 | 0.548 | 0.686 |
+| RPE | **Cellpose-SAM ft confluent pool** | **0.681** | **0.336** | 0.301 / 0.383 | 168 / 140 | 260 / 209 | **1.70** | **0.612** | **0.751** |
+| RPE | PiMorph v6_pool tuned | 0.605 | 0.327 | 0.291 / 0.381 | 171 / 140 | 265 / 209 | 1.73 | 0.556 | 0.731 |
+| HAEC (86) | Cellpose-SAM zero-shot | 0.314 | 0.039 | 0.039 / 0.043 | 753 / 569 | 110 / 92 | 1.40 | 0.465 | 0.708 |
+| HAEC | Cellpose-SAM ft HAEC train | **0.555** | 0.331 | 0.371 / 0.304 | 623 / 569 | 78 / 92 | 1.46 | **0.648** | **0.862** |
+| HAEC | Cellpose-SAM ft confluent pool (cross) | 0.162 | 0.018 | 0.010 / 0.103 | 802 / 569 | 996 / 92 | 1.64 | 0.324 | 0.605 |
+| HAEC | PiMorph v6_pool tuned | 0.536 | **0.352** | 0.293 / 0.453 | 648 / 569 | 151 / 92 | **1.25** | 0.626 | 0.858 |
+
+Plain reading (paired per-image differences, fine-tuned Cellpose-SAM minus PiMorph v6_pool):
+
+- **hCEC, the headline endothelial monolayer: the fine-tuned Cellpose-SAM leads.** Adjacency
+  0.937 vs 0.867 (+0.070, ahead on 5 of 5 fields), PQ 0.862 vs 0.816 (+0.045, 5 of 5),
+  boundary F1 0.924 vs 0.916, vertex F1 0.695 vs 0.680 (+0.015, ahead on 3 of 5 fields;
+  the two weak-signal fields L3_1 and L6_1 stay at 0.50 and 0.37 for both), incident-set
+  accuracy 0.93 vs 0.86. PiMorph keeps the better vertex localization (1.28 vs 1.40 px
+  median). What the fine-tune did for Cellpose: the zero-shot model under-predicted
+  contacts (2,298 vertices vs 2,974 true, recall 0.58); after 100 epochs it predicts 3,023
+  with recall 0.70 at the same precision, so vertex F1 went 0.635 to 0.695, adjacency 0.830
+  to 0.937 and PQ 0.790 to 0.862. Ten hCEC fields alone give the same result as the whole
+  confluent pool (0.696 vs 0.695): the other 104 confluent fields added nothing for hCEC.
+- **alizarine: tie.** Vertex F1 0.991 vs 0.992, adjacency 0.992 vs 0.987, PQ 0.903 vs 0.920
+  (PiMorph ahead on 9 of 10 fields on PQ). The fine-tune moved Cellpose from 0.984 to 0.991.
+- **FlyWing: split.** PiMorph keeps the better vertex F1 (0.875 vs 0.852, ahead on 10 of 10
+  tiles), Cellpose the better adjacency (0.966 vs 0.911, 10 of 10) and PQ (0.793 vs 0.780).
+  The fine-tune did nothing for Cellpose on FlyWing (0.849 to 0.852); 32 training tiles of
+  E-cadherin epithelium at a different cell scale were absorbed without effect.
+- **RPE: the fine-tuned Cellpose-SAM leads on every column** (adjacency 0.681 vs 0.605,
+  vertex F1 0.336 vs 0.327 on 13 of 20 tiles, PQ 0.612 vs 0.556 on 19 of 20, boundary F1
+  0.751 vs 0.731). The fine-tune took Cellpose from 0.287 to 0.336 vertex F1 and removed
+  its over-segmentation (177 to 168 predicted cells vs 140 true).
+- **HAEC (sub-confluent): split.** Training on the 348 HAEC fields repaired Cellpose (vertex
+  F1 0.039 to 0.331, adjacency 0.314 to 0.555, PQ 0.465 to 0.648, boundary F1 0.708 to
+  0.862). PiMorph v6_pool keeps the better vertex F1 (0.352 vs 0.331, ahead on 56 of 86
+  fields) through recall (0.453 vs 0.304; Cellpose now under-counts vertices, 78 vs 92 true,
+  where PiMorph over-counts, 151) and localization (1.25 vs 1.46 px); Cellpose leads
+  adjacency (+0.020, 68 of 86), PQ (+0.022, 81 of 86) and vertex precision (0.371 vs 0.293).
+- **No transfer across culture density.** The confluent-pool Cellpose collapses on HAEC
+  (adjacency 0.162, 996 predicted vertices vs 92 true: it invents contacts between cells that
+  do not touch) and the HAEC Cellpose collapses on hCEC (adjacency 0.207, 1,151 cells vs
+  1,665). Each fine-tuned Cellpose is a per-density model; PiMorph v6_pool is one model
+  trained on both and holds 0.680 on hCEC and 0.352 on HAEC.
+
+Net: with matched training data, PiMorph's lead on cultured endothelial monolayers does
+not hold. A fine-tuned Cellpose-SAM is ahead on adjacency, PQ and boundary F1 on hCEC and
+RPE and within noise on vertex F1 there; PiMorph's remaining advantages are vertex
+localization, vertex recall on sub-confluent cultures, FlyWing vertex F1, alizarine PQ, a
+single model across densities, and the complex itself (incidence sets and cyclic orders come
+from the reconstruction, whereas the Cellpose numbers need the sliver-filling step to make
+vertices tricellular at all). Not verified: no Cellpose hyperparameter or epoch selection
+was done (one recipe, final weights), test-time settings are the zero-shot ones
+(`flow_threshold` 0.4, `cellprob_threshold` 0, native scale), and hCEC has five test
+fields, so the 3-of-5 vertex F1 margin is within noise.
+
+Reproduce (devbox, `infra/xai/remote.sh`, GPUs 0 to 3):
+
+```bash
+# 1. training pairs (TRAIN ids only)
+for a in "hcec runs/vertex/splits_confluent.json:hcec_train" "alizarine runs/vertex/splits_confluent.json:alizarine_train" \
+         "flywing runs/vertex/splits_confluent.json:flywing_train" "rpe_zo1 runs/vertex/splits_rpe.json:rpe_zo1_train" \
+         "haec runs/endo/splits.json:haec_train"; do set -- $a
+  .venv/bin/python scripts/export_cellpose_training.py --dataset $1 --ids $2; done
+# 2. fine-tunes (one GPU each)
+CUDA_VISIBLE_DEVICES=0 .venv/bin/python runs/cellpose_ft/train_cpsam.py --name cpsam_confluent \
+  --dirs data/cellpose_train/hcec data/cellpose_train/alizarine data/cellpose_train/flywing data/cellpose_train/rpe_zo1 --epochs 100 --batch-size 8
+CUDA_VISIBLE_DEVICES=1 .venv/bin/python runs/cellpose_ft/train_cpsam.py --name cpsam_haec --dirs data/cellpose_train/haec --epochs 100 --batch-size 8 --crops-per-epoch 2000
+CUDA_VISIBLE_DEVICES=2 .venv/bin/python runs/cellpose_ft/train_cpsam.py --name cpsam_hcec --dirs data/cellpose_train/hcec --epochs 100 --batch-size 8
+# 3. held-out test splits, same CLI and metrics (PIMORPH_CELLPOSE_MODEL selects the weights)
+bash runs/cellpose_ft/run_eval.sh            # confluent haec hcec cross
+# e.g. one call:
+PIMORPH_ID_LIST=runs/vertex/splits_confluent.json:hcec_test PIMORPH_CELLPOSE_MODEL=runs/cellpose_ft/cpsam_confluent/models/cpsam_confluent \
+  pimorph benchmark --dataset hcec --methods cellpose_sam_filled --out runs/frontier/hcec_test_cpsam_ft
+# 4. table
+python runs/frontier/symmetric_summary.py
+```

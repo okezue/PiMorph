@@ -1,0 +1,16 @@
+smoke_flywing: 32 images, 24437 cells, 128 crops/epoch grid, nimg_per_epoch=128, dirs=['data/cellpose_train/flywing']
+2026-09-19 16:40:18,685 >>>> loading model /root/.cellpose/models/cpsam
+2026-09-19 16:40:19,405 >>> converting bfloat16 network to float32 for training
+2026-09-19 16:40:19,413 computing flows for labels
+  0%|          | 0/32 [00:00<?, ?it/s]  6%|▋         | 2/32 [00:00<00:01, 16.26it/s] 16%|█▌        | 5/32 [00:00<00:01, 21.40it/s] 25%|██▌       | 8/32 [00:00<00:01, 23.36it/s] 34%|███▍      | 11/32 [00:00<00:00, 24.16it/s] 44%|████▍     | 14/32 [00:00<00:00, 24.62it/s] 53%|█████▎    | 17/32 [00:00<00:00, 24.93it/s] 62%|██████▎   | 20/32 [00:00<00:00, 24.78it/s] 72%|███████▏  | 23/32 [00:00<00:00, 24.97it/s] 81%|████████▏ | 26/32 [00:01<00:00, 24.85it/s] 91%|█████████ | 29/32 [00:01<00:00, 24.72it/s]100%|██████████| 32/32 [00:01<00:00, 23.97it/s]100%|██████████| 32/32 [00:01<00:00, 24.03it/s]
+2026-09-19 16:40:20,854 >>> computing diameters
+  0%|          | 0/32 [00:00<?, ?it/s]100%|██████████| 32/32 [00:00<00:00, 633.72it/s]
+2026-09-19 16:40:20,905 >>> normalizing {'lowhigh': None, 'percentile': None, 'normalize': True, 'norm3D': True, 'sharpen_radius': 0, 'smooth_radius': 0, 'tile_norm_blocksize': 0, 'tile_norm_smooth3D': 1, 'invert': False}
+2026-09-19 16:40:21,093 >>> n_epochs=2, n_train=32, n_test=None, bsize=256, batch_size=8, nimg_per_epoch=128
+2026-09-19 16:40:21,094 >>> AdamW, learning_rate=0.00001, weight_decay=0.10000
+2026-09-19 16:40:21,098 >>> saving model to runs/cellpose_ft/smoke_flywing/models/smoke_flywing
+2026-09-19 16:40:26,026 0, train_loss=1.2860, test_loss=0.0000, LR=0.000000, time 4.93s
+2026-09-19 16:40:30,136 saving network parameters to runs/cellpose_ft/smoke_flywing/models/smoke_flywing
+2026-09-19 16:40:33,256 >>> converting network back to torch.bfloat16 after training
+done smoke_flywing: 0.2 min, 6.9 s/epoch on NVIDIA H100 80GB HBM3, model runs/cellpose_ft/smoke_flywing/models/smoke_flywing
+SMOKE_DONE

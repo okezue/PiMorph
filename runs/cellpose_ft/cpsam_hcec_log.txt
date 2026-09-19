@@ -1,0 +1,29 @@
+cpsam_hcec: 10 images, 16733 cells, 640 crops/epoch grid, nimg_per_epoch=640, dirs=['data/cellpose_train/hcec']
+2026-09-19 16:42:41,066 >>>> loading model /root/.cellpose/models/cpsam
+2026-09-19 16:42:41,567 >>> converting bfloat16 network to float32 for training
+2026-09-19 16:42:41,575 computing flows for labels
+  0%|          | 0/10 [00:00<?, ?it/s] 10%|█         | 1/10 [00:00<00:07,  1.25it/s] 20%|██        | 2/10 [00:01<00:07,  1.14it/s] 30%|███       | 3/10 [00:02<00:05,  1.21it/s] 40%|████      | 4/10 [00:03<00:05,  1.19it/s] 50%|█████     | 5/10 [00:04<00:04,  1.19it/s] 60%|██████    | 6/10 [00:05<00:03,  1.18it/s] 70%|███████   | 7/10 [00:05<00:02,  1.20it/s] 80%|████████  | 8/10 [00:06<00:01,  1.15it/s] 90%|█████████ | 9/10 [00:07<00:00,  1.11it/s]100%|██████████| 10/10 [00:08<00:00,  1.07it/s]100%|██████████| 10/10 [00:08<00:00,  1.14it/s]
+2026-09-19 16:42:50,474 >>> computing diameters
+  0%|          | 0/10 [00:00<?, ?it/s] 50%|█████     | 5/10 [00:00<00:00, 44.93it/s]100%|██████████| 10/10 [00:00<00:00, 47.12it/s]100%|██████████| 10/10 [00:00<00:00, 46.74it/s]
+2026-09-19 16:42:50,689 >>> normalizing {'lowhigh': None, 'percentile': None, 'normalize': True, 'norm3D': True, 'sharpen_radius': 0, 'smooth_radius': 0, 'tile_norm_blocksize': 0, 'tile_norm_smooth3D': 1, 'invert': False}
+2026-09-19 16:42:52,001 >>> n_epochs=100, n_train=10, n_test=None, bsize=256, batch_size=8, nimg_per_epoch=640
+2026-09-19 16:42:52,001 >>> AdamW, learning_rate=0.00001, weight_decay=0.10000
+2026-09-19 16:42:52,006 >>> saving model to runs/cellpose_ft/cpsam_hcec/models/cpsam_hcec
+2026-09-19 16:43:19,848 0, train_loss=2.4740, test_loss=0.0000, LR=0.000000, time 27.85s
+2026-09-19 16:45:35,426 5, train_loss=1.2069, test_loss=0.0000, LR=0.000006, time 163.42s
+2026-09-19 16:47:50,504 10, train_loss=1.0163, test_loss=0.0000, LR=0.000010, time 298.50s
+2026-09-19 16:52:19,585 20, train_loss=0.9650, test_loss=0.0000, LR=0.000010, time 567.58s
+2026-09-19 16:54:33,945 saving network parameters to runs/cellpose_ft/cpsam_hcec/models/cpsam_hcec
+2026-09-19 16:56:49,798 30, train_loss=0.9413, test_loss=0.0000, LR=0.000010, time 837.80s
+2026-09-19 17:01:18,803 40, train_loss=0.9157, test_loss=0.0000, LR=0.000010, time 1106.80s
+2026-09-19 17:05:47,443 50, train_loss=0.8874, test_loss=0.0000, LR=0.000005, time 1375.44s
+2026-09-19 17:05:47,443 saving network parameters to runs/cellpose_ft/cpsam_hcec/models/cpsam_hcec
+2026-09-19 17:10:17,952 60, train_loss=0.8648, test_loss=0.0000, LR=0.000001, time 1645.95s
+2026-09-19 17:14:46,037 70, train_loss=0.8387, test_loss=0.0000, LR=0.000000, time 1914.03s
+2026-09-19 17:16:59,770 saving network parameters to runs/cellpose_ft/cpsam_hcec/models/cpsam_hcec
+2026-09-19 17:19:15,395 80, train_loss=0.8489, test_loss=0.0000, LR=0.000000, time 2183.39s
+2026-09-19 17:23:42,561 90, train_loss=0.8550, test_loss=0.0000, LR=0.000000, time 2450.56s
+2026-09-19 17:27:42,800 saving network parameters to runs/cellpose_ft/cpsam_hcec/models/cpsam_hcec
+2026-09-19 17:27:46,071 >>> converting network back to torch.bfloat16 after training
+done cpsam_hcec: 45.1 min, 27.0 s/epoch on NVIDIA H100 80GB HBM3, model runs/cellpose_ft/cpsam_hcec/models/cpsam_hcec
+TRAIN_DONE

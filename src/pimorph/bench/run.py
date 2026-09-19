@@ -94,15 +94,21 @@ def method_classical(item: BenchItem) -> np.ndarray:
 
 
 _cellpose_model = None
+# fine-tuned Cellpose weights (path) instead of the stock cpsam; optional fixed diameter
+CELLPOSE_MODEL = os.environ.get("PIMORPH_CELLPOSE_MODEL", "cpsam")
+_diam = os.environ.get("PIMORPH_CELLPOSE_DIAMETER")
+CELLPOSE_DIAMETER = float(_diam) if _diam else None
 
 
 def method_cellpose_sam(item: BenchItem) -> np.ndarray:
+    """Cellpose-SAM on [geometry, nuclei]. Weights from PIMORPH_CELLPOSE_MODEL (default
+    cpsam), diameter from PIMORPH_CELLPOSE_DIAMETER (default: model estimate)."""
     global _cellpose_model
     from ..infer.cellpose_sam import CellposeSAM
 
     if _cellpose_model is None:
-        _cellpose_model = CellposeSAM()
-    return _cellpose_model(item.geometry, item.nuclei)
+        _cellpose_model = CellposeSAM(pretrained_model=CELLPOSE_MODEL)
+    return _cellpose_model(item.geometry, item.nuclei, diameter=CELLPOSE_DIAMETER)
 
 
 _neural_proposer = None
