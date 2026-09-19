@@ -1,6 +1,6 @@
 """Embedded half-edge cell complex for planar endothelial sheets.
 
-Conventions (docs/COMPLEX.md):
+Conventions (EXPLAINER.md):
 
 - Coordinates are image coordinates (row, col) with pixel (r, c) centered at (r, c)
   and occupying [r-0.5, r+0.5) x [c-0.5, c+0.5). Crack corners therefore sit on

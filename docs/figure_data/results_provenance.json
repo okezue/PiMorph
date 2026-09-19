@@ -1,0 +1,87 @@
+{
+  "benchmark": {
+    "model": "v6_pool tuned",
+    "comparison": "Cellpose-SAM with filled boundaries",
+    "rpe_aggregation": "Four tiles per held-out stack, mean scores before plotting paired stack difference; 5 stacks total.",
+    "sampling_caveat": "Fields are not asserted to be independent donors or movies; hCEC cultures and FlyWing movie provenance are not separated by the documented split."
+  },
+  "shear": {
+    "replicate_labels": [
+      "rep 1",
+      "rep 2",
+      "rep 3"
+    ],
+    "extra_batch_label": "rep1",
+    "interval": "5th\u201395th percentiles of weighted reconstruction candidates; not calibrated biological intervals.",
+    "hypotheses": "24\u201332 candidates; ensemble ESS is 4 per field."
+  },
+  "mechanics_real": {
+    "n_tensions": 1528,
+    "n_pressures": 541,
+    "n_interior_vertices": 989,
+    "tension_mean": 0.9999997342871763,
+    "tension_cv": 0.4450064298654204,
+    "tension_min": -0.3886761948731652,
+    "tension_max": 3.4913677810406756,
+    "pressure_std": 0.010315499546528347,
+    "residual_rms": 0.37716125136044715,
+    "residual_max": 0.97313175192279,
+    "fraction_vertices_balanced": 0.019211324570273004,
+    "condition_number": 3162.2789459983446,
+    "n_equations": 3413,
+    "n_unknowns": 2160,
+    "rank": 2065,
+    "pressure_gauge": "mean_zero",
+    "curvature_pressure": true,
+    "fraction_vertices_balanced_20pct": 0.20424671385237614,
+    "ridge": 0.1,
+    "identifiability": {
+      "n_unknowns": 2160,
+      "n_tensions": 1619,
+      "n_pressures": 541,
+      "n_equations": 3413,
+      "n_vertex_equations": 1978,
+      "n_laplace_equations": 1435,
+      "rank": 2065,
+      "null_dim": 95,
+      "smallest_relative_singular_value": 6.286833945823555e-17,
+      "n_unconstrained_tensions": 91,
+      "constant_pressure_is_null": true,
+      "pressures_identifiable": false,
+      "pressures_need_curvature": false,
+      "use_pressures": true,
+      "curvature_pressure": true,
+      "statements": [
+        "Force balance is homogeneous in (tension, pressure): only relative values are identifiable. Gauge: mean tension = 1.",
+        "Pressures are constrained by the vertex balance and by the Laplace law of the smoothed traces; a constant offset remains a gauge (mean pressure = 0).",
+        "91 tension unknowns appear in no vertex equation (edges between boundary or low-degree vertices) and are reported as NaN.",
+        "2 further null directions: combinations not constrained by this geometry."
+      ]
+    },
+    "n_vertices": 1082,
+    "n_edges": 1622,
+    "n_cells": 541
+  },
+  "tissueminer": {
+    "frames": 71,
+    "n_gt_divisions": 27
+  },
+  "source_sha256": {
+    "runs/frontier/hcec_test_v6_tuned/hcec_per_image.csv": "daba442cca50fb68478f905627577722540d0721d087a6aa1a40ce63e9f407c1",
+    "runs/vertex/hcec_test_cellpose_filled/hcec_per_image.csv": "c8a2aba861b2ebb1be62c022e2b812d5f2a347527e6883a315fd6b7848a445bf",
+    "runs/frontier/alizarine_test_v6_tuned/alizarine_per_image.csv": "8fd0d06394ac8b8c9ac15b4574e70320b25b44c39a5ccc39f60fb2a71e530c64",
+    "runs/vertex/alizarine_test_cellpose_filled/alizarine_per_image.csv": "42a2ecce8ee4a07f5470c870585ad230a1de3f77df9936bce3e45f42cfa3b1d1",
+    "runs/frontier/flywing_test_v6_tuned/flywing_per_image.csv": "a9f08b5ca3f6fffa45c881415c80e4314a02352c2c821cf398ae4f15c279a2b5",
+    "runs/vertex/flywing_test_cellpose_filled/flywing_per_image.csv": "3d1b35bc3d7bdc47aeb6e79c256f14357d6765e827db4b8f336c0a43cdc10f36",
+    "runs/frontier/rpe_test_v6_tuned/rpe_zo1_per_image.csv": "bcdf1d22c64619fa6243492146bb7957685dae651ccd5b78017451e7c67f8697",
+    "runs/vertex/rpe_zo1_test_cellpose/rpe_zo1_per_image.csv": "8e330effe2bff2e4322341ac0e219c4d2467b8d0593a5f18d83b897190d80913",
+    "runs/frontier/haec_test_v6_tuned/haec_per_image.csv": "af49d4595d3259e095ae4a8b3362a5a5710af490015090f00d4f34f1102b46fa",
+    "runs/vertex/haec_test_cellpose_filled/haec_per_image.csv": "3eed910c2abd5050e69a8b0ef053e88b8e33677e8ebe6eb39652414c87dc6cc3",
+    "runs/shear_retest/per_field_posterior_stats.csv": "226e602cd752bd869df7616543402250eecc89dd030b03ba2c8ffbbc1041a3b5",
+    "runs/mechanics/synthetic_validation.csv": "473e8ef253256facac018cb684dfd776120a729942b4f378322885142e0f87fc",
+    "runs/mechanics/ve_strat_Control_s1_summary.json": "e9f89c2475cb6fc2bb93136bbefbf63c5434f86b639a87cc4eaae3fdb662f10d",
+    "runs/dynamics/tissueminer_demo/summary.json": "f067c306a19e8e7466ee1f91dc76316bbbe33d37f70033fb7631e45885357e43",
+    "runs/dynamics/epicure_movie2/admissibility_gt_ids.csv": "75a8563a01f22f7d542de849f465d63507e2b7ec6e076c8bd615cbce0c6bec1e",
+    "runs/dynamics/epicure_movie3/admissibility_gt_ids.csv": "cf8126098dcc59270022852cbde38747614863ab82805cd18097f03dc9c73b7e"
+  }
+}
