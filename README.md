@@ -4,9 +4,9 @@
 
 PiMorph turns a labelled cell image into an embedded cell complex: cells and enclosed gaps are faces, connected interfaces are edges, and multicellular junctions are vertices. It also reconstructs these objects from fluorescence images using classical or learned proposals, samples molecular signals along interfaces, and measures uncertainty across alternative reconstructions.
 
-![PiMorph converts image channels into cell geometry and junction measurements.](docs/figures/methods_in_action.png)
+![The complete PiMorph flow from image acquisition to reconstruction, interface measurements, evaluation and optional analysis modules.](docs/figures/methods_full_flow.png)
 
-*An executable synthetic example of the analysis: rendered microscopy, proposal maps, reconstructed cells and interfaces, and the molecular profile along a selected contact. These simulated images illustrate the method; experimental examples and quantitative evaluations are in the [study explainer](EXPLAINER.md).*
+*The complete PiMorph flow: image channels, classical or learned proposals, constrained reconstruction, the physical cell complex, optional candidate uncertainty, interface measurements and evaluation. Executed synthetic examples accompany conceptual views of the separate biological, temporal, mechanical, transport and 3-D modules. The [full figure caption and study](EXPLAINER.md#end-to-end-pimorph-flow) distinguish measured outputs from illustrations.*
 
 **[Read the full study → EXPLAINER.md](EXPLAINER.md)** · **[Model cards](models/README.md)** · **[Archived results and checkpoints](https://doi.org/10.5281/zenodo.22839867)** · **[Editable SVGs and publication PDFs](docs/figures/)**
 

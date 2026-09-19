@@ -1,0 +1,57 @@
+{
+  "script": "scripts/figures_full_flow.py",
+  "figure": "methods_full_flow",
+  "source_sha256": {
+    "docs/figure_data/methods_in_action_arrays.npz": "64173655256f3c1c984c0f39613ce88299d3d5b31fa17df111210ed874328265",
+    "docs/figure_data/methods_full_flow_ensemble.npz": "72eed7425d4dec5cc5007e9612d5a2330747f36b12e0ef618aabe3de76724be0",
+    "docs/figure_data/methods_topology_labels.npz": "199754295714a30119f58a500bf614377228869886dd7c8ce9bb9e0c78eb79db",
+    "docs/figures/biology_biorender.png": "6729a86e8253a715dcdcebb2ce9bbd44013693b5736df1c1525a65f8b30da88b"
+  },
+  "biorender_crop_xyxy": [
+    90,
+    330,
+    910,
+    1220
+  ],
+  "executed_path": "synthetic, classical proposer",
+  "conceptual_panels": [
+    "A tissue",
+    "B neural architecture and training link",
+    "D half-edge glyph",
+    "H marker strips",
+    "I T1 event",
+    "J force and conductance glyphs",
+    "K volume and curved surface"
+  ],
+  "ensemble": "12 actual finite hypotheses, uncalibrated; see methods_full_flow_ensemble.json",
+  "benchmark_inset": {
+    "dataset": "hCEC",
+    "units": "5 held-out fields, not cultures",
+    "rows": [
+      "vertex_f1",
+      "adjacency_f1",
+      "pq"
+    ],
+    "columns": [
+      "Cellpose-SAM",
+      "PiMorph tuned v6"
+    ],
+    "values": [
+      [
+        0.635,
+        0.68
+      ],
+      [
+        0.83,
+        0.867
+      ],
+      [
+        0.79,
+        0.816
+      ]
+    ],
+    "source": "EXPLAINER.md archived benchmark means"
+  },
+  "validation": "all synthetic structures validate; topology validity is not biological accuracy",
+  "extensions": "separate APIs/scripts, not automatic reconstruct outputs; 3D has separate volume input"
+}

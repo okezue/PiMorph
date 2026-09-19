@@ -5,7 +5,7 @@
 ### Consolidated study documentation
 
 - Consolidated study methods, current and historical results into `EXPLAINER.md`, with a usage-focused README and one model card covering all eight archived checkpoints.
-- Added seven inspected biological/method/result figures, reproducible source tables, figure scripts and an executable synthetic example.
+- Added eight inspected biological/method/result figures, including the complete end-to-end flow, reproducible source tables, figure scripts and an executable synthetic example.
 - Audited Zenodo results and model payloads and corrected benchmark, uncertainty, split and biological-interpretation claims.
 - Archive extraction now preserves current narrative Markdown by default; `--include-archived-docs` explicitly restores historical documentation.
 - Earlier entries retain their historical filenames and measurements. Current locations are recorded in `docs/figure_data/documentation_map.json`.
