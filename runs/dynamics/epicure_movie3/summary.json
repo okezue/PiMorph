@@ -1,0 +1,304 @@
+{
+  "meta": {
+    "dataset_label": "epicure_movie3",
+    "label_stack_note": "EpiCure curated labels (epics_corrected/moji_merged_3to13_crop_labels.tif, ids track-consistent, no lineage in the label file); 1 px background seams between cells filled with fill_gt_slivers plus a seam pass (116444 px over the movie)",
+    "n_frames": 11,
+    "n_gt_divisions": 0,
+    "pixel_size_um": null,
+    "frame_interval_s": null,
+    "n_ids": 239,
+    "cells_per_frame_min": 173,
+    "cells_per_frame_max": 196
+  },
+  "runs": [
+    {
+      "run": "gt_ids",
+      "n_frames": 11,
+      "n_frame_pairs": 10,
+      "event_counts": {
+        "appearance": 2,
+        "contact_birth": 12,
+        "contact_death": 5,
+        "disappearance": 2,
+        "division": 33,
+        "exit": 1,
+        "extrusion": 9,
+        "gap_appearance": 1,
+        "gap_closure": 10,
+        "gap_disappearance": 1,
+        "gap_nucleation": 15,
+        "reseal": 10,
+        "rupture": 11,
+        "t1": 24
+      },
+      "n_events": 136,
+      "frac_pairs_fully_explained": 0.1,
+      "frac_pairs_zero_residual": 0.1,
+      "n_pairs_without_boundary_events": 6,
+      "frac_pairs_fully_explained_no_boundary": 0.16666666666666666,
+      "residual_abs_sum_histogram": {
+        "0": 1,
+        "2": 5,
+        "4": 2,
+        "6": 1,
+        "10": 1
+      },
+      "n_unexplained_events": 7,
+      "n_connectivity_changes": 0,
+      "n_t1": 24,
+      "n_t1_charge_conserved": 15,
+      "n_t1_generic_side_pattern": 15,
+      "n_t1_isolated": 13,
+      "n_t1_isolated_charge_conserved": 13,
+      "n_t1_isolated_generic_side_pattern": 13,
+      "t1_charge_delta_histogram": {
+        "-3": 2,
+        "-1": 5,
+        "0": 15,
+        "2": 1,
+        "3": 1
+      },
+      "charge_total_first": 63,
+      "charge_total_last": 49,
+      "mean_cells_per_frame": 183.8181818181818,
+      "mean_contacts_per_frame": 557.1818181818181,
+      "n_extrusion_at_free_edge": 2,
+      "n_extrusion_neighbours_meet_at_vertex": 6,
+      "n_t1_with_outer_face": 5,
+      "n_appearance_at_free_edge": 0
+    }
+  ],
+  "extra": {
+    "division detection (gt_ids run)": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "n_pred": 33,
+      "n_gt": 0,
+      "n_tp": 0,
+      "tolerance_frames": 1
+    }
+  },
+  "seconds": 1.2744078636169434,
+  "largest_residuals": {
+    "gt_ids": [
+      {
+        "frame": 2,
+        "magnitude": 12,
+        "observed_dVEF": [
+          7,
+          10,
+          3
+        ],
+        "expected_dVEF": [
+          10,
+          15,
+          5
+        ],
+        "residual_dVEF": [
+          -3,
+          -5,
+          -2
+        ],
+        "n_events": 14,
+        "n_unexplained": 2,
+        "unexplained_kinds": {
+          "disappearance": 1,
+          "exit": 1
+        },
+        "diagnosis": "1 cell(s) cross the image border (exit/entry, no fixed delta); 1 cell(s) [9] leave inside the tissue: id change or dropped label"
+      },
+      {
+        "frame": 5,
+        "magnitude": 7,
+        "observed_dVEF": [
+          -9,
+          -13,
+          -4
+        ],
+        "expected_dVEF": [
+          -10,
+          -15,
+          -5
+        ],
+        "residual_dVEF": [
+          1,
+          2,
+          1
+        ],
+        "n_events": 20,
+        "n_unexplained": 3,
+        "unexplained_kinds": {
+          "appearance": 2,
+          "disappearance": 1
+        },
+        "diagnosis": "1 cell(s) [95] leave inside the tissue: id change or dropped label; 2 cell(s) [14, 1749] enter inside the tissue: id change or dropped label"
+      },
+      {
+        "frame": 9,
+        "magnitude": 7,
+        "observed_dVEF": [
+          12,
+          18,
+          6
+        ],
+        "expected_dVEF": [
+          14,
+          21,
+          7
+        ],
+        "residual_dVEF": [
+          -2,
+          -3,
+          -1
+        ],
+        "n_events": 21,
+        "n_unexplained": 1,
+        "unexplained_kinds": {
+          "gap_disappearance": 1
+        },
+        "diagnosis": "1 background pocket(s) open/close without a matching nucleation/closure/rupture"
+      },
+      {
+        "frame": 8,
+        "magnitude": 5,
+        "observed_dVEF": [
+          7,
+          10,
+          3
+        ],
+        "expected_dVEF": [
+          6,
+          8,
+          2
+        ],
+        "residual_dVEF": [
+          1,
+          2,
+          1
+        ],
+        "n_events": 17,
+        "n_unexplained": 1,
+        "unexplained_kinds": {
+          "gap_appearance": 1
+        },
+        "diagnosis": "1 extrusion(s) (0 at the free edge) whose neighbours close the footprint with 1 new contact(s) instead of one vertex: adds about (+1, +1, 0) beyond the table; 1 background pocket(s) open/close without a matching nucleation/closure/rupture"
+      },
+      {
+        "frame": 1,
+        "magnitude": 2,
+        "observed_dVEF": [
+          -4,
+          -6,
+          -2
+        ],
+        "expected_dVEF": [
+          -3,
+          -5,
+          -2
+        ],
+        "residual_dVEF": [
+          -1,
+          -1,
+          0
+        ],
+        "n_events": 9,
+        "n_unexplained": 0,
+        "unexplained_kinds": {},
+        "diagnosis": "1 extrusion(s) (0 at the free edge) whose neighbours close the footprint with 1 new contact(s) instead of one vertex: adds about (+1, +1, 0) beyond the table"
+      },
+      {
+        "frame": 3,
+        "magnitude": 2,
+        "observed_dVEF": [
+          8,
+          12,
+          4
+        ],
+        "expected_dVEF": [
+          9,
+          13,
+          4
+        ],
+        "residual_dVEF": [
+          -1,
+          -1,
+          0
+        ],
+        "n_events": 7,
+        "n_unexplained": 0,
+        "unexplained_kinds": {},
+        "diagnosis": "all events fixed-delta yet residual (-1, -1, 0): vertex set changed by +31/-23 without a matched contact change (fourfold vertex or division geometry)"
+      },
+      {
+        "frame": 4,
+        "magnitude": 2,
+        "observed_dVEF": [
+          18,
+          27,
+          9
+        ],
+        "expected_dVEF": [
+          17,
+          26,
+          9
+        ],
+        "residual_dVEF": [
+          1,
+          1,
+          0
+        ],
+        "n_events": 15,
+        "n_unexplained": 0,
+        "unexplained_kinds": {},
+        "diagnosis": "all events fixed-delta yet residual (1, 1, 0): vertex set changed by +52/-36 without a matched contact change (fourfold vertex or division geometry)"
+      },
+      {
+        "frame": 6,
+        "magnitude": 2,
+        "observed_dVEF": [
+          7,
+          10,
+          3
+        ],
+        "expected_dVEF": [
+          8,
+          11,
+          3
+        ],
+        "residual_dVEF": [
+          -1,
+          -1,
+          0
+        ],
+        "n_events": 13,
+        "n_unexplained": 0,
+        "unexplained_kinds": {},
+        "diagnosis": "1 extrusion(s) (0 at the free edge) whose neighbours close the footprint with 1 new contact(s) instead of one vertex: adds about (+1, +1, 0) beyond the table"
+      },
+      {
+        "frame": 7,
+        "magnitude": 2,
+        "observed_dVEF": [
+          1,
+          2,
+          1
+        ],
+        "expected_dVEF": [
+          2,
+          3,
+          1
+        ],
+        "residual_dVEF": [
+          -1,
+          -1,
+          0
+        ],
+        "n_events": 10,
+        "n_unexplained": 0,
+        "unexplained_kinds": {},
+        "diagnosis": "2 T1(s) with a non-generic side pattern (fourfold vertex or overlapping rewrites), 1 division(s)"
+      }
+    ]
+  }
+}

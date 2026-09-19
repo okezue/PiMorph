@@ -1,0 +1,137 @@
+frame,kind,participants,dV,dE,dF,evidence,run
+0,division,"{""parent"": 44, ""children"": [307, 321]}",2.0,3.0,1.0,"{""source"": ""heuristic""}",gt_ids
+0,rupture,"{""gap"": -5, ""cells"": [8, 43], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+0,gap_nucleation,"{""gap"": -4, ""cells"": [74, 85, 145], ""sides"": 3}",2.0,3.0,1.0,{},gt_ids
+0,gap_nucleation,"{""gap"": -3, ""cells"": [73, 85, 145], ""sides"": 3}",2.0,3.0,1.0,{},gt_ids
+0,gap_nucleation,"{""gap"": -2, ""cells"": [73, 94, 145], ""sides"": 3}",2.0,3.0,1.0,{},gt_ids
+0,gap_nucleation,"{""gap"": -1, ""cells"": [7, 191, 205], ""sides"": 3}",2.0,3.0,1.0,{},gt_ids
+0,t1,"{""lost"": [18, 192], ""gained"": [185, 204], ""cells"": [18, 185, 192, 204]}",0.0,0.0,0.0,"{""side_change"": {""18"": -1, ""192"": -1, ""185"": 1, ""204"": 1}, ""charge_delta"": 0, ""generic"": true, ""isolated"": true}",gt_ids
+0,t1,"{""lost"": [52, 98], ""gained"": [34, 46], ""cells"": [34, 46, 52, 98]}",0.0,0.0,0.0,"{""side_change"": {""52"": -1, ""98"": -1, ""34"": 1, ""46"": 1}, ""charge_delta"": 0, ""generic"": true, ""isolated"": true}",gt_ids
+0,t1,"{""lost"": [78, 94], ""gained"": [26, 77], ""cells"": [26, 77, 78, 94]}",0.0,0.0,0.0,"{""side_change"": {""78"": -1, ""94"": 0, ""26"": 1, ""77"": 1}, ""charge_delta"": -1, ""generic"": false, ""isolated"": false}",gt_ids
+0,contact_death,"{""cells"": [74, 145]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+1,division,"{""parent"": 177, ""children"": [22, 709]}",2.0,3.0,1.0,"{""source"": ""heuristic""}",gt_ids
+1,extrusion,"{""cell"": 98, ""sides"": 4, ""neighbours"": [34, 36, 46, 59]}",-3.0,-4.0,-1.0,"{""neighbours_meet_at_vertex"": false, ""new_contacts_among_neighbours"": 1}",gt_ids
+1,gap_closure,"{""gap"": -5, ""cells"": [7, 191, 205], ""sides"": 3}",-2.0,-3.0,-1.0,{},gt_ids
+1,gap_closure,"{""gap"": -3, ""cells"": [73, 85, 145], ""sides"": 3}",-2.0,-3.0,-1.0,{},gt_ids
+1,t1,"{""lost"": [109, 145], ""gained"": [0, 94], ""cells"": [0, 94, 109, 145]}",0.0,0.0,0.0,"{""side_change"": {""109"": -1, ""145"": -1, ""0"": 2, ""94"": 1}, ""charge_delta"": -1, ""generic"": false, ""isolated"": false}",gt_ids
+1,contact_death,"{""cells"": [65, 76]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+1,contact_birth,"{""cells"": [-1, 24]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+1,contact_birth,"{""cells"": [34, 36]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+1,contact_birth,"{""cells"": [74, 145]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+2,division,"{""parent"": 150, ""children"": [69, 96]}",2.0,3.0,1.0,"{""source"": ""heuristic""}",gt_ids
+2,division,"{""parent"": 165, ""children"": [980, 984]}",2.0,3.0,1.0,"{""source"": ""heuristic""}",gt_ids
+2,division,"{""parent"": 199, ""children"": [1026, 1028]}",2.0,3.0,1.0,"{""source"": ""heuristic""}",gt_ids
+2,division,"{""parent"": 236, ""children"": [12, 28]}",2.0,3.0,1.0,"{""source"": ""heuristic""}",gt_ids
+2,division,"{""parent"": 321, ""children"": [10, 19]}",2.0,3.0,1.0,"{""source"": ""heuristic""}",gt_ids
+2,division,"{""parent"": 33, ""children"": [1, 33]}",2.0,3.0,1.0,"{""source"": ""heuristic_asymmetric""}",gt_ids
+2,division,"{""parent"": 33, ""children"": [3, 33]}",2.0,3.0,1.0,"{""source"": ""heuristic_asymmetric""}",gt_ids
+2,disappearance,"{""cell"": 9, ""sides"": 4}",,,,"{""neighbours"": [11, 53, 61, 321]}",gt_ids
+2,exit,"{""cell"": 39, ""sides"": 3}",,,,"{""neighbours"": [0, 29, 33]}",gt_ids
+2,gap_closure,"{""gap"": -2, ""cells"": [74, 85, 145], ""sides"": 3}",-2.0,-3.0,-1.0,{},gt_ids
+2,gap_closure,"{""gap"": -1, ""cells"": [8, 24, 43], ""sides"": 3}",-2.0,-3.0,-1.0,{},gt_ids
+2,t1,"{""lost"": [0, 94], ""gained"": [109, 145], ""cells"": [0, 94, 109, 145]}",0.0,0.0,0.0,"{""side_change"": {""0"": 1, ""94"": 0, ""109"": 1, ""145"": 1}, ""charge_delta"": -3, ""generic"": false, ""isolated"": false}",gt_ids
+2,contact_death,"{""cells"": [-3, 73]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+2,contact_birth,"{""cells"": [65, 76]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+3,division,"{""parent"": 64, ""children"": [1162, 1186]}",2.0,3.0,1.0,"{""source"": ""heuristic""}",gt_ids
+3,division,"{""parent"": 121, ""children"": [23, 1238]}",2.0,3.0,1.0,"{""source"": ""heuristic""}",gt_ids
+3,division,"{""parent"": 246, ""children"": [1354, 1356]}",2.0,3.0,1.0,"{""source"": ""heuristic""}",gt_ids
+3,extrusion,"{""cell"": 141, ""sides"": 3, ""neighbours"": [124, 139, 140]}",-2.0,-3.0,-1.0,"{""neighbours_meet_at_vertex"": true, ""new_contacts_among_neighbours"": 0}",gt_ids
+3,rupture,"{""gap"": -3, ""cells"": [33, 38], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+3,gap_nucleation,"{""gap"": -2, ""cells"": [73, 85, 145], ""sides"": 3}",2.0,3.0,1.0,{},gt_ids
+3,contact_birth,"{""cells"": [-1, 73]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+4,division,"{""parent"": 131, ""children"": [15, 60]}",2.0,3.0,1.0,"{""source"": ""heuristic""}",gt_ids
+4,division,"{""parent"": 163, ""children"": [1522, 1526]}",2.0,3.0,1.0,"{""source"": ""heuristic""}",gt_ids
+4,division,"{""parent"": 178, ""children"": [30, 1539]}",2.0,3.0,1.0,"{""source"": ""heuristic""}",gt_ids
+4,rupture,"{""gap"": -10, ""cells"": [52, 57], ""caps"": [26, 41]}",2.0,3.0,1.0,{},gt_ids
+4,rupture,"{""gap"": -9, ""cells"": [73, 74], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+4,rupture,"{""gap"": -8, ""cells"": [56, 77], ""caps"": [4, 81]}",2.0,3.0,1.0,{},gt_ids
+4,gap_nucleation,"{""gap"": -7, ""cells"": [74, 85, 145], ""sides"": 3}",2.0,3.0,1.0,{},gt_ids
+4,rupture,"{""gap"": -6, ""cells"": [97, 99], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+4,gap_nucleation,"{""gap"": -5, ""cells"": [105, 114, 123], ""sides"": 3}",2.0,3.0,1.0,{},gt_ids
+4,gap_nucleation,"{""gap"": -4, ""cells"": [191, 216, 221], ""sides"": 3}",2.0,3.0,1.0,{},gt_ids
+4,reseal,"{""gap"": -1, ""cells"": [33, 38], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+4,t1,"{""lost"": [144, 984], ""gained"": [172, 980], ""cells"": [144, 172, 980, 984]}",0.0,0.0,0.0,"{""side_change"": {""144"": -1, ""984"": -1, ""172"": 1, ""980"": 1}, ""charge_delta"": 0, ""generic"": true, ""isolated"": false}",gt_ids
+4,t1,"{""lost"": [210, 224], ""gained"": [209, 220], ""cells"": [209, 210, 220, 224]}",0.0,0.0,0.0,"{""side_change"": {""210"": -1, ""224"": -1, ""209"": 1, ""220"": 1}, ""charge_delta"": 0, ""generic"": true, ""isolated"": true}",gt_ids
+4,t1,"{""lost"": [226, 1356], ""gained"": [244, 1354], ""cells"": [226, 244, 1354, 1356]}",0.0,0.0,0.0,"{""side_change"": {""226"": -1, ""1356"": -1, ""244"": 1, ""1354"": 1}, ""charge_delta"": 0, ""generic"": true, ""isolated"": true}",gt_ids
+4,contact_death,"{""cells"": [-3, 73]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+5,division,"{""parent"": 61, ""children"": [1705, 1706]}",2.0,3.0,1.0,"{""source"": ""heuristic""}",gt_ids
+5,division,"{""parent"": 143, ""children"": [1793, 1798]}",2.0,3.0,1.0,"{""source"": ""heuristic""}",gt_ids
+5,division,"{""parent"": 158, ""children"": [13, 50]}",2.0,3.0,1.0,"{""source"": ""heuristic""}",gt_ids
+5,division,"{""parent"": 1186, ""children"": [17, 51]}",2.0,3.0,1.0,"{""source"": ""heuristic""}",gt_ids
+5,disappearance,"{""cell"": 95, ""sides"": 8}",,,,"{""neighbours"": [68, 75, 99, 101, 105, 113, 114, 1186]}",gt_ids
+5,extrusion,"{""cell"": 1356, ""sides"": 3, ""neighbours"": [0, 244, 1354]}",-2.0,-3.0,-1.0,"{""neighbours_meet_at_vertex"": true, ""new_contacts_among_neighbours"": 0}",gt_ids
+5,appearance,"{""cell"": 14, ""sides"": 5}",,,,"{""neighbours"": [17, 68, 75, 101, 1749]}",gt_ids
+5,appearance,"{""cell"": 1749, ""sides"": 7}",,,,"{""neighbours"": [14, 75, 99, 101, 105, 113, 114]}",gt_ids
+5,gap_closure,"{""gap"": -9, ""cells"": [191, 216, 221], ""sides"": 3}",-2.0,-3.0,-1.0,{},gt_ids
+5,gap_closure,"{""gap"": -8, ""cells"": [105, 114, 123], ""sides"": 3}",-2.0,-3.0,-1.0,{},gt_ids
+5,reseal,"{""gap"": -7, ""cells"": [97, 99], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+5,reseal,"{""gap"": -6, ""cells"": [94, 145], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+5,gap_closure,"{""gap"": -5, ""cells"": [73, 85, 145], ""sides"": 3}",-2.0,-3.0,-1.0,{},gt_ids
+5,reseal,"{""gap"": -3, ""cells"": [56, 77], ""caps"": [4, 81]}",-2.0,-3.0,-1.0,{},gt_ids
+5,reseal,"{""gap"": -2, ""cells"": [73, 74], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+5,reseal,"{""gap"": -1, ""cells"": [52, 57], ""caps"": [26, 41]}",-2.0,-3.0,-1.0,{},gt_ids
+5,t1,"{""lost"": [168, 1526], ""gained"": [176, 1522], ""cells"": [168, 176, 1522, 1526]}",0.0,0.0,0.0,"{""side_change"": {""168"": -1, ""1526"": -1, ""176"": 1, ""1522"": 1}, ""charge_delta"": 0, ""generic"": true, ""isolated"": true}",gt_ids
+5,t1,"{""lost"": [209, 220], ""gained"": [210, 224], ""cells"": [209, 210, 220, 224]}",0.0,0.0,0.0,"{""side_change"": {""209"": -1, ""220"": -1, ""210"": 1, ""224"": 1}, ""charge_delta"": 0, ""generic"": true, ""isolated"": true}",gt_ids
+5,contact_death,"{""cells"": [74, 145]}",-1.0,-1.0,0.0,"{""connectivity_change"": false}",gt_ids
+5,contact_birth,"{""cells"": [92, 1162]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+6,division,"{""parent"": 136, ""children"": [62, 2056]}",2.0,3.0,1.0,"{""source"": ""heuristic""}",gt_ids
+6,division,"{""parent"": 1749, ""children"": [16, 2031]}",2.0,3.0,1.0,"{""source"": ""heuristic""}",gt_ids
+6,extrusion,"{""cell"": 196, ""sides"": 4, ""neighbours"": [184, 186, 198, 201]}",-3.0,-4.0,-1.0,"{""neighbours_meet_at_vertex"": false, ""new_contacts_among_neighbours"": 1}",gt_ids
+6,rupture,"{""gap"": -3, ""cells"": [55, 307], ""caps"": [10, 43]}",2.0,3.0,1.0,{},gt_ids
+6,gap_nucleation,"{""gap"": -2, ""cells"": [144, 149, 169], ""sides"": 3}",2.0,3.0,1.0,{},gt_ids
+6,t1,"{""lost"": [48, 74], ""gained"": [0, 73], ""cells"": [0, 48, 73, 74]}",0.0,0.0,0.0,"{""side_change"": {""48"": -1, ""74"": 0, ""0"": 2, ""73"": 2}, ""charge_delta"": -3, ""generic"": false, ""isolated"": false}",gt_ids
+6,t1,"{""lost"": [53, 1706], ""gained"": [58, 1705], ""cells"": [53, 58, 1705, 1706]}",0.0,0.0,0.0,"{""side_change"": {""53"": -1, ""1706"": -1, ""58"": 1, ""1705"": 1}, ""charge_delta"": 0, ""generic"": true, ""isolated"": true}",gt_ids
+6,t1,"{""lost"": [85, 145], ""gained"": [-1, 73], ""cells"": [-1, 73, 85, 145]}",0.0,0.0,0.0,"{""side_change"": {""85"": -1, ""145"": -1, ""-1"": 1, ""73"": 2}, ""charge_delta"": -1, ""generic"": false, ""isolated"": false}",gt_ids
+6,t1,"{""lost"": [92, 1162], ""gained"": [51, 81], ""cells"": [51, 81, 92, 1162]}",0.0,0.0,0.0,"{""side_change"": {""92"": -1, ""1162"": -1, ""51"": 1, ""81"": 1}, ""charge_delta"": 0, ""generic"": true, ""isolated"": true}",gt_ids
+6,t1,"{""lost"": [109, 145], ""gained"": [0, 94], ""cells"": [0, 94, 109, 145]}",0.0,0.0,0.0,"{""side_change"": {""109"": -1, ""145"": -1, ""0"": 2, ""94"": 1}, ""charge_delta"": -1, ""generic"": false, ""isolated"": false}",gt_ids
+6,contact_birth,"{""cells"": [14, 99]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+6,contact_birth,"{""cells"": [74, 145]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+6,contact_birth,"{""cells"": [186, 201]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+7,division,"{""parent"": 94, ""children"": [63, 2236]}",2.0,3.0,1.0,"{""source"": ""heuristic""}",gt_ids
+7,gap_nucleation,"{""gap"": -6, ""cells"": [58, 65, 76], ""sides"": 3}",2.0,3.0,1.0,{},gt_ids
+7,gap_nucleation,"{""gap"": -5, ""cells"": [154, 709, 980], ""sides"": 3}",2.0,3.0,1.0,{},gt_ids
+7,rupture,"{""gap"": -4, ""cells"": [176, 194], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+7,gap_closure,"{""gap"": -3, ""cells"": [144, 149, 169], ""sides"": 3}",-2.0,-3.0,-1.0,{},gt_ids
+7,reseal,"{""gap"": -2, ""cells"": [85, 145], ""caps"": [73, 74]}",-2.0,-3.0,-1.0,{},gt_ids
+7,reseal,"{""gap"": -1, ""cells"": [55, 307], ""caps"": [10, 43]}",-2.0,-3.0,-1.0,{},gt_ids
+7,t1,"{""lost"": [0, 73], ""gained"": [48, 74], ""cells"": [0, 48, 73, 74]}",0.0,0.0,0.0,"{""side_change"": {""0"": -1, ""73"": -2, ""48"": 0, ""74"": 0}, ""charge_delta"": 3, ""generic"": false, ""isolated"": false}",gt_ids
+7,t1,"{""lost"": [3, 33], ""gained"": [1, 29], ""cells"": [1, 3, 29, 33]}",0.0,0.0,0.0,"{""side_change"": {""3"": -1, ""33"": -1, ""1"": 1, ""29"": 1}, ""charge_delta"": 0, ""generic"": true, ""isolated"": true}",gt_ids
+7,t1,"{""lost"": [40, 48], ""gained"": [32, 42], ""cells"": [32, 40, 42, 48]}",0.0,0.0,0.0,"{""side_change"": {""40"": -1, ""48"": 0, ""32"": 1, ""42"": 1}, ""charge_delta"": -1, ""generic"": false, ""isolated"": false}",gt_ids
+8,division,"{""parent"": 59, ""children"": [5, 2443]}",2.0,3.0,1.0,"{""source"": ""heuristic""}",gt_ids
+8,division,"{""parent"": 60, ""children"": [82, 91]}",2.0,3.0,1.0,"{""source"": ""heuristic""}",gt_ids
+8,division,"{""parent"": 63, ""children"": [37, 83]}",2.0,3.0,1.0,"{""source"": ""heuristic""}",gt_ids
+8,division,"{""parent"": 133, ""children"": [2541, 2565]}",2.0,3.0,1.0,"{""source"": ""heuristic""}",gt_ids
+8,division,"{""parent"": 221, ""children"": [54, 2661]}",2.0,3.0,1.0,"{""source"": ""heuristic""}",gt_ids
+8,extrusion,"{""cell"": 1539, ""sides"": 4, ""neighbours"": [30, 155, 162, 185]}",-3.0,-4.0,-1.0,"{""neighbours_meet_at_vertex"": false, ""new_contacts_among_neighbours"": 1}",gt_ids
+8,rupture,"{""gap"": -5, ""cells"": [85, 145], ""caps"": [73, 74]}",2.0,3.0,1.0,{},gt_ids
+8,gap_appearance,"{""gap"": -4, ""cells"": [37, 109, 145]}",,,,{},gt_ids
+8,reseal,"{""gap"": -3, ""cells"": [176, 194], ""caps"": []}",-2.0,-3.0,-1.0,{},gt_ids
+8,gap_closure,"{""gap"": -2, ""cells"": [154, 709, 980], ""sides"": 3}",-2.0,-3.0,-1.0,{},gt_ids
+8,gap_closure,"{""gap"": -1, ""cells"": [58, 65, 76], ""sides"": 3}",-2.0,-3.0,-1.0,{},gt_ids
+8,t1,"{""lost"": [32, 42], ""gained"": [40, 48], ""cells"": [32, 40, 42, 48]}",0.0,0.0,0.0,"{""side_change"": {""32"": -1, ""42"": -1, ""40"": 1, ""48"": 1}, ""charge_delta"": 0, ""generic"": true, ""isolated"": true}",gt_ids
+8,t1,"{""lost"": [51, 101], ""gained"": [17, 92], ""cells"": [17, 51, 92, 101]}",0.0,0.0,0.0,"{""side_change"": {""51"": -1, ""101"": -1, ""17"": 1, ""92"": 1}, ""charge_delta"": 0, ""generic"": true, ""isolated"": true}",gt_ids
+8,t1,"{""lost"": [65, 84], ""gained"": [76, 86], ""cells"": [65, 76, 84, 86]}",0.0,0.0,0.0,"{""side_change"": {""65"": -2, ""84"": -1, ""76"": 0, ""86"": 1}, ""charge_delta"": 2, ""generic"": false, ""isolated"": false}",gt_ids
+8,contact_birth,"{""cells"": [30, 162]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+8,contact_birth,"{""cells"": [73, 2236]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+8,contact_birth,"{""cells"": [109, 145]}",1.0,1.0,0.0,"{""connectivity_change"": false}",gt_ids
+9,division,"{""parent"": 37, ""children"": [67, 111]}",2.0,3.0,1.0,"{""source"": ""heuristic""}",gt_ids
+9,division,"{""parent"": 108, ""children"": [93, 2797]}",2.0,3.0,1.0,"{""source"": ""heuristic""}",gt_ids
+9,division,"{""parent"": 169, ""children"": [2862, 2887]}",2.0,3.0,1.0,"{""source"": ""heuristic""}",gt_ids
+9,division,"{""parent"": 192, ""children"": [20, 2895]}",2.0,3.0,1.0,"{""source"": ""heuristic""}",gt_ids
+9,division,"{""parent"": 709, ""children"": [70, 2873]}",2.0,3.0,1.0,"{""source"": ""heuristic""}",gt_ids
+9,division,"{""parent"": 2565, ""children"": [107, 110]}",2.0,3.0,1.0,"{""source"": ""heuristic""}",gt_ids
+9,extrusion,"{""cell"": 3, ""sides"": 3, ""neighbours"": [0, 1, 29]}",-2.0,-3.0,-1.0,"{""neighbours_meet_at_vertex"": true, ""new_contacts_among_neighbours"": 0}",gt_ids
+9,extrusion,"{""cell"": 984, ""sides"": 3, ""neighbours"": [172, 182, 980]}",-2.0,-3.0,-1.0,"{""neighbours_meet_at_vertex"": true, ""new_contacts_among_neighbours"": 0}",gt_ids
+9,extrusion,"{""cell"": 1028, ""sides"": 3, ""neighbours"": [189, 197, 1026]}",-2.0,-3.0,-1.0,"{""neighbours_meet_at_vertex"": true, ""new_contacts_among_neighbours"": 0}",gt_ids
+9,extrusion,"{""cell"": 2443, ""sides"": 3, ""neighbours"": [5, 34, 36]}",-2.0,-3.0,-1.0,"{""neighbours_meet_at_vertex"": true, ""new_contacts_among_neighbours"": 0}",gt_ids
+9,rupture,"{""gap"": -8, ""cells"": [176, 1522], ""caps"": [168, 1526]}",2.0,3.0,1.0,{},gt_ids
+9,gap_nucleation,"{""gap"": -7, ""cells"": [176, 207, 1026], ""sides"": 3}",2.0,3.0,1.0,{},gt_ids
+9,gap_nucleation,"{""gap"": -6, ""cells"": [197, 207, 213], ""sides"": 3}",2.0,3.0,1.0,{},gt_ids
+9,rupture,"{""gap"": -5, ""cells"": [207, 213], ""caps"": []}",2.0,3.0,1.0,{},gt_ids
+9,gap_nucleation,"{""gap"": -4, ""cells"": [207, 213, 227], ""sides"": 3}",2.0,3.0,1.0,{},gt_ids
+9,gap_nucleation,"{""gap"": -3, ""cells"": [54, 204, 2661], ""sides"": 3}",2.0,3.0,1.0,{},gt_ids
+9,gap_disappearance,"{""gap"": -2, ""cells"": [37, 109, 145]}",,,,{},gt_ids
+9,reseal,"{""gap"": -1, ""cells"": [85, 145], ""caps"": [73, 74]}",-2.0,-3.0,-1.0,{},gt_ids
+9,t1,"{""lost"": [40, 48], ""gained"": [32, 42], ""cells"": [32, 40, 42, 48]}",0.0,0.0,0.0,"{""side_change"": {""40"": -1, ""48"": -1, ""32"": 1, ""42"": 1}, ""charge_delta"": 0, ""generic"": true, ""isolated"": true}",gt_ids
+9,t1,"{""lost"": [91, 137], ""gained"": [82, 122], ""cells"": [82, 91, 122, 137]}",0.0,0.0,0.0,"{""side_change"": {""91"": -1, ""137"": -1, ""82"": 1, ""122"": 1}, ""charge_delta"": 0, ""generic"": true, ""isolated"": false}",gt_ids
+9,t1,"{""lost"": [101, 2031], ""gained"": [16, 113], ""cells"": [16, 101, 113, 2031]}",0.0,0.0,0.0,"{""side_change"": {""101"": -1, ""2031"": -1, ""16"": 1, ""113"": 1}, ""charge_delta"": 0, ""generic"": true, ""isolated"": true}",gt_ids

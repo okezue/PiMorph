@@ -1,0 +1,10 @@
+frame,magnitude,observed_dVEF,expected_dVEF,residual_dVEF,n_events,n_unexplained,unexplained_kinds,diagnosis
+2,12,"(7, 10, 3)","(10, 15, 5)","(-3, -5, -2)",14,2,"{'disappearance': 1, 'exit': 1}","1 cell(s) cross the image border (exit/entry, no fixed delta); 1 cell(s) [9] leave inside the tissue: id change or dropped label"
+5,7,"(-9, -13, -4)","(-10, -15, -5)","(1, 2, 1)",20,3,"{'appearance': 2, 'disappearance': 1}","1 cell(s) [95] leave inside the tissue: id change or dropped label; 2 cell(s) [14, 1749] enter inside the tissue: id change or dropped label"
+9,7,"(12, 18, 6)","(14, 21, 7)","(-2, -3, -1)",21,1,{'gap_disappearance': 1},1 background pocket(s) open/close without a matching nucleation/closure/rupture
+8,5,"(7, 10, 3)","(6, 8, 2)","(1, 2, 1)",17,1,{'gap_appearance': 1},"1 extrusion(s) (0 at the free edge) whose neighbours close the footprint with 1 new contact(s) instead of one vertex: adds about (+1, +1, 0) beyond the table; 1 background pocket(s) open/close without a matching nucleation/closure/rupture"
+1,2,"(-4, -6, -2)","(-3, -5, -2)","(-1, -1, 0)",9,0,{},"1 extrusion(s) (0 at the free edge) whose neighbours close the footprint with 1 new contact(s) instead of one vertex: adds about (+1, +1, 0) beyond the table"
+3,2,"(8, 12, 4)","(9, 13, 4)","(-1, -1, 0)",7,0,{},"all events fixed-delta yet residual (-1, -1, 0): vertex set changed by +31/-23 without a matched contact change (fourfold vertex or division geometry)"
+4,2,"(18, 27, 9)","(17, 26, 9)","(1, 1, 0)",15,0,{},"all events fixed-delta yet residual (1, 1, 0): vertex set changed by +52/-36 without a matched contact change (fourfold vertex or division geometry)"
+6,2,"(7, 10, 3)","(8, 11, 3)","(-1, -1, 0)",13,0,{},"1 extrusion(s) (0 at the free edge) whose neighbours close the footprint with 1 new contact(s) instead of one vertex: adds about (+1, +1, 0) beyond the table"
+7,2,"(1, 2, 1)","(2, 3, 1)","(-1, -1, 0)",10,0,{},"2 T1(s) with a non-generic side pattern (fourfold vertex or overlapping rewrites), 1 division(s)"

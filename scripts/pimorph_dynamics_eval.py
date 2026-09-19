@@ -11,6 +11,13 @@ lineage used directly).
 Usage:
     python scripts/pimorph_dynamics_eval.py --dataset ctc --name DIC-C2DH-HeLa --seq 01
     python scripts/pimorph_dynamics_eval.py --dataset tissueminer
+    python scripts/pimorph_dynamics_eval.py --dataset epicure --no-tracker \
+        --movie data/epicure/data_generalisations/movie2
+
+EpiCure movies carry curated track-consistent ids and no lineage, so only the
+``gt_ids`` run is meaningful there; ``--no-tracker`` skips the tracker run. Every run
+also writes ``residuals_<run>.csv`` with the largest unexplained (dV, dE, dF)
+residuals per frame pair and a one-line diagnosis.
 """
 
 from __future__ import annotations
@@ -41,6 +48,7 @@ from pimorph.dynamics import (
     tracks_from_labels,
 )
 from pimorph.dynamics.ctc import ctc_divisions, load_ctc, tracked_dense_labels
+from pimorph.dynamics.epicure import load_epicure_movie
 from pimorph.dynamics.tissueminer import UNMAPPED_OFFSET, db_snapshots, load_tissueminer_demo
 
 
@@ -96,8 +104,105 @@ def run_events(cxs, lineage: Dict[int, int], label: str) -> Dict[str, Any]:
         "charge_total_last": checks[-1]["charge_b"] if checks else None,
         "mean_cells_per_frame": float(np.mean([len(s.cells) for s in snaps])),
         "mean_contacts_per_frame": float(np.mean([len(s.contacts) for s in snaps])),
+        # cells touching the outer face sit at the free edge of the annotated region; events
+        # there mostly record cells entering or leaving the curated ROI
+        "n_extrusion_at_free_edge": int(
+            sum(1 for e in events if e.kind == "extrusion" and 0 in e.participants.get("neighbours", []))
+        ),
+        "n_extrusion_neighbours_meet_at_vertex": int(
+            sum(1 for e in events if e.kind == "extrusion" and e.evidence.get("neighbours_meet_at_vertex"))
+        ),
+        "n_t1_with_outer_face": int(sum(1 for e in t1_events if 0 in e.participants.get("cells", []))),
+        "n_appearance_at_free_edge": int(
+            sum(
+                1 for e in events if e.kind in ("appearance", "disappearance") and 0 in e.evidence.get("neighbours", [])
+            )
+        ),
     }
-    return {"summary": out, "events": events, "checks": checks}
+    return {"summary": out, "events": events, "checks": checks, "snaps": snaps}
+
+
+def diagnose_pair(t: int, events: List[Event], snaps, chk: Dict[str, Any]) -> str:
+    """One-line reading of a frame pair whose (dV, dE, dF) identity does not close."""
+    sa, sb = snaps[t], snaps[t + 1]
+    ev = [e for e in events if e.frame == t]
+    kinds = Counter(e.kind for e in ev)
+    parts: List[str] = []
+    n_border = kinds.get("exit", 0) + kinds.get("entry", 0)
+    if n_border:
+        parts.append(f"{n_border} cell(s) cross the image border (exit/entry, no fixed delta)")
+    for kind, verb, snap in (("disappearance", "leave", sa), ("appearance", "enter", sb)):
+        cells = [e.participants["cell"] for e in ev if e.kind == kind]
+        if not cells:
+            continue
+        edge = [c for c in cells if 0 in snap.neighbours(c)]
+        inner = [c for c in cells if c not in edge]
+        if edge:
+            parts.append(
+                f"{len(edge)} cell(s) {edge[:4]} at the free edge of the annotated region {verb} the curated ROI "
+                "(unlabelled tissue beyond, no fixed delta)"
+            )
+        if inner:
+            parts.append(f"{len(inner)} cell(s) {inner[:4]} {verb} inside the tissue: id change or dropped label")
+    # extrusions whose neighbours do not collapse onto one vertex leave k extra contacts: (+k, +k, 0)
+    loose = [e for e in ev if e.kind == "extrusion" and not e.evidence.get("neighbours_meet_at_vertex")]
+    if loose:
+        k = sum(int(e.evidence.get("new_contacts_among_neighbours", 0)) for e in loose)
+        at_edge = sum(1 for e in loose if 0 in e.participants.get("neighbours", []))
+        parts.append(
+            f"{len(loose)} extrusion(s) ({at_edge} at the free edge) whose neighbours close the footprint with "
+            f"{k} new contact(s) instead of one vertex: adds about (+{k}, +{k}, 0) beyond the table"
+        )
+    n_gap = kinds.get("gap_appearance", 0) + kinds.get("gap_disappearance", 0)
+    if n_gap:
+        parts.append(f"{n_gap} background pocket(s) open/close without a matching nucleation/closure/rupture")
+    n_conn = sum(1 for e in ev if e.evidence.get("connectivity_change"))
+    if n_conn:
+        parts.append(f"{n_conn} contact(s) join or split skeleton components (annotation islands)")
+    n_ng = sum(1 for e in ev if e.kind == "t1" and not e.evidence.get("generic"))
+    n_div = kinds.get("division", 0)
+    if not parts:
+        if n_ng:
+            parts.append(
+                f"{n_ng} T1(s) with a non-generic side pattern (fourfold vertex or overlapping rewrites), "
+                f"{n_div} division(s)"
+            )
+        else:
+            vs = len(sb.vertices - sa.vertices), len(sa.vertices - sb.vertices)
+            parts.append(
+                f"all events fixed-delta yet residual {chk['residual_dVEF']}: vertex set changed by "
+                f"+{vs[0]}/-{vs[1]} without a matched contact change (fourfold vertex or division geometry)"
+            )
+    return "; ".join(parts)
+
+
+def residual_table(r: Dict[str, Any], top: int = 10) -> pd.DataFrame:
+    """Frame pairs with the largest |residual| + unexplained events, with a diagnosis each."""
+    rows = []
+    for chk in r["checks"]:
+        t = int(chk["frame"])
+        mag = int(sum(abs(x) for x in chk["residual_dVEF"])) + int(chk["n_unexplained"])
+        if chk["fully_explained"]:
+            continue
+        ev = [e for e in r["events"] if e.frame == t]
+        unexplained = [e for e in ev if e.expected_delta is None]
+        rows.append(
+            {
+                "frame": t,
+                "magnitude": mag,
+                "observed_dVEF": chk["observed_dVEF"],
+                "expected_dVEF": chk["expected_dVEF"],
+                "residual_dVEF": chk["residual_dVEF"],
+                "n_events": len(ev),
+                "n_unexplained": len(unexplained),
+                "unexplained_kinds": dict(sorted(Counter(e.kind for e in unexplained).items())),
+                "diagnosis": diagnose_pair(t, r["events"], r["snaps"], chk),
+            }
+        )
+    df = pd.DataFrame(rows)
+    if len(df):
+        df = df.sort_values(["magnitude", "frame"], ascending=[False, True]).head(top).reset_index(drop=True)
+    return df
 
 
 def fmt(x: Any) -> str:
@@ -106,7 +211,13 @@ def fmt(x: Any) -> str:
     return str(x)
 
 
-def write_report(out_dir: Path, meta: Dict[str, Any], runs: List[Dict[str, Any]], extra: Dict[str, Any]) -> None:
+def write_report(
+    out_dir: Path,
+    meta: Dict[str, Any],
+    runs: List[Dict[str, Any]],
+    extra: Dict[str, Any],
+    residuals: Optional[Dict[str, pd.DataFrame]] = None,
+) -> None:
     lines = [f"# Dynamics evaluation: {meta['dataset_label']}", ""]
     lines.append("Label stack: " + meta["label_stack_note"])
     lines.append("")
@@ -134,11 +245,15 @@ def write_report(out_dir: Path, meta: Dict[str, Any], runs: List[Dict[str, Any]]
         "n_unexplained_events",
         "n_connectivity_changes",
         "residual_abs_sum_histogram",
+        "n_extrusion_at_free_edge",
+        "n_extrusion_neighbours_meet_at_vertex",
+        "n_t1_with_outer_face",
+        "n_appearance_at_free_edge",
     ]
     lines.append("| metric | " + " | ".join(r["summary"]["run"] for r in runs) + " |")
     lines.append("|---|" + "---|" * len(runs))
     for k in keys:
-        lines.append(f"| {k} | " + " | ".join(fmt(r["summary"][k]) for r in runs) + " |")
+        lines.append(f"| {k} | " + " | ".join(fmt(r["summary"].get(k, "")) for r in runs) + " |")
     lines.append("")
     lines.append("## T1 charge conservation")
     lines.append("")
@@ -165,15 +280,34 @@ def write_report(out_dir: Path, meta: Dict[str, Any], runs: List[Dict[str, Any]]
                 continue
             lines.append(f"- {k}: {fmt(v)}")
         lines.append("")
+    for run, df in (residuals or {}).items():
+        lines.append(f"## Largest unexplained residuals ({run})")
+        lines.append("")
+        if not len(df):
+            lines.append("every frame pair is fully explained")
+            lines.append("")
+            continue
+        lines.append("| frame pair | observed dVEF | expected dVEF | residual | unexplained | diagnosis |")
+        lines.append("|---|---|---|---|---|---|")
+        for _, row in df.iterrows():
+            lines.append(
+                f"| {row['frame']} to {row['frame'] + 1} | {row['observed_dVEF']} | {row['expected_dVEF']} | "
+                f"{row['residual_dVEF']} | {row['unexplained_kinds']} | {row['diagnosis']} |"
+            )
+        lines.append("")
     (out_dir / "report.md").write_text("\n".join(lines) + "\n")
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--dataset", choices=["ctc", "tissueminer"], required=True)
+    ap.add_argument("--dataset", choices=["ctc", "tissueminer", "epicure"], required=True)
     ap.add_argument("--name", default="DIC-C2DH-HeLa")
     ap.add_argument("--seq", default="01")
     ap.add_argument("--root", default=None)
+    ap.add_argument("--movie", default=None, help="epicure: movie directory holding <name>.tif and epics_corrected/")
+    ap.add_argument("--labels-subdir", default="epics_corrected", help="epicure: label folder inside the movie dir")
+    ap.add_argument("--no-tracker", action="store_true", help="skip the tracker run (curated ids only)")
+    ap.add_argument("--top-residuals", type=int, default=10)
     ap.add_argument("--max-frames", type=int, default=None)
     ap.add_argument("--iou-min", type=float, default=0.3)
     ap.add_argument("--min-gap-px", type=int, default=0, help="fill enclosed background components below this size")
@@ -203,6 +337,31 @@ def main() -> int:
             "n_frames": len(stack),
             "n_gt_divisions": len(gt_divisions),
         }
+    elif args.dataset == "epicure":
+        if not args.movie:
+            raise SystemExit("--dataset epicure needs --movie <dir>")
+        lab, _, ep_meta = load_epicure_movie(args.movie, labels_subdir=args.labels_subdir, load_images=False)
+        if args.max_frames is not None:
+            lab = lab[: args.max_frames]
+        stack = [fr.astype(np.int64) for fr in lab]
+        gt_divisions = []
+        gt_lineage = {}
+        name = f"epicure_{Path(args.movie).name}"
+        meta = {
+            "dataset_label": name,
+            "label_stack_note": (
+                f"EpiCure curated labels ({ep_meta['labels_folder']}/{ep_meta['name']}_labels.tif, ids "
+                "track-consistent, no lineage in the label file); 1 px background seams between cells filled "
+                f"with fill_gt_slivers plus a seam pass ({ep_meta['n_seam_pixels_filled']} px over the movie)"
+            ),
+            "n_frames": len(stack),
+            "n_gt_divisions": 0,
+            "pixel_size_um": ep_meta["pixel_size_um"],
+            "frame_interval_s": ep_meta["frame_interval_s"],
+            "n_ids": ep_meta["n_ids"],
+            "cells_per_frame_min": min(ep_meta["cells_per_frame"]),
+            "cells_per_frame_max": max(ep_meta["cells_per_frame"]),
+        }
     else:
         data = load_tissueminer_demo(root=args.root or "data/tissueminer", max_frames=args.max_frames)
         stack = data["label_stack"]
@@ -230,22 +389,30 @@ def main() -> int:
     print(f"loaded {name}: {len(stack)} frames, {len(gt_divisions)} GT divisions ({time.time() - t0:.1f}s)")
 
     # run 1: our tracker on the ground-truth label stack
-    t1 = time.time()
-    tracks = track(stack, iou_min=args.iou_min)
-    tm = tracking_metrics(tracks, stack)
-    id_map = tm.pop("pred_to_gt")
-    print(f"tracked: {tracks.n_tracks} tracks, {len(tracks.lineage)} lineage links ({time.time() - t1:.1f}s)")
-    cxs = complexes_over_time(tracks)
-    r_tracker = run_events(cxs, tracks.lineage, "tracker")
-    div_tracker = division_detection_metrics(r_tracker["events"], gt_divisions, tolerance_frames=1, id_map=id_map)
-    div_tracker_linker = division_detection_metrics(tracks.divisions(), gt_divisions, tolerance_frames=1, id_map=id_map)
-    extra["tracking_metrics (tracker vs GT ids)"] = tm
-    extra["division detection (tracker run, events)"] = {
-        k: v for k, v in div_tracker.items() if not k.startswith("unmatched")
-    }
-    extra["division detection (tracker run, linker lineage only)"] = {
-        k: v for k, v in div_tracker_linker.items() if not k.startswith("unmatched")
-    }
+    runs = []
+    r_tracker = None
+    id_map = None
+    tracks = None
+    if not args.no_tracker:
+        t1 = time.time()
+        tracks = track(stack, iou_min=args.iou_min)
+        tm = tracking_metrics(tracks, stack)
+        id_map = tm.pop("pred_to_gt")
+        print(f"tracked: {tracks.n_tracks} tracks, {len(tracks.lineage)} lineage links ({time.time() - t1:.1f}s)")
+        cxs = complexes_over_time(tracks)
+        r_tracker = run_events(cxs, tracks.lineage, "tracker")
+        div_tracker = division_detection_metrics(r_tracker["events"], gt_divisions, tolerance_frames=1, id_map=id_map)
+        div_tracker_linker = division_detection_metrics(
+            tracks.divisions(), gt_divisions, tolerance_frames=1, id_map=id_map
+        )
+        extra["tracking_metrics (tracker vs GT ids)"] = tm
+        extra["division detection (tracker run, events)"] = {
+            k: v for k, v in div_tracker.items() if not k.startswith("unmatched")
+        }
+        extra["division detection (tracker run, linker lineage only)"] = {
+            k: v for k, v in div_tracker_linker.items() if not k.startswith("unmatched")
+        }
+        runs.append(r_tracker)
 
     # run 2: ground-truth ids and lineage
     gt_tracks = tracks_from_labels(stack, lineage=gt_lineage)
@@ -253,7 +420,7 @@ def main() -> int:
     r_gt = run_events(cxs_gt, gt_lineage, "gt_ids")
     div_gt = division_detection_metrics(r_gt["events"], gt_divisions, tolerance_frames=1)
     extra["division detection (gt_ids run)"] = {k: v for k, v in div_gt.items() if not k.startswith("unmatched")}
-    runs = [r_tracker, r_gt]
+    runs.append(r_gt)
 
     # TissueMiner: the same detector on the database topology gives the reference T1 list.
     # The database only covers the analysis ROI, so predictions are also scored after
@@ -263,16 +430,18 @@ def main() -> int:
         r_db = run_events([db_snaps[f] for f in frames], gt_lineage, "database")
         runs.append(r_db)
         gt_t1 = [e for e in r_db["events"] if e.kind == "t1"]
-        tm_codes = tracking_metrics(tracks, data["code_stack"])
-        tm_codes.pop("pred_to_gt")
-        extra["tracking_metrics (tracker vs Tissue Analyzer codes)"] = tm_codes
+        if tracks is not None:
+            tm_codes = tracking_metrics(tracks, data["code_stack"])
+            tm_codes.pop("pred_to_gt")
+            extra["tracking_metrics (tracker vs Tissue Analyzer codes)"] = tm_codes
 
         def in_roi(e: Event, im: Optional[Dict[int, int]]) -> bool:
             cells = e.participants.get("cells") or [e.participants.get("parent"), *e.participants.get("children", [])]
             ids = [int((im or {}).get(c, c)) for c in cells if c is not None]
             return all(0 < c < UNMAPPED_OFFSET for c in ids)
 
-        for r, im in ((r_tracker, id_map), (r_gt, None)):
+        scored = [(r_gt, None)] if r_tracker is None else [(r_tracker, id_map), (r_gt, None)]
+        for r, im in scored:
             pred_t1 = [e for e in r["events"] if e.kind == "t1"]
             pred_t1_roi = [e for e in pred_t1 if in_roi(e, im)]
             extra[f"t1 vs database ({r['summary']['run']}, all)"] = t1_metrics(pred_t1, gt_t1, 0, id_map=im)
@@ -302,12 +471,17 @@ def main() -> int:
             rec["evidence"] = json.dumps(rec["evidence"])
             rows.append(rec)
     pd.DataFrame(rows).to_csv(out_dir / "events.csv", index=False)
+    residuals: Dict[str, pd.DataFrame] = {}
     for r in runs:
         event_summary(r["events"]).to_csv(out_dir / f"event_summary_{r['summary']['run']}.csv", index=False)
         pd.DataFrame(r["checks"]).to_csv(out_dir / f"admissibility_{r['summary']['run']}.csv", index=False)
+        res = residual_table(r, top=args.top_residuals)
+        res.to_csv(out_dir / f"residuals_{r['summary']['run']}.csv", index=False)
+        residuals[r["summary"]["run"]] = res
     summary = {"meta": meta, "runs": [r["summary"] for r in runs], "extra": extra, "seconds": time.time() - t0}
+    summary["largest_residuals"] = {k: v.to_dict(orient="records") for k, v in residuals.items()}
     (out_dir / "summary.json").write_text(json.dumps(summary, indent=2, default=str))
-    write_report(out_dir, meta, runs, extra)
+    write_report(out_dir, meta, runs, extra, residuals)
     print(json.dumps({"runs": [r["summary"] for r in runs], "extra": extra}, indent=1, default=str))
     print(f"wrote {out_dir} ({time.time() - t0:.1f}s)")
     return 0

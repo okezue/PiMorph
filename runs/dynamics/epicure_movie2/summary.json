@@ -1,0 +1,348 @@
+{
+  "meta": {
+    "dataset_label": "epicure_movie2",
+    "label_stack_note": "EpiCure curated labels (epics_corrected/abdomen_maxz_z15-24_t1-60_crop_labels.tif, ids track-consistent, no lineage in the label file); 1 px background seams between cells filled with fill_gt_slivers plus a seam pass (100945 px over the movie)",
+    "n_frames": 30,
+    "n_gt_divisions": 0,
+    "pixel_size_um": 0.27500004816683943,
+    "frame_interval_s": 299.99542236328125,
+    "n_ids": 194,
+    "cells_per_frame_min": 104,
+    "cells_per_frame_max": 167
+  },
+  "runs": [
+    {
+      "run": "gt_ids",
+      "n_frames": 30,
+      "n_frame_pairs": 29,
+      "event_counts": {
+        "appearance": 29,
+        "contact_birth": 203,
+        "contact_death": 122,
+        "disappearance": 23,
+        "division": 30,
+        "extrusion": 94,
+        "t1": 559
+      },
+      "n_events": 1060,
+      "frac_pairs_fully_explained": 0.1724137931034483,
+      "frac_pairs_zero_residual": 0.1724137931034483,
+      "n_pairs_without_boundary_events": 9,
+      "frac_pairs_fully_explained_no_boundary": 0.5555555555555556,
+      "residual_abs_sum_histogram": {
+        "0": 5,
+        "2": 3,
+        "4": 2,
+        "6": 2,
+        "10": 4,
+        "12": 1,
+        "14": 2,
+        "16": 2,
+        "18": 3,
+        "20": 1,
+        "26": 1,
+        "28": 3
+      },
+      "n_unexplained_events": 52,
+      "n_connectivity_changes": 0,
+      "n_t1": 559,
+      "n_t1_charge_conserved": 209,
+      "n_t1_generic_side_pattern": 75,
+      "n_t1_isolated": 59,
+      "n_t1_isolated_charge_conserved": 59,
+      "n_t1_isolated_generic_side_pattern": 59,
+      "t1_charge_delta_histogram": {
+        "-6": 2,
+        "-5": 2,
+        "-4": 5,
+        "-3": 10,
+        "-2": 28,
+        "-1": 99,
+        "0": 209,
+        "1": 139,
+        "2": 45,
+        "3": 15,
+        "4": 1,
+        "5": 2,
+        "7": 1,
+        "8": 1
+      },
+      "charge_total_first": 53,
+      "charge_total_last": 51,
+      "mean_cells_per_frame": 129.7,
+      "mean_contacts_per_frame": 384.73333333333335,
+      "n_extrusion_at_free_edge": 80,
+      "n_extrusion_neighbours_meet_at_vertex": 29,
+      "n_t1_with_outer_face": 58,
+      "n_appearance_at_free_edge": 50
+    }
+  ],
+  "extra": {
+    "division detection (gt_ids run)": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "n_pred": 30,
+      "n_gt": 0,
+      "n_tp": 0,
+      "tolerance_frames": 1
+    }
+  },
+  "seconds": 0.7393558025360107,
+  "largest_residuals": {
+    "gt_ids": [
+      {
+        "frame": 17,
+        "magnitude": 33,
+        "observed_dVEF": [
+          -14,
+          -21,
+          -7
+        ],
+        "expected_dVEF": [
+          -3,
+          -7,
+          -4
+        ],
+        "residual_dVEF": [
+          -11,
+          -14,
+          -3
+        ],
+        "n_events": 37,
+        "n_unexplained": 5,
+        "unexplained_kinds": {
+          "appearance": 1,
+          "disappearance": 4
+        },
+        "diagnosis": "4 cell(s) [99, 188, 197, 3299] at the free edge of the annotated region leave the curated ROI (unlabelled tissue beyond, no fixed delta); 1 cell(s) [49] at the free edge of the annotated region enter the curated ROI (unlabelled tissue beyond, no fixed delta); 1 extrusion(s) (1 at the free edge) whose neighbours close the footprint with 1 new contact(s) instead of one vertex: adds about (+1, +1, 0) beyond the table"
+      },
+      {
+        "frame": 21,
+        "magnitude": 32,
+        "observed_dVEF": [
+          -11,
+          -16,
+          -5
+        ],
+        "expected_dVEF": [
+          -1,
+          -2,
+          -1
+        ],
+        "residual_dVEF": [
+          -10,
+          -14,
+          -4
+        ],
+        "n_events": 41,
+        "n_unexplained": 4,
+        "unexplained_kinds": {
+          "disappearance": 4
+        },
+        "diagnosis": "4 cell(s) [7, 49, 192, 1197] at the free edge of the annotated region leave the curated ROI (unlabelled tissue beyond, no fixed delta); 1 extrusion(s) (1 at the free edge) whose neighbours close the footprint with 1 new contact(s) instead of one vertex: adds about (+1, +1, 0) beyond the table"
+      },
+      {
+        "frame": 22,
+        "magnitude": 32,
+        "observed_dVEF": [
+          11,
+          16,
+          5
+        ],
+        "expected_dVEF": [
+          1,
+          2,
+          1
+        ],
+        "residual_dVEF": [
+          10,
+          14,
+          4
+        ],
+        "n_events": 29,
+        "n_unexplained": 4,
+        "unexplained_kinds": {
+          "appearance": 4
+        },
+        "diagnosis": "4 cell(s) [7, 49, 99, 192] at the free edge of the annotated region enter the curated ROI (unlabelled tissue beyond, no fixed delta); 1 extrusion(s) (1 at the free edge) whose neighbours close the footprint with 2 new contact(s) instead of one vertex: adds about (+2, +2, 0) beyond the table"
+      },
+      {
+        "frame": 16,
+        "magnitude": 29,
+        "observed_dVEF": [
+          6,
+          9,
+          3
+        ],
+        "expected_dVEF": [
+          -4,
+          -4,
+          0
+        ],
+        "residual_dVEF": [
+          10,
+          13,
+          3
+        ],
+        "n_events": 45,
+        "n_unexplained": 3,
+        "unexplained_kinds": {
+          "appearance": 3
+        },
+        "diagnosis": "3 cell(s) [99, 198, 3299] at the free edge of the annotated region enter the curated ROI (unlabelled tissue beyond, no fixed delta); 2 extrusion(s) (2 at the free edge) whose neighbours close the footprint with 2 new contact(s) instead of one vertex: adds about (+2, +2, 0) beyond the table"
+      },
+      {
+        "frame": 27,
+        "magnitude": 23,
+        "observed_dVEF": [
+          1,
+          2,
+          1
+        ],
+        "expected_dVEF": [
+          -6,
+          -8,
+          -2
+        ],
+        "residual_dVEF": [
+          7,
+          10,
+          3
+        ],
+        "n_events": 35,
+        "n_unexplained": 3,
+        "unexplained_kinds": {
+          "appearance": 3
+        },
+        "diagnosis": "3 cell(s) [153, 188, 193] at the free edge of the annotated region enter the curated ROI (unlabelled tissue beyond, no fixed delta); 3 extrusion(s) (3 at the free edge) whose neighbours close the footprint with 2 new contact(s) instead of one vertex: adds about (+2, +2, 0) beyond the table"
+      },
+      {
+        "frame": 0,
+        "magnitude": 20,
+        "observed_dVEF": [
+          -9,
+          -13,
+          -4
+        ],
+        "expected_dVEF": [
+          -2,
+          -4,
+          -2
+        ],
+        "residual_dVEF": [
+          -7,
+          -9,
+          -2
+        ],
+        "n_events": 48,
+        "n_unexplained": 2,
+        "unexplained_kinds": {
+          "disappearance": 2
+        },
+        "diagnosis": "2 cell(s) [124, 5241] at the free edge of the annotated region leave the curated ROI (unlabelled tissue beyond, no fixed delta); 2 extrusion(s) (2 at the free edge) whose neighbours close the footprint with 2 new contact(s) instead of one vertex: adds about (+2, +2, 0) beyond the table"
+      },
+      {
+        "frame": 4,
+        "magnitude": 20,
+        "observed_dVEF": [
+          0,
+          -1,
+          -1
+        ],
+        "expected_dVEF": [
+          -7,
+          -10,
+          -3
+        ],
+        "residual_dVEF": [
+          7,
+          9,
+          2
+        ],
+        "n_events": 30,
+        "n_unexplained": 2,
+        "unexplained_kinds": {
+          "appearance": 2
+        },
+        "diagnosis": "2 cell(s) [1197, 5241] at the free edge of the annotated region enter the curated ROI (unlabelled tissue beyond, no fixed delta); 2 extrusion(s) (2 at the free edge) whose neighbours close the footprint with 2 new contact(s) instead of one vertex: adds about (+2, +2, 0) beyond the table"
+      },
+      {
+        "frame": 6,
+        "magnitude": 20,
+        "observed_dVEF": [
+          -4,
+          -6,
+          -2
+        ],
+        "expected_dVEF": [
+          -11,
+          -15,
+          -4
+        ],
+        "residual_dVEF": [
+          7,
+          9,
+          2
+        ],
+        "n_events": 39,
+        "n_unexplained": 2,
+        "unexplained_kinds": {
+          "appearance": 2
+        },
+        "diagnosis": "2 cell(s) [1197, 1557] at the free edge of the annotated region enter the curated ROI (unlabelled tissue beyond, no fixed delta); 3 extrusion(s) (2 at the free edge) whose neighbours close the footprint with 3 new contact(s) instead of one vertex: adds about (+3, +3, 0) beyond the table"
+      },
+      {
+        "frame": 12,
+        "magnitude": 20,
+        "observed_dVEF": [
+          -6,
+          -9,
+          -3
+        ],
+        "expected_dVEF": [
+          0,
+          -1,
+          -1
+        ],
+        "residual_dVEF": [
+          -6,
+          -8,
+          -2
+        ],
+        "n_events": 37,
+        "n_unexplained": 4,
+        "unexplained_kinds": {
+          "appearance": 1,
+          "disappearance": 3
+        },
+        "diagnosis": "3 cell(s) [34, 40, 49] at the free edge of the annotated region leave the curated ROI (unlabelled tissue beyond, no fixed delta); 1 cell(s) [35] at the free edge of the annotated region enter the curated ROI (unlabelled tissue beyond, no fixed delta); 1 extrusion(s) (1 at the free edge) whose neighbours close the footprint with 1 new contact(s) instead of one vertex: adds about (+1, +1, 0) beyond the table"
+      },
+      {
+        "frame": 14,
+        "magnitude": 18,
+        "observed_dVEF": [
+          -13,
+          -19,
+          -6
+        ],
+        "expected_dVEF": [
+          -7,
+          -11,
+          -4
+        ],
+        "residual_dVEF": [
+          -6,
+          -8,
+          -2
+        ],
+        "n_events": 42,
+        "n_unexplained": 2,
+        "unexplained_kinds": {
+          "disappearance": 2
+        },
+        "diagnosis": "2 cell(s) [38, 41] at the free edge of the annotated region leave the curated ROI (unlabelled tissue beyond, no fixed delta); 2 extrusion(s) (2 at the free edge) whose neighbours close the footprint with 3 new contact(s) instead of one vertex: adds about (+3, +3, 0) beyond the table"
+      }
+    ]
+  }
+}
