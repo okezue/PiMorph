@@ -1,6 +1,6 @@
 """PiMorph: uncertainty-aware endothelial cell-complex inference.
 
-Layers (see docs/ARCHITECTURE.md):
+Layers (see EXPLAINER.md):
 
 1. pixels        multichannel microscopy with physical calibration
 2. geometry      an embedded half-edge cell complex K with faces (cells, gaps, outer),

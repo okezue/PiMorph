@@ -1,0 +1,3111 @@
+{
+  "status": "complete; every generated hypothesis passed structural validation",
+  "demonstration": "Synthetic membrane and nuclear images from the existing in-action example; finite candidate sensitivity demonstration, not empirical calibration",
+  "source_path": "docs/figure_data/methods_in_action_arrays.npz",
+  "source_sha256": "64173655256f3c1c984c0f39613ce88299d3d5b31fa17df111210ed874328265",
+  "proposer": "ClassicalProposer",
+  "proposer_params": {
+    "auto_scale": false,
+    "nucleus_radius_px": 3.5,
+    "seed_min_distance_px": 13,
+    "cell_radius_px": 30.0,
+    "ridge_sigmas": [
+      0.8,
+      1.3,
+      2.0
+    ],
+    "use_tissue_mask": false
+  },
+  "base_decoder_params": {
+    "cell_radius_px": 30.0,
+    "min_cell_area_px": 150,
+    "fill_gaps": true
+  },
+  "hypothesis_generation_params": {
+    "seed_thresholds": [
+      0.2,
+      0.35,
+      0.5
+    ],
+    "seed_drop_fracs": [
+      0.0,
+      0.05
+    ],
+    "boundary_smooth_sigmas": [
+      0.0,
+      1.5
+    ],
+    "distance_mixes": [
+      0.0,
+      0.3
+    ],
+    "gap_thresholds": [
+      0.7
+    ],
+    "n_merge_moves": 2,
+    "n_split_moves": 2,
+    "max_hypotheses": 24
+  },
+  "ess_min": 4.0,
+  "summary": {
+    "n_hypotheses": 12,
+    "ess": 4.000000000000002,
+    "temperature": 0.013065822667062575,
+    "map_energy": 3.093177614590341,
+    "energy_range": [
+      3.093177614590341,
+      3.244078607137842
+    ],
+    "n_contacts_any": 127,
+    "n_contacts_p_ge_0.5": 102,
+    "n_contacts_uncertain_0.2_0.8": 16,
+    "expected_n_cells": 42.651686163299104,
+    "expected_n_gaps": 0.0
+  },
+  "hypotheses": [
+    {
+      "index": 0,
+      "tag": "split_1",
+      "energy": 3.093177614590341,
+      "weight": 0.33069567414399725,
+      "n_cells": 43,
+      "n_gaps": 0,
+      "validation": {
+        "ok": true,
+        "b1b2_zero": true,
+        "every_edge_two_faces": true,
+        "loops_match_edge_faces": true,
+        "loops_cover_all_half_edges": true,
+        "vertex_links_ok": true,
+        "euler_residual": 0,
+        "n_vertices": 83,
+        "n_edges": 124,
+        "n_faces": 44,
+        "n_cells": 43,
+        "n_gaps": 0,
+        "n_boundary_edges": 21,
+        "n_artificial_vertices": 1,
+        "skeleton_components": 2,
+        "degree_histogram": {
+          "2": 1,
+          "3": 82
+        },
+        "messages": []
+      },
+      "decoder_params": {
+        "seed_threshold": 0.2,
+        "seed_drop_frac": 0.0,
+        "boundary_gamma": 1.0,
+        "boundary_smooth_sigma": 0.0,
+        "distance_mix": 0.0,
+        "vertex_weight": 0.3,
+        "cell_radius_px": 30.0,
+        "compactness": 0.0,
+        "gap_threshold": 0.7,
+        "outside_px": 0.0,
+        "min_cell_area_px": 150,
+        "min_gap_area_px": 12,
+        "fill_gaps": true,
+        "smooth_iters": 4,
+        "merge_boundary_max": 0.0,
+        "merge_vertex_min": 0.5,
+        "merge_vertex_radius_px": 3.0,
+        "max_merges": 0,
+        "nucleus_merge": false,
+        "nucleus_merge_max_area_frac": 1.0,
+        "nucleus_merge_boundary_max": 1.0,
+        "label": "st0.2_drop0.0_bs0.0_dm0.0_gap0.7"
+      },
+      "energy_breakdown": {
+        "render": {
+          "gain": 8.428963921920532,
+          "read_noise": 0.001,
+          "residual_rms": 13.830105781555176
+        },
+        "curve": {
+          "mean_neg_log_b": 0.14256012886351524,
+          "mean_curv2": 0.01866714419891737,
+          "total_arclength": 4230.272247669726
+        },
+        "seed": {
+          "cells_without_seed": 0,
+          "cells_multi_seed": 19
+        },
+        "vertex": {
+          "frac_non_trivalent": 0.0
+        },
+        "prior": {
+          "area_outliers": 1,
+          "aspect_outliers": 0
+        },
+        "parts": {
+          "image": 2.654895305633545,
+          "curve": 0.14293347174749357,
+          "seed": 0.5813953488372093,
+          "vertex": 0.0,
+          "prior": 0.023255813953488372
+        },
+        "weights": {
+          "image": 1.0,
+          "curve": 1.0,
+          "curvature_beta": 0.02,
+          "seed": 0.5,
+          "vertex": 0.2,
+          "prior": 0.2,
+          "log_area_z_cut": 2.5,
+          "aspect_cut": 6.0
+        }
+      }
+    },
+    {
+      "index": 1,
+      "tag": "split_9",
+      "energy": 3.0933008186871453,
+      "weight": 0.3275920371198238,
+      "n_cells": 43,
+      "n_gaps": 0,
+      "validation": {
+        "ok": true,
+        "b1b2_zero": true,
+        "every_edge_two_faces": true,
+        "loops_match_edge_faces": true,
+        "loops_cover_all_half_edges": true,
+        "vertex_links_ok": true,
+        "euler_residual": 0,
+        "n_vertices": 83,
+        "n_edges": 124,
+        "n_faces": 44,
+        "n_cells": 43,
+        "n_gaps": 0,
+        "n_boundary_edges": 21,
+        "n_artificial_vertices": 1,
+        "skeleton_components": 2,
+        "degree_histogram": {
+          "2": 1,
+          "3": 82
+        },
+        "messages": []
+      },
+      "decoder_params": {
+        "seed_threshold": 0.2,
+        "seed_drop_frac": 0.0,
+        "boundary_gamma": 1.0,
+        "boundary_smooth_sigma": 0.0,
+        "distance_mix": 0.0,
+        "vertex_weight": 0.3,
+        "cell_radius_px": 30.0,
+        "compactness": 0.0,
+        "gap_threshold": 0.7,
+        "outside_px": 0.0,
+        "min_cell_area_px": 150,
+        "min_gap_area_px": 12,
+        "fill_gaps": true,
+        "smooth_iters": 4,
+        "merge_boundary_max": 0.0,
+        "merge_vertex_min": 0.5,
+        "merge_vertex_radius_px": 3.0,
+        "max_merges": 0,
+        "nucleus_merge": false,
+        "nucleus_merge_max_area_frac": 1.0,
+        "nucleus_merge_boundary_max": 1.0,
+        "label": "st0.2_drop0.0_bs0.0_dm0.0_gap0.7"
+      },
+      "energy_breakdown": {
+        "render": {
+          "gain": 8.428953365608413,
+          "read_noise": 0.001,
+          "residual_rms": 13.830116271972656
+        },
+        "curve": {
+          "mean_neg_log_b": 0.14268977026195537,
+          "mean_curv2": 0.01866714419891737,
+          "total_arclength": 4230.272247669726
+        },
+        "seed": {
+          "cells_without_seed": 0,
+          "cells_multi_seed": 19
+        },
+        "vertex": {
+          "frac_non_trivalent": 0.0
+        },
+        "prior": {
+          "area_outliers": 1,
+          "aspect_outliers": 0
+        },
+        "parts": {
+          "image": 2.654888868331909,
+          "curve": 0.1430631131459337,
+          "seed": 0.5813953488372093,
+          "vertex": 0.0,
+          "prior": 0.023255813953488372
+        },
+        "weights": {
+          "image": 1.0,
+          "curve": 1.0,
+          "curvature_beta": 0.02,
+          "seed": 0.5,
+          "vertex": 0.2,
+          "prior": 0.2,
+          "log_area_z_cut": 2.5,
+          "aspect_cut": 6.0
+        }
+      }
+    },
+    {
+      "index": 2,
+      "tag": "st0.2_drop0.0_bs0.0_dm0.0_gap0.7",
+      "energy": 3.1064047776180814,
+      "weight": 0.12016313342906794,
+      "n_cells": 42,
+      "n_gaps": 0,
+      "validation": {
+        "ok": true,
+        "b1b2_zero": true,
+        "every_edge_two_faces": true,
+        "loops_match_edge_faces": true,
+        "loops_cover_all_half_edges": true,
+        "vertex_links_ok": true,
+        "euler_residual": 0,
+        "n_vertices": 82,
+        "n_edges": 123,
+        "n_faces": 43,
+        "n_cells": 42,
+        "n_gaps": 0,
+        "n_boundary_edges": 21,
+        "n_artificial_vertices": 0,
+        "skeleton_components": 1,
+        "degree_histogram": {
+          "3": 82
+        },
+        "messages": []
+      },
+      "decoder_params": {
+        "seed_threshold": 0.2,
+        "seed_drop_frac": 0.0,
+        "boundary_gamma": 1.0,
+        "boundary_smooth_sigma": 0.0,
+        "distance_mix": 0.0,
+        "vertex_weight": 0.3,
+        "cell_radius_px": 30.0,
+        "compactness": 0.0,
+        "gap_threshold": 0.7,
+        "outside_px": 0.0,
+        "min_cell_area_px": 150,
+        "min_gap_area_px": 12,
+        "fill_gaps": true,
+        "smooth_iters": 4,
+        "merge_boundary_max": 0.0,
+        "merge_vertex_min": 0.5,
+        "merge_vertex_radius_px": 3.0,
+        "max_merges": 0,
+        "nucleus_merge": false,
+        "nucleus_merge_max_area_frac": 1.0,
+        "nucleus_merge_boundary_max": 1.0,
+        "label": "st0.2_drop0.0_bs0.0_dm0.0_gap0.7"
+      },
+      "energy_breakdown": {
+        "render": {
+          "gain": 8.428948743111201,
+          "read_noise": 0.001,
+          "residual_rms": 13.830099105834961
+        },
+        "curve": {
+          "mean_neg_log_b": 0.141807287904575,
+          "mean_curv2": 0.009717430047585646,
+          "total_arclength": 4228.976056658399
+        },
+        "seed": {
+          "cells_without_seed": 0,
+          "cells_multi_seed": 19
+        },
+        "vertex": {
+          "frac_non_trivalent": 0.0
+        },
+        "prior": {
+          "area_outliers": 0,
+          "aspect_outliers": 0
+        },
+        "parts": {
+          "image": 2.654879331588745,
+          "curve": 0.14200163650552672,
+          "seed": 0.6190476190476191,
+          "vertex": 0.0,
+          "prior": 0.0
+        },
+        "weights": {
+          "image": 1.0,
+          "curve": 1.0,
+          "curvature_beta": 0.02,
+          "seed": 0.5,
+          "vertex": 0.2,
+          "prior": 0.2,
+          "log_area_z_cut": 2.5,
+          "aspect_cut": 6.0
+        }
+      }
+    },
+    {
+      "index": 3,
+      "tag": "st0.2_drop0.0_bs0.0_dm0.3_gap0.7",
+      "energy": 3.1065648768491325,
+      "weight": 0.11869972456475363,
+      "n_cells": 42,
+      "n_gaps": 0,
+      "validation": {
+        "ok": true,
+        "b1b2_zero": true,
+        "every_edge_two_faces": true,
+        "loops_match_edge_faces": true,
+        "loops_cover_all_half_edges": true,
+        "vertex_links_ok": true,
+        "euler_residual": 0,
+        "n_vertices": 82,
+        "n_edges": 123,
+        "n_faces": 43,
+        "n_cells": 42,
+        "n_gaps": 0,
+        "n_boundary_edges": 21,
+        "n_artificial_vertices": 0,
+        "skeleton_components": 1,
+        "degree_histogram": {
+          "3": 82
+        },
+        "messages": []
+      },
+      "decoder_params": {
+        "seed_threshold": 0.2,
+        "seed_drop_frac": 0.0,
+        "boundary_gamma": 1.0,
+        "boundary_smooth_sigma": 0.0,
+        "distance_mix": 0.3,
+        "vertex_weight": 0.3,
+        "cell_radius_px": 30.0,
+        "compactness": 0.0,
+        "gap_threshold": 0.7,
+        "outside_px": 0.0,
+        "min_cell_area_px": 150,
+        "min_gap_area_px": 12,
+        "fill_gaps": true,
+        "smooth_iters": 4,
+        "merge_boundary_max": 0.0,
+        "merge_vertex_min": 0.5,
+        "merge_vertex_radius_px": 3.0,
+        "max_merges": 0,
+        "nucleus_merge": false,
+        "nucleus_merge_max_area_frac": 1.0,
+        "nucleus_merge_boundary_max": 1.0,
+        "label": "st0.2_drop0.0_bs0.0_dm0.3_gap0.7"
+      },
+      "energy_breakdown": {
+        "render": {
+          "gain": 8.431947551970277,
+          "read_noise": 0.001,
+          "residual_rms": 13.829080581665039
+        },
+        "curve": {
+          "mean_neg_log_b": 0.14190295534432312,
+          "mean_curv2": 0.00955347578949711,
+          "total_arclength": 4228.7780899471
+        },
+        "seed": {
+          "cells_without_seed": 0,
+          "cells_multi_seed": 19
+        },
+        "vertex": {
+          "frac_non_trivalent": 0.0
+        },
+        "prior": {
+          "area_outliers": 0,
+          "aspect_outliers": 0
+        },
+        "parts": {
+          "image": 2.65494704246521,
+          "curve": 0.14209402486011308,
+          "seed": 0.6190476190476191,
+          "vertex": 0.0,
+          "prior": 0.0
+        },
+        "weights": {
+          "image": 1.0,
+          "curve": 1.0,
+          "curvature_beta": 0.02,
+          "seed": 0.5,
+          "vertex": 0.2,
+          "prior": 0.2,
+          "log_area_z_cut": 2.5,
+          "aspect_cut": 6.0
+        }
+      }
+    },
+    {
+      "index": 4,
+      "tag": "st0.2_drop0.0_bs1.5_dm0.3_gap0.7",
+      "energy": 3.1163116117688388,
+      "weight": 0.05629609694509698,
+      "n_cells": 42,
+      "n_gaps": 0,
+      "validation": {
+        "ok": true,
+        "b1b2_zero": true,
+        "every_edge_two_faces": true,
+        "loops_match_edge_faces": true,
+        "loops_cover_all_half_edges": true,
+        "vertex_links_ok": true,
+        "euler_residual": 0,
+        "n_vertices": 82,
+        "n_edges": 123,
+        "n_faces": 43,
+        "n_cells": 42,
+        "n_gaps": 0,
+        "n_boundary_edges": 21,
+        "n_artificial_vertices": 0,
+        "skeleton_components": 1,
+        "degree_histogram": {
+          "3": 82
+        },
+        "messages": []
+      },
+      "decoder_params": {
+        "seed_threshold": 0.2,
+        "seed_drop_frac": 0.0,
+        "boundary_gamma": 1.0,
+        "boundary_smooth_sigma": 1.5,
+        "distance_mix": 0.3,
+        "vertex_weight": 0.3,
+        "cell_radius_px": 30.0,
+        "compactness": 0.0,
+        "gap_threshold": 0.7,
+        "outside_px": 0.0,
+        "min_cell_area_px": 150,
+        "min_gap_area_px": 12,
+        "fill_gaps": true,
+        "smooth_iters": 4,
+        "merge_boundary_max": 0.0,
+        "merge_vertex_min": 0.5,
+        "merge_vertex_radius_px": 3.0,
+        "max_merges": 0,
+        "nucleus_merge": false,
+        "nucleus_merge_max_area_frac": 1.0,
+        "nucleus_merge_boundary_max": 1.0,
+        "label": "st0.2_drop0.0_bs1.5_dm0.3_gap0.7"
+      },
+      "energy_breakdown": {
+        "render": {
+          "gain": 8.676688412407227,
+          "read_noise": 0.001,
+          "residual_rms": 13.758474349975586
+        },
+        "curve": {
+          "mean_neg_log_b": 0.1466907054359534,
+          "mean_curv2": 0.008939427550959096,
+          "total_arclength": 4215.441743160523
+        },
+        "seed": {
+          "cells_without_seed": 0,
+          "cells_multi_seed": 19
+        },
+        "vertex": {
+          "frac_non_trivalent": 0.0
+        },
+        "prior": {
+          "area_outliers": 0,
+          "aspect_outliers": 0
+        },
+        "parts": {
+          "image": 2.6599183082580566,
+          "curve": 0.14686949398697258,
+          "seed": 0.6190476190476191,
+          "vertex": 0.0,
+          "prior": 0.0
+        },
+        "weights": {
+          "image": 1.0,
+          "curve": 1.0,
+          "curvature_beta": 0.02,
+          "seed": 0.5,
+          "vertex": 0.2,
+          "prior": 0.2,
+          "log_area_z_cut": 2.5,
+          "aspect_cut": 6.0
+        }
+      }
+    },
+    {
+      "index": 5,
+      "tag": "st0.2_drop0.0_bs1.5_dm0.0_gap0.7",
+      "energy": 3.1207628034034967,
+      "weight": 0.0400428760355284,
+      "n_cells": 42,
+      "n_gaps": 0,
+      "validation": {
+        "ok": true,
+        "b1b2_zero": true,
+        "every_edge_two_faces": true,
+        "loops_match_edge_faces": true,
+        "loops_cover_all_half_edges": true,
+        "vertex_links_ok": true,
+        "euler_residual": 0,
+        "n_vertices": 82,
+        "n_edges": 123,
+        "n_faces": 43,
+        "n_cells": 42,
+        "n_gaps": 0,
+        "n_boundary_edges": 21,
+        "n_artificial_vertices": 0,
+        "skeleton_components": 1,
+        "degree_histogram": {
+          "3": 82
+        },
+        "messages": []
+      },
+      "decoder_params": {
+        "seed_threshold": 0.2,
+        "seed_drop_frac": 0.0,
+        "boundary_gamma": 1.0,
+        "boundary_smooth_sigma": 1.5,
+        "distance_mix": 0.0,
+        "vertex_weight": 0.3,
+        "cell_radius_px": 30.0,
+        "compactness": 0.0,
+        "gap_threshold": 0.7,
+        "outside_px": 0.0,
+        "min_cell_area_px": 150,
+        "min_gap_area_px": 12,
+        "fill_gaps": true,
+        "smooth_iters": 4,
+        "merge_boundary_max": 0.0,
+        "merge_vertex_min": 0.5,
+        "merge_vertex_radius_px": 3.0,
+        "max_merges": 0,
+        "nucleus_merge": false,
+        "nucleus_merge_max_area_frac": 1.0,
+        "nucleus_merge_boundary_max": 1.0,
+        "label": "st0.2_drop0.0_bs1.5_dm0.0_gap0.7"
+      },
+      "energy_breakdown": {
+        "render": {
+          "gain": 8.65035777357463,
+          "read_noise": 0.001,
+          "residual_rms": 13.779059410095215
+        },
+        "curve": {
+          "mean_neg_log_b": 0.14663821961985127,
+          "mean_curv2": 0.008807297833581,
+          "total_arclength": 4215.78806354148
+        },
+        "seed": {
+          "cells_without_seed": 0,
+          "cells_multi_seed": 19
+        },
+        "vertex": {
+          "frac_non_trivalent": 0.0
+        },
+        "prior": {
+          "area_outliers": 1,
+          "aspect_outliers": 0
+        },
+        "parts": {
+          "image": 2.6596627235412598,
+          "curve": 0.1468143655765229,
+          "seed": 0.6190476190476191,
+          "vertex": 0.0,
+          "prior": 0.023809523809523808
+        },
+        "weights": {
+          "image": 1.0,
+          "curve": 1.0,
+          "curvature_beta": 0.02,
+          "seed": 0.5,
+          "vertex": 0.2,
+          "prior": 0.2,
+          "log_area_z_cut": 2.5,
+          "aspect_cut": 6.0
+        }
+      }
+    },
+    {
+      "index": 6,
+      "tag": "merge_41_25",
+      "energy": 3.1504109207622717,
+      "weight": 0.004140496217744123,
+      "n_cells": 41,
+      "n_gaps": 0,
+      "validation": {
+        "ok": true,
+        "b1b2_zero": true,
+        "every_edge_two_faces": true,
+        "loops_match_edge_faces": true,
+        "loops_cover_all_half_edges": true,
+        "vertex_links_ok": true,
+        "euler_residual": 0,
+        "n_vertices": 80,
+        "n_edges": 120,
+        "n_faces": 42,
+        "n_cells": 41,
+        "n_gaps": 0,
+        "n_boundary_edges": 20,
+        "n_artificial_vertices": 0,
+        "skeleton_components": 1,
+        "degree_histogram": {
+          "3": 80
+        },
+        "messages": []
+      },
+      "decoder_params": {
+        "seed_threshold": 0.2,
+        "seed_drop_frac": 0.0,
+        "boundary_gamma": 1.0,
+        "boundary_smooth_sigma": 0.0,
+        "distance_mix": 0.0,
+        "vertex_weight": 0.3,
+        "cell_radius_px": 30.0,
+        "compactness": 0.0,
+        "gap_threshold": 0.7,
+        "outside_px": 0.0,
+        "min_cell_area_px": 150,
+        "min_gap_area_px": 12,
+        "fill_gaps": true,
+        "smooth_iters": 4,
+        "merge_boundary_max": 0.0,
+        "merge_vertex_min": 0.5,
+        "merge_vertex_radius_px": 3.0,
+        "max_merges": 0,
+        "nucleus_merge": false,
+        "nucleus_merge_max_area_frac": 1.0,
+        "nucleus_merge_boundary_max": 1.0,
+        "label": "st0.2_drop0.0_bs0.0_dm0.0_gap0.7"
+      },
+      "energy_breakdown": {
+        "render": {
+          "gain": 8.420538435164499,
+          "read_noise": 0.001,
+          "residual_rms": 13.903934478759766
+        },
+        "curve": {
+          "mean_neg_log_b": 0.14019104321140952,
+          "mean_curv2": 0.009750332755221346,
+          "total_arclength": 4196.537762052455
+        },
+        "seed": {
+          "cells_without_seed": 0,
+          "cells_multi_seed": 19
+        },
+        "vertex": {
+          "frac_non_trivalent": 0.0
+        },
+        "prior": {
+          "area_outliers": 2,
+          "aspect_outliers": 0
+        },
+        "parts": {
+          "image": 2.6710004806518555,
+          "curve": 0.14038604986651396,
+          "seed": 0.6585365853658537,
+          "vertex": 0.0,
+          "prior": 0.04878048780487805
+        },
+        "weights": {
+          "image": 1.0,
+          "curve": 1.0,
+          "curvature_beta": 0.02,
+          "seed": 0.5,
+          "vertex": 0.2,
+          "prior": 0.2,
+          "log_area_z_cut": 2.5,
+          "aspect_cut": 6.0
+        }
+      }
+    },
+    {
+      "index": 7,
+      "tag": "merge_10_41",
+      "energy": 3.1582129852946785,
+      "weight": 0.002278871340999547,
+      "n_cells": 41,
+      "n_gaps": 0,
+      "validation": {
+        "ok": true,
+        "b1b2_zero": true,
+        "every_edge_two_faces": true,
+        "loops_match_edge_faces": true,
+        "loops_cover_all_half_edges": true,
+        "vertex_links_ok": true,
+        "euler_residual": 0,
+        "n_vertices": 80,
+        "n_edges": 120,
+        "n_faces": 42,
+        "n_cells": 41,
+        "n_gaps": 0,
+        "n_boundary_edges": 20,
+        "n_artificial_vertices": 0,
+        "skeleton_components": 1,
+        "degree_histogram": {
+          "3": 80
+        },
+        "messages": []
+      },
+      "decoder_params": {
+        "seed_threshold": 0.2,
+        "seed_drop_frac": 0.0,
+        "boundary_gamma": 1.0,
+        "boundary_smooth_sigma": 0.0,
+        "distance_mix": 0.0,
+        "vertex_weight": 0.3,
+        "cell_radius_px": 30.0,
+        "compactness": 0.0,
+        "gap_threshold": 0.7,
+        "outside_px": 0.0,
+        "min_cell_area_px": 150,
+        "min_gap_area_px": 12,
+        "fill_gaps": true,
+        "smooth_iters": 4,
+        "merge_boundary_max": 0.0,
+        "merge_vertex_min": 0.5,
+        "merge_vertex_radius_px": 3.0,
+        "max_merges": 0,
+        "nucleus_merge": false,
+        "nucleus_merge_max_area_frac": 1.0,
+        "nucleus_merge_boundary_max": 1.0,
+        "label": "st0.2_drop0.0_bs0.0_dm0.0_gap0.7"
+      },
+      "energy_breakdown": {
+        "render": {
+          "gain": 8.390457792108155,
+          "read_noise": 0.001,
+          "residual_rms": 13.950756072998047
+        },
+        "curve": {
+          "mean_neg_log_b": 0.13963477495130885,
+          "mean_curv2": 0.009755198605925419,
+          "total_arclength": 4177.644949675549
+        },
+        "seed": {
+          "cells_without_seed": 0,
+          "cells_multi_seed": 19
+        },
+        "vertex": {
+          "frac_non_trivalent": 0.0
+        },
+        "prior": {
+          "area_outliers": 1,
+          "aspect_outliers": 0
+        },
+        "parts": {
+          "image": 2.684236764907837,
+          "curve": 0.13982987892342735,
+          "seed": 0.6585365853658537,
+          "vertex": 0.0,
+          "prior": 0.024390243902439025
+        },
+        "weights": {
+          "image": 1.0,
+          "curve": 1.0,
+          "curvature_beta": 0.02,
+          "seed": 0.5,
+          "vertex": 0.2,
+          "prior": 0.2,
+          "log_area_z_cut": 2.5,
+          "aspect_cut": 6.0
+        }
+      }
+    },
+    {
+      "index": 8,
+      "tag": "st0.2_drop0.05_bs1.5_dm0.0_gap0.7",
+      "energy": 3.202909392647101,
+      "weight": 7.448302103698156e-05,
+      "n_cells": 40,
+      "n_gaps": 0,
+      "validation": {
+        "ok": true,
+        "b1b2_zero": true,
+        "every_edge_two_faces": true,
+        "loops_match_edge_faces": true,
+        "loops_cover_all_half_edges": true,
+        "vertex_links_ok": true,
+        "euler_residual": 0,
+        "n_vertices": 78,
+        "n_edges": 117,
+        "n_faces": 41,
+        "n_cells": 40,
+        "n_gaps": 0,
+        "n_boundary_edges": 20,
+        "n_artificial_vertices": 0,
+        "skeleton_components": 1,
+        "degree_histogram": {
+          "3": 78
+        },
+        "messages": []
+      },
+      "decoder_params": {
+        "seed_threshold": 0.2,
+        "seed_drop_frac": 0.05,
+        "boundary_gamma": 1.0,
+        "boundary_smooth_sigma": 1.5,
+        "distance_mix": 0.0,
+        "vertex_weight": 0.3,
+        "cell_radius_px": 30.0,
+        "compactness": 0.0,
+        "gap_threshold": 0.7,
+        "outside_px": 0.0,
+        "min_cell_area_px": 150,
+        "min_gap_area_px": 12,
+        "fill_gaps": true,
+        "smooth_iters": 4,
+        "merge_boundary_max": 0.0,
+        "merge_vertex_min": 0.5,
+        "merge_vertex_radius_px": 3.0,
+        "max_merges": 0,
+        "nucleus_merge": false,
+        "nucleus_merge_max_area_frac": 1.0,
+        "nucleus_merge_boundary_max": 1.0,
+        "label": "st0.2_drop0.05_bs1.5_dm0.0_gap0.7"
+      },
+      "energy_breakdown": {
+        "render": {
+          "gain": 8.570985120385355,
+          "read_noise": 0.001,
+          "residual_rms": 13.967411041259766
+        },
+        "curve": {
+          "mean_neg_log_b": 0.14436542464183771,
+          "mean_curv2": 0.009092797998758041,
+          "total_arclength": 4141.689850256358
+        },
+        "seed": {
+          "cells_without_seed": 0,
+          "cells_multi_seed": 20
+        },
+        "vertex": {
+          "frac_non_trivalent": 0.0
+        },
+        "prior": {
+          "area_outliers": 2,
+          "aspect_outliers": 0
+        },
+        "parts": {
+          "image": 2.698362112045288,
+          "curve": 0.14454728060181288,
+          "seed": 0.7,
+          "vertex": 0.0,
+          "prior": 0.05
+        },
+        "weights": {
+          "image": 1.0,
+          "curve": 1.0,
+          "curvature_beta": 0.02,
+          "seed": 0.5,
+          "vertex": 0.2,
+          "prior": 0.2,
+          "log_area_z_cut": 2.5,
+          "aspect_cut": 6.0
+        }
+      }
+    },
+    {
+      "index": 9,
+      "tag": "st0.2_drop0.05_bs0.0_dm0.3_gap0.7",
+      "energy": 3.2311445423193383,
+      "weight": 8.581239098876316e-06,
+      "n_cells": 40,
+      "n_gaps": 0,
+      "validation": {
+        "ok": true,
+        "b1b2_zero": true,
+        "every_edge_two_faces": true,
+        "loops_match_edge_faces": true,
+        "loops_cover_all_half_edges": true,
+        "vertex_links_ok": true,
+        "euler_residual": 0,
+        "n_vertices": 78,
+        "n_edges": 117,
+        "n_faces": 41,
+        "n_cells": 40,
+        "n_gaps": 0,
+        "n_boundary_edges": 20,
+        "n_artificial_vertices": 0,
+        "skeleton_components": 1,
+        "degree_histogram": {
+          "3": 78
+        },
+        "messages": []
+      },
+      "decoder_params": {
+        "seed_threshold": 0.2,
+        "seed_drop_frac": 0.05,
+        "boundary_gamma": 1.0,
+        "boundary_smooth_sigma": 0.0,
+        "distance_mix": 0.3,
+        "vertex_weight": 0.3,
+        "cell_radius_px": 30.0,
+        "compactness": 0.0,
+        "gap_threshold": 0.7,
+        "outside_px": 0.0,
+        "min_cell_area_px": 150,
+        "min_gap_area_px": 12,
+        "fill_gaps": true,
+        "smooth_iters": 4,
+        "merge_boundary_max": 0.0,
+        "merge_vertex_min": 0.5,
+        "merge_vertex_radius_px": 3.0,
+        "max_merges": 0,
+        "nucleus_merge": false,
+        "nucleus_merge_max_area_frac": 1.0,
+        "nucleus_merge_boundary_max": 1.0,
+        "label": "st0.2_drop0.05_bs0.0_dm0.3_gap0.7"
+      },
+      "energy_breakdown": {
+        "render": {
+          "gain": 8.293402403750992,
+          "read_noise": 0.001,
+          "residual_rms": 14.239387512207031
+        },
+        "curve": {
+          "mean_neg_log_b": 0.14123001693139106,
+          "mean_curv2": 0.00975005022010665,
+          "total_arclength": 4116.842995845306
+        },
+        "seed": {
+          "cells_without_seed": 0,
+          "cells_multi_seed": 20
+        },
+        "vertex": {
+          "frac_non_trivalent": 0.0
+        },
+        "prior": {
+          "area_outliers": 3,
+          "aspect_outliers": 0
+        },
+        "parts": {
+          "image": 2.724719524383545,
+          "curve": 0.1414250179357932,
+          "seed": 0.7,
+          "vertex": 0.0,
+          "prior": 0.075
+        },
+        "weights": {
+          "image": 1.0,
+          "curve": 1.0,
+          "curvature_beta": 0.02,
+          "seed": 0.5,
+          "vertex": 0.2,
+          "prior": 0.2,
+          "log_area_z_cut": 2.5,
+          "aspect_cut": 6.0
+        }
+      }
+    },
+    {
+      "index": 10,
+      "tag": "st0.2_drop0.05_bs1.5_dm0.3_gap0.7",
+      "energy": 3.238634732054227,
+      "weight": 4.837086059862011e-06,
+      "n_cells": 40,
+      "n_gaps": 0,
+      "validation": {
+        "ok": true,
+        "b1b2_zero": true,
+        "every_edge_two_faces": true,
+        "loops_match_edge_faces": true,
+        "loops_cover_all_half_edges": true,
+        "vertex_links_ok": true,
+        "euler_residual": 0,
+        "n_vertices": 78,
+        "n_edges": 117,
+        "n_faces": 41,
+        "n_cells": 40,
+        "n_gaps": 0,
+        "n_boundary_edges": 20,
+        "n_artificial_vertices": 0,
+        "skeleton_components": 1,
+        "degree_histogram": {
+          "3": 78
+        },
+        "messages": []
+      },
+      "decoder_params": {
+        "seed_threshold": 0.2,
+        "seed_drop_frac": 0.05,
+        "boundary_gamma": 1.0,
+        "boundary_smooth_sigma": 1.5,
+        "distance_mix": 0.3,
+        "vertex_weight": 0.3,
+        "cell_radius_px": 30.0,
+        "compactness": 0.0,
+        "gap_threshold": 0.7,
+        "outside_px": 0.0,
+        "min_cell_area_px": 150,
+        "min_gap_area_px": 12,
+        "fill_gaps": true,
+        "smooth_iters": 4,
+        "merge_boundary_max": 0.0,
+        "merge_vertex_min": 0.5,
+        "merge_vertex_radius_px": 3.0,
+        "max_merges": 0,
+        "nucleus_merge": false,
+        "nucleus_merge_max_area_frac": 1.0,
+        "nucleus_merge_boundary_max": 1.0,
+        "label": "st0.2_drop0.05_bs1.5_dm0.3_gap0.7"
+      },
+      "energy_breakdown": {
+        "render": {
+          "gain": 8.583494125486553,
+          "read_noise": 0.001,
+          "residual_rms": 14.163006782531738
+        },
+        "curve": {
+          "mean_neg_log_b": 0.146044734284152,
+          "mean_curv2": 0.009031748855298982,
+          "total_arclength": 4104.9318758956715
+        },
+        "seed": {
+          "cells_without_seed": 0,
+          "cells_multi_seed": 20
+        },
+        "vertex": {
+          "frac_non_trivalent": 0.0
+        },
+        "prior": {
+          "area_outliers": 3,
+          "aspect_outliers": 0
+        },
+        "parts": {
+          "image": 2.7274093627929688,
+          "curve": 0.14622536926125798,
+          "seed": 0.7,
+          "vertex": 0.0,
+          "prior": 0.075
+        },
+        "weights": {
+          "image": 1.0,
+          "curve": 1.0,
+          "curvature_beta": 0.02,
+          "seed": 0.5,
+          "vertex": 0.2,
+          "prior": 0.2,
+          "log_area_z_cut": 2.5,
+          "aspect_cut": 6.0
+        }
+      }
+    },
+    {
+      "index": 11,
+      "tag": "st0.2_drop0.05_bs0.0_dm0.0_gap0.7",
+      "energy": 3.244078607137842,
+      "weight": 3.188856792674042e-06,
+      "n_cells": 40,
+      "n_gaps": 0,
+      "validation": {
+        "ok": true,
+        "b1b2_zero": true,
+        "every_edge_two_faces": true,
+        "loops_match_edge_faces": true,
+        "loops_cover_all_half_edges": true,
+        "vertex_links_ok": true,
+        "euler_residual": 0,
+        "n_vertices": 78,
+        "n_edges": 117,
+        "n_faces": 41,
+        "n_cells": 40,
+        "n_gaps": 0,
+        "n_boundary_edges": 20,
+        "n_artificial_vertices": 0,
+        "skeleton_components": 1,
+        "degree_histogram": {
+          "3": 78
+        },
+        "messages": []
+      },
+      "decoder_params": {
+        "seed_threshold": 0.2,
+        "seed_drop_frac": 0.05,
+        "boundary_gamma": 1.0,
+        "boundary_smooth_sigma": 0.0,
+        "distance_mix": 0.0,
+        "vertex_weight": 0.3,
+        "cell_radius_px": 30.0,
+        "compactness": 0.0,
+        "gap_threshold": 0.7,
+        "outside_px": 0.0,
+        "min_cell_area_px": 150,
+        "min_gap_area_px": 12,
+        "fill_gaps": true,
+        "smooth_iters": 4,
+        "merge_boundary_max": 0.0,
+        "merge_vertex_min": 0.5,
+        "merge_vertex_radius_px": 3.0,
+        "max_merges": 0,
+        "nucleus_merge": false,
+        "nucleus_merge_max_area_frac": 1.0,
+        "nucleus_merge_boundary_max": 1.0,
+        "label": "st0.2_drop0.05_bs0.0_dm0.0_gap0.7"
+      },
+      "energy_breakdown": {
+        "render": {
+          "gain": 8.33169658451168,
+          "read_noise": 0.001,
+          "residual_rms": 14.308032035827637
+        },
+        "curve": {
+          "mean_neg_log_b": 0.14192356405069692,
+          "mean_curv2": 0.00993425656059948,
+          "total_arclength": 4106.470540485773
+        },
+        "seed": {
+          "cells_without_seed": 0,
+          "cells_multi_seed": 20
+        },
+        "vertex": {
+          "frac_non_trivalent": 0.0
+        },
+        "prior": {
+          "area_outliers": 3,
+          "aspect_outliers": 0
+        },
+        "parts": {
+          "image": 2.7369563579559326,
+          "curve": 0.1421222491819089,
+          "seed": 0.7,
+          "vertex": 0.0,
+          "prior": 0.075
+        },
+        "weights": {
+          "image": 1.0,
+          "curve": 1.0,
+          "curvature_beta": 0.02,
+          "seed": 0.5,
+          "vertex": 0.2,
+          "prior": 0.2,
+          "log_area_z_cut": 2.5,
+          "aspect_cut": 6.0
+        }
+      }
+    }
+  ],
+  "contacts": [
+    {
+      "cells": [
+        1,
+        3
+      ],
+      "probability": 0.6693043258560027
+    },
+    {
+      "cells": [
+        1,
+        4
+      ],
+      "probability": 0.6693043258560027
+    },
+    {
+      "cells": [
+        1,
+        39
+      ],
+      "probability": 0.6693043258560027
+    },
+    {
+      "cells": [
+        1,
+        69
+      ],
+      "probability": 0.33069567414399725
+    },
+    {
+      "cells": [
+        2,
+        5
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        2,
+        33
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        2,
+        39
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        2,
+        40
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        3,
+        4
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        3,
+        36
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        3,
+        69
+      ],
+      "probability": 0.33069567414399725
+    },
+    {
+      "cells": [
+        4,
+        29
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        4,
+        36
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        4,
+        39
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        4,
+        40
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        4,
+        69
+      ],
+      "probability": 0.33069567414399725
+    },
+    {
+      "cells": [
+        5,
+        9
+      ],
+      "probability": 0.6724079628801762
+    },
+    {
+      "cells": [
+        5,
+        33
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        5,
+        35
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        5,
+        70
+      ],
+      "probability": 0.3275920371198238
+    },
+    {
+      "cells": [
+        6,
+        7
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        6,
+        9
+      ],
+      "probability": 0.6724079628801762
+    },
+    {
+      "cells": [
+        6,
+        70
+      ],
+      "probability": 0.3275920371198238
+    },
+    {
+      "cells": [
+        7,
+        9
+      ],
+      "probability": 0.6724079628801762
+    },
+    {
+      "cells": [
+        7,
+        22
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        7,
+        35
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        7,
+        38
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        7,
+        70
+      ],
+      "probability": 0.3275920371198238
+    },
+    {
+      "cells": [
+        8,
+        12
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        8,
+        15
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        8,
+        16
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        8,
+        18
+      ],
+      "probability": 1.3418325158738326e-05
+    },
+    {
+      "cells": [
+        8,
+        21
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        8,
+        28
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        8,
+        30
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        8,
+        42
+      ],
+      "probability": 0.9999089097970116
+    },
+    {
+      "cells": [
+        9,
+        35
+      ],
+      "probability": 0.6724079628801762
+    },
+    {
+      "cells": [
+        9,
+        70
+      ],
+      "probability": 0.3275920371198238
+    },
+    {
+      "cells": [
+        10,
+        11
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        10,
+        16
+      ],
+      "probability": 0.0023533543620365286
+    },
+    {
+      "cells": [
+        10,
+        25
+      ],
+      "probability": 0.002369961543987941
+    },
+    {
+      "cells": [
+        10,
+        30
+      ],
+      "probability": 0.0023533543620365286
+    },
+    {
+      "cells": [
+        10,
+        41
+      ],
+      "probability": 0.9976300384560121
+    },
+    {
+      "cells": [
+        11,
+        13
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        11,
+        16
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        11,
+        25
+      ],
+      "probability": 1.6607181951412367e-05
+    },
+    {
+      "cells": [
+        11,
+        41
+      ],
+      "probability": 0.9976300384560121
+    },
+    {
+      "cells": [
+        12,
+        15
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        12,
+        20
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        12,
+        21
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        12,
+        23
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        12,
+        24
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        13,
+        16
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        13,
+        27
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        13,
+        28
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        14,
+        18
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        14,
+        21
+      ],
+      "probability": 3.188856792674042e-06
+    },
+    {
+      "cells": [
+        14,
+        26
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        14,
+        30
+      ],
+      "probability": 7.448302103698156e-05
+    },
+    {
+      "cells": [
+        14,
+        42
+      ],
+      "probability": 0.9999089097970116
+    },
+    {
+      "cells": [
+        15,
+        23
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        15,
+        28
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        15,
+        34
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        16,
+        25
+      ],
+      "probability": 1.6607181951412367e-05
+    },
+    {
+      "cells": [
+        16,
+        28
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        16,
+        30
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        16,
+        41
+      ],
+      "probability": 0.9976300384560121
+    },
+    {
+      "cells": [
+        17,
+        23
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        17,
+        33
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        17,
+        34
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        17,
+        35
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        17,
+        37
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        17,
+        38
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        18,
+        21
+      ],
+      "probability": 1.6607181951412367e-05
+    },
+    {
+      "cells": [
+        18,
+        25
+      ],
+      "probability": 0.9958595037822559
+    },
+    {
+      "cells": [
+        18,
+        26
+      ],
+      "probability": 1.3418325158738326e-05
+    },
+    {
+      "cells": [
+        18,
+        30
+      ],
+      "probability": 8.79013461957199e-05
+    },
+    {
+      "cells": [
+        18,
+        41
+      ],
+      "probability": 0.004140496217744123
+    },
+    {
+      "cells": [
+        18,
+        42
+      ],
+      "probability": 0.9999089097970116
+    },
+    {
+      "cells": [
+        19,
+        20
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        19,
+        24
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        19,
+        26
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        19,
+        31
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        20,
+        23
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        20,
+        24
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        20,
+        31
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        20,
+        32
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        20,
+        37
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        21,
+        24
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        21,
+        25
+      ],
+      "probability": 3.188856792674042e-06
+    },
+    {
+      "cells": [
+        21,
+        26
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        21,
+        30
+      ],
+      "probability": 7.76718778296556e-05
+    },
+    {
+      "cells": [
+        21,
+        42
+      ],
+      "probability": 0.9999089097970116
+    },
+    {
+      "cells": [
+        22,
+        27
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        22,
+        34
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        22,
+        38
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        23,
+        34
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        23,
+        37
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        24,
+        26
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        25,
+        30
+      ],
+      "probability": 0.9958595037822559
+    },
+    {
+      "cells": [
+        25,
+        41
+      ],
+      "probability": 0.9934895422382679
+    },
+    {
+      "cells": [
+        25,
+        42
+      ],
+      "probability": 0.9957684135792675
+    },
+    {
+      "cells": [
+        26,
+        30
+      ],
+      "probability": 7.448302103698156e-05
+    },
+    {
+      "cells": [
+        26,
+        42
+      ],
+      "probability": 0.9999089097970116
+    },
+    {
+      "cells": [
+        27,
+        28
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        27,
+        34
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        28,
+        34
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        29,
+        32
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        29,
+        33
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        29,
+        36
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        29,
+        37
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        29,
+        40
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        30,
+        41
+      ],
+      "probability": 0.9976300384560121
+    },
+    {
+      "cells": [
+        30,
+        42
+      ],
+      "probability": 0.9999089097970116
+    },
+    {
+      "cells": [
+        31,
+        32
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        31,
+        36
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        32,
+        36
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        32,
+        37
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        33,
+        35
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        33,
+        37
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        33,
+        40
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        34,
+        38
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        35,
+        38
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        35,
+        70
+      ],
+      "probability": 0.3275920371198238
+    },
+    {
+      "cells": [
+        39,
+        40
+      ],
+      "probability": 1.0
+    },
+    {
+      "cells": [
+        39,
+        69
+      ],
+      "probability": 0.33069567414399725
+    },
+    {
+      "cells": [
+        41,
+        42
+      ],
+      "probability": 0.004140496217744123
+    }
+  ],
+  "vertices": [
+    {
+      "cells": [
+        18,
+        25,
+        30
+      ],
+      "p_exist": 8.79013461957199e-05,
+      "row": 348.6681747905619,
+      "col": 168.026521007865,
+      "rms_radius_px": 5.6179411359074205
+    },
+    {
+      "cells": [
+        8,
+        21,
+        30
+      ],
+      "p_exist": 7.76718778296556e-05,
+      "row": 310.70527743642737,
+      "col": 172.74633292371283,
+      "rms_radius_px": 1.5496986769054835
+    },
+    {
+      "cells": [
+        18,
+        21,
+        26
+      ],
+      "p_exist": 1.3418325158738326e-05,
+      "row": 321.1395164074026,
+      "col": 84.8604835925974,
+      "rms_radius_px": 0.6790216080000261
+    },
+    {
+      "cells": [
+        1,
+        4,
+        39
+      ],
+      "p_exist": 0.6693043258560029,
+      "row": 35.35594252216372,
+      "col": 78.64405747783627,
+      "rms_radius_px": 0.4965982700648969
+    },
+    {
+      "cells": [
+        6,
+        7,
+        9
+      ],
+      "p_exist": 0.6724079628801762,
+      "row": 51.35660744903328,
+      "col": 316.6433925509667,
+      "rms_radius_px": 0.4956432735223483
+    },
+    {
+      "cells": [
+        10,
+        11,
+        25
+      ],
+      "p_exist": 1.6607181951412367e-05,
+      "row": 334.7912647114974,
+      "col": 319.50000000000006,
+      "rms_radius_px": 0.45434522043674314
+    },
+    {
+      "cells": [
+        16,
+        25,
+        30
+      ],
+      "p_exist": 1.6607181951412367e-05,
+      "row": 322.5,
+      "col": 269.2087352885027,
+      "rms_radius_px": 0.45434522043674314
+    },
+    {
+      "cells": [
+        7,
+        9,
+        35
+      ],
+      "p_exist": 0.6724079628801762,
+      "row": 61.58373032019133,
+      "col": 302.3566074490332,
+      "rms_radius_px": 0.4467109590842402
+    },
+    {
+      "cells": [
+        19,
+        20,
+        24
+      ],
+      "p_exist": 1.0,
+      "row": 235.40358170691232,
+      "col": 79.61870830580386,
+      "rms_radius_px": 0.4378794923067348
+    },
+    {
+      "cells": [
+        2,
+        33,
+        40
+      ],
+      "p_exist": 1.0,
+      "row": 65.40358170691229,
+      "col": 164.4035817069123,
+      "rms_radius_px": 0.4174249773211285
+    },
+    {
+      "cells": [
+        29,
+        32,
+        37
+      ],
+      "p_exist": 1.0,
+      "row": 141.5964182930877,
+      "col": 109.59641829308771,
+      "rms_radius_px": 0.4174249773211285
+    },
+    {
+      "cells": [
+        14,
+        18,
+        42
+      ],
+      "p_exist": 0.9999089097970116,
+      "row": 356.40365225068336,
+      "col": 88.59634774931666,
+      "rms_radius_px": 0.41728853451366377
+    },
+    {
+      "cells": [
+        21,
+        26,
+        42
+      ],
+      "p_exist": 0.9999089097970116,
+      "row": 321.40365225068336,
+      "col": 84.59634774931666,
+      "rms_radius_px": 0.41728853451366377
+    },
+    {
+      "cells": [
+        11,
+        16,
+        25
+      ],
+      "p_exist": 1.6607181951412367e-05,
+      "row": 318.5,
+      "col": 292.30798326880483,
+      "rms_radius_px": 0.39388615885342715
+    },
+    {
+      "cells": [
+        1,
+        3,
+        4
+      ],
+      "p_exist": 0.6693043258560029,
+      "row": 47.5,
+      "col": 52.35594252216373,
+      "rms_radius_px": 0.35114800428839704
+    },
+    {
+      "cells": [
+        5,
+        9,
+        35
+      ],
+      "p_exist": 0.6724079628801762,
+      "row": 42.49999999999999,
+      "col": 252.64339255096672,
+      "rms_radius_px": 0.3504727197571513
+    },
+    {
+      "cells": [
+        10,
+        11,
+        41
+      ],
+      "p_exist": 0.9976300384560121,
+      "row": 334.59656783503607,
+      "col": 319.50000000000006,
+      "rms_radius_px": 0.2953683941665015
+    },
+    {
+      "cells": [
+        11,
+        16,
+        41
+      ],
+      "p_exist": 0.9976300384560121,
+      "row": 318.50000000000006,
+      "col": 291.59656783503607,
+      "rms_radius_px": 0.2953683941665015
+    },
+    {
+      "cells": [
+        16,
+        30,
+        41
+      ],
+      "p_exist": 0.9976300384560121,
+      "row": 322.5000000000001,
+      "col": 269.403432164964,
+      "rms_radius_px": 0.2953683941665015
+    },
+    {
+      "cells": [
+        4,
+        29,
+        40
+      ],
+      "p_exist": 1.0,
+      "row": 88.40358170691229,
+      "col": 95.50000000000001,
+      "rms_radius_px": 0.29516403210041076
+    },
+    {
+      "cells": [
+        5,
+        33,
+        35
+      ],
+      "p_exist": 1.0,
+      "row": 56.59641829308773,
+      "col": 216.5,
+      "rms_radius_px": 0.29516403210041076
+    },
+    {
+      "cells": [
+        7,
+        22,
+        38
+      ],
+      "p_exist": 1.0,
+      "row": 104.5,
+      "col": 336.4035817069123,
+      "rms_radius_px": 0.29516403210041076
+    },
+    {
+      "cells": [
+        8,
+        12,
+        15
+      ],
+      "p_exist": 1.0,
+      "row": 251.50000000000003,
+      "col": 205.4035817069123,
+      "rms_radius_px": 0.29516403210041076
+    },
+    {
+      "cells": [
+        8,
+        16,
+        28
+      ],
+      "p_exist": 1.0,
+      "row": 259.49999999999994,
+      "col": 255.40358170691226,
+      "rms_radius_px": 0.29516403210041076
+    },
+    {
+      "cells": [
+        12,
+        15,
+        23
+      ],
+      "p_exist": 1.0,
+      "row": 213.50000000000006,
+      "col": 192.59641829308774,
+      "rms_radius_px": 0.29516403210041076
+    },
+    {
+      "cells": [
+        12,
+        20,
+        23
+      ],
+      "p_exist": 1.0,
+      "row": 212.50000000000006,
+      "col": 155.40358170691226,
+      "rms_radius_px": 0.29516403210041076
+    },
+    {
+      "cells": [
+        15,
+        28,
+        34
+      ],
+      "p_exist": 1.0,
+      "row": 204.50000000000003,
+      "col": 276.4035817069123,
+      "rms_radius_px": 0.29516403210041076
+    },
+    {
+      "cells": [
+        17,
+        23,
+        34
+      ],
+      "p_exist": 1.0,
+      "row": 164.50000000000006,
+      "col": 228.40358170691226,
+      "rms_radius_px": 0.29516403210041076
+    },
+    {
+      "cells": [
+        17,
+        33,
+        37
+      ],
+      "p_exist": 1.0,
+      "row": 116.59641829308772,
+      "col": 185.49999999999997,
+      "rms_radius_px": 0.29516403210041076
+    },
+    {
+      "cells": [
+        19,
+        24,
+        26
+      ],
+      "p_exist": 1.0,
+      "row": 281.5,
+      "col": 11.596418293087723,
+      "rms_radius_px": 0.29516403210041076
+    },
+    {
+      "cells": [
+        20,
+        31,
+        32
+      ],
+      "p_exist": 1.0,
+      "row": 201.5,
+      "col": 69.40358170691229,
+      "rms_radius_px": 0.29516403210041076
+    },
+    {
+      "cells": [
+        21,
+        24,
+        26
+      ],
+      "p_exist": 1.0,
+      "row": 303.50000000000006,
+      "col": 83.40358170691229,
+      "rms_radius_px": 0.29516403210041076
+    },
+    {
+      "cells": [
+        22,
+        27,
+        34
+      ],
+      "p_exist": 1.0,
+      "row": 168.40358170691226,
+      "col": 317.5,
+      "rms_radius_px": 0.29516403210041076
+    },
+    {
+      "cells": [
+        29,
+        32,
+        36
+      ],
+      "p_exist": 1.0,
+      "row": 138.40358170691226,
+      "col": 65.50000000000001,
+      "rms_radius_px": 0.29516403210041076
+    },
+    {
+      "cells": [
+        31,
+        32,
+        36
+      ],
+      "p_exist": 1.0,
+      "row": 156.50000000000003,
+      "col": 36.59641829308773,
+      "rms_radius_px": 0.29516403210041076
+    },
+    {
+      "cells": [
+        3,
+        4,
+        36
+      ],
+      "p_exist": 1.0,
+      "row": 94.50000000000001,
+      "col": 34.55630093403116,
+      "rms_radius_px": 0.2305019281012117
+    },
+    {
+      "cells": [
+        17,
+        34,
+        38
+      ],
+      "p_exist": 1.0,
+      "row": 143.44369906596881,
+      "col": 260.5,
+      "rms_radius_px": 0.2305019281012117
+    },
+    {
+      "cells": [
+        8,
+        21,
+        42
+      ],
+      "p_exist": 0.9999089097970116,
+      "row": 310.50000000000006,
+      "col": 173.45995347611853,
+      "rms_radius_px": 0.19606835493399938
+    },
+    {
+      "cells": [
+        10,
+        11,
+        16
+      ],
+      "p_exist": 0.0023533543620365286,
+      "row": 318.50000000000006,
+      "col": 291.5316497261265,
+      "rms_radius_px": 0.17506576182276826
+    },
+    {
+      "cells": [
+        10,
+        16,
+        30
+      ],
+      "p_exist": 0.0023533543620365286,
+      "row": 322.5,
+      "col": 269.46835027387357,
+      "rms_radius_px": 0.17506576182276826
+    },
+    {
+      "cells": [
+        22,
+        34,
+        38
+      ],
+      "p_exist": 1.0,
+      "row": 143.49999999999997,
+      "col": 302.5000000000001,
+      "rms_radius_px": 1.1718571004216928e-13
+    },
+    {
+      "cells": [
+        27,
+        28,
+        34
+      ],
+      "p_exist": 1.0,
+      "row": 196.50000000000009,
+      "col": 300.50000000000006,
+      "rms_radius_px": 1.0247593068766007e-13
+    },
+    {
+      "cells": [
+        13,
+        16,
+        28
+      ],
+      "p_exist": 1.0,
+      "row": 259.49999999999994,
+      "col": 308.49999999999994,
+      "rms_radius_px": 8.038873388460929e-14
+    },
+    {
+      "cells": [
+        10,
+        25,
+        30
+      ],
+      "p_exist": 0.0023533543620365286,
+      "row": 351.50000000000006,
+      "col": 236.50000000000003,
+      "rms_radius_px": 6.355287432313019e-14
+    },
+    {
+      "cells": [
+        13,
+        27,
+        28
+      ],
+      "p_exist": 1.0,
+      "row": 223.50000000000003,
+      "col": 334.50000000000006,
+      "rms_radius_px": 6.355287432313018e-14
+    },
+    {
+      "cells": [
+        2,
+        5,
+        33
+      ],
+      "p_exist": 1.0,
+      "row": 52.500000000000014,
+      "col": 206.50000000000006,
+      "rms_radius_px": 5.859285502108464e-14
+    },
+    {
+      "cells": [
+        14,
+        26,
+        42
+      ],
+      "p_exist": 0.9999089097970116,
+      "row": 329.50000000000006,
+      "col": 80.49999999999999,
+      "rms_radius_px": 5.859285502108464e-14
+    },
+    {
+      "cells": [
+        7,
+        35,
+        38
+      ],
+      "p_exist": 1.0,
+      "row": 81.5,
+      "col": 297.50000000000006,
+      "rms_radius_px": 5.684341886080802e-14
+    },
+    {
+      "cells": [
+        8,
+        16,
+        30
+      ],
+      "p_exist": 1.0,
+      "row": 297.50000000000006,
+      "col": 238.5,
+      "rms_radius_px": 5.684341886080802e-14
+    },
+    {
+      "cells": [
+        11,
+        13,
+        16
+      ],
+      "p_exist": 1.0,
+      "row": 274.49999999999994,
+      "col": 320.5,
+      "rms_radius_px": 5.684341886080802e-14
+    },
+    {
+      "cells": [
+        18,
+        25,
+        42
+      ],
+      "p_exist": 0.9957684135792675,
+      "row": 350.50000000000006,
+      "col": 166.5,
+      "rms_radius_px": 5.684341886080802e-14
+    },
+    {
+      "cells": [
+        25,
+        30,
+        42
+      ],
+      "p_exist": 0.9957684135792675,
+      "row": 338.50000000000006,
+      "col": 176.5,
+      "rms_radius_px": 5.684341886080802e-14
+    },
+    {
+      "cells": [
+        8,
+        15,
+        28
+      ],
+      "p_exist": 1.0,
+      "row": 251.50000000000003,
+      "col": 248.50000000000003,
+      "rms_radius_px": 4.0194366942304644e-14
+    },
+    {
+      "cells": [
+        19,
+        20,
+        31
+      ],
+      "p_exist": 1.0,
+      "row": 204.50000000000003,
+      "col": 68.50000000000003,
+      "rms_radius_px": 4.0194366942304644e-14
+    },
+    {
+      "cells": [
+        2,
+        39,
+        40
+      ],
+      "p_exist": 1.0,
+      "row": 37.500000000000014,
+      "col": 142.49999999999997,
+      "rms_radius_px": 3.177643716156509e-14
+    },
+    {
+      "cells": [
+        12,
+        20,
+        24
+      ],
+      "p_exist": 1.0,
+      "row": 243.50000000000003,
+      "col": 114.5,
+      "rms_radius_px": 2.842170943040401e-14
+    },
+    {
+      "cells": [
+        17,
+        23,
+        37
+      ],
+      "p_exist": 1.0,
+      "row": 153.5,
+      "col": 189.50000000000003,
+      "rms_radius_px": 2.842170943040401e-14
+    },
+    {
+      "cells": [
+        17,
+        33,
+        35
+      ],
+      "p_exist": 1.0,
+      "row": 98.5,
+      "col": 221.50000000000003,
+      "rms_radius_px": 2.842170943040401e-14
+    },
+    {
+      "cells": [
+        20,
+        23,
+        37
+      ],
+      "p_exist": 1.0,
+      "row": 172.5,
+      "col": 144.50000000000003,
+      "rms_radius_px": 2.842170943040401e-14
+    },
+    {
+      "cells": [
+        25,
+        30,
+        41
+      ],
+      "p_exist": 0.9934895422382679,
+      "row": 351.5,
+      "col": 236.50000000000003,
+      "rms_radius_px": 2.842170943040401e-14
+    },
+    {
+      "cells": [
+        29,
+        33,
+        37
+      ],
+      "p_exist": 1.0,
+      "row": 109.5,
+      "col": 144.50000000000003,
+      "rms_radius_px": 2.842170943040401e-14
+    },
+    {
+      "cells": [
+        29,
+        33,
+        40
+      ],
+      "p_exist": 1.0,
+      "row": 91.5,
+      "col": 138.49999999999997,
+      "rms_radius_px": 2.842170943040401e-14
+    },
+    {
+      "cells": [
+        8,
+        30,
+        42
+      ],
+      "p_exist": 0.9999089097970116,
+      "row": 315.5,
+      "col": 179.50000000000003,
+      "rms_radius_px": 2.8421709430404004e-14
+    },
+    {
+      "cells": [
+        4,
+        29,
+        36
+      ],
+      "p_exist": 1.0,
+      "row": 103.50000000000001,
+      "col": 66.50000000000001,
+      "rms_radius_px": 2.0097183471152322e-14
+    },
+    {
+      "cells": [
+        4,
+        39,
+        40
+      ],
+      "p_exist": 1.0,
+      "row": 45.500000000000014,
+      "col": 99.5,
+      "rms_radius_px": 1.4210854715202004e-14
+    },
+    {
+      "cells": [
+        20,
+        32,
+        37
+      ],
+      "p_exist": 1.0,
+      "row": 168.5,
+      "col": 119.50000000000001,
+      "rms_radius_px": 1.4210854715202004e-14
+    },
+    {
+      "cells": [
+        3,
+        4,
+        69
+      ],
+      "p_exist": 0.33069567414399725,
+      "row": 47.5,
+      "col": 52.5,
+      "rms_radius_px": 0.0
+    },
+    {
+      "cells": [
+        4,
+        39,
+        69
+      ],
+      "p_exist": 0.33069567414399725,
+      "row": 35.5,
+      "col": 78.5,
+      "rms_radius_px": 0.0
+    },
+    {
+      "cells": [
+        5,
+        35,
+        70
+      ],
+      "p_exist": 0.3275920371198238,
+      "row": 42.5,
+      "col": 252.5,
+      "rms_radius_px": 0.0
+    },
+    {
+      "cells": [
+        6,
+        7,
+        70
+      ],
+      "p_exist": 0.3275920371198238,
+      "row": 51.5,
+      "col": 316.5,
+      "rms_radius_px": 0.0
+    },
+    {
+      "cells": [
+        7,
+        35,
+        70
+      ],
+      "p_exist": 0.3275920371198238,
+      "row": 61.5,
+      "col": 302.5,
+      "rms_radius_px": 0.0
+    },
+    {
+      "cells": [
+        8,
+        12,
+        21
+      ],
+      "p_exist": 1.0,
+      "row": 275.5,
+      "col": 168.5,
+      "rms_radius_px": 0.0
+    },
+    {
+      "cells": [
+        8,
+        18,
+        21
+      ],
+      "p_exist": 1.3418325158738326e-05,
+      "row": 310.5,
+      "col": 173.5,
+      "rms_radius_px": 0.0
+    },
+    {
+      "cells": [
+        8,
+        18,
+        30
+      ],
+      "p_exist": 1.3418325158738326e-05,
+      "row": 315.5,
+      "col": 179.5,
+      "rms_radius_px": 0.0
+    },
+    {
+      "cells": [
+        12,
+        21,
+        24
+      ],
+      "p_exist": 1.0,
+      "row": 263.5,
+      "col": 118.5,
+      "rms_radius_px": 0.0
+    },
+    {
+      "cells": [
+        14,
+        18,
+        21
+      ],
+      "p_exist": 3.188856792674042e-06,
+      "row": 356.5,
+      "col": 88.5,
+      "rms_radius_px": 0.0
+    },
+    {
+      "cells": [
+        14,
+        18,
+        26
+      ],
+      "p_exist": 1.3418325158738326e-05,
+      "row": 329.5,
+      "col": 80.5,
+      "rms_radius_px": 0.0
+    },
+    {
+      "cells": [
+        14,
+        18,
+        30
+      ],
+      "p_exist": 7.448302103698156e-05,
+      "row": 355.5,
+      "col": 89.5,
+      "rms_radius_px": 0.0
+    },
+    {
+      "cells": [
+        14,
+        21,
+        26
+      ],
+      "p_exist": 3.188856792674042e-06,
+      "row": 329.5,
+      "col": 80.5,
+      "rms_radius_px": 0.0
+    },
+    {
+      "cells": [
+        14,
+        26,
+        30
+      ],
+      "p_exist": 7.448302103698156e-05,
+      "row": 329.5,
+      "col": 80.5,
+      "rms_radius_px": 0.0
+    },
+    {
+      "cells": [
+        15,
+        23,
+        34
+      ],
+      "p_exist": 1.0,
+      "row": 188.5,
+      "col": 228.5,
+      "rms_radius_px": 0.0
+    },
+    {
+      "cells": [
+        17,
+        35,
+        38
+      ],
+      "p_exist": 1.0,
+      "row": 104.5,
+      "col": 255.5,
+      "rms_radius_px": 0.0
+    },
+    {
+      "cells": [
+        18,
+        21,
+        25
+      ],
+      "p_exist": 3.188856792674042e-06,
+      "row": 350.5,
+      "col": 166.5,
+      "rms_radius_px": 0.0
+    },
+    {
+      "cells": [
+        18,
+        41,
+        42
+      ],
+      "p_exist": 0.004140496217744123,
+      "row": 350.5,
+      "col": 166.5,
+      "rms_radius_px": 0.0
+    },
+    {
+      "cells": [
+        21,
+        25,
+        30
+      ],
+      "p_exist": 3.188856792674042e-06,
+      "row": 338.5,
+      "col": 176.5,
+      "rms_radius_px": 0.0
+    },
+    {
+      "cells": [
+        21,
+        26,
+        30
+      ],
+      "p_exist": 7.448302103698156e-05,
+      "row": 320.5,
+      "col": 85.5,
+      "rms_radius_px": 0.0
+    },
+    {
+      "cells": [
+        30,
+        41,
+        42
+      ],
+      "p_exist": 0.004140496217744123,
+      "row": 338.5,
+      "col": 176.5,
+      "rms_radius_px": 0.0
+    }
+  ],
+  "npz_sha256": "72eed7425d4dec5cc5007e9612d5a2330747f36b12e0ef618aabe3de76724be0",
+  "npz_schema": {
+    "energies": {
+      "shape": [
+        12
+      ],
+      "dtype": "float64"
+    },
+    "weights": {
+      "shape": [
+        12
+      ],
+      "dtype": "float64"
+    },
+    "labels": {
+      "shape": [
+        12,
+        384,
+        384
+      ],
+      "dtype": "int32"
+    },
+    "tags": {
+      "shape": [
+        12
+      ],
+      "dtype": "<U33"
+    },
+    "contact_cells": {
+      "shape": [
+        127,
+        2
+      ],
+      "dtype": "int32"
+    },
+    "contact_probabilities": {
+      "shape": [
+        127
+      ],
+      "dtype": "float64"
+    },
+    "vertex_mean_rc": {
+      "shape": [
+        87,
+        2
+      ],
+      "dtype": "float64"
+    },
+    "vertex_rms_radius_px": {
+      "shape": [
+        87
+      ],
+      "dtype": "float64"
+    },
+    "vertex_p_exist": {
+      "shape": [
+        87
+      ],
+      "dtype": "float64"
+    },
+    "seed_points": {
+      "shape": [
+        68,
+        2
+      ],
+      "dtype": "float64"
+    }
+  },
+  "interpretation_notes": [
+    "Hypotheses are sorted by increasing energy; weights and labels share that order.",
+    "All labels derive from the same observed synthetic channels. No ground-truth labels enter reconstruction or energy scoring.",
+    "Parameter perturbations are followed by up to two merge and two split moves; exact pixel duplicate label fields are removed.",
+    "Temperature is chosen to reach ESS >= 4, not fitted against correctness.",
+    "Contact identities are original seed-label pairs; vertex summaries are conditional weighted locations for incident cell sets.",
+    "The original deterministic in-action reconstruction may differ from the finite-ensemble maximum-weight candidate."
+  ]
+}

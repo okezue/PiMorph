@@ -1,0 +1,24 @@
+{
+  "kind": "Synthetic explanatory label arrays passed to actual extract_complex",
+  "cells_gap_outer": {
+    "cells": 12,
+    "gaps": 1,
+    "outer_faces": 1
+  },
+  "disconnected_contacts": {
+    "cells": 2,
+    "gaps": 1,
+    "physical_contact_components": 2,
+    "simple_graph_cell_pair_count": 1,
+    "edge_ids": [
+      2,
+      5
+    ]
+  },
+  "four_cell_junction": {
+    "physical_vertex_degree": 4,
+    "adjacency_cycle_length": 4,
+    "adjacency_triangles": 0
+  },
+  "note": "Geometry and topology are generated with PiMorph; no microscopy data in this figure."
+}

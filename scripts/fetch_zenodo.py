@@ -6,9 +6,11 @@
     python scripts/fetch_zenodo.py --only pimorph_training_tiles.tar --extract   # tiles into data/tiles/
     python scripts/fetch_zenodo.py                          # everything into output/zenodo
 
-The concept DOI always resolves to the newest version; the record id is looked up through the
-Zenodo API so the checksums come from the same version that is downloaded. Archives extract
-into the repository layout they were built from (models/, runs/, data/tiles/).
+The record id is looked up through the Zenodo API so the checksums come from the same version
+that is downloaded. Archives extract into the original repository layout. Historical root,
+docs/ and models/ Markdown is excluded by default to preserve the current consolidated
+documentation; run-specific reports are retained. Use --include-archived-docs only when an
+exact historical documentation restore is intended.
 """
 
 from __future__ import annotations
@@ -59,11 +61,35 @@ def download(url: str, dest: str) -> None:
     os.replace(tmp, dest)
 
 
+def extract_archive(path: str, destination: str = ".", *, include_archived_docs: bool = False) -> tuple[int, int]:
+    """Extract payloads safely without replacing current narrative documentation."""
+    from pathlib import PurePosixPath
+
+    with tarfile.open(path) as archive:
+        members = archive.getmembers()
+        selected = []
+        for member in members:
+            parts = PurePosixPath(member.name).parts
+            narrative = (
+                member.isfile()
+                and member.name.lower().endswith(".md")
+                and (len(parts) == 1 or parts[0] in {"docs", "models"})
+            )
+            if include_archived_docs or not narrative:
+                selected.append(member)
+        archive.extractall(destination, members=selected, filter="data")
+    return len(selected), len(members) - len(selected)
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--dest", default="output/zenodo")
     parser.add_argument("--only", nargs="*", default=None, help="file names to fetch (default: all)")
     parser.add_argument("--extract", action="store_true", help="extract fetched tar archives into the repository root")
+    parser.add_argument(
+        "--include-archived-docs", action="store_true",
+        help="also restore historical root/docs/models Markdown, replacing current documentation",
+    )
     parser.add_argument("--models", action="store_true", help="fetch pimorph_models.tar and extract into models/")
     parser.add_argument("--concept-doi", default=CONCEPT_DOI)
     args = parser.parse_args(argv)
@@ -88,9 +114,8 @@ def main(argv: list[str] | None = None) -> int:
                 raise RuntimeError(f"checksum mismatch for {name}: {actual} != {expected}")
             print(f"  {name}: downloaded, checksum ok")
         if args.extract and name.endswith(".tar"):
-            with tarfile.open(path) as archive:
-                archive.extractall(".", filter="data")
-                print(f"  extracted {len(archive.getnames())} members of {name} into the repository root")
+            extracted, skipped = extract_archive(path, include_archived_docs=args.include_archived_docs)
+            print(f"  extracted {extracted} members of {name}; preserved current documentation ({skipped} excluded)")
     return 0
 
 

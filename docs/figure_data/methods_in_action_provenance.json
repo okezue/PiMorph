@@ -1,0 +1,110 @@
+{
+  "kind": "New synthetic demonstration; not a benchmark or biological observation",
+  "tissue_parameters": {
+    "shape": [
+      384,
+      384
+    ],
+    "n_cells": 42,
+    "lloyd_iters": 3,
+    "elongation": 1.45,
+    "flow_angle_deg": -18,
+    "gap_area_fraction": 0.0,
+    "n_gaps": 0,
+    "gap_kind": "tricellular",
+    "gap_radius_px": [
+      2.0,
+      5.0
+    ],
+    "boundary_jitter_px": 1.1,
+    "jitter_scale_px": 12.0,
+    "nucleus_jitter": 0.1,
+    "binucleate_fraction": 0.0,
+    "anucleate_fraction": 0.0,
+    "seed": 47
+  },
+  "render_parameters": {
+    "psf_sigma_px": 1.05,
+    "junction_width_px": 2.3,
+    "junction_intensity": 240.0,
+    "interior_intensity": 10.0,
+    "background": 5.0,
+    "gain": 1.0,
+    "read_noise_sigma": 2.0,
+    "photobleach_gradient": 0.2,
+    "broken_fraction": 0.27,
+    "broken_segment_len_px": 11.0,
+    "membrane_width_px": 1.8,
+    "membrane_intensity": 180.0,
+    "nucleus_radius_px": 7.0,
+    "nucleus_intensity": 150.0,
+    "sample_step_px": 0.25,
+    "seed": 82
+  },
+  "classical_proposer_parameters": {
+    "ridge_sigmas": [
+      0.8,
+      1.3,
+      2.0
+    ],
+    "intensity_weight": 0.4,
+    "nucleus_radius_px": 3.5,
+    "seed_min_distance_px": 13,
+    "seed_rel_threshold": 0.05,
+    "cell_radius_px": 30.0,
+    "seed_heatmap_sigma_px": 3.0,
+    "use_tissue_mask": false,
+    "auto_scale": false,
+    "cell_to_nucleus_ratio": 2.5
+  },
+  "decoder_parameters": {
+    "seed_threshold": 0.3,
+    "seed_drop_frac": 0.0,
+    "boundary_gamma": 1.0,
+    "boundary_smooth_sigma": 0.0,
+    "distance_mix": 0.0,
+    "vertex_weight": 0.3,
+    "cell_radius_px": 30.0,
+    "compactness": 0.0,
+    "gap_threshold": 0.7,
+    "outside_px": 0.0,
+    "min_cell_area_px": 150,
+    "min_gap_area_px": 12,
+    "fill_gaps": true,
+    "smooth_iters": 4,
+    "merge_boundary_max": 0.0,
+    "merge_vertex_min": 0.5,
+    "merge_vertex_radius_px": 3.0,
+    "max_merges": 0,
+    "nucleus_merge": false,
+    "nucleus_merge_max_area_frac": 1.0,
+    "nucleus_merge_boundary_max": 1.0,
+    "label": ""
+  },
+  "geometry_channel": "membrane",
+  "measurement_channel": "junction",
+  "ground_truth_cells": 42,
+  "decoded_cells": 42,
+  "selected_edge_id": 101,
+  "strip_half_width_px": 5,
+  "strip_n_lateral": 21,
+  "strip_step_px": 0.75,
+  "profile_bin_px": 1.5,
+  "threshold_photon_units": 38.0,
+  "selected_edge_gap_fraction": 0.30000000000000004,
+  "selected_edge_continuity": 0.3,
+  "valid_complex": true,
+  "boundary_of_boundary_zero": true,
+  "euler_residual": 0,
+  "crop_rows_cols_in_panel_d": [
+    [
+      250,
+      63
+    ],
+    [
+      381,
+      194
+    ]
+  ],
+  "units": "Pixels only; no physical scale assigned to this synthetic tissue"
+}

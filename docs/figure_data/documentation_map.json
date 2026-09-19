@@ -1,0 +1,27 @@
+{
+  "note": "Narrative documents consolidated; original versions remain in Git history and archived release. Run-specific raw reports are retained.",
+  "destinations": {
+    "B1_B3_SCIENCE_TASKS_SUMMARY.md": "EXPLAINER.md#8-historical-feature-validation-and-robustness",
+    "CLOSEOUT_CHECKLIST.md": "README.md",
+    "CROSS_DATASET_VALIDATION_SUMMARY.md": "EXPLAINER.md#8-historical-feature-validation-and-robustness",
+    "NETWORK_DISCOVERIES.md": "EXPLAINER.md#6-endothelial-shear-which-findings-survive-reconstruction-changes",
+    "VALIDATION_SUMMARY.md": "EXPLAINER.md",
+    "docs/ARCHITECTURE.md": "EXPLAINER.md#2-from-images-to-a-cell-complex",
+    "docs/COMPLEX.md": "EXPLAINER.md#geometry-topology-and-what-validation-guarantees",
+    "docs/BENCHMARKS.md": "EXPLAINER.md#4-datasets-reference-construction-and-evaluation-units",
+    "docs/BLUR_STABILITY.md": "EXPLAINER.md#8-historical-feature-validation-and-robustness",
+    "docs/CONFLUENT_BENCHMARK.md": "EXPLAINER.md#5-proposal-learning-and-current-benchmark-results",
+    "docs/DATASET_HUNT_2026-09-18.md": "EXPLAINER.md#data-and-model-availability",
+    "docs/ENDOTHELIAL_RESULTS.md": "EXPLAINER.md#5-proposal-learning-and-current-benchmark-results",
+    "docs/LATER_PHASES.md": "EXPLAINER.md#7-temporal-mechanical-and-multi-marker-extensions",
+    "docs/NEURAL_PROPOSALS.md": "models/README.md",
+    "docs/SCALE_RESULTS.md": "EXPLAINER.md#earlier-broad-benchmarks",
+    "models/pimorph_proposals_v0_mixed.md": "models/README.md",
+    "models/pimorph_proposals_v0_synth.md": "models/README.md",
+    "models/pimorph_proposals_v1_multi.md": "models/README.md",
+    "models/pimorph_proposals_v2_endo.md": "models/README.md",
+    "models/pimorph_proposals_v3_endo.md": "models/README.md",
+    "models/pimorph_proposals_v4_confluent.md": "models/README.md",
+    "models/pimorph_proposals_v6_pool.md": "models/README.md"
+  }
+}

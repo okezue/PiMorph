@@ -2,11 +2,20 @@
 
 ## v1.1.0.dev0 (unreleased)
 
-### 2026-09-19: symmetric comparison, real-data validation, README rewritten as an explainer
-- Cellpose-SAM fine-tuned on exactly the training fields used for `v6_pool` (`scripts/export_cellpose_training.py`, `runs/cellpose_ft/`, `PIMORPH_CELLPOSE_MODEL`); held-out comparison in `docs/CONFLUENT_BENCHMARK.md`: fine-tuned Cellpose-SAM leads hCEC adjacency and PQ (0.937 / 0.862 vs 0.867 / 0.816) and vertex F1 within noise (0.695 vs 0.680); PiMorph keeps vertex F1 on FlyWing (0.875 vs 0.852) and HAEC (0.352 vs 0.331) and vertex localization; one PiMorph model covers both culture densities where each fine-tuned Cellpose collapses across domains.
-- Force inference against laser-ablation recoil (Spearman 0.64, p 0.011, tension-only; 15 / 15 fields recover the boundary-cable excess); barrier proxy against measured TER (Spearman -0.52, p 0.13, not validated). Loaders `io.rpe_nist`, `io.ablation_lang2019`.
-- Third data hunt (`docs/DATASET_HUNT_2026-09-19.md`): no public confluent vascular endothelial monolayer with junction marker and expert 2-D masks; COVER zebrafish dorsal aorta contours are the closest.
-- README rewritten: what PiMorph does, the symmetric table, what is and is not validated, quickstart, data, history; refuted legacy claims removed from the front page.
+### Consolidated study documentation
+
+- Consolidated study methods, current and historical results into `EXPLAINER.md`, with a usage-focused README and one model card covering all eight archived checkpoints.
+- Added eight inspected biological/method/result figures, including the complete end-to-end flow, reproducible source tables, figure scripts and an executable synthetic example.
+- Audited Zenodo results and model payloads and corrected benchmark, uncertainty, split and biological-interpretation claims.
+- Archive extraction now preserves current narrative Markdown by default; `--include-archived-docs` explicitly restores historical documentation.
+- Earlier entries retain their historical filenames and measurements. Current locations are recorded in `docs/figure_data/documentation_map.json`.
+
+
+### 2026-09-19: symmetric comparison and real-data validation
+
+- Cellpose-SAM fine-tuned on exactly the training fields used for `v6_pool` (`scripts/export_cellpose_training.py`, `runs/cellpose_ft/`, `PIMORPH_CELLPOSE_MODEL`); held-out comparison in `EXPLAINER.md` section 5: fine-tuned Cellpose-SAM leads hCEC adjacency and PQ (0.937 / 0.862 vs 0.867 / 0.816) with vertex F1 within noise (0.695 vs 0.680); PiMorph keeps vertex F1 on FlyWing (0.875 vs 0.852) and HAEC (0.352 vs 0.331) and vertex localization; each fine-tuned Cellpose-SAM collapses across culture density while `v6_pool` holds both.
+- Force inference against laser-ablation recoil (Lang et al. 2019, 15 cuts): cut-edge tension ranks recoil velocity with Spearman 0.64 (p 0.011) tension-only; boundary-cable excess recovered in 15 / 15 fields. Barrier proxy against measured TER (NIST/NEI iPSC-RPE, 10 wells): Spearman −0.52, p 0.13, `validated` stays false. Loaders `io.rpe_nist`, `io.ablation_lang2019`; reports under `runs/mechanics_real/`, `runs/function_real/`.
+- Third target-domain data hunt (`docs/DATASET_HUNT_2026-09-19.md`): no public confluent vascular endothelial monolayer with a junction marker and expert 2-D masks; COVER zebrafish dorsal aorta contours are the closest.
 
 ### 2026-09-19: data moved to Zenodo
 - Checkpoints, complete benchmark outputs and training tiles live in the PiMorph Zenodo data record (`scripts/publish_zenodo.py` creates and versions it, `scripts/fetch_zenodo.py --models` fetches and md5-verifies; concept DOI 10.5281/zenodo.22839866, first version 1.1.0 at 10.5281/zenodo.22839867). `models/*.pt` is no longer tracked (`.gitattributes` drops the LFS rule, `.gitignore` ignores fetched checkpoints); the unpushed history was rewritten so that no new Git LFS object is needed. README "Data availability" section.

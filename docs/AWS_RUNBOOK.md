@@ -38,7 +38,7 @@ If your public IP changes, add a new `/32` rule to the security group yourself (
 
 ## 2. Stage data and code
 
-Tiles are produced locally (`pimorph synth`, `make_pseudolabel_tiles`, see `NEURAL_PROPOSALS.md`) under `data/tiles/<set>/`. The IAM user cannot create instance profiles (`iam:*` is denied), so the instance never receives AWS credentials. Instead, `push_data.sh` tars each tile set and the source, uploads them to the bucket, and writes `infra/aws/urls.txt` with presigned GET URLs valid for 48 hours:
+Tiles are produced locally (`pimorph synth`, `make_pseudolabel_tiles`, see [the consolidated model card](../models/README.md)) under `data/tiles/<set>/`. The IAM user cannot create instance profiles (`iam:*` is denied), so the instance never receives AWS credentials. Instead, `push_data.sh` tars each tile set and the source, uploads them to the bucket, and writes `infra/aws/urls.txt` with presigned GET URLs valid for 48 hours:
 
 ```bash
 infra/aws/push_data.sh synth_train synth_val pseudo_ve_strat pseudo_sbiad1540
@@ -73,7 +73,7 @@ ssh -i "$PIMORPH_KEY_FILE" ubuntu@$PIMORPH_INSTANCE_IP "bash bootstrap.sh urls.t
 
 ## 5. Train
 
-Run inside `tmux` so an ssh drop does not kill the job. The training entry point and its flags are in `NEURAL_PROPOSALS.md`; the flags below all exist in `python -m pimorph.infer.neural.train --help`.
+Run inside `tmux` so an ssh drop does not kill the job. The training entry point and its flags are in [the consolidated model card](../models/README.md); the flags below all exist in `python -m pimorph.infer.neural.train --help`.
 
 ```bash
 cd ~/work/PiMorph && source .venv/bin/activate
