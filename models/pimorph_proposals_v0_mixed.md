@@ -1,5 +1,7 @@
 # pimorph_proposals_v0_mixed.pt
 
+The checkpoint file is not in the repository: `python scripts/fetch_zenodo.py --models` downloads it from the PiMorph Zenodo data record (md5-verified) into `models/`.
+
 Multi-head UNet proposal model (`pimorph.infer.neural.model.MultiHeadUNet`, base 32, depth 4, 8,643,270 parameters). Stage 2 of two.
 
 - Resumed from `pimorph_proposals_v0_synth.pt` (stage 1, 40 epochs synthetic) and trained 20 more epochs (to epoch 60) on 2000 synthetic tiles plus 135 S-BIAD1540 EGM2 pseudo-label tiles (`cellpose_primary` policy, 24% of pixels ignored) and 40 VE-strat pseudo-label tiles (consensus policy). Validation stayed synthetic-only (200 tiles, seed 777).

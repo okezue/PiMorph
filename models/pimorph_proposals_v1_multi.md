@@ -1,5 +1,7 @@
 # pimorph_proposals_v1_multi.pt
 
+The checkpoint file is not in the repository: `python scripts/fetch_zenodo.py --models` downloads it from the PiMorph Zenodo data record (md5-verified) into `models/`.
+
 Multi-head UNet proposal model (`pimorph.infer.neural.model.MultiHeadUNet`, base 48, depth 4; about 19.4 M parameters). First model trained on real instance ground truth.
 
 - Trained 2026-09-17 on an xAI devbox (`fou` cluster, 8x H100 80 GB) with `torchrun --nproc_per_node 8` DDP, 60 epochs, batch 8 per GPU (64 effective), crop 512, AdamW 3e-4 x 8 (linear scaling) cosine, AMP bf16. Wall time 52 minutes. Log: `runs/neural/v3_multi/train_log.jsonl`; campaign log `runs/scale/campaign.log`.

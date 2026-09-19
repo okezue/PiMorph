@@ -201,6 +201,29 @@ ruff check src/ tests/
 
 ---
 
+## Data availability
+
+The repository holds the code, the tests and small derived tables. Checkpoints, the complete benchmark
+outputs and the training tiles are too large for git and live in the PiMorph data record on Zenodo
+(concept DOI recorded in `scripts/fetch_zenodo.py` once published; it always resolves to the newest
+version).
+
+| file | size | contents |
+|---|---|---|
+| `pimorph_models.tar` | 536 MB | eight proposal checkpoints `pimorph_proposals_v0_synth.pt` to `v6_pool.pt` with their cards, training logs and configurations; extracts into `models/` and `runs/neural/` |
+| `pimorph_results.tar` | 997 MB | every benchmark output: held-out tables for HAEC, mCellSeg, hCEC, alizarine, FlyWing and RPE, decoder tuning tables, the shear re-test posteriors for all 102 EGM2 fields, the legacy per-field outputs, the multi-junction, dynamics and mechanics reports, figures and the result documents; extracts into `runs/` and `docs/` |
+| `pimorph_training_tiles.tar` | 1,584 MB | 200 synthetic validation tiles, 177 S-BIAD1540 and VE-strat pseudo-label tiles, 1,200 real PECAM-1 HUVEC consensus pseudo-label tiles; extracts into `data/tiles/` |
+
+Third-party images and their ground truth are not redistributed; `docs/DATASET_HUNT_2026-09-18.md` lists
+every source with its licence and URL and the loaders read them in place. The 8,000 synthetic training
+tiles are regenerated exactly by `pimorph synth` with the seeds in `infra/xai/run_scale.sh`.
+
+```bash
+python scripts/fetch_zenodo.py --models                              # checkpoints into models/, md5-verified
+python scripts/fetch_zenodo.py --only pimorph_results.tar --extract  # tables and figures into runs/
+python scripts/publish_zenodo.py --version 1.1.0 --file ... --description-file ...   # new versions (maintainers)
+```
+
 ## Citation and status
 
 Please credit Okezue Bell (okezue@stanford.edu) and Anthony Bell for this work when used.

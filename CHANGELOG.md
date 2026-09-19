@@ -2,6 +2,9 @@
 
 ## v1.1.0.dev0 (unreleased)
 
+### 2026-09-19: data moved to Zenodo
+- Checkpoints, complete benchmark outputs and training tiles live in the PiMorph Zenodo data record (`scripts/publish_zenodo.py` creates and versions it, `scripts/fetch_zenodo.py --models` fetches and md5-verifies; concept DOI recorded in the script after the first publication). `models/*.pt` is no longer tracked (`.gitattributes` drops the LFS rule, `.gitignore` ignores fetched checkpoints); the unpushed history was rewritten so that no new Git LFS object is needed. README "Data availability" section.
+
 ### 2026-09-19: frontier round for multicellular vertices, pooled data
 - `scripts/make_vertex_miss_weights.py` writes per-tile `loss_weight` arrays around true vertices the current decode misses (x4) and spurious predicted vertices (x3); `TileDataset` honours them plus a `vertex_focus` weight near all true vertices. `v5_vertex` (not shipped) and `models/pimorph_proposals_v6_pool.pt` (+ RPE train stacks and 1,200 real PECAM-1 HUVEC pseudo-label tiles) with card.
 - Decoder: `vertex_weight` (vertex head in the elevation, default 0.3), `nucleus_merge` (cells without a nuclear peak join the neighbour across their weakest boundary), `NeuralProposer(tta=True)`, benchmark method `neural_map`, env hooks `PIMORPH_DECODER_PARAMS` and `PIMORPH_NEURAL_TTA`. Held-out hCEC vertex F1 0.611 to 0.680 (Cellpose-SAM 0.635); FlyWing 0.875; alizarine 0.992; HAEC 0.352.

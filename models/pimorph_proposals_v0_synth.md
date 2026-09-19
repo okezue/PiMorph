@@ -1,5 +1,7 @@
 # pimorph_proposals_v0_synth.pt
 
+The checkpoint file is not in the repository: `python scripts/fetch_zenodo.py --models` downloads it from the PiMorph Zenodo data record (md5-verified) into `models/`.
+
 Multi-head UNet proposal model (`pimorph.infer.neural.model.MultiHeadUNet`, base 32, depth 4, 8,643,270 parameters).
 
 - Stage 1 only: 40 epochs on 2000 synthetic 512x512 tiles (`pimorph synth`, seeds 1000 to 1007), validated on 200 synthetic tiles (seed 777). No real data seen.

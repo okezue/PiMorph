@@ -1,5 +1,7 @@
 # pimorph_proposals_v2_endo.pt
 
+The checkpoint file is not in the repository: `python scripts/fetch_zenodo.py --models` downloads it from the PiMorph Zenodo data record (md5-verified) into `models/`.
+
 Multi-head UNet proposal model (`pimorph.infer.neural.model.MultiHeadUNet`, base 48, depth 4, 19,441,446 parameters). First PiMorph model trained on endothelial ground truth.
 
 - Resumed from `pimorph_proposals_v1_multi.pt` (epoch 60) and fine-tuned to epoch 100 (40 epochs) on the xAI devbox (8x H100, `torchrun` DDP, batch 8 per GPU, AdamW 1.5e-4 x 8 cosine, AMP). Wall time 21 minutes. Log: `runs/neural/v2_endo/train_log.jsonl`.

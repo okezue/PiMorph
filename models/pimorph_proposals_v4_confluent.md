@@ -1,5 +1,7 @@
 # pimorph_proposals_v4_confluent.pt
 
+The checkpoint file is not in the repository: `python scripts/fetch_zenodo.py --models` downloads it from the PiMorph Zenodo data record (md5-verified) into `models/`.
+
 Multi-head UNet proposal model (`pimorph.infer.neural.model.MultiHeadUNet`, base 48, depth 4,
 19,441,446 parameters). `v3_endo` fine-tuned on confluent monolayers with real instance truth.
 

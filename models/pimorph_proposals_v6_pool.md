@@ -1,5 +1,7 @@
 # pimorph_proposals_v6_pool.pt
 
+The checkpoint file is not in the repository: `python scripts/fetch_zenodo.py --models` downloads it from the PiMorph Zenodo data record (md5-verified) into `models/`.
+
 Multi-head UNet proposal model (`pimorph.infer.neural.model.MultiHeadUNet`, base 48, depth 4,
 19,441,446 parameters). The recommended checkpoint for confluent monolayers with a bright
 membrane or junction channel. Lineage: `v1_multi` (synthetic + LIVECell + NeurIPS CellSeg) ->

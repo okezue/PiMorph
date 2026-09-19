@@ -62,3 +62,5 @@ data/flywing_denoiseg/
 data/rpe_nei/
 data/epicure/
 data/rescu_nets/
+output/
+models/*.pt
