@@ -107,20 +107,42 @@ def method_cellpose_sam(item: BenchItem) -> np.ndarray:
 
 _neural_proposer = None
 NEURAL_CHECKPOINT = os.environ.get("PIMORPH_NEURAL_CKPT", "models/pimorph_proposals_v0.pt")
+# optional decoder overrides for the neural methods, e.g. '{"vertex_weight": 0.5, "boundary_smooth_sigma": 1.0}'
+NEURAL_DECODER_PARAMS = json.loads(os.environ.get("PIMORPH_DECODER_PARAMS", "{}"))
+NEURAL_TTA = os.environ.get("PIMORPH_NEURAL_TTA", "0") not in ("", "0", "false", "False")
 
 
-def method_neural(item: BenchItem) -> np.ndarray:
-    """Neural proposal maps -> constrained decoder. Checkpoint from PIMORPH_NEURAL_CKPT."""
+def _neural_maps(item: BenchItem):
     global _neural_proposer
     from ..infer.neural.proposer import NeuralProposer
 
     if _neural_proposer is None:
-        _neural_proposer = NeuralProposer(NEURAL_CHECKPOINT)
+        _neural_proposer = NeuralProposer(NEURAL_CHECKPOINT, tta=NEURAL_TTA)
     g = geometry_for_bright_boundaries(item)
     maps = _neural_proposer(g, item.nuclei, tissue=tissue_for_item(item))
+    params = DecoderParams(cell_radius_px=float(maps.meta.get("cell_radius_px", 15.0)), **NEURAL_DECODER_PARAMS)
+    return g, maps, params
+
+
+def method_neural(item: BenchItem) -> np.ndarray:
+    """Neural proposal maps -> constrained decoder. Checkpoint from PIMORPH_NEURAL_CKPT,
+    decoder overrides from PIMORPH_DECODER_PARAMS (JSON), TTA from PIMORPH_NEURAL_TTA."""
+    _, maps, params = _neural_maps(item)
+    return ConstrainedDecoder(pixel_size_um=item.pixel_size_um).decode(maps, params).labels
+
+
+def method_neural_map(item: BenchItem) -> np.ndarray:
+    """Posterior MAP: the hypothesis grid plus merge/split moves scored by the full
+    energy (renderer likelihood, curve, soft priors); the lowest-energy complex wins.
+    Tests whether the energy chooses better than the single default decode."""
+    from ..infer.posterior import PosteriorEnsemble, generate_hypotheses
+
+    g, maps, params = _neural_maps(item)
     dec = ConstrainedDecoder(pixel_size_um=item.pixel_size_um)
-    params = DecoderParams(cell_radius_px=float(maps.meta.get("cell_radius_px", 15.0)))
-    return dec.decode(maps, params).labels
+    hyps = generate_hypotheses(maps, dec, params, image=g, n_merge_moves=4, n_split_moves=4)
+    if not hyps:
+        return dec.decode(maps, params).labels
+    return PosteriorEnsemble.from_hypotheses(hyps, ess_min=4).map_hypothesis.labels
 
 
 def method_cellpose_sam_filled(item: BenchItem) -> np.ndarray:
@@ -138,6 +160,7 @@ METHODS: Dict[str, Callable[[BenchItem], np.ndarray]] = {
     "cellpose_sam": method_cellpose_sam,
     "cellpose_sam_filled": method_cellpose_sam_filled,
     "neural": method_neural,
+    "neural_map": method_neural_map,
 }
 
 
@@ -186,14 +209,14 @@ def run_benchmark(
     methods = list(methods)
     for item in load_dataset(dataset, root=root, max_items=max_items):
         for method in methods:
-            if method in ("cellpose_sam", "cellpose_sam_filled", "neural"):
+            if method in ("cellpose_sam", "cellpose_sam_filled", "neural", "neural_map"):
                 from ..infer.cellpose_sam import cellpose_available
 
                 if not cellpose_available():
                     if verbose:
                         print(f"torch not installed; skipping {method}")
                     continue
-                if method == "neural" and not Path(NEURAL_CHECKPOINT).exists():
+                if method.startswith("neural") and not Path(NEURAL_CHECKPOINT).exists():
                     if verbose:
                         print(f"no checkpoint at {NEURAL_CHECKPOINT}; skipping neural")
                     continue

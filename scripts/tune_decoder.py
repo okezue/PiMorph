@@ -76,6 +76,7 @@ def main() -> int:
     ap.add_argument("--max-items", type=int, default=None)
     ap.add_argument("--out", required=True)
     ap.add_argument("--variants", default=None, help="JSON file: name -> [use_perm_tissue, params dict]")
+    ap.add_argument("--tta", action="store_true", help="dihedral test-time augmentation for the proposals")
     ap.add_argument(
         "--checkpoint", default=os.environ.get("PIMORPH_NEURAL_CKPT", "models/pimorph_proposals_v2_endo.pt")
     )
@@ -85,7 +86,7 @@ def main() -> int:
         variants = {k: (bool(v[0]), dict(v[1])) for k, v in json.load(open(args.variants)).items()}
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
-    prop = NeuralProposer(args.checkpoint)
+    prop = NeuralProposer(args.checkpoint, tta=args.tta)
     rows = []
     for item in load_dataset(args.dataset, root=args.root, max_items=args.max_items):
         g = geometry_for_bright_boundaries(item)

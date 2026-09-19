@@ -30,6 +30,10 @@ class DecoderParams:
     boundary_gamma: float = 1.0  # elevation = boundary ** gamma (matters only when mixed with distance)
     boundary_smooth_sigma: float = 0.0  # Gaussian smoothing of the boundary map before flooding
     distance_mix: float = 0.0  # elevation = (1-a) * boundary + a * (distance to nearest seed / cell_radius)
+    # elevation += vertex_weight * vertex probability: the flood fronts of three cells then
+    # meet where the vertex head predicts the junction, instead of wherever the thick
+    # boundary ridge happens to be lowest
+    vertex_weight: float = 0.0
     cell_radius_px: float = 15.0
     compactness: float = 0.0
     gap_threshold: float = 0.7  # pixels with gap >= threshold are excluded from cells
@@ -197,6 +201,8 @@ class ConstrainedDecoder:
         if params.boundary_smooth_sigma > 0:
             b = ndi.gaussian_filter(b, params.boundary_smooth_sigma)
         b = np.power(b, params.boundary_gamma)
+        if params.vertex_weight > 0 and maps.vertex is not None:
+            b = b + params.vertex_weight * np.clip(maps.vertex, 0.0, 1.0)
         if params.distance_mix > 0:
             d = ndi.distance_transform_edt(markers == 0) / max(params.cell_radius_px, 1.0)
             b = (1.0 - params.distance_mix) * b + params.distance_mix * np.clip(d, 0.0, 3.0) / 3.0

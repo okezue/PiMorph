@@ -124,6 +124,7 @@ class NeuralProposer:
         cell_to_nucleus_ratio: float = 2.5,
         nucleus_seeds: bool = True,
         nucleus_seed_score: float = 0.5,
+        tta: bool = False,
     ):
         self.checkpoint_path = Path(checkpoint_path)
         self.device = resolve_device(device)
@@ -138,6 +139,8 @@ class NeuralProposer:
         # in regions of weak membrane signal that annotators still split by nuclei)
         self.nucleus_seeds = bool(nucleus_seeds)
         self.nucleus_seed_score = float(nucleus_seed_score)
+        # test-time augmentation: average the raw heads over the 8 dihedral transforms
+        self.tta = bool(tta)
 
     def predict_raw(
         self, geometry: np.ndarray, nuclei: Optional[np.ndarray] = None, junction: Optional[np.ndarray] = None
@@ -145,7 +148,22 @@ class NeuralProposer:
         """(6, H, W) raw head outputs (logits / scaled regression) in HEADS order."""
         shape = np.asarray(geometry).shape
         x = build_input(geometry, nuclei, junction, shape, normalize=True)
-        return tiled_predict(self.model, x, self.tile, self.overlap, self.device, self.batch_size)
+        if not self.tta:
+            return tiled_predict(self.model, x, self.tile, self.overlap, self.device, self.batch_size)
+        acc = None
+        for k in range(4):
+            for flip in (False, True):
+                xt = np.rot90(x, k, axes=(1, 2))
+                if flip:
+                    xt = xt[:, :, ::-1]
+                out = tiled_predict(
+                    self.model, np.ascontiguousarray(xt), self.tile, self.overlap, self.device, self.batch_size
+                )
+                if flip:
+                    out = out[:, :, ::-1]
+                out = np.rot90(out, -k, axes=(1, 2))
+                acc = out.astype(np.float64) if acc is None else acc + out
+        return (acc / 8.0).astype(np.float32)
 
     def __call__(
         self,

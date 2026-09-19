@@ -54,6 +54,9 @@ class TrainConfig:
     p_junction: float = 0.9
     warmup_fraction: float = 0.03
     grad_clip: float = 1.0
+    vertex_focus: float = 0.0  # extra loss weight within vertex_focus_radius_px of true vertices
+    vertex_focus_radius_px: int = 5
+    use_loss_weight: bool = True  # honour per-tile loss_weight arrays (hard-example weights)
 
 
 def resolve_device(device: str = "auto") -> torch.device:
@@ -269,6 +272,9 @@ def train(cfg: TrainConfig) -> Path:
         num_workers=cfg.num_workers,
         seed=cfg.seed,
         distributed=is_dist,
+        vertex_focus=cfg.vertex_focus,
+        vertex_focus_radius_px=cfg.vertex_focus_radius_px,
+        use_loss_weight=cfg.use_loss_weight,
         **ds_kw,
     )
     # validation runs on rank 0 only (val sets are small)

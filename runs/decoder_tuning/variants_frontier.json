@@ -1,0 +1,78 @@
+{
+ "base": [
+  false,
+  {}
+ ],
+ "vw0.3": [
+  false,
+  {
+   "vertex_weight": 0.3
+  }
+ ],
+ "vw0.6": [
+  false,
+  {
+   "vertex_weight": 0.6
+  }
+ ],
+ "vw1.0": [
+  false,
+  {
+   "vertex_weight": 1.0
+  }
+ ],
+ "smooth1": [
+  false,
+  {
+   "boundary_smooth_sigma": 1.0
+  }
+ ],
+ "smooth1_vw0.6": [
+  false,
+  {
+   "boundary_smooth_sigma": 1.0,
+   "vertex_weight": 0.6
+  }
+ ],
+ "dist0.2": [
+  false,
+  {
+   "distance_mix": 0.2
+  }
+ ],
+ "dist0.2_vw0.6": [
+  false,
+  {
+   "distance_mix": 0.2,
+   "vertex_weight": 0.6
+  }
+ ],
+ "dist0.2_smooth1_vw0.6": [
+  false,
+  {
+   "distance_mix": 0.2,
+   "boundary_smooth_sigma": 1.0,
+   "vertex_weight": 0.6
+  }
+ ],
+ "seed0.4": [
+  false,
+  {
+   "seed_threshold": 0.4
+  }
+ ],
+ "seed0.5": [
+  false,
+  {
+   "seed_threshold": 0.5
+  }
+ ],
+ "seed0.4_smooth1_vw0.6": [
+  false,
+  {
+   "seed_threshold": 0.4,
+   "boundary_smooth_sigma": 1.0,
+   "vertex_weight": 0.6
+  }
+ ]
+}

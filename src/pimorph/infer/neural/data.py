@@ -17,6 +17,7 @@ from pathlib import Path
 from typing import Iterable, List, Optional, Sequence, Tuple, Union
 
 import numpy as np
+from scipy import ndimage as ndi
 import pandas as pd
 import torch
 from torch.utils.data import DataLoader, Dataset
@@ -77,6 +78,9 @@ class TileDataset(Dataset):
         p_nuclei: float = 0.85,
         p_junction: float = 0.9,
         seed: int = 0,
+        vertex_focus: float = 0.0,
+        vertex_focus_radius_px: int = 5,
+        use_loss_weight: bool = True,
     ):
         self.paths = [Path(p) for p in paths]
         if not self.paths:
@@ -87,6 +91,14 @@ class TileDataset(Dataset):
         self.p_nuclei = float(p_nuclei)
         self.p_junction = float(p_junction)
         self.seed = int(seed)
+        # loss weight 1 + vertex_focus within vertex_focus_radius_px of every true
+        # multicellular vertex: the three boundary branches meeting there decide whether
+        # the vertex exists at all in the decoded complex
+        self.vertex_focus = float(vertex_focus)
+        self.vertex_focus_radius_px = int(vertex_focus_radius_px)
+        # per-tile ``loss_weight`` arrays written by scripts/make_vertex_miss_weights.py
+        # (hard-example weights around vertices the current model misses or invents)
+        self.use_loss_weight = bool(use_loss_weight)
         self._epoch = 0
 
     def __len__(self) -> int:
@@ -114,7 +126,8 @@ class TileDataset(Dataset):
                 ]
             )
             ignore = z["ignore"].astype(bool) if "ignore" in z.files else np.zeros(junction.shape, dtype=bool)
-        return junction, membrane, nuclei, targets, ignore
+            lw = z["loss_weight"].astype(np.float32) if self.use_loss_weight and "loss_weight" in z.files else None
+        return junction, membrane, nuclei, targets, ignore, lw
 
     def _crop_window(self, shape: Tuple[int, int], rng: np.random.Generator) -> Tuple[slice, slice, Tuple]:
         H, W = shape
@@ -148,7 +161,7 @@ class TileDataset(Dataset):
 
     def __getitem__(self, index: int):
         rng = self._rng(index)
-        junction, membrane, nuclei, targets, ignore = self._load(index)
+        junction, membrane, nuclei, targets, ignore, loss_weight = self._load(index)
         H, W = junction.shape
 
         # eval mode is deterministic and mirrors the common real case: geometry is the
@@ -164,7 +177,16 @@ class TileDataset(Dataset):
             robust_normalize(junction) if keep_junction else None,
         ]
         x = build_input(chans[0], chans[1], chans[2], (H, W), normalize=False)
-        w = (~ignore).astype(np.float32)[None]
+        w = (~ignore).astype(np.float32)
+        if self.vertex_focus > 0:
+            # targets[3] is the vertex heatmap (sigma 2 px); dilate its core to the radius
+            core = targets[3] > 0.5
+            if core.any():
+                near = ndi.distance_transform_edt(~core) <= self.vertex_focus_radius_px
+                w = w * (1.0 + self.vertex_focus * near.astype(np.float32))
+        if loss_weight is not None:
+            w = w * loss_weight
+        w = w[None]
 
         rs, cs, pads = self._crop_window((H, W), rng)
         x = self._pad(x, pads)[:, rs, cs]
