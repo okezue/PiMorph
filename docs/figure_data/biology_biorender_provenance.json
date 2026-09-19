@@ -1,0 +1,10 @@
+{
+  "figure": "docs/figures/biology_biorender.png",
+  "kind": "AI-assisted conceptual biological schematic; not microscopy or measured molecular geometry",
+  "tool": "BioRender",
+  "editor_url": "https://app.biorender.com/illustrations/952520c72c842c3e36ac5b90?slideId=bd997741-5662-a8b5-cfed-5eac3296d676",
+  "credit": "Created with BioRender.com",
+  "interpretation": "Endothelial cells, adherens junction proteins, actin links, contacts, vertices and an enclosed gap. Molecular depiction is conceptual; PiMorph samples optical marker signals and does not resolve individual adhesion molecules.",
+  "review": "Revised after visual review to remove ambiguous leaders. All panels are conceptual, not registered experimental geometry; only panel letters remain.",
+  "terms": "BioRender artwork terms are separate from the software MIT license."
+}

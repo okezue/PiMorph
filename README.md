@@ -1,229 +1,170 @@
-# EndoPiGraph-AJmorph v1
+# PiMorph
 
-EndoPiGraph-AJmorph v1 is a validated tool for building **typed endothelial contact graphs** ("pi-graphs") and extracting **adherens junction (AJ) morphology features** from fluorescence microscopy.
+**Reconstruct cell contacts, multicellular vertices, and junction organization from microscopy.**
 
-It is designed to run on BioImage Archive datasets (e.g. **S-BIAD1540**) and to produce:
+PiMorph turns a labelled cell image into an embedded cell complex: cells and enclosed gaps are faces, connected interfaces are edges, and multicellular junctions are vertices. It also reconstructs these objects from fluorescence images using classical or learned proposals, samples molecular signals along interfaces, and measures uncertainty across alternative reconstructions.
 
-- instance segmentation masks (cells)
-- a cell-cell contact graph (neighbors)
-- edge attributes for junction markers (AJ/TJ/GJ/NJ if present)
-- AJ morphology features per interface (occupancy, cluster density, etc.)
-- data-driven junction morphology classification (GMM clustering)
-- publication-ready QC figures and a lightweight HTML report
+![PiMorph converts image channels into cell geometry and junction measurements.](docs/figures/methods_in_action.png)
 
----
+*An executable synthetic example of the analysis: rendered microscopy, proposal maps, reconstructed cells and interfaces, and the molecular profile along a selected contact. These simulated images illustrate the method; experimental examples and quantitative evaluations are in the [study explainer](EXPLAINER.md).*
 
-## Validation
+**[Read the full study → EXPLAINER.md](EXPLAINER.md)** · **[Model cards](models/README.md)** · **[Archived results and checkpoints](https://doi.org/10.5281/zenodo.22839867)** · **[Editable SVGs and publication PDFs](docs/figures/)**
 
-Adjacency extraction validated on three independent datasets with ground-truth instance masks:
+## Install
 
-| Dataset | Modality | Images | F1 | Precision | Recall |
-|---------|----------|--------|----|-----------|--------|
-| **LIVECell** | Phase-contrast | 50 | **78.4%** | 98.0% | 67.4% |
-| **NuInsSeg** | H&E histopathology | 80 | **82.2%** | 93.8% | 74.9% |
-| **Cornea Cells** | Specular microscopy | 160 | **93.1%** | 99.7% | 87.4% |
-
-EndoPiGraph outperforms competing approaches on the Cornea Cells benchmark:
-
-| Method | F1 | Time (160 images) |
-|--------|----|----|
-| **EndoPiGraph** | **93.1%** | **10.4s** |
-| Delaunay + verify | 80.1% | 2.7s |
-| Dilation (2px) | 46.7% | 128.4s |
-| Centroid distance | 35.6% | 4.3s |
-
-Additional validation:
-- **Blur robustness**: 93.3% label consistency under 1-2px Gaussian blur (vs 46.9% Junction Mapper)
-- **Network statistics**: 3 network-level findings (per-image replicate testing: Mann-Whitney U, bootstrap CIs). These are measured graph quantities (reticular edge fraction, all-reticular 3-clique fraction, area-degree correlation); their biological interpretation (junction maturation, adhesion, barrier function) is hypothesized, not validated. See `NETWORK_DISCOVERIES.md`.
-- **Unit tests**: 107 tests covering all modules (pytest + CI)
-
----
-
-## PiMorph complex (v1.1, in development)
-
-`src/pimorph/` is the new canonical package (import `pimorph`, CLI `pimorph`). It replaces the 4-neighbor
-pixel-contact adjacency of `endopigraph` with an exact embedded cell complex and adds uncertainty-aware
-inference. The legacy package stays and is fed through adapters: `pimorph.io.legacy` writes the same
-`cells.csv`, `edges.csv`, and GraphML that `scripts/harden_network_stats.py` and the labeler read.
-Everything below is implemented and tested under `tests/pimorph/`; the linked docs list what is not.
-
-- **Exact half-edge cell complex** from any label image (`pimorph.complex.extract_complex`). Faces are
-  cells, enclosed gaps, and one outer face; one edge per connected contact component (two disconnected
-  contacts between the same cells are two edges); vertices where 3 or 4 cracks meet, with exact cyclic
-  order. `validate()` checks `B1 @ B2 == 0`, two faces per edge, consistent vertex links, and a zero
-  Euler residual. This is the only hard constraint in the system. Conventions: [`docs/COMPLEX.md`](docs/COMPLEX.md).
-- **Subpixel geometry.** Endpoint-fixed smoothing removes the staircase bias of pixel-count contact
-  lengths: a diagonal boundary measures 41 % too long as a crack trace and 0.05 % off after smoothing;
-  a disk perimeter is within 0.24 %.
-- **Exact identities as QC:** Euler residual, boundary-corrected defect law, Weaire sum rule, topological charge.
-- **Event library** (`pimorph.complex.events`): T1 exchange, contact birth and death, division,
-  extrusion (T2), gap nucleation, rupture, reseal, each with preconditions and an asserted `(dV, dE, dF)`.
-  Operations only; no movie tracking yet.
-- **Fields on the complex** (`pimorph.fields`): oriented strip sampling along each interface, arclength
-  profiles `z_e(s)` (occupancy, continuity, width, left and right side intensity), and functionals that
-  reproduce the legacy `AJ_*` features.
-- **Inference chain** (`pimorph.infer`): proposal maps (classical filters or a neural multi-head UNet),
-  a constrained watershed decoder that emits a valid complex by construction, an energy whose
-  biological terms (one nucleus per cell, trivalent vertices, area and aspect priors) are soft and
-  zeroable, and a posterior ensemble of legal complexes with contact probabilities, cell probabilities,
-  vertex credible radii, and credible intervals for any statistic. See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
-- **Structural metrics and benchmarks** (`pimorph.metrics`, `pimorph.bench`): adjacency P/R/F1 with
-  multiplicity, vertex localization, incident-set and cyclic-order accuracy, PQ, VI, boundary F1,
-  validity fraction, plus ECE, Brier, and risk-coverage curves for probabilities. Current tables and
-  their caveats (cornea GT is derived and over-segmented, LIVECell slivers filled at 12 px, the classical
-  proposer fails on phase contrast without nuclei): [`docs/BENCHMARKS.md`](docs/BENCHMARKS.md).
-- **Synthetic tissues and neural proposals** (`pimorph.synth`, `pimorph.infer.neural`): Lloyd-relaxed
-  anisotropic Voronoi sheets with gaps and broken junctions rendered through a PSF and noise model with
-  exact targets; a six-channel UNet (geometry, nuclei, junction plus presence indicators) with boundary,
-  distance, seed, vertex, gap, and log-sigma heads, trained with `python -m pimorph.infer.neural.train`.
-  Three checkpoints are committed (LFS) with model cards under `models/`: a synthetic-only stage 1, a stage 2
-  fine-tuned on real pseudo-labels, and `v1_multi`, trained on 8x H100 with real instance ground truth from
-  LIVECell and NeurIPS CellSeg. Through the same decoder on held-out synthetic tiles the learned proposals
-  reach adjacency F1 0.86 to 0.89 vs 0.37 to 0.45 for the classical filters; on held-out LIVECell phase
-  contrast v1_multi reaches 0.23 vs 0.62 for Cellpose-SAM (400 images each; [`docs/SCALE_RESULTS.md`](docs/SCALE_RESULTS.md)).
-  On held-out human aortic endothelial fields with instance truth (corrected reference), `v3_endo` reaches
-  adjacency F1 0.51, vertex F1 0.26 (95 predicted vs 92 true vertices per field), PQ 0.60 and boundary F1 0.84
-  vs 0.31 / 0.04 / 0.47 / 0.71 for Cellpose-SAM ([`docs/ENDOTHELIAL_RESULTS.md`](docs/ENDOTHELIAL_RESULTS.md)).
-  See [`docs/NEURAL_PROPOSALS.md`](docs/NEURAL_PROPOSALS.md); GPU training on AWS follows
-  [`docs/AWS_RUNBOOK.md`](docs/AWS_RUNBOOK.md) (named profile, tag-scoped cleanup, no keys in the repo).
-- **Multicellular vertices against real truth on confluent monolayers** ([`docs/CONFLUENT_BENCHMARK.md`](docs/CONFLUENT_BENCHMARK.md)):
-  four truth sets that did not exist in the project before (`hcec`: manually traced human corneal endothelial monolayers
-  with NCAM + DAPI, about 1,700 cells and 3,000 tricellular vertices per field; `alizarine`: expert-contoured porcine
-  corneal endothelium; `flywing`: E-cadherin Drosophila epithelium; `rpe_zo1`: NIH-NEI RPE monolayers with 6,883
-  manually traced cells), all scored on field-disjoint held-out splits. After training for topologically missed
-  vertices (hard-example weights around true vertices the decoder misses), nucleus-consistency merges, the vertex head
-  in the watershed elevation and test-time augmentation, `v6_pool` leads Cellpose-SAM on the cultured endothelial
-  monolayer on every structural metric (vertex F1 0.680 vs 0.635, adjacency 0.867 vs 0.830, PQ 0.816 vs 0.790, boundary
-  F1 0.916 vs 0.880, 3,014 predicted vs 2,974 true vertices), reaches vertex F1 0.99 on corneal endothelium in situ and
-  0.875 on FlyWing (Cellpose-SAM 0.849, but better adjacency 0.966 vs 0.911), and 0.35 on sub-confluent HAEC (Cellpose-SAM
-  0.04). Real PECAM-1 HUVEC monolayers (495 fields) are in the training pool as consensus pseudo-labels. The decoder
-  excludes pixels the signed-distance head places outside every cell (open background was being flooded, which produced
-  about 12 false vertices per true one on HAEC) and adds nuclear peaks as seeds where the seed head is silent. The search
-  that found these sets, and the negative verdict on public VE-cadherin monolayers with expert masks, is in
-  [`docs/DATASET_HUNT_2026-09-18.md`](docs/DATASET_HUNT_2026-09-18.md).
-- **Later blueprint phases** ([`docs/LATER_PHASES.md`](docs/LATER_PHASES.md)): `pimorph.dynamics` (IoU/Hungarian
-  tracking, exact event detection with summed `(dV, dE, dF)` admissibility; T1 F1 0.91 against the TissueMiner
-  database), `pimorph.mechanics` (vertex model, force inference with curvature-pressure rows; tension Pearson 1.00
-  noiseless, 0.88 at 0.5 px noise), `pimorph.complex3d` (3-D crack complex with exact `B1 B2 = 0`, `B2 B3 = 0`,
-  quadruple points, per-cell Euler, curved-surface monolayers), `pimorph.fields.multichannel` and `pimorph.function`
-  (VE-cadherin + claudin-5 + F-actin vector states on S-BIAD1169, resistor-network transport proxy flagged
-  `validated: False`).
-- **Shear findings re-tested with posteriors on all 102 EGM2 fields** (`NETWORK_DISCOVERIES.md`, top section):
-  the reticular-fraction increase at 6 dyn cm^-2 survives (p = 2.6e-9, consistent in all three replicates, high shear
-  distinct); the all-reticular 3-clique increase is explained entirely by the reticular fraction (conditional-null
-  enrichment z 0.00 vs 0.03, p = 0.95); the area-degree correlation strengthening does not replicate (0.72 vs 0.75,
-  p = 0.43). About 95% of graph 3-cliques are realized by a multicellular vertex.
-
-Data notes that changed since v1.0. The VE-strat manifest had the channels backwards (`w2` is
-VE-cadherin, `w4` is nuclei), which is why the legacy run found zero contacts;
-`data/ve_strat/manifest_paired.csv` pairs both files per site. On S-BIAD1540 and VE-strat the junction
-channel doubles as the geometry channel, and outputs record `geometry_source = junction_channel`
-because scoring junction continuity along boundaries found with the same signal is circular.
-`NETWORK_DISCOVERIES.md` now separates measured graph quantities from hypothesized biology and reports
-3-cliques (not "triangles") against a conditional null.
-
-Quickstart:
+Python 3.12 is the recommended environment. The distribution is still named `endopigraph-ajmorph`; the current import and command are `pimorph`. The `endopigraph` command preserves the earlier graph pipeline.
 
 ```bash
-uv venv --python 3.12 .venv && source .venv/bin/activate
-uv pip install -e ".[dev,ml,complex]"          # add torch for neural proposals, aws for boto3
-pimorph validate --labels path/to/labels.tif   # validity report, defect law and Weaire residuals
-pimorph reconstruct --manifest data/ve_strat/manifest_paired.csv --out runs/pimorph_ve_strat --posterior
-pimorph benchmark --dataset synth --root data/tiles/synth_val --methods classical --out runs/pimorph_bench
-pimorph synth --n 200 --out data/tiles/synth_val --shape 512
-pytest tests/pimorph -q                        # torch tests skip when torch is absent
-```
-
----
-
-## Installation
-
-```bash
-python -m venv .venv                 # or: uv venv --python 3.12 .venv  (recommended; system Python 3.14 has no torch or cellpose wheels)
+git clone https://github.com/okezue/PiMorph.git
+cd PiMorph
+python3.12 -m venv .venv
 source .venv/bin/activate
-pip install -e ".[dev]"           # core + tests
-pip install -e ".[cellpose]"      # optional: deep learning segmentation
-pip install -e ".[complex]"       # pimorph complex extras: shapely, pyarrow, zarr, ome-zarr, hypothesis, numba
-pip install -e ".[torch]"         # pimorph neural proposals and Cellpose-SAM: torch, torchvision, cellpose>=4
-pip install -e ".[aws]"           # boto3 for the AWS training runbook
+python -m pip install -e '.[dev,complex]'
 ```
 
----
+For learned reconstruction and Cellpose-SAM comparisons, install `python -m pip install -e '.[torch]'`. PyTorch and Cellpose are optional for the classical pipeline and label-to-complex extraction. Cloud training dependencies are in `.[aws]`; operational instructions are in the [AWS runbook](docs/AWS_RUNBOOK.md).
 
-## Quickstart: run on S-BIAD1540
+## Run a complete example
+
+This CPU example creates a small simulated endothelial sheet with separate membrane, nuclear, and junction channels. It requires no external images or checkpoint.
+
+```bash
+python examples/pimorph_demo.py
+pimorph validate --labels output/demo_input/labels_truth.tif
+pimorph reconstruct \
+  --manifest output/demo_input/manifest.csv \
+  --out output/demo_reconstruction
+pimorph validate --labels output/demo_reconstruction/synthetic_demo/labels.tif
+```
+
+The first validation checks the known simulated labels. The second checks the reconstructed representation. A valid complex can still contain incorrect cells, contacts, or gaps: topological consistency is a separate question from agreement with ground truth.
+
+Add `--posterior` to `reconstruct` to evaluate alternative legal reconstructions. `--moves` controls how many split and merge candidates are attempted; `--ess` sets the target effective sample size for the finite ensemble. Its intervals describe uncertainty within that candidate family, rather than a calibrated probability of biological correctness.
+
+## Analyze your microscopy
+
+Create a CSV with one row per field of view. Separate single-channel files make channel roles explicit; paths are relative to the manifest's directory.
+
+```csv
+image_id,path_geometry,path_nuclei,path_junction,geometry_source,pixel_size_um,condition,replicate
+field_01,membrane.tif,dapi.tif,ve_cadherin.tif,membrane_channel,0.325,control,1
+```
+
+The `pixel_size_um` value above is an example; use your acquisition calibration. Verify the recorded scale against microscope metadata or a scale bar. TIFF print-resolution tags may not describe physical microscopy spacing, and a manifest value does not override every TIFF-derived scale in the current reader.
+
+Use a membrane channel to locate boundaries when available, a nuclear channel for additional seed evidence, and a junction channel for interface measurements. If VE-cadherin supplies both geometry and junction signal, use the same path twice and set `geometry_source` to `junction_channel`. That coupling is recorded because measuring continuity on boundaries located from the same signal introduces selection bias. A nuclei file is optional. Multichannel TIFF manifests with `path` and `channel_1`, `channel_2`, … are also supported; inspect the inferred roles before a large run.
+
+```bash
+# Classical reconstruction; no trained weights needed.
+pimorph reconstruct --manifest data/my_fields.csv --out output/my_fields --posterior
+
+# Learned proposals, followed by the constrained decoder.
+python scripts/fetch_zenodo.py --models
+pimorph reconstruct \
+  --manifest data/my_fields.csv \
+  --checkpoint models/pimorph_proposals_v6_pool.pt \
+  --out output/my_fields_neural
+```
+
+`v6_pool` is the current in-domain checkpoint for bright membrane/junction images of monolayers. Its reliability depends on tissue, confluence, image scale, and acquisition. Consult the [model cards](models/README.md) before applying it to a new domain. `--crop R0 R1 C0 C1`, `--max-items N`, `--ids ID ...`, and `--downsample N` support smaller trials; downsampling changes both the image and coordinate scale. The benchmark's tuned decoder settings and test-time augmentation are not automatically applied by `reconstruct`.
+
+## Outputs
+
+Each field gets a subdirectory; `run_report.csv` summarizes the run.
+
+| File | Contents |
+|---|---|
+| `labels.tif` | Reconstructed integer cell labels; zero is background |
+| `complex.json` | Full half-edge complex, incidence, and raw/smoothed geometry |
+| `cells.csv` | Canonical cell-face geometry, areas, side counts, and identifiers |
+| `interfaces.csv` | Individual connected interface components, face incidence, lengths, and interface type |
+| `vertices.csv` | Vertex locations, degree, incident cells, and artificial-vertex flag |
+| `gaps.csv` | Enclosed-background geometry and surrounding cells |
+| `provenance.json` | Channel roles, calibration, proposer, coordinate scale, and extraction metadata |
+| `edges.csv`, graph exports | Legacy-style cell-pair contact and AJ feature outputs |
+| `posterior_summary.json`, `contact_probabilities.json`, `vertex_credible.json` | Additional outputs with `--posterior`: candidate weights/summary, contact existence weights, and conditional vertex spread |
+
+Rows in `interfaces.csv` preserve disconnected contacts between the same two cells. A simple graph can merge those contacts and loses cyclic order and gap geometry. Vertex coordinates are stored as `(row, col)`; geometry is in pixels unless calibrated columns are available.
+
+The current reconstruction CLI writes canonical `cells.csv` after the legacy adapter, replacing the legacy cell-table schema. Consumers requiring legacy columns should use `write_legacy_outputs` in a separate output directory. Legacy-style AJ feature names also do not guarantee identical numerical definitions between the two pipelines; the [explainer](EXPLAINER.md) distinguishes these measurements.
+
+## Work from existing labels
+
+```python
+import tifffile
+from pimorph.complex import extract_complex, validate
+from pimorph.complex.geometry import smooth_complex
+from pimorph.io import complex_tables, write_tables
+
+labels = tifffile.imread('my_labels.tif')  # 2-D integers; background 0
+complex_ = extract_complex(labels, pixel_size_um=0.325)  # use your true scale
+assert validate(complex_).ok
+smooth_complex(complex_)
+write_tables(complex_tables(complex_, labels=labels), 'output/my_complex', fmt='csv')
+```
+
+The library also exposes strip-based junction profiles, cell tracking and event detection, relative force inference, 3-D complexes, and multichannel transport proxies. Their APIs and the scope of their validation are described in [EXPLAINER.md](EXPLAINER.md). Those capabilities are library modules and analysis scripts, not additional `pimorph` CLI subcommands.
+
+## Benchmarks and tests
+
+Generate labelled synthetic tiles and run the benchmark harness:
+
+```bash
+pimorph synth --n 8 --shape 192 --seed 17 --out output/synthetic_tiles
+pimorph benchmark --dataset synth --root output/synthetic_tiles \
+  --methods classical --out output/synthetic_benchmark
+python -m pytest tests/ -q
+```
+
+Neural benchmarking uses `PIMORPH_NEURAL_CKPT`; the published settings additionally use dataset-specific decoder overrides, test-time augmentation, ROI handling, and explicit split lists. [Model cards](models/README.md) and [the final benchmark script](infra/xai/run_final_bench.sh) record that protocol. A fresh run with default settings is not a reproduction of the final tuned table.
+
+The study reports image-level structural accuracy across several domains. On five held-out hCEC fields, `v6_pool` has mean vertex F1 **0.680**, adjacency F1 **0.867**, PQ **0.816**, and boundary F1 **0.916**; the corresponding Cellpose-SAM values are **0.635 / 0.830 / 0.790 / 0.880**. These are development-era, field-disjoint comparisons within a small dataset, with heterogeneous per-field gains. Other domains and metrics favor Cellpose-SAM. See the [paired results, split definitions, and limitations](EXPLAINER.md), rather than interpreting these numbers as universal accuracy.
+
+## Legacy EndoPiGraph pipeline
+
+The original command remains available for reproducibility:
 
 ```bash
 endopigraph download --accession S-BIAD1540 --out data/raw --method print
 endopigraph make-manifest --input data/raw/S-BIAD1540 --out data/manifest.csv
 cp examples/config_sbiad1540.yaml config.yaml
+# Obtain the listed images, then review paths, channels, calibration, and segmentation settings.
 endopigraph run --config config.yaml
 ```
 
----
+`--method print` prints download instructions; it does not download the images. The example configuration selects Cellpose, requiring the optional `cellpose`/`torch` dependencies. The legacy pipeline produces graph/QC reports and AJ morphology features. Its heuristic state names are feature-derived labels, not expert-validated junction classes. GMM clustering is available through `endopigraph.cluster_junctions_gmm` with the `ml` extra.
 
-## AJmorph features (per interface)
+## Data and reproducibility
 
-Given a segmentation mask and an AJ marker channel, for each contacting pair of cells `(i, j)`:
+The audited release is **[Zenodo version 1.1.0, record 22839867](https://doi.org/10.5281/zenodo.22839867)**. The [concept DOI](https://doi.org/10.5281/zenodo.22839866) follows newer versions.
 
-- `contact_px` : shared boundary length (pixel units)
-- `aj_mean`, `aj_median`, `aj_max`, `aj_std` : intensity statistics
-- `aj_occupancy` : fraction of interface pixels above threshold
-- `aj_cluster_count` : connected components (+ h-maxima robust variant)
-- `aj_skeleton_len`, `aj_skeleton_endpoints`, `aj_skeleton_branch_points` : skeleton topology
-- `aj_thickness_proxy` : area / skeleton length ratio
-- `aj_complexity_score` : weighted topological complexity
+| Archive | Download size | Contents |
+|---|---:|---|
+| `pimorph_results.tar` | 996.5 MB | Per-field metrics, summary tables, shear ensembles, QC images, dynamics/mechanics/multichannel outputs, and historical documents |
+| `pimorph_models.tar` | 536.4 MB | Proposal checkpoints, cards, training configurations, and logs |
+| `pimorph_training_tiles.tar` | 1,583.9 MB | Synthetic validation tiles and released real-image pseudo-label tiles |
 
-Blur-stable subset (Cohen's d < 0.3): `mean_intensity`, `occupancy`, `median_intensity`
-
----
-
-## AJ morphology classification
-
-Two approaches available:
-
-**1. Data-driven (recommended):** Gaussian Mixture Model clustering with BIC-selected k, bootstrap stability assessment, and GroupKFold cross-validation:
-
-```python
-from endopigraph import cluster_junctions_gmm
-edges_df, meta = cluster_junctions_gmm(edges_df, prefix="AJ_", blur_robust=True)
-```
-
-**2. Heuristic (legacy):** Threshold-based rules mapping features to classes (straight, thick, reticular, fingers, etc.). Retained for backward compatibility but not recommended for publication.
-
----
-
-## Running tests
+`python scripts/fetch_zenodo.py --only pimorph_results.tar` downloads and verifies the results archive. The helper resolves the concept record, so record the version and checksum it prints. Extraction preserves the current root, `docs/`, and `models/` Markdown by default while retaining run-specific reports. Use `--include-archived-docs` only for an intentional historical restore:
 
 ```bash
-pytest tests/ -v
-ruff check src/ tests/
+python scripts/fetch_zenodo.py --only pimorph_results.tar --extract
 ```
 
----
+Third-party images and annotation sources have their own terms; source links, preparation steps, and evaluation units are catalogued in [EXPLAINER.md](EXPLAINER.md). Git LFS pointers are not image pixels. The figure scripts use compact committed source tables plus the identified image panels; figure provenance and editable sources are linked in the explainer.
 
-## Data availability
+## Repository guide
 
-The repository holds the code, the tests and small derived tables. Checkpoints, the complete benchmark
-outputs and the training tiles are too large for git and live in the PiMorph data record on Zenodo:
-**[10.5281/zenodo.22839866](https://doi.org/10.5281/zenodo.22839866)** (concept DOI, always resolves to the newest version,
-currently 1.1.0, record [10.5281/zenodo.22839867](https://doi.org/10.5281/zenodo.22839867)).
+| Path | Purpose |
+|---|---|
+| `src/pimorph/` | Cell complexes, inference, fields, metrics, dynamics, mechanics, 3-D, and function modules |
+| `src/endopigraph/` | Original graph and AJ morphology pipeline |
+| `tests/` | Existing unit, property, integration, and optional data/torch tests |
+| `scripts/`, `examples/` | Analysis, data preparation, figure generation, and runnable examples |
+| `docs/figures/`, `docs/figure_data/` | Publication figures and their compact source data/provenance |
+| `runs/` | Historical and current machine-readable results; generated reports retain their run context |
+| `models/README.md` | Consolidated checkpoint cards and training lineage |
+| `infra/` | Training and infrastructure scripts |
 
-| file | size | contents |
-|---|---|---|
-| `pimorph_models.tar` | 536 MB | eight proposal checkpoints `pimorph_proposals_v0_synth.pt` to `v6_pool.pt` with their cards, training logs and configurations; extracts into `models/` and `runs/neural/` |
-| `pimorph_results.tar` | 997 MB | every benchmark output: held-out tables for HAEC, mCellSeg, hCEC, alizarine, FlyWing and RPE, decoder tuning tables, the shear re-test posteriors for all 102 EGM2 fields, the legacy per-field outputs, the multi-junction, dynamics and mechanics reports, figures and the result documents; extracts into `runs/` and `docs/` |
-| `pimorph_training_tiles.tar` | 1,584 MB | 200 synthetic validation tiles, 177 S-BIAD1540 and VE-strat pseudo-label tiles, 1,200 real PECAM-1 HUVEC consensus pseudo-label tiles; extracts into `data/tiles/` |
+## Citation and terms
 
-Third-party images and their ground truth are not redistributed; `docs/DATASET_HUNT_2026-09-18.md` lists
-every source with its licence and URL and the loaders read them in place. The 8,000 synthetic training
-tiles are regenerated exactly by `pimorph synth` with the seeds in `infra/xai/run_scale.sh`.
-
-```bash
-python scripts/fetch_zenodo.py --models                              # checkpoints into models/, md5-verified
-python scripts/fetch_zenodo.py --only pimorph_results.tar --extract  # tables and figures into runs/
-python scripts/publish_zenodo.py --version 1.1.0 --file ... --description-file ...   # new versions (maintainers)
-```
-
-## Citation and status
-
-Please credit Okezue Bell (okezue@stanford.edu) and Anthony Bell for this work when used.
+Please credit **Okezue Bell** (okezue@stanford.edu) and **Anthony Bell**, cite the specific [Zenodo release](https://doi.org/10.5281/zenodo.22839867), and cite the original datasets used in your analysis. [CITATION.cff](CITATION.cff) provides citation metadata for the earlier software v1.0.0 release ([Zenodo 19831621](https://doi.org/10.5281/zenodo.19831621)); it is distinct from the v1.1.0 data archive and the current development code. Code is under the [MIT license](LICENSE); dataset, checkpoint-source, and BioRender artwork terms are separate. The [study explainer](EXPLAINER.md) records attribution and evidence limitations.

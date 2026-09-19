@@ -2,6 +2,15 @@
 
 ## v1.1.0.dev0 (unreleased)
 
+### Consolidated study documentation
+
+- Consolidated study methods, current and historical results into `EXPLAINER.md`, with a usage-focused README and one model card covering all eight archived checkpoints.
+- Added seven inspected biological/method/result figures, reproducible source tables, figure scripts and an executable synthetic example.
+- Audited Zenodo results and model payloads and corrected benchmark, uncertainty, split and biological-interpretation claims.
+- Archive extraction now preserves current narrative Markdown by default; `--include-archived-docs` explicitly restores historical documentation.
+- Earlier entries retain their historical filenames and measurements. Current locations are recorded in `docs/figure_data/documentation_map.json`.
+
+
 ### 2026-09-19: data moved to Zenodo
 - Checkpoints, complete benchmark outputs and training tiles live in the PiMorph Zenodo data record (`scripts/publish_zenodo.py` creates and versions it, `scripts/fetch_zenodo.py --models` fetches and md5-verifies; concept DOI 10.5281/zenodo.22839866, first version 1.1.0 at 10.5281/zenodo.22839867). `models/*.pt` is no longer tracked (`.gitattributes` drops the LFS rule, `.gitignore` ignores fetched checkpoints); the unpushed history was rewritten so that no new Git LFS object is needed. README "Data availability" section.
 

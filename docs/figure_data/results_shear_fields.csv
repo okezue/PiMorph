@@ -1,0 +1,307 @@
+image_id,condition,replicate,statistic,mean,ci_lo,ci_hi,n_hypotheses_total,ess
+060721_EGM2_18dyn03,high_shear,rep1,reticular_fraction,0.00103496956534,0,0.003861003861,24,4
+060721_EGM2_18dyn03,high_shear,rep1,area_degree_spearman,0.377585306657,0.332478444338,0.409344272776,24,4
+060721_EGM2_18dyn03,high_shear,rep1,all_reticular_3clique_enrichment_z,0,0,0,24,1.0404379864
+EGM2_regular_18-20dyn-01,high_shear,rep 1,reticular_fraction,0.15009035152,0.149350649351,0.150655021834,32,4
+EGM2_regular_18-20dyn-01,high_shear,rep 1,area_degree_spearman,0.608617142207,0.588847260738,0.629172417474,32,4
+EGM2_regular_18-20dyn-01,high_shear,rep 1,all_reticular_3clique_enrichment_z,-0.00936117331978,-0.0397591030461,0.0377120586488,32,4
+EGM2_regular_18-20dyn-02,high_shear,rep 1,reticular_fraction,0.168527741843,0.167010309278,0.170478170478,29,4
+EGM2_regular_18-20dyn-02,high_shear,rep 1,area_degree_spearman,0.791878796434,0.78686198859,0.798391168466,29,4
+EGM2_regular_18-20dyn-02,high_shear,rep 1,all_reticular_3clique_enrichment_z,-0.416864390899,-0.473218455369,-0.332901798426,29,4
+EGM2_regular_18-20dyn-03,high_shear,rep 1,reticular_fraction,0.087414244211,0.0873015873016,0.088,32,4
+EGM2_regular_18-20dyn-03,high_shear,rep 1,area_degree_spearman,0.763592179165,0.754662928823,0.767165736043,32,4
+EGM2_regular_18-20dyn-03,high_shear,rep 1,all_reticular_3clique_enrichment_z,-0.459276530605,-0.485092022043,-0.451190918599,32,4
+EGM2_regular_18-20dyn-04,high_shear,rep 1,reticular_fraction,0.0943773489256,0.094298245614,0.0951327433628,28,4
+EGM2_regular_18-20dyn-04,high_shear,rep 1,area_degree_spearman,0.814487556278,0.798923376071,0.817862919275,28,4
+EGM2_regular_18-20dyn-04,high_shear,rep 1,all_reticular_3clique_enrichment_z,1.54051639299,1.41602001347,1.66291027075,28,4
+EGM2_regular_18-20dyn-05,high_shear,rep 1,reticular_fraction,0.0929325049076,0.0922131147541,0.0933609958506,32,4
+EGM2_regular_18-20dyn-05,high_shear,rep 1,area_degree_spearman,0.710104048154,0.70565261229,0.716332806444,32,4
+EGM2_regular_18-20dyn-05,high_shear,rep 1,all_reticular_3clique_enrichment_z,1.61747422113,1.56140481556,1.69400069564,32,4
+EGM2_regular_18-20dyn-06,high_shear,rep 1,reticular_fraction,0.100500005305,0.100427350427,0.101075268817,32,4
+EGM2_regular_18-20dyn-06,high_shear,rep 1,area_degree_spearman,0.672840601162,0.665499567094,0.674958227231,32,4
+EGM2_regular_18-20dyn-06,high_shear,rep 1,all_reticular_3clique_enrichment_z,1.29062218544,1.27921858137,1.34325217247,32,4
+EGM2_regular_18-20dyn-07,high_shear,rep 1,reticular_fraction,0.103750830347,0.100409836066,0.104722792608,32,4
+EGM2_regular_18-20dyn-07,high_shear,rep 1,area_degree_spearman,0.755646241782,0.749489775394,0.75889685425,32,4
+EGM2_regular_18-20dyn-07,high_shear,rep 1,all_reticular_3clique_enrichment_z,-0.566085694041,-0.577029536916,-0.550744993613,32,4
+EGM2_regular_18-20dyn-08,high_shear,rep 1,reticular_fraction,0.117371902053,0.117082533589,0.117988394584,32,4
+EGM2_regular_18-20dyn-08,high_shear,rep 1,area_degree_spearman,0.670072648027,0.660372517187,0.677944478949,32,4
+EGM2_regular_18-20dyn-08,high_shear,rep 1,all_reticular_3clique_enrichment_z,0.597654174336,0.567752039352,0.628521142061,32,4
+EGM2_regular_18-20dyn-09,high_shear,rep 1,reticular_fraction,0.0830440951956,0.0819366852886,0.0844277673546,32,4
+EGM2_regular_18-20dyn-09,high_shear,rep 1,area_degree_spearman,0.707155818564,0.70326659367,0.711495892768,32,4
+EGM2_regular_18-20dyn-09,high_shear,rep 1,all_reticular_3clique_enrichment_z,1.81045732569,1.78135557001,1.9297737371,32,4
+EGM2_regular_18-20dyn-10,high_shear,rep 1,reticular_fraction,0.187262682017,0.186098654709,0.18820861678,32,4
+EGM2_regular_18-20dyn-10,high_shear,rep 1,area_degree_spearman,0.714096477955,0.705403366079,0.730123555653,32,4
+EGM2_regular_18-20dyn-10,high_shear,rep 1,all_reticular_3clique_enrichment_z,-0.639395734598,-0.657598945129,-0.59448080514,32,4
+EGM2_regular_18-20dyn-51,high_shear,rep 2,reticular_fraction,0.158683958505,0.152542372881,0.170868347339,32,4
+EGM2_regular_18-20dyn-51,high_shear,rep 2,area_degree_spearman,0.803793362954,0.79403720274,0.806834776345,32,4
+EGM2_regular_18-20dyn-51,high_shear,rep 2,all_reticular_3clique_enrichment_z,0.104309386896,-0.129596409711,0.259221020929,32,4
+EGM2_regular_18-20dyn-52,high_shear,rep 2,reticular_fraction,0.129962710603,0.129577464789,0.130681818182,32,4
+EGM2_regular_18-20dyn-52,high_shear,rep 2,area_degree_spearman,0.825063712011,0.819405237637,0.828511010644,32,4
+EGM2_regular_18-20dyn-52,high_shear,rep 2,all_reticular_3clique_enrichment_z,0.746577852463,0.653455282696,0.810268357719,32,4
+EGM2_regular_18-20dyn-53,high_shear,rep 2,reticular_fraction,0.117322356332,0.116402116402,0.117962466488,32,4
+EGM2_regular_18-20dyn-53,high_shear,rep 2,area_degree_spearman,0.752401789931,0.745825762666,0.76448755858,32,4
+EGM2_regular_18-20dyn-53,high_shear,rep 2,all_reticular_3clique_enrichment_z,0.940189699115,0.917780813208,0.988230321453,32,4
+EGM2_regular_18-20dyn-54,high_shear,rep 2,reticular_fraction,0.110250783633,0.109785202864,0.110576923077,32,4
+EGM2_regular_18-20dyn-54,high_shear,rep 2,area_degree_spearman,0.785199222061,0.779365346208,0.785893136834,32,4
+EGM2_regular_18-20dyn-54,high_shear,rep 2,all_reticular_3clique_enrichment_z,-0.623963870431,-0.636855263375,-0.61394995997,32,4
+EGM2_regular_18-20dyn-55,high_shear,rep 2,reticular_fraction,0.131726771526,0.13164556962,0.132992327366,32,4
+EGM2_regular_18-20dyn-55,high_shear,rep 2,area_degree_spearman,0.847358538429,0.84239625901,0.849157650894,32,4
+EGM2_regular_18-20dyn-55,high_shear,rep 2,all_reticular_3clique_enrichment_z,0.546187483844,0.531487769246,0.559159232104,32,4
+EGM2_regular_18-20dyn-56,high_shear,rep 2,reticular_fraction,0.16331404686,0.162621359223,0.164215686275,32,4
+EGM2_regular_18-20dyn-56,high_shear,rep 2,area_degree_spearman,0.814586795353,0.809442788191,0.821449879542,32,4
+EGM2_regular_18-20dyn-56,high_shear,rep 2,all_reticular_3clique_enrichment_z,0.752949024669,0.704805683944,0.818821011564,32,4
+EGM2_regular_18-20dyn-57,high_shear,rep 2,reticular_fraction,0.133579796445,0.125748502994,0.138554216867,32,4
+EGM2_regular_18-20dyn-57,high_shear,rep 2,area_degree_spearman,0.790694355431,0.785241778906,0.793644543048,32,4
+EGM2_regular_18-20dyn-57,high_shear,rep 2,all_reticular_3clique_enrichment_z,0.654579796337,0.511338902527,0.831403123018,32,4
+EGM2_regular_18-20dyn-58,high_shear,rep 2,reticular_fraction,0.116937449981,0.114285714286,0.118733509235,32,4
+EGM2_regular_18-20dyn-58,high_shear,rep 2,area_degree_spearman,0.808830632196,0.80193532508,0.810970121884,32,4
+EGM2_regular_18-20dyn-58,high_shear,rep 2,all_reticular_3clique_enrichment_z,-0.635334372,-0.670827245313,-0.605852684451,32,4
+EGM2_regular_18-20dyn-59,high_shear,rep 2,reticular_fraction,0.144542966435,0.14402173913,0.145552560647,32,4
+EGM2_regular_18-20dyn-59,high_shear,rep 2,area_degree_spearman,0.842719252742,0.838407056789,0.84995367169,32,4
+EGM2_regular_18-20dyn-59,high_shear,rep 2,all_reticular_3clique_enrichment_z,-0.881626361182,-0.927816179088,-0.861209508878,32,4
+EGM2_regular_18-20dyn-60,high_shear,rep 2,reticular_fraction,0.138829728259,0.138263665595,0.140983606557,32,4
+EGM2_regular_18-20dyn-60,high_shear,rep 2,area_degree_spearman,0.792164191225,0.784585751384,0.798400612569,32,4
+EGM2_regular_18-20dyn-60,high_shear,rep 2,all_reticular_3clique_enrichment_z,2.0239379073,1.91492691054,2.12895596972,32,4
+EGM2_regular_18-20dyn-61,high_shear,rep 3,reticular_fraction,0.265021977868,0.265,0.265,32,4
+EGM2_regular_18-20dyn-61,high_shear,rep 3,area_degree_spearman,0.834078301627,0.832626776468,0.838273034793,32,4
+EGM2_regular_18-20dyn-61,high_shear,rep 3,all_reticular_3clique_enrichment_z,1.43343351574,1.4026562191,1.47855727165,32,4
+EGM2_regular_18-20dyn-62,high_shear,rep 3,reticular_fraction,0.18039811296,0.179166666667,0.180672268908,32,4
+EGM2_regular_18-20dyn-62,high_shear,rep 3,area_degree_spearman,0.858065919692,0.845657969605,0.861295243494,32,4
+EGM2_regular_18-20dyn-62,high_shear,rep 3,all_reticular_3clique_enrichment_z,1.079303046,1.03391868521,1.16955345406,32,4
+EGM2_regular_18-20dyn-63,high_shear,rep 3,reticular_fraction,0.177114086811,0.176056338028,0.17793594306,32,4
+EGM2_regular_18-20dyn-63,high_shear,rep 3,area_degree_spearman,0.785223113136,0.775031031888,0.789468683367,32,4
+EGM2_regular_18-20dyn-63,high_shear,rep 3,all_reticular_3clique_enrichment_z,1.03259554305,0.964682875501,1.11526419706,32,4
+EGM2_regular_18-20dyn-64,high_shear,rep 3,reticular_fraction,0.246132710257,0.245689655172,0.248908296943,32,4
+EGM2_regular_18-20dyn-64,high_shear,rep 3,area_degree_spearman,0.909714998453,0.904120384876,0.914702662985,32,4
+EGM2_regular_18-20dyn-64,high_shear,rep 3,all_reticular_3clique_enrichment_z,-1.5518603067,-1.67360086274,-0.987820634832,32,4
+EGM2_regular_18-20dyn-65,high_shear,rep 3,reticular_fraction,0.240770365806,0.240663900415,0.241666666667,32,4
+EGM2_regular_18-20dyn-65,high_shear,rep 3,area_degree_spearman,0.780811632044,0.771518459734,0.787667898978,32,4
+EGM2_regular_18-20dyn-65,high_shear,rep 3,all_reticular_3clique_enrichment_z,1.29431471662,1.24481115053,1.34807851921,32,4
+EGM2_regular_18-20dyn-66,high_shear,rep 3,reticular_fraction,0.161953589367,0.154166666667,0.168776371308,32,4
+EGM2_regular_18-20dyn-66,high_shear,rep 3,area_degree_spearman,0.870490363604,0.861030802542,0.873640698771,32,4
+EGM2_regular_18-20dyn-66,high_shear,rep 3,all_reticular_3clique_enrichment_z,1.67301924152,1.47600396396,1.87024789329,32,4
+EGM2_regular_18-20dyn-67,high_shear,rep 3,reticular_fraction,0.26550530232,0.26368159204,0.267676767677,32,4
+EGM2_regular_18-20dyn-67,high_shear,rep 3,area_degree_spearman,0.824367190358,0.813615664321,0.825684112395,32,4
+EGM2_regular_18-20dyn-67,high_shear,rep 3,all_reticular_3clique_enrichment_z,-0.746484659045,-1.06222158383,-0.258247444235,32,4
+EGM2_regular_18-20dyn-68,high_shear,rep 3,reticular_fraction,0.315939975788,0.313725490196,0.318407960199,32,4
+EGM2_regular_18-20dyn-68,high_shear,rep 3,area_degree_spearman,0.806911481785,0.791911385082,0.814348388592,32,4
+EGM2_regular_18-20dyn-68,high_shear,rep 3,all_reticular_3clique_enrichment_z,0.52537986913,0.452022364936,0.536491428059,32,4
+EGM2_regular_18-20dyn-69,high_shear,rep 3,reticular_fraction,0.233614212045,0.233502538071,0.233502538071,32,4
+EGM2_regular_18-20dyn-69,high_shear,rep 3,area_degree_spearman,0.858125926428,0.857449606295,0.864017215675,32,4
+EGM2_regular_18-20dyn-69,high_shear,rep 3,all_reticular_3clique_enrichment_z,1.2472241389,1.21173070807,1.3004726953,32,4
+EGM2_regular_18-20dyn-70,high_shear,rep 3,reticular_fraction,0.181448656467,0.179916317992,0.184549356223,32,4
+EGM2_regular_18-20dyn-70,high_shear,rep 3,area_degree_spearman,0.788276301092,0.776613509136,0.79477905898,32,4
+EGM2_regular_18-20dyn-70,high_shear,rep 3,all_reticular_3clique_enrichment_z,0.115235395442,0.0974964509806,0.15362722116,32,4
+EGM2_regular_6dyn-21,6dyne,rep 1,reticular_fraction,0.266795281737,0.265550239234,0.268115942029,24,4
+EGM2_regular_6dyn-21,6dyne,rep 1,area_degree_spearman,0.623145130729,0.615342354624,0.63045179742,24,4
+EGM2_regular_6dyn-21,6dyne,rep 1,all_reticular_3clique_enrichment_z,-0.0208931820994,-0.073811038717,0.0138192493749,24,4
+EGM2_regular_6dyn-22,6dyne,rep 1,reticular_fraction,0.271841887442,0.269841269841,0.274,32,4
+EGM2_regular_6dyn-22,6dyne,rep 1,area_degree_spearman,0.645102416883,0.637726082741,0.671962957571,32,4
+EGM2_regular_6dyn-22,6dyne,rep 1,all_reticular_3clique_enrichment_z,1.35957607218,0.948721402902,1.59049994808,32,4
+EGM2_regular_6dyn-23,6dyne,rep 1,reticular_fraction,0.222924197232,0.222672064777,0.226530612245,24,4
+EGM2_regular_6dyn-23,6dyne,rep 1,area_degree_spearman,0.737843479726,0.730807059148,0.741609884366,24,4
+EGM2_regular_6dyn-23,6dyne,rep 1,all_reticular_3clique_enrichment_z,0.210983337886,0.11736851465,0.274682810657,24,4
+EGM2_regular_6dyn-24,6dyne,rep 1,reticular_fraction,0.284801300702,0.281323877069,0.290167865707,32,4
+EGM2_regular_6dyn-24,6dyne,rep 1,area_degree_spearman,0.684161106147,0.675800784723,0.69667390612,32,4
+EGM2_regular_6dyn-24,6dyne,rep 1,all_reticular_3clique_enrichment_z,-0.794503341876,-0.908011829021,-0.747786858121,32,4
+EGM2_regular_6dyn-25,6dyne,rep 1,reticular_fraction,0.261814699694,0.261146496815,0.263383297645,32,4
+EGM2_regular_6dyn-25,6dyne,rep 1,area_degree_spearman,0.666305662552,0.656166302435,0.680750985506,32,4
+EGM2_regular_6dyn-25,6dyne,rep 1,all_reticular_3clique_enrichment_z,-0.272647800299,-0.307716425096,-0.219919209769,32,4
+EGM2_regular_6dyn-26,6dyne,rep 1,reticular_fraction,0.23470035901,0.229064039409,0.241293532338,24,4
+EGM2_regular_6dyn-26,6dyne,rep 1,area_degree_spearman,0.682830321813,0.67687792177,0.698138271289,24,4
+EGM2_regular_6dyn-26,6dyne,rep 1,all_reticular_3clique_enrichment_z,-0.6249795993,-0.73013093624,-0.373880237567,24,4
+EGM2_regular_6dyn-27,6dyne,rep 1,reticular_fraction,0.287515671748,0.286096256684,0.289189189189,30,4
+EGM2_regular_6dyn-27,6dyne,rep 1,area_degree_spearman,0.756720276676,0.750419452434,0.770861415841,30,4
+EGM2_regular_6dyn-27,6dyne,rep 1,all_reticular_3clique_enrichment_z,-0.0335051708074,-0.10375192401,0.337138822497,30,4
+EGM2_regular_6dyn-28,6dyne,rep 1,reticular_fraction,0.204799879552,0.203007518797,0.205513784461,28,4
+EGM2_regular_6dyn-28,6dyne,rep 1,area_degree_spearman,0.783378727581,0.771783006469,0.788850559677,28,4
+EGM2_regular_6dyn-28,6dyne,rep 1,all_reticular_3clique_enrichment_z,1.2851525692,1.24669371162,1.41621477825,28,4
+EGM2_regular_6dyn-29,6dyne,rep 1,reticular_fraction,0.271949372676,0.266666666667,0.274336283186,32,4
+EGM2_regular_6dyn-29,6dyne,rep 1,area_degree_spearman,0.804704539343,0.799135885714,0.813360189445,32,4
+EGM2_regular_6dyn-29,6dyne,rep 1,all_reticular_3clique_enrichment_z,-0.272374221751,-0.657654294995,-0.156949341325,32,4
+EGM2_regular_6dyn-30,6dyne,rep 1,reticular_fraction,0.302241150061,0.299539170507,0.304651162791,24,4
+EGM2_regular_6dyn-30,6dyne,rep 1,area_degree_spearman,0.633595814076,0.615713752044,0.653796126484,24,4
+EGM2_regular_6dyn-30,6dyne,rep 1,all_reticular_3clique_enrichment_z,-1.04638491282,-1.10370478872,-0.971713468484,24,4
+EGM2_regular_6dyn-71,6dyne,rep 2,reticular_fraction,0.132346234599,0.131578947368,0.133771929825,28,4
+EGM2_regular_6dyn-71,6dyne,rep 2,area_degree_spearman,0.69434585683,0.689611766753,0.699941706696,28,4
+EGM2_regular_6dyn-71,6dyne,rep 2,all_reticular_3clique_enrichment_z,-0.8440229571,-0.861694230504,-0.834380962713,28,4
+EGM2_regular_6dyn-72,6dyne,rep 2,reticular_fraction,0.191484878191,0.190045248869,0.192660550459,32,4
+EGM2_regular_6dyn-72,6dyne,rep 2,area_degree_spearman,0.7288657965,0.721331677668,0.735028082404,32,4
+EGM2_regular_6dyn-72,6dyne,rep 2,all_reticular_3clique_enrichment_z,0.723367092738,0.684532993378,0.811564028607,32,4
+EGM2_regular_6dyn-73,6dyne,rep 2,reticular_fraction,0.173465913958,0.172602739726,0.174033149171,32,4
+EGM2_regular_6dyn-73,6dyne,rep 2,area_degree_spearman,0.806402547004,0.801772531205,0.808770283198,32,4
+EGM2_regular_6dyn-73,6dyne,rep 2,all_reticular_3clique_enrichment_z,-0.205871573681,-0.224054615879,-0.179978392488,32,4
+EGM2_regular_6dyn-74,6dyne,rep 2,reticular_fraction,0.130494649811,0.130434782609,0.130750605327,32,4
+EGM2_regular_6dyn-74,6dyne,rep 2,area_degree_spearman,0.756229919554,0.749054108694,0.759324408052,32,4
+EGM2_regular_6dyn-74,6dyne,rep 2,all_reticular_3clique_enrichment_z,3.10898134364,3.05281448802,3.17249799964,32,4
+EGM2_regular_6dyn-75,6dyne,rep 2,reticular_fraction,0.142280713001,0.14161849711,0.142857142857,32,4
+EGM2_regular_6dyn-75,6dyne,rep 2,area_degree_spearman,0.808488394144,0.803210102181,0.811517993193,32,4
+EGM2_regular_6dyn-75,6dyne,rep 2,all_reticular_3clique_enrichment_z,0.474134689652,0.436325692038,0.519836494563,32,4
+EGM2_regular_6dyn-76,6dyne,rep 2,reticular_fraction,0.166244065308,0.164383561644,0.167597765363,32,4
+EGM2_regular_6dyn-76,6dyne,rep 2,area_degree_spearman,0.737487077428,0.729340198684,0.748857848622,32,4
+EGM2_regular_6dyn-76,6dyne,rep 2,all_reticular_3clique_enrichment_z,-1.07814032717,-1.08930278229,-1.04636929566,32,4
+EGM2_regular_6dyn-77,6dyne,rep 2,reticular_fraction,0.211712924567,0.211699164345,0.211699164345,32,4
+EGM2_regular_6dyn-77,6dyne,rep 2,area_degree_spearman,0.798541564206,0.797320362244,0.802656201367,32,4
+EGM2_regular_6dyn-77,6dyne,rep 2,all_reticular_3clique_enrichment_z,-0.164857022896,-0.190519867601,-0.143258663286,32,4
+EGM2_regular_6dyn-78,6dyne,rep 2,reticular_fraction,0.185756364309,0.184782608696,0.186813186813,32,4
+EGM2_regular_6dyn-78,6dyne,rep 2,area_degree_spearman,0.614745682015,0.604744273561,0.628640169077,32,4
+EGM2_regular_6dyn-78,6dyne,rep 2,all_reticular_3clique_enrichment_z,0.246932440938,0.198090792378,0.270944950476,32,4
+EGM2_regular_6dyn-79,6dyne,rep 2,reticular_fraction,0.170080483779,0.167630057803,0.172514619883,32,4
+EGM2_regular_6dyn-79,6dyne,rep 2,area_degree_spearman,0.735286589664,0.732469076012,0.744309101063,32,4
+EGM2_regular_6dyn-79,6dyne,rep 2,all_reticular_3clique_enrichment_z,-1.10759219249,-1.12505619912,-1.07367620159,32,4
+EGM2_regular_6dyn-80,6dyne,rep 2,reticular_fraction,0.197262335559,0.196675900277,0.19944598338,32,4
+EGM2_regular_6dyn-80,6dyne,rep 2,area_degree_spearman,0.782941262913,0.769510699027,0.787544155824,32,4
+EGM2_regular_6dyn-80,6dyne,rep 2,all_reticular_3clique_enrichment_z,0.00830843585604,-0.0264718929441,0.0581596241766,32,4
+EGM2_regular_6dyn-81,6dyne,rep 3,reticular_fraction,0.177057320662,0.176991150442,0.177514792899,32,4
+EGM2_regular_6dyn-81,6dyne,rep 3,area_degree_spearman,0.769932690506,0.762202847409,0.77722399531,32,4
+EGM2_regular_6dyn-81,6dyne,rep 3,all_reticular_3clique_enrichment_z,2.60207203637,2.56800568203,2.6408642655,32,4
+EGM2_regular_6dyn-82,6dyne,rep 3,reticular_fraction,0.177723463096,0.175392670157,0.178477690289,32,4
+EGM2_regular_6dyn-82,6dyne,rep 3,area_degree_spearman,0.776920462017,0.77108307363,0.784712026246,32,4
+EGM2_regular_6dyn-82,6dyne,rep 3,all_reticular_3clique_enrichment_z,-0.358538908453,-0.419518212415,-0.319117824697,32,4
+EGM2_regular_6dyn-83,6dyne,rep 3,reticular_fraction,0.131805998585,0.130193905817,0.132596685083,32,4
+EGM2_regular_6dyn-83,6dyne,rep 3,area_degree_spearman,0.78255073983,0.769889245597,0.788828404081,32,4
+EGM2_regular_6dyn-83,6dyne,rep 3,all_reticular_3clique_enrichment_z,1.78431535005,1.6987232597,1.91236916505,32,4
+EGM2_regular_6dyn-84,6dyne,rep 3,reticular_fraction,0.194971579984,0.194945848375,0.194945848375,32,4
+EGM2_regular_6dyn-84,6dyne,rep 3,area_degree_spearman,0.874387583806,0.873988309775,0.875980048058,32,4
+EGM2_regular_6dyn-84,6dyne,rep 3,all_reticular_3clique_enrichment_z,-1.18729527898,-1.20852930022,-1.17622854095,32,4
+EGM2_regular_6dyn-85,6dyne,rep 3,reticular_fraction,0.224830972726,0.224422442244,0.227424749164,32,4
+EGM2_regular_6dyn-85,6dyne,rep 3,area_degree_spearman,0.764723105624,0.761331654851,0.786994025728,32,4
+EGM2_regular_6dyn-85,6dyne,rep 3,all_reticular_3clique_enrichment_z,-0.0695570630352,-0.119636860885,-0.0347351674579,32,4
+EGM2_regular_6dyn-86,6dyne,rep 3,reticular_fraction,0.211084758886,0.204678362573,0.217261904762,32,4
+EGM2_regular_6dyn-86,6dyne,rep 3,area_degree_spearman,0.709803015544,0.706146143075,0.715644155307,32,4
+EGM2_regular_6dyn-86,6dyne,rep 3,all_reticular_3clique_enrichment_z,0.671865535622,0.49807139064,0.897668120346,32,4
+EGM2_regular_6dyn-87,6dyne,rep 3,reticular_fraction,0.221893978538,0.220064724919,0.223300970874,32,4
+EGM2_regular_6dyn-87,6dyne,rep 3,area_degree_spearman,0.768264946494,0.766973821506,0.774670137864,32,4
+EGM2_regular_6dyn-87,6dyne,rep 3,all_reticular_3clique_enrichment_z,-0.917275140909,-0.954077336831,-0.866777809416,32,4
+EGM2_regular_6dyn-88,6dyne,rep 3,reticular_fraction,0.241439632779,0.231003039514,0.243076923077,32,4
+EGM2_regular_6dyn-88,6dyne,rep 3,area_degree_spearman,0.78433100799,0.775874240345,0.796106422396,32,4
+EGM2_regular_6dyn-88,6dyne,rep 3,all_reticular_3clique_enrichment_z,-0.615433753032,-0.666779143628,-0.449169859685,32,4
+EGM2_regular_6dyn-89,6dyne,rep 3,reticular_fraction,0.161018610906,0.160112359551,0.162393162393,32,4
+EGM2_regular_6dyn-89,6dyne,rep 3,area_degree_spearman,0.834573115456,0.82397590199,0.841842059664,32,4
+EGM2_regular_6dyn-89,6dyne,rep 3,all_reticular_3clique_enrichment_z,-1.07853748295,-1.12133771518,-1.03076058995,32,4
+EGM2_regular_6dyn-90,6dyne,rep 3,reticular_fraction,0.159066714854,0.153846153846,0.162087912088,32,4
+EGM2_regular_6dyn-90,6dyne,rep 3,area_degree_spearman,0.827011355459,0.822211472629,0.836073240675,32,4
+EGM2_regular_6dyn-90,6dyne,rep 3,all_reticular_3clique_enrichment_z,-1.03278641012,-1.07700673737,-0.975724512951,32,4
+EGM2_regular_static-11,static,rep 1,reticular_fraction,0.127623326604,0.127450980392,0.128078817734,32,4
+EGM2_regular_static-11,static,rep 1,area_degree_spearman,0.788603805223,0.779691098155,0.802103319913,32,4
+EGM2_regular_static-11,static,rep 1,all_reticular_3clique_enrichment_z,-0.798164455647,-0.856421247231,-0.781004725845,32,4
+EGM2_regular_static-12,static,rep 1,reticular_fraction,0.137658908373,0.136950904393,0.138381201044,32,4
+EGM2_regular_static-12,static,rep 1,area_degree_spearman,0.745245421394,0.73659902659,0.763013171373,32,4
+EGM2_regular_static-12,static,rep 1,all_reticular_3clique_enrichment_z,-0.799365794357,-0.833684787061,-0.784826315844,32,4
+EGM2_regular_static-13,static,rep 1,reticular_fraction,0.146595290866,0.146596858639,0.146981627297,32,4
+EGM2_regular_static-13,static,rep 1,area_degree_spearman,0.788276638895,0.781657231056,0.789380643018,32,4
+EGM2_regular_static-13,static,rep 1,all_reticular_3clique_enrichment_z,0.24897476951,0.180106513387,0.275586878343,32,4
+EGM2_regular_static-14,static,rep 1,reticular_fraction,0.109568796539,0.10843373494,0.110024449878,32,4
+EGM2_regular_static-14,static,rep 1,area_degree_spearman,0.650418323014,0.634707551467,0.662920199273,32,4
+EGM2_regular_static-14,static,rep 1,all_reticular_3clique_enrichment_z,-0.584480513379,-0.61492228398,-0.570105752794,32,4
+EGM2_regular_static-15,static,rep 1,reticular_fraction,0.128222478647,0.127403846154,0.129268292683,28,4
+EGM2_regular_static-15,static,rep 1,area_degree_spearman,0.654344901674,0.649493831451,0.661228862394,28,4
+EGM2_regular_static-15,static,rep 1,all_reticular_3clique_enrichment_z,-0.767653266772,-0.803097984148,-0.741096472735,28,4
+EGM2_regular_static-16,static,rep 1,reticular_fraction,0.166362898163,0.164772727273,0.167630057803,32,4
+EGM2_regular_static-16,static,rep 1,area_degree_spearman,0.716836707491,0.711330738914,0.723634787657,32,4
+EGM2_regular_static-16,static,rep 1,all_reticular_3clique_enrichment_z,-1.03946879991,-1.08112334546,-1.01310587188,32,4
+EGM2_regular_static-17,static,rep 1,reticular_fraction,0.155777324849,0.154963680387,0.156479217604,32,4
+EGM2_regular_static-17,static,rep 1,area_degree_spearman,0.657557118882,0.638730773352,0.669301629901,32,4
+EGM2_regular_static-17,static,rep 1,all_reticular_3clique_enrichment_z,0.92144660329,0.881140039663,0.97142917626,32,4
+EGM2_regular_static-18,static,rep 1,reticular_fraction,0.154967797747,0.152,0.165333333333,32,4
+EGM2_regular_static-18,static,rep 1,area_degree_spearman,0.730162433168,0.722845658212,0.736158147729,32,4
+EGM2_regular_static-18,static,rep 1,all_reticular_3clique_enrichment_z,-0.96687679774,-1.0753475898,-0.93742297087,32,4
+EGM2_regular_static-19,static,rep 1,reticular_fraction,0.142661676179,0.141860465116,0.143192488263,32,4
+EGM2_regular_static-19,static,rep 1,area_degree_spearman,0.687178197265,0.666449675901,0.695045008702,32,4
+EGM2_regular_static-19,static,rep 1,all_reticular_3clique_enrichment_z,-0.910378596908,-0.927205996112,-0.871413731881,32,4
+EGM2_regular_static-20,static,rep 1,reticular_fraction,0.0939726435863,0.0932400932401,0.0941176470588,32,4
+EGM2_regular_static-20,static,rep 1,area_degree_spearman,0.717396619477,0.704451214125,0.728770163179,32,4
+EGM2_regular_static-20,static,rep 1,all_reticular_3clique_enrichment_z,-0.480333372884,-0.506056992851,-0.469456808287,32,4
+EGM2_regular_static-31,static,rep 2,reticular_fraction,0.173119721162,0.172413793103,0.174262734584,32,4
+EGM2_regular_static-31,static,rep 2,area_degree_spearman,0.771101028324,0.766694264471,0.779407771086,32,4
+EGM2_regular_static-31,static,rep 2,all_reticular_3clique_enrichment_z,-0.297882647958,-0.323532156339,-0.22893493165,32,4
+EGM2_regular_static-32,static,rep 2,reticular_fraction,0.116932970626,0.116033755274,0.117647058824,32,4
+EGM2_regular_static-32,static,rep 2,area_degree_spearman,0.758809642803,0.751291359212,0.768980784674,32,4
+EGM2_regular_static-32,static,rep 2,all_reticular_3clique_enrichment_z,-0.70466868402,-0.728493969316,-0.695542086015,32,4
+EGM2_regular_static-33,static,rep 2,reticular_fraction,0.0810495742755,0.0807174887892,0.0812641083521,30,4
+EGM2_regular_static-33,static,rep 2,area_degree_spearman,0.756692449289,0.749986622072,0.758330478214,30,4
+EGM2_regular_static-33,static,rep 2,all_reticular_3clique_enrichment_z,2.1591020826,2.10178418765,2.35432886359,30,4
+EGM2_regular_static-34,static,rep 2,reticular_fraction,0.102382637998,0.102161100196,0.10297029703,32,4
+EGM2_regular_static-34,static,rep 2,area_degree_spearman,0.691681565139,0.67467278485,0.696982223991,32,4
+EGM2_regular_static-34,static,rep 2,all_reticular_3clique_enrichment_z,-0.584501840086,-0.605541215702,-0.558876523479,32,4
+EGM2_regular_static-35,static,rep 2,reticular_fraction,0.12442025727,0.124045801527,0.125,28,4
+EGM2_regular_static-35,static,rep 2,area_degree_spearman,0.773540789333,0.767558917179,0.781490774191,28,4
+EGM2_regular_static-35,static,rep 2,all_reticular_3clique_enrichment_z,0.532151785675,0.409241918273,0.51100267377,28,4
+EGM2_regular_static-36,static,rep 2,reticular_fraction,0.102365908553,0.102119460501,0.102912621359,32,4
+EGM2_regular_static-36,static,rep 2,area_degree_spearman,0.624295282292,0.601150254687,0.633784289551,32,4
+EGM2_regular_static-36,static,rep 2,all_reticular_3clique_enrichment_z,-0.601473132337,-0.631290621218,-0.590450078426,32,4
+EGM2_regular_static-37,static,rep 2,reticular_fraction,0.113912397713,0.113175675676,0.116554054054,32,4
+EGM2_regular_static-37,static,rep 2,area_degree_spearman,0.714779408173,0.706530182618,0.717719837427,32,4
+EGM2_regular_static-37,static,rep 2,all_reticular_3clique_enrichment_z,0.538581788133,0.460440588375,0.701112530284,32,4
+EGM2_regular_static-38,static,rep 2,reticular_fraction,0.0717237765133,0.0716911764706,0.0718232044199,28,4
+EGM2_regular_static-38,static,rep 2,area_degree_spearman,0.739577766095,0.734700084653,0.740302602417,28,4
+EGM2_regular_static-38,static,rep 2,all_reticular_3clique_enrichment_z,2.35852437485,2.27785565928,2.41118419914,28,4
+EGM2_regular_static-39,static,rep 2,reticular_fraction,0.111301091948,0.109797297297,0.111675126904,32,4
+EGM2_regular_static-39,static,rep 2,area_degree_spearman,0.746330743274,0.740428313251,0.747956242862,32,4
+EGM2_regular_static-39,static,rep 2,all_reticular_3clique_enrichment_z,0.655609989455,0.62221851344,0.733441349482,32,4
+EGM2_regular_static-40,static,rep 2,reticular_fraction,0.0889544075644,0.088768115942,0.0894160583942,30,4
+EGM2_regular_static-40,static,rep 2,area_degree_spearman,0.740728120266,0.734643104678,0.747756702779,30,4
+EGM2_regular_static-40,static,rep 2,all_reticular_3clique_enrichment_z,-0.498170783528,-0.545089821502,-0.480697588305,30,4
+EGM2_regular_static-41,static,rep 3,reticular_fraction,0.0894131633979,0.0892857142857,0.0896860986547,32,4
+EGM2_regular_static-41,static,rep 3,area_degree_spearman,0.900545950187,0.893915405577,0.90323282441,32,4
+EGM2_regular_static-41,static,rep 3,all_reticular_3clique_enrichment_z,-0.316046278748,-0.334186889578,-0.307306486469,32,4
+EGM2_regular_static-42,static,rep 3,reticular_fraction,0.154693575672,0.153846153846,0.155102040816,32,4
+EGM2_regular_static-42,static,rep 3,area_degree_spearman,0.786329684726,0.784108822224,0.790046634514,32,4
+EGM2_regular_static-42,static,rep 3,all_reticular_3clique_enrichment_z,-0.787487347317,-0.804353590538,-0.769241964005,32,4
+EGM2_regular_static-43,static,rep 3,reticular_fraction,0.163425947399,0.162393162393,0.164502164502,32,4
+EGM2_regular_static-43,static,rep 3,area_degree_spearman,0.786309756127,0.781180559391,0.793380260016,32,4
+EGM2_regular_static-43,static,rep 3,all_reticular_3clique_enrichment_z,-0.839187385604,-0.874924500668,-0.801862240831,32,4
+EGM2_regular_static-44,static,rep 3,reticular_fraction,0.172701156278,0.161572052402,0.176991150442,32,4
+EGM2_regular_static-44,static,rep 3,area_degree_spearman,0.79612047253,0.788153239526,0.799312216232,32,4
+EGM2_regular_static-44,static,rep 3,all_reticular_3clique_enrichment_z,-0.869553718449,-0.911772963698,-0.792343133978,32,4
+EGM2_regular_static-45,static,rep 3,reticular_fraction,0.126104523031,0.124481327801,0.128630705394,32,4
+EGM2_regular_static-45,static,rep 3,area_degree_spearman,0.728479123786,0.716860193626,0.73515712871,32,4
+EGM2_regular_static-45,static,rep 3,all_reticular_3clique_enrichment_z,1.36778695015,1.18267771624,1.46863520618,32,4
+EGM2_regular_static-46,static,rep 3,reticular_fraction,0.155309707573,0.151785714286,0.160550458716,32,4
+EGM2_regular_static-46,static,rep 3,area_degree_spearman,0.584095531023,0.546925207109,0.594397833556,32,4
+EGM2_regular_static-46,static,rep 3,all_reticular_3clique_enrichment_z,-0.739561067758,-0.782234994768,-0.716677081313,32,4
+EGM2_regular_static-47,static,rep 3,reticular_fraction,0.0931742762037,0.0925925925926,0.0934579439252,32,4
+EGM2_regular_static-47,static,rep 3,area_degree_spearman,0.792432474743,0.789777464306,0.795892458809,32,4
+EGM2_regular_static-47,static,rep 3,all_reticular_3clique_enrichment_z,-0.321530046597,-0.340180420739,-0.298703125527,32,4
+EGM2_regular_static-48,static,rep 3,reticular_fraction,0.0981811382175,0.0979381443299,0.0989583333333,32,4
+EGM2_regular_static-48,static,rep 3,area_degree_spearman,0.882963522415,0.868645507656,0.892107982364,32,4
+EGM2_regular_static-48,static,rep 3,all_reticular_3clique_enrichment_z,-0.334559865842,-0.342157563138,-0.32020623772,32,4
+EGM2_regular_static-49,static,rep 3,reticular_fraction,0.117659741843,0.116666666667,0.11797752809,32,4
+EGM2_regular_static-49,static,rep 3,area_degree_spearman,0.82969507445,0.828347137085,0.831040863717,32,4
+EGM2_regular_static-49,static,rep 3,all_reticular_3clique_enrichment_z,4.29408478716,4.16821168998,4.46756371945,32,4
+EGM2_regular_static-50,static,rep 3,reticular_fraction,0.180450184657,0.175925925926,0.185714285714,32,4
+EGM2_regular_static-50,static,rep 3,area_degree_spearman,0.854969756785,0.850619976946,0.861042983246,32,4
+EGM2_regular_static-50,static,rep 3,all_reticular_3clique_enrichment_z,0.255837267264,0.185680292017,0.3781240119,32,4
+resized1024_8bit_zMAX231005_slide_ebm2_statcont_488notch_555fak_647vecad-01-Scene-1-P1,static,rep1,reticular_fraction,0.00327889086385,0.00327868852459,0.00327868852459,32,4
+resized1024_8bit_zMAX231005_slide_ebm2_statcont_488notch_555fak_647vecad-01-Scene-1-P1,static,rep1,area_degree_spearman,0.575367709003,0.573861975276,0.577042604241,32,4
+resized1024_8bit_zMAX231005_slide_ebm2_statcont_488notch_555fak_647vecad-01-Scene-1-P1,static,rep1,all_reticular_3clique_enrichment_z,0,0,0,32,4
+resized1024_8bit_zMAX231005_slide_ebm2_statcont_488notch_555fak_647vecad-01-Scene-2-P2,static,rep1,reticular_fraction,2.66414936153e-17,0,0,32,4
+resized1024_8bit_zMAX231005_slide_ebm2_statcont_488notch_555fak_647vecad-01-Scene-2-P2,static,rep1,area_degree_spearman,0.37934346931,0.378246554803,0.380590889947,32,4
+resized1024_8bit_zMAX231005_slide_ebm2_statcont_488notch_555fak_647vecad-01-Scene-2-P2,static,rep1,all_reticular_3clique_enrichment_z,0,0,0,32,1
+resized1024_8bit_zMAX231005_slide_ebm2_statcont_488notch_555fak_647vecad-01-Scene-3-P3,static,rep1,reticular_fraction,0.00429983406964,0.00429799426934,0.00430416068867,32,4
+resized1024_8bit_zMAX231005_slide_ebm2_statcont_488notch_555fak_647vecad-01-Scene-3-P3,static,rep1,area_degree_spearman,0.672368111778,0.667481981902,0.676352350227,32,4
+resized1024_8bit_zMAX231005_slide_ebm2_statcont_488notch_555fak_647vecad-01-Scene-3-P3,static,rep1,all_reticular_3clique_enrichment_z,0,0,0,32,4
+resized1024_8bit_zMAX231005_slide_ebm2_statcont_488notch_555fak_647vecad-01-Scene-4-P4,static,rep1,reticular_fraction,0.00496795911869,0.00496688741722,0.00496688741722,32,4
+resized1024_8bit_zMAX231005_slide_ebm2_statcont_488notch_555fak_647vecad-01-Scene-4-P4,static,rep1,area_degree_spearman,0.517636532922,0.516862725684,0.519097901239,32,4
+resized1024_8bit_zMAX231005_slide_ebm2_statcont_488notch_555fak_647vecad-01-Scene-4-P4,static,rep1,all_reticular_3clique_enrichment_z,-1.70916930248e-310,0,0,32,4
+resized1024_8bit_zMAX231005_slide_egm2_2hfow_488phosphopax_emissionfix_555fak_647vecad_lowerres-01-,high_shear,rep1,reticular_fraction,6.75177370567e-111,0,0,32,4
+resized1024_8bit_zMAX231005_slide_egm2_2hfow_488phosphopax_emissionfix_555fak_647vecad_lowerres-01-,high_shear,rep1,area_degree_spearman,0.601725428749,0.600955843128,0.603489314302,32,4
+resized1024_8bit_zMAX231005_slide_egm2_2hfow_488phosphopax_emissionfix_555fak_647vecad_lowerres-01-,high_shear,rep1,all_reticular_3clique_enrichment_z,0,0,0,32,1.11254332614
+resized1024_8bit_zMAX231005_slide_egm2_2hfow_488phosphopax_emissionfix_555fak_647vecad_lowerres-02,high_shear,rep1,reticular_fraction,0.00159590836026,0.00159489633174,0.00160256410256,32,4
+resized1024_8bit_zMAX231005_slide_egm2_2hfow_488phosphopax_emissionfix_555fak_647vecad_lowerres-02,high_shear,rep1,area_degree_spearman,0.641383671187,0.636186232284,0.643962056675,32,4
+resized1024_8bit_zMAX231005_slide_egm2_2hfow_488phosphopax_emissionfix_555fak_647vecad_lowerres-02,high_shear,rep1,all_reticular_3clique_enrichment_z,0,0,0,32,3.9999931191
+resized1024_8bit_zMAX231005_slide_egm2_2hfow_488phosphopax_emissionfix_555fak_647vecad_lowerres-03,high_shear,rep1,reticular_fraction,3.1928159699e-83,0,0,32,4
+resized1024_8bit_zMAX231005_slide_egm2_2hfow_488phosphopax_emissionfix_555fak_647vecad_lowerres-03,high_shear,rep1,area_degree_spearman,0.646110991061,0.639957498531,0.649029320464,32,4
+resized1024_8bit_zMAX231005_slide_egm2_2hfow_488phosphopax_emissionfix_555fak_647vecad_lowerres-03,high_shear,rep1,all_reticular_3clique_enrichment_z,0,0,0,32,1.94284616704
+resized1024_8bit_zMAX231005_slide_egm2_flowltr_30min_488notch_emissionfix_555fak_647vecad-01-Scene-1-P1,high_shear,rep1,reticular_fraction,0.00132901503543,0.00132802124834,0.00133155792277,32,4
+resized1024_8bit_zMAX231005_slide_egm2_flowltr_30min_488notch_emissionfix_555fak_647vecad-01-Scene-1-P1,high_shear,rep1,area_degree_spearman,0.679284533072,0.677461337177,0.680917107776,32,4
+resized1024_8bit_zMAX231005_slide_egm2_flowltr_30min_488notch_emissionfix_555fak_647vecad-01-Scene-1-P1,high_shear,rep1,all_reticular_3clique_enrichment_z,0,0,0,32,4
+resized1024_8bit_zMAX231005_slide_egm2_flowltr_30min_488notch_emissionfix_555fak_647vecad-01-Scene-2-P2,high_shear,rep1,reticular_fraction,4.21555730034e-36,0,0,32,4
+resized1024_8bit_zMAX231005_slide_egm2_flowltr_30min_488notch_emissionfix_555fak_647vecad-01-Scene-2-P2,high_shear,rep1,area_degree_spearman,0.724417932052,0.723090540448,0.725214899755,32,4
+resized1024_8bit_zMAX231005_slide_egm2_flowltr_30min_488notch_emissionfix_555fak_647vecad-01-Scene-2-P2,high_shear,rep1,all_reticular_3clique_enrichment_z,0,0,0,32,1
+resized1024_8bit_zMAX231005_slide_egm2_flowltr_30min_488notch_emissionfix_555fak_647vecad-01-Scene-3-P3,high_shear,rep1,reticular_fraction,0.00453076481634,0.00452488687783,0.00454545454545,32,4
+resized1024_8bit_zMAX231005_slide_egm2_flowltr_30min_488notch_emissionfix_555fak_647vecad-01-Scene-3-P3,high_shear,rep1,area_degree_spearman,0.59051788988,0.588768255325,0.59257496651,32,4
+resized1024_8bit_zMAX231005_slide_egm2_flowltr_30min_488notch_emissionfix_555fak_647vecad-01-Scene-3-P3,high_shear,rep1,all_reticular_3clique_enrichment_z,0,0,0,32,4
+resized1024_8bit_zMAX231005_slide_egm2_flowltr_30min_488notch_emissionfix_555fak_647vecad-01-Scene-4-P4,high_shear,rep1,reticular_fraction,0.00137809978835,0.00137741046832,0.00138121546961,32,4
+resized1024_8bit_zMAX231005_slide_egm2_flowltr_30min_488notch_emissionfix_555fak_647vecad-01-Scene-4-P4,high_shear,rep1,area_degree_spearman,0.750861134675,0.750503702287,0.751410005092,32,4
+resized1024_8bit_zMAX231005_slide_egm2_flowltr_30min_488notch_emissionfix_555fak_647vecad-01-Scene-4-P4,high_shear,rep1,all_reticular_3clique_enrichment_z,0,0,0,32,3.99872640775

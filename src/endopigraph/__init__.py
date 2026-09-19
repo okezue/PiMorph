@@ -21,7 +21,7 @@ Some metrics are sensitive to image blur. The `blur_robust` module provides:
 - `compute_blur_robust_features()`: Compute only blur-stable features
 - `compute_adaptive_features()`: Auto-detect and correct blur
 
-For detailed guidance, see the BLUR_STABILITY.md documentation.
+For detailed guidance, see the EXPLAINER.md documentation.
 
 Metric Stability Reference
 --------------------------

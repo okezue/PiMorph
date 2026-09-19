@@ -1,0 +1,72 @@
+[
+  {
+    "source": "runs/pimorph_dev/sbiad1540_6dyn_neural_vs_classical.png",
+    "source_sha256": "6ecbd8c1ce33c30df7c6833907e6e739905a5eafb67762dee031f9f680fb0be4",
+    "source_dimensions_xy": [
+      1040,
+      682
+    ],
+    "crop_boxes_xyxy_exclusive": [
+      [
+        20,
+        22,
+        334,
+        336
+      ],
+      [
+        706,
+        358,
+        1020,
+        672
+      ],
+      [
+        706,
+        22,
+        1020,
+        336
+      ]
+    ],
+    "display_order": [
+      "raw_geometry",
+      "neural_boundary",
+      "neural_overlay"
+    ],
+    "model": "v0 mixed",
+    "interpretation": "Archived illustrative output; no instance ground truth."
+  },
+  {
+    "source": "runs/pimorph_dev/ve_strat_neural_vs_classical.png",
+    "source_sha256": "6fc974d040fd3606478a0151dcf5267a6a639a501c980039445ad649d9f6c627",
+    "source_dimensions_xy": [
+      1050,
+      700
+    ],
+    "crop_boxes_xyxy_exclusive": [
+      [
+        17,
+        23,
+        340,
+        346
+      ],
+      [
+        710,
+        366,
+        1033,
+        689
+      ],
+      [
+        710,
+        23,
+        1033,
+        346
+      ]
+    ],
+    "display_order": [
+      "raw_geometry",
+      "neural_boundary",
+      "neural_overlay"
+    ],
+    "model": "v0 synthetic",
+    "interpretation": "Archived illustrative output; no instance ground truth."
+  }
+]

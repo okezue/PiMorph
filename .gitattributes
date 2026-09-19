@@ -7,3 +7,6 @@
 *.tiff filter=lfs diff=lfs merge=lfs -text
 *.roi filter=lfs diff=lfs merge=lfs -text
 runs/pimorph_dev/*.png !text !filter !merge !diff
+
+# Documentation figures are small ordinary Git assets for immediate rendering.
+docs/figures/*.png !text !filter !merge !diff
