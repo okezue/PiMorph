@@ -35,6 +35,21 @@ Measured (`runs/dynamics/`):
 | TissueMiner divisions | ground-truth ids precision 0.64 / recall 1.00; the IoU tracker recall 0.96 but precision 0.19 (fast tissue flow, per-frame self-IoU often below 0.5; 685 id switches over 1,313 tracks). A motion-compensated linker is the open item. |
 | CTC DIC-C2DH-HeLa 01 (84 frames, 8 divisions) | division precision 1.00 / recall 0.875 / F1 0.93 with our tracker; 1.00 / 1.00 with ground-truth ids; 18 id switches over 37 tracks. Sparse culture: no confluent regime, admissibility flags almost every frame pair (silver-truth 1 px holes and contacts between disconnected clusters). |
 
+EpiCure curated movies (Zenodo 20607705, `pimorph.dynamics.epicure`, curated track ids, no
+tracker; `runs/dynamics/epicure_movie{2,3}/`):
+
+| Movie | Frames | Events | Isolated T1 charge check | Frame pairs fully explained |
+|---|---|---|---|---|
+| movie2, Drosophila abdomen histoblasts, 213x213, 0.275 um/px | 30 (167 to 109 cells) | t1 559, contact_birth 203, contact_death 122, extrusion 94, division 30 | 59 / 59 conserved and generic | 5 / 29 (5 / 9 of the pairs without free-edge events) |
+| movie3, zebrafish telencephalon, 628x548 | 11 (173 to 196 cells) | division 33, t1 24, gap_nucleation 15, rupture 11, reseal 10 | 13 / 13 | 1 / 10 |
+
+Every one of the ten largest unexplained residuals is a free-edge effect: only the histoblasts
+are labelled, so cells at the edge of the annotated region enter, leave or flicker, and edge
+"extrusions" close with one to three new contacts instead of one vertex. The admissibility
+identity is doing its job (it flags exactly those pairs); a ROI-aware event grammar for
+partially annotated tissue is the open item. EpiCure divisions are heuristic (no lineage file
+was parsed).
+
 Not validated: event detection on a confluent endothelial time lapse (none with truth is public);
 the identity is exact, the linker is the weak part.
 

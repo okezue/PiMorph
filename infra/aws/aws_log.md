@@ -39,3 +39,4 @@ Tag policy for everything we create: `Project=PiMorph`, `Owner=okebell-grok`, `S
 | 2026-09-17T10:54:21Z | terminated | i-0ffe4688aa1ae952b | us-east-1 | stage 1 + stage 2 training complete, checkpoints pulled | 2026-09-17T10:54:21Z |
 | i-0ffe4688aa1ae952b | g5.xlarge (ondemand) | 2026-09-17T04:05:30Z | 2026-09-17T10:54:21Z | 6.8 | ~6.85 (1.006 USD/h) + 150 GB gp3 ~0.10 |
 | 2026-09-18T20:57:27Z | S3 upload | data/egm2_images_20260918T205208Z.tar (1.2 GB) to pimorph-train-545338549082-01a0ac4c, presigned 48 h, fetched by devbox for the shear re-test | 0 |
+| 2026-09-19T00:24:07Z | S3 upload | data/rpe_actin_20260919T002310Z.tar (1.9 GB) to pimorph-train-545338549082-01a0ac4c, presigned 48 h, fetched by devbox for RPE training tiles | 0 |
