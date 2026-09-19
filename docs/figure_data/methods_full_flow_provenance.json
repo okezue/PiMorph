@@ -1,6 +1,171 @@
 {
   "script": "scripts/figures_full_flow.py",
   "figure": "methods_full_flow",
+  "layout_revision": "five downward tiers; caption-only narrative; explicit diagram ports; no title or subtitles",
+  "connector_routes": [
+    {
+      "name": "registered channels to proposal alternatives",
+      "points": [
+        [
+          0.3208407079646018,
+          0.8825493827160493
+        ],
+        [
+          0.53,
+          0.8825493827160493
+        ]
+      ],
+      "optional": false
+    },
+    {
+      "name": "proposal evidence to constrained decoder",
+      "points": [
+        [
+          0.7094812500000001,
+          0.853019863880975
+        ],
+        [
+          0.7094812500000001,
+          0.7136875000000001
+        ]
+      ],
+      "optional": false
+    },
+    {
+      "name": "decoded labels to embedded complex",
+      "points": [
+        [
+          0.6529982954545455,
+          0.663120920502092
+        ],
+        [
+          0.39665690376569035,
+          0.663120920502092
+        ]
+      ],
+      "optional": false
+    },
+    {
+      "name": "decoder to optional ensemble",
+      "points": [
+        [
+          0.7094812500000001,
+          0.6195625
+        ],
+        [
+          0.7094812500000001,
+          0.556
+        ],
+        [
+          0.8362797619047618,
+          0.556
+        ],
+        [
+          0.8362797619047618,
+          0.5308395146520146
+        ]
+      ],
+      "optional": true
+    },
+    {
+      "name": "physical interfaces to sampling strip",
+      "points": [
+        [
+          0.33097300970873783,
+          0.6151397489539749
+        ],
+        [
+          0.33097300970873783,
+          0.5267932321362079
+        ]
+      ],
+      "optional": false
+    },
+    {
+      "name": "interface measurements to exports",
+      "points": [
+        [
+          0.583,
+          0.3660440627333831
+        ],
+        [
+          0.583,
+          0.316
+        ]
+      ],
+      "optional": false
+    },
+    {
+      "name": "structural tables to analysis tier",
+      "points": [
+        [
+          0.583,
+          0.239
+        ],
+        [
+          0.583,
+          0.196
+        ]
+      ],
+      "optional": false
+    },
+    {
+      "name": "phenotypes",
+      "points": [
+        [
+          0.09460262008733623,
+          0.196
+        ],
+        [
+          0.09460262008733623,
+          0.17684615384615388
+        ]
+      ],
+      "optional": false
+    },
+    {
+      "name": "dynamics",
+      "points": [
+        [
+          0.3455558035714285,
+          0.196
+        ],
+        [
+          0.3455558035714285,
+          0.11695836195054946
+        ]
+      ],
+      "optional": false
+    },
+    {
+      "name": "mechanics",
+      "points": [
+        [
+          0.6052548262548263,
+          0.196
+        ],
+        [
+          0.6052548262548263,
+          0.11410187110187106
+        ]
+      ],
+      "optional": false
+    },
+    {
+      "name": "transport",
+      "points": [
+        [
+          0.725930501930502,
+          0.196
+        ],
+        [
+          0.725930501930502,
+          0.11486961686961689
+        ]
+      ],
+      "optional": false
+    }
+  ],
   "source_sha256": {
     "docs/figure_data/methods_in_action_arrays.npz": "64173655256f3c1c984c0f39613ce88299d3d5b31fa17df111210ed874328265",
     "docs/figure_data/methods_full_flow_ensemble.npz": "72eed7425d4dec5cc5007e9612d5a2330747f36b12e0ef618aabe3de76724be0",
