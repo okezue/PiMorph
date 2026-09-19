@@ -1,0 +1,25 @@
+{
+  "n_tiles": 1032,
+  "n_wells": 10,
+  "ter_range": [
+    780.0,
+    1029.66666666667
+  ],
+  "curated_vs_neural_tile_spearman": {
+    "n_cells": 0.5952730522380595,
+    "n_gaps": NaN,
+    "n_edges": 0.5986970000634166,
+    "TJ_coverage": 0.8663349027297597,
+    "TJ_continuity": 0.9122982200683747,
+    "TJ_width_mean_px": 0.8804462432267355,
+    "TJ_intensity_rel": 0.9933331238274145,
+    "G_eff": 0.24018651844896585,
+    "permeability_index": 0.24043620512048217,
+    "gap_fraction": NaN,
+    "mean_g_edge": 0.9048198656330863,
+    "cell_area_px": 0.5949422048515137,
+    "cell_area_cv": 0.2165917956752284,
+    "edge_length_px": 0.6868639643584004,
+    "tissue_frac": 0.06221324275730868
+  }
+}

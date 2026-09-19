@@ -61,3 +61,10 @@ These are RELATIVE tensions with no validation: no force measurement (laser abla
 - pressures without edge curvature (underdetermined without the Laplace law);
 - any mechanics on real data (only self-consistency: residual force balance);
 - topology changes (T1/T2); the forward model runs at fixed topology.
+
+## Real-data follow-up (2026-09-19)
+
+See `runs/mechanics_real/REPORT.md`: laser-ablation recoil (Lang et al. 2019, 15 cuts), DLITE
+ZO-1 colonies and TissueMiner consistency. The cut boundary cable is inferred above the field
+mean in 14 / 15 fields and the cut-edge tension ranks recoil velocity with Spearman 0.64
+(tension-only, ridge 0.1; 0.2 with pressures and curvature).

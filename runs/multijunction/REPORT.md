@@ -88,3 +88,11 @@ State means (original units):
 - Geometry comes from VE-cadherin alone; where VE-cadherin is lost after BRAFi the decoder can miss or merge cells, which biases TJ coverage on the surviving edges.
 - Explicit gaps depend on the decoder's gap map; their count is a reconstruction output, not an annotation.
 - The barrier proxy is a passive resistor network with hand-set weights; G_eff and the permeability index are untested predictions (validated: False).
+
+## Measured-function follow-up (2026-09-19)
+
+See `runs/function_real/REPORT.md`: against the ECIS resistance and tracer permeability of the
+S-BIAD1169 paper (Bromberger et al. 2024 Fig 4) the predicted G_eff does not correlate
+(Spearman -0.03 and 0.20, n = 17 fields); on 10 iPSC-RPE wells with measured TER the
+permeability index has the right sign (-0.52) but is not significant (p 0.13). `validated`
+stays False.

@@ -1,0 +1,39 @@
+{
+  "seconds": {
+    "1": {
+      "CellFIT": 1.3545842170715332,
+      "DLITE": 177.36784100532532
+    },
+    "2": {
+      "CellFIT": 1.2771117687225342,
+      "DLITE": 135.72474479675293
+    },
+    "3": {
+      "DLITE": 160.9504451751709
+    },
+    "4": {
+      "CellFIT": 0.3110682964324951,
+      "DLITE": 38.75859212875366
+    }
+  },
+  "failed_solvers": {
+    "1": {},
+    "2": {},
+    "3": {
+      "CellFIT": "LinAlgError: A singular matrix detected: slice(s) [0] are singular."
+    },
+    "4": {}
+  },
+  "settings": {
+    "tension_only_r0.1": {
+      "use_pressures": false,
+      "curvature_pressure": false,
+      "ridge": 0.1
+    },
+    "pressure_curvature_r0.1": {
+      "use_pressures": true,
+      "curvature_pressure": true,
+      "ridge": 0.1
+    }
+  }
+}

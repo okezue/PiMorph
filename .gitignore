@@ -64,3 +64,10 @@ data/epicure/
 data/rescu_nets/
 output/
 models/*.pt
+data/cover_zebrafish/
+data/rpe_nist/
+data/ablation_lang2019/
+data/dlite/
+data/cellpose_train/
+data/s_biad1920_*
+data/zenodo_sweep_*.json

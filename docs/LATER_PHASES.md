@@ -141,3 +141,60 @@ dense triple-positive); the dense state is 17% of DMSO edges vs 11% of BRAFi edg
 control fields and 21 tests without correction, nothing here is a finding; the pipeline is
 what was delivered. Images are 8-bit display exports, so intensities are not comparable
 across fields and thresholds are per-field Otsu.
+
+## Real-data validation (2026-09-19)
+
+Both the mechanics and the function modules were tested against measured quantities for the
+first time. Full tables, provenance and figures: `runs/mechanics_real/REPORT.md` and
+`runs/function_real/REPORT.md`. New loaders `io.rpe_nist` (NIST/NEI iPSC-RPE tiles, masks
+and TER table) and `io.ablation_lang2019` (ablation movies, ImageJ line ROI, recoil from
+kymograph tracks), tests in `tests/pimorph/test_io_real_validation.py` (5). Data under
+`data/rpe_nist/`, `data/ablation_lang2019/`, `data/dlite/` (not in git).
+
+### Mechanics (`pimorph.mechanics`): partial validation against laser-ablation recoil
+
+- Lang et al. 2019 (Zenodo 3257654): 15 nanoablations of parasegment-boundary cables in
+  E-cadherin:GFP germband, manual tracks of the cut ends. PiMorph neural reconstruction of
+  the pre-cut frame, `infer_tensions`, cut edge located from the reslice line. The cut edge
+  is inferred above the field mean in 14 / 15 fields (sign test p 5e-4) and the cable-line
+  edges above the other edges in 15 / 15 (+0.35 relative, Wilcoxon p 1.5e-4), matching the
+  known 2x recoil of boundary cables (Scarpa et al. 2018). Across the 15 cuts the inferred
+  relative tension of the cut edge ranks the recoil velocity with Spearman 0.64 (p 0.011,
+  95% CI 0.16 to 0.86) in the tension-only setting (ridge 0.1) but only 0.2 (n.s.) once
+  pressures and Laplace rows are added: on these short, neurally traced edges the curvature
+  rows hurt. Best of three settings; n = 15 cuts of one junction type. Robust to 2x
+  upsampling for the within-field results (Spearman across cuts 0.48, p 0.07).
+- DLITE ZO-1 hiPSC colonies (4 series, 102 frames, hand traces): PiMorph vs DLITE tensions
+  on the same edges Spearman 0.27 (n 652, CI 0.19 to 0.35); PiMorph per-frame temporal
+  consistency 0.14 to 0.66 vs DLITE 0.58 to 0.72 (DLITE's own claim over CellFIT
+  reproduces). Only 4 to 8 interior edges per frame carry a PiMorph tension on these small
+  islands, because boundary vertices are excluded from the balance. Cross-method only.
+- TissueMiner pupal wing (15 frames, curated labels): inferred stress axis within 3 deg of
+  PD in every frame, PD-aligned edges 1.5x the tension of AP-aligned edges relaxing to
+  1.2x over 5.8 h in step with the database elongation (Spearman 0.98). Consistency, not
+  validation (same geometry on both sides; the network geometry alone gives 0.45 of the
+  0.53 anisotropy).
+- Still not validated: pressures, curvature terms, absolute scale; no FRET or micropipette
+  dataset with images was found.
+
+### Function (`pimorph.function`): not validated, with one right-sign result and one negative
+
+- NIST/NEI iPSC-RPE (Schaub, Hotaling, Bharti et al. 2020, DOI 10.18434/T4/1503229): 10
+  AMD-iRPE wells with measured TER (780 to 1030 Ohm cm^2) and 1,032 registered ZO-1 tiles
+  with hand-corrected border masks. Curated complexes: predicted permeability index vs TER
+  Spearman -0.52 (correct sign; n = 10 wells, p 0.13, 95% CI -0.92 to 0.22; tile-level
+  -0.40 with a well-permutation p of 0.14). PiMorph neural reconstruction: -0.09 (the
+  decoder splits 60% more cells than the masks and G_eff scales with interface count).
+  ZO-1 coverage vs TER +0.33 (n.s.). TER differences between these mature wells are of the
+  order of the within-well SD, so the test is underpowered; a wider TER range with a junction
+  stain of the same wells would be needed.
+- S-BIAD1169 against the published barrier measurements of its paper (Bromberger et al.
+  2024 LSA, Fig 4 ECIS resistance and tracer permeability at 1 h, read off the figure): G_eff
+  vs resistance change Spearman -0.03, vs permeability 0.20 and 0.07 (n = 17 fields, 13
+  conditions). V100 and P100 are predicted 11 to 15% leakier as measured, but D100 is
+  predicted 21% tighter despite a measured 600 ohm drop and E100 25% leakier despite no
+  measured effect. Negative result for G_eff as a predictor of measured barrier change.
+- `barrier_report` keeps `validated: False`; no module behaviour changed. Searches for other
+  datasets pairing junction images with TEER, FITC-dextran, XPerT or Evans blue at well or
+  field level found only condition-level image deposits (Zenodo 14969049, 8377287), not
+  processed.

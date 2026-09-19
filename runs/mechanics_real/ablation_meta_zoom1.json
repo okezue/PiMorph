@@ -1,0 +1,24 @@
+{
+  "checkpoint": "models/pimorph_proposals_v6_pool.pt",
+  "zoom": 1,
+  "pre_frames": 3,
+  "settings": {
+    "tension_only_r0.1": {
+      "use_pressures": false,
+      "curvature_pressure": false,
+      "ridge": 0.1
+    },
+    "pressure_curvature_r0.1": {
+      "use_pressures": true,
+      "curvature_pressure": true,
+      "ridge": 0.1
+    },
+    "pressure_curvature_r0.01": {
+      "use_pressures": true,
+      "curvature_pressure": true,
+      "ridge": 0.01
+    }
+  },
+  "frame_interval_s": 0.72767,
+  "field_um": 42.2
+}
