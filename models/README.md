@@ -1,8 +1,8 @@
 # Models
 
 The proposal checkpoints are not in this repository. They live in the PiMorph data record on
-Zenodo (concept DOI in `scripts/fetch_zenodo.py`; it always resolves to the newest version) together
-with the training logs and configurations. Fetch them with
+Zenodo, **[10.5281/zenodo.22839866](https://doi.org/10.5281/zenodo.22839866)** (concept DOI, always resolves to the newest
+version, currently 1.1.0), together with the training logs and configurations. Fetch them with
 
 ```bash
 python scripts/fetch_zenodo.py --models        # downloads pimorph_models.tar, verifies the md5, extracts into models/

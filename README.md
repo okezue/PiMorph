@@ -204,9 +204,9 @@ ruff check src/ tests/
 ## Data availability
 
 The repository holds the code, the tests and small derived tables. Checkpoints, the complete benchmark
-outputs and the training tiles are too large for git and live in the PiMorph data record on Zenodo
-(concept DOI recorded in `scripts/fetch_zenodo.py` once published; it always resolves to the newest
-version).
+outputs and the training tiles are too large for git and live in the PiMorph data record on Zenodo:
+**[10.5281/zenodo.22839866](https://doi.org/10.5281/zenodo.22839866)** (concept DOI, always resolves to the newest version,
+currently 1.1.0, record [10.5281/zenodo.22839867](https://doi.org/10.5281/zenodo.22839867)).
 
 | file | size | contents |
 |---|---|---|

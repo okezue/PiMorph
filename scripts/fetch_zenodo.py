@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Download and verify the PiMorph data record from Zenodo.
+"""Download and verify the PiMorph data record from Zenodo (concept DOI 10.5281/zenodo.22839866).
 
     python scripts/fetch_zenodo.py --models                 # checkpoints into models/
     python scripts/fetch_zenodo.py --only pimorph_results.tar --extract     # benchmark tables and figures into runs/
@@ -22,7 +22,7 @@ import tarfile
 import urllib.parse
 import urllib.request
 
-CONCEPT_DOI = os.environ.get("PIMORPH_ZENODO_CONCEPT_DOI", "")  # filled in after the first publication
+CONCEPT_DOI = os.environ.get("PIMORPH_ZENODO_CONCEPT_DOI", "10.5281/zenodo.22839866")
 API = "https://zenodo.org/api/records"
 
 

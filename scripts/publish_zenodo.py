@@ -27,8 +27,8 @@ import sys
 import urllib.parse
 import urllib.request
 
-# concept DOI of the PiMorph data record; filled in after the first publication
-CONCEPT_DOI = os.environ.get("PIMORPH_ZENODO_CONCEPT_DOI", "")
+# concept DOI of the PiMorph data record (always resolves to the newest version)
+CONCEPT_DOI = os.environ.get("PIMORPH_ZENODO_CONCEPT_DOI", "10.5281/zenodo.22839866")
 API = "https://zenodo.org/api"
 TITLE = "PiMorph: proposal checkpoints, benchmark results and training tiles for endothelial cell complexes"
 CREATORS = [{"name": "Bell, Alexander Okezue", "affiliation": "Stanford University", "orcid": "0009-0004-9419-3962"}]
