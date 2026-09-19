@@ -534,6 +534,14 @@ def load_synth(root: Path, max_items: Optional[int] = None) -> Iterator[BenchIte
         )
 
 
+def _load_rpe_zo1(root: Path, max_items: Optional[int] = None) -> Iterator[BenchItem]:
+    """NIH-NEI RPE tight-junction monolayer tiles; see ``pimorph.bench.rpe`` (imported
+    lazily because that module imports ``BenchItem`` from here)."""
+    from .rpe import load_rpe_zo1
+
+    return load_rpe_zo1(root, max_items)
+
+
 LOADERS: Dict[str, Callable[[Path, Optional[int]], Iterator[BenchItem]]] = {
     "cornea": load_cornea,
     "nuinsseg": load_nuinsseg,
@@ -544,6 +552,7 @@ LOADERS: Dict[str, Callable[[Path, Optional[int]], Iterator[BenchItem]]] = {
     "hcec": load_hcec,
     "alizarine": load_alizarine,
     "flywing": load_flywing,
+    "rpe_zo1": _load_rpe_zo1,
     "synth": load_synth,
 }
 
@@ -557,6 +566,7 @@ DEFAULT_ROOTS = {
     "hcec": Path("data/hcec_ncam"),
     "alizarine": Path("data/alizarine_padova"),
     "flywing": Path("data/flywing_denoiseg"),
+    "rpe_zo1": Path("data/rpe_nei"),
     "synth": Path("data/tiles/synth_val"),
 }
 
