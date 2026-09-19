@@ -74,5 +74,42 @@
    "boundary_smooth_sigma": 1.0,
    "vertex_weight": 0.6
   }
+ ],
+ "nucmerge": [
+  false,
+  {
+   "nucleus_merge": true
+  }
+ ],
+ "nucmerge_a0.6": [
+  false,
+  {
+   "nucleus_merge": true,
+   "nucleus_merge_max_area_frac": 0.6
+  }
+ ],
+ "nucmerge_b0.6": [
+  false,
+  {
+   "nucleus_merge": true,
+   "nucleus_merge_boundary_max": 0.6
+  }
+ ],
+ "nucmerge_smooth1_vw0.6": [
+  false,
+  {
+   "nucleus_merge": true,
+   "boundary_smooth_sigma": 1.0,
+   "vertex_weight": 0.6
+  }
+ ],
+ "nucmerge_a0.6_smooth1_vw0.6": [
+  false,
+  {
+   "nucleus_merge": true,
+   "nucleus_merge_max_area_frac": 0.6,
+   "boundary_smooth_sigma": 1.0,
+   "vertex_weight": 0.6
+  }
  ]
 }

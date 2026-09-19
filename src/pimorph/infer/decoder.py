@@ -54,6 +54,12 @@ class DecoderParams:
     merge_vertex_min: float = 0.5
     merge_vertex_radius_px: float = 3.0
     max_merges: int = 0
+    # nucleus-consistency merges (needs maps.meta["nucleus_points"]): a cell containing no
+    # nuclear peak and smaller than nucleus_merge_max_area_frac x the median cell area is a
+    # split fragment; it joins the neighbour across its weakest boundary
+    nucleus_merge: bool = False
+    nucleus_merge_max_area_frac: float = 1.0
+    nucleus_merge_boundary_max: float = 1.0  # only across edges with mean boundary prob below this
     label: str = ""
 
     def with_(self, **kw) -> "DecoderParams":
@@ -182,6 +188,59 @@ def vertex_consistent_merges(
     return lab, n
 
 
+def nucleus_consistency_merges(
+    labels: np.ndarray, cx: HalfEdgeComplex, maps: ProposalMaps, params: DecoderParams
+) -> tuple[np.ndarray, int]:
+    """Merge cells that contain no nuclear peak into the neighbour across their weakest
+    boundary. The one-nucleus-per-cell prior applied after decoding: split fragments
+    have no nucleus, real cells almost always do. Only cells below
+    ``nucleus_merge_max_area_frac`` x the median cell area qualify (a large cell with a
+    dim nucleus is kept), and only edges below ``nucleus_merge_boundary_max`` mean
+    boundary probability are crossed. Each cell merges at most once per call."""
+    pts = maps.meta.get("nucleus_points")
+    if pts is None:
+        return labels, 0
+    pts = np.asarray(pts).reshape(-1, 2)
+    H, W = labels.shape
+    counts = np.bincount(labels.ravel())
+    n_nuc = np.zeros_like(counts)
+    if len(pts):
+        pr = np.clip(np.round(pts[:, 0]).astype(int), 0, H - 1)
+        pc = np.clip(np.round(pts[:, 1]).astype(int), 0, W - 1)
+        owner = labels[pr, pc]
+        n_nuc = np.bincount(owner[owner > 0], minlength=counts.size)
+    areas = counts[1:][counts[1:] > 0]
+    if areas.size == 0:
+        return labels, 0
+    max_area = params.nucleus_merge_max_area_frac * float(np.median(areas))
+    # weakest edge per empty cell
+    best: Dict[int, tuple] = {}
+    for e in cx.cell_cell_edges():
+        e = int(e)
+        fa, fb = (int(f) for f in cx.edge_faces[e])
+        a, b = int(cx.face_label[fa]), int(cx.face_label[fb])
+        if a == b or a <= 0 or b <= 0:
+            continue
+        sup = None
+        for cell, other in ((a, b), (b, a)):
+            if cell >= counts.size or n_nuc[cell] > 0 or counts[cell] > max_area or counts[cell] == 0:
+                continue
+            if sup is None:
+                sup = edge_support(cx, maps.boundary, e)
+            if sup < params.nucleus_merge_boundary_max and (cell not in best or sup < best[cell][0]):
+                best[cell] = (sup, other)
+    lab = labels.copy()
+    touched: set = set()
+    n = 0
+    for cell, (_, other) in sorted(best.items(), key=lambda kv: kv[1][0]):
+        if cell in touched or other in touched:
+            continue
+        lab[lab == cell] = other
+        touched.update((cell, other))
+        n += 1
+    return lab, n
+
+
 class ConstrainedDecoder:
     def __init__(self, pixel_size_um: Optional[float] = None):
         self.pixel_size_um = pixel_size_um
@@ -250,6 +309,11 @@ class ConstrainedDecoder:
             lab, n_merged = vertex_consistent_merges(lab, cx, maps, params)
             if n_merged:
                 cx = extract_complex(lab, pixel_size_um=self.pixel_size_um, provenance=provenance)
+        n_nuc_merged = 0
+        if params.nucleus_merge:
+            lab, n_nuc_merged = nucleus_consistency_merges(lab, cx, maps, params)
+            if n_nuc_merged:
+                cx = extract_complex(lab, pixel_size_um=self.pixel_size_um, provenance=provenance)
         smooth_complex(cx, iterations=params.smooth_iters)
         used = np.unique(lab[lab > 0]) - 1
         return DecodeResult(
@@ -262,6 +326,7 @@ class ConstrainedDecoder:
                 "n_cells": int(cx.cell_faces.size),
                 "n_gaps": int(cx.gap_faces.size),
                 "n_vertex_merges": int(n_merged),
+                "n_nucleus_merges": int(n_nuc_merged),
             },
         )
 

@@ -293,3 +293,23 @@ def test_vertex_consistent_merge_removes_unsupported_split():
     maps.vertex[:, 29:31] = 0.95
     kept = dec.decode(maps, DecoderParams(min_cell_area_px=20, min_gap_area_px=4, merge_boundary_max=0.3, max_merges=5))
     assert kept.cx.cell_faces.size == 2
+
+
+def test_nucleus_consistency_merge_removes_empty_fragment():
+    from pimorph.infer.decoder import nucleus_consistency_merges
+
+    maps = _two_cell_maps(touching=True)
+    maps.boundary[:] = 0.4
+    # one nucleus, in the left cell only: the right cell is a nucleus-free fragment
+    maps.meta["nucleus_points"] = np.array([[20, 12]])
+    dec = ConstrainedDecoder()
+    base = dec.decode(maps, DecoderParams(min_cell_area_px=20, min_gap_area_px=4))
+    assert base.cx.cell_faces.size == 2
+    lab, n = nucleus_consistency_merges(base.labels, base.cx, maps, DecoderParams(nucleus_merge=True))
+    assert n == 1 and len(np.unique(lab[lab > 0])) == 1
+    merged = dec.decode(maps, DecoderParams(min_cell_area_px=20, min_gap_area_px=4, nucleus_merge=True))
+    assert merged.cx.cell_faces.size == 1 and merged.info["n_nucleus_merges"] == 1
+    # a nucleus in each cell: nothing merges
+    maps.meta["nucleus_points"] = np.array([[20, 12], [20, 47]])
+    kept = dec.decode(maps, DecoderParams(min_cell_area_px=20, min_gap_area_px=4, nucleus_merge=True))
+    assert kept.cx.cell_faces.size == 2 and kept.info["n_nucleus_merges"] == 0

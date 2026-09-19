@@ -215,8 +215,11 @@ class NeuralProposer:
             pts, scores = pts[inside], scores[inside]
 
         n_nucleus_seeds = 0
-        if self.nucleus_seeds and nuclei is not None and nucleus_radius is not None:
-            npts = nucleus_peaks(nuclei, nucleus_radius)
+        nucleus_points = None
+        if nuclei is not None and nucleus_radius is not None:
+            nucleus_points = nucleus_peaks(nuclei, nucleus_radius)
+        if self.nucleus_seeds and nucleus_points is not None:
+            npts = nucleus_points
             if len(npts):
                 keep = tissue[npts[:, 0], npts[:, 1]] & (distance[npts[:, 0], npts[:, 1]] > 0)
                 npts = npts[keep]
@@ -233,6 +236,8 @@ class NeuralProposer:
 
         meta = {
             "n_nucleus_seeds": n_nucleus_seeds,
+            # every nuclear peak (row, col), for the decoder's nucleus-consistency merges
+            "nucleus_points": nucleus_points,
             "cell_radius_px": float(cell_radius),
             "ridge_width_px": float(estimate_ridge_width(geometry)),
             "nuclei_used": nuclei is not None,
