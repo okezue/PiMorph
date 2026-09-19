@@ -1,0 +1,23 @@
+[2026-09-18T23:57:48Z] mine: decode every real-truth training tile with v4_confluent, weight missed (x4) and spurious (x3) vertices
+           n_ref_vertices  n_matched  n_missed  n_spurious  matched_frac
+set                                                                     
+alizarine           41193      40014      1179       64641         0.971
+flywing             41443      35009      6434        7012         0.845
+haec                49319      17683     31636       38284         0.359
+hcec                47834      32206     15628       23407         0.673
+[2026-09-19T00:03:37Z] mine done
+[2026-09-19T00:03:37Z] train: v5_vertex = v4_confluent resumed 40 epochs with loss_weight tiles and vertex_focus 1.0 (4 GPUs)
+[2026-09-19T00:32:12Z] train done: {"epoch": 179, "step": 51480, "lr": 0.00035817402736048275, "time_s": 39.8498170375824, "train_loss": -1.6010775052115216, "train_parts": {"boundary": 0.3218617
+[2026-09-19T00:32:12Z] tune: decoder variants (vertex_weight, smoothing, distance mix, TTA) on 10 hCEC train fields, v4 and v5
+[2026-09-19T00:32:40Z] pool tiles: rpe_zo1 train stacks (52 tiles of 768^2 -> 512 crops, ROI ignored)
+[2026-09-19T00:35:16Z] pool tiles: gt_rpe_train=208 pseudo_pecam=1200
+[2026-09-19T00:35:16Z] pool mine: vertex-miss weights on gt_rpe_train with v5_vertex
+[2026-09-19T00:35:59Z] pool mine done: 52 tiles: true vertices 5228, matched 869 (0.166), missed 4359, spurious 5718; mean weighted fraction 0.113
+[2026-09-19T00:35:59Z] pool train: v6_pool = v5_vertex + gt_rpe_train (x2) + pseudo_pecam, 40 epochs on 4 GPUs
+[2026-09-19T01:00:40Z] tune done
+[2026-09-19T01:00:40Z] frontier campaign finished
+[2026-09-19T01:09:30Z] pool train done: {"epoch": 219, "step": 73920, "lr": 0.00037196676079995016, "time_s": 46.00319766998291, "train_loss": -1.6243535398860418, "train_parts": {"boundary": 0.327757
+[2026-09-19T01:09:30Z] pool campaign finished
+[2026-09-19T01:09:47Z] final: HAEC train tune (v5, TTA, 10 fields) to pick the HAEC decoder setting
+[2026-09-19T01:12:30Z] final: HAEC decoder setting from train tune: {"vertex_weight": 0.6}
+[2026-09-19T01:29:59Z] final bench done

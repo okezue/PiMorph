@@ -32,8 +32,9 @@ class DecoderParams:
     distance_mix: float = 0.0  # elevation = (1-a) * boundary + a * (distance to nearest seed / cell_radius)
     # elevation += vertex_weight * vertex probability: the flood fronts of three cells then
     # meet where the vertex head predicts the junction, instead of wherever the thick
-    # boundary ridge happens to be lowest
-    vertex_weight: float = 0.0
+    # boundary ridge happens to be lowest (0.3 gained vertex F1 on every train split probed;
+    # 0.6 is better on thick-ridge monolayers such as hCEC and HAEC)
+    vertex_weight: float = 0.3
     cell_radius_px: float = 15.0
     compactness: float = 0.0
     gap_threshold: float = 0.7  # pixels with gap >= threshold are excluded from cells

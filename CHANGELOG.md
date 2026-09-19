@@ -2,6 +2,12 @@
 
 ## v1.1.0.dev0 (unreleased)
 
+### 2026-09-19: frontier round for multicellular vertices, pooled data
+- `scripts/make_vertex_miss_weights.py` writes per-tile `loss_weight` arrays around true vertices the current decode misses (x4) and spurious predicted vertices (x3); `TileDataset` honours them plus a `vertex_focus` weight near all true vertices. `v5_vertex` (not shipped) and `models/pimorph_proposals_v6_pool.pt` (+ RPE train stacks and 1,200 real PECAM-1 HUVEC pseudo-label tiles) with card.
+- Decoder: `vertex_weight` (vertex head in the elevation, default 0.3), `nucleus_merge` (cells without a nuclear peak join the neighbour across their weakest boundary), `NeuralProposer(tta=True)`, benchmark method `neural_map`, env hooks `PIMORPH_DECODER_PARAMS` and `PIMORPH_NEURAL_TTA`. Held-out hCEC vertex F1 0.611 to 0.680 (Cellpose-SAM 0.635); FlyWing 0.875; alizarine 0.992; HAEC 0.352.
+- New loaders and pools: `rpe_zo1` (`pimorph.bench.rpe`, NIH-NEI RPE monolayer polygons, stack-disjoint splits), `pimorph.io.jacquemet` (495 real PECAM-1 HUVEC fields, manifest, pseudo-label driver, self-check), `pimorph.dynamics.epicure` (curated movies; 59/59 and 13/13 isolated T1s conserve charge; residuals are free-edge effects). `pimorph_dynamics_eval.py --dataset epicure`.
+- `infra/xai/run_frontier.sh`, `run_pool.sh`, `run_final_bench.sh`.
+
 ### 2026-09-18: vertices against real truth, later phases, shear re-test
 - HAEC reference derivation corrected (8-connected body markers, no sub-30 px specks, 4-connected labels): about 40% of the former "cells" were 1 to 3 px fringe specks. All HAEC and mCellSeg held-out tables were recomputed (`runs/vertex/`, `docs/ENDOTHELIAL_RESULTS.md`).
 - Decoder: pixels the signed-distance head places outside every cell are excluded from the flood (`DecoderParams.outside_px`, default 0). The gap head only knows enclosed background, so open background was flooded and cells that never touch were joined (HAEC field 0005: 1,167 predicted multicellular vertices against 81 true; now 89). Optional vertex-consistent merges (`max_merges`). Vectorized small-background fill.

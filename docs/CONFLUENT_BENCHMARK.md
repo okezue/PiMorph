@@ -172,3 +172,74 @@ Reading:
 - No public VE-cadherin or PECAM-1 monolayer with expert instance masks exists to close the last
   gap; the raw PECAM-1 HUVEC pairs from Zenodo 10611092 (484 fields, no masks) are the natural
   target for a small annotation effort, and `hcec` is the benchmark to beat until then.
+
+## Frontier round (2026-09-19): training for topologically missed vertices, pooled data
+
+Everything in this section is measured on the same held-out TEST splits as above; every decoder
+setting was chosen on the TRAIN splits (`runs/frontier/tune_*.csv`). Full table:
+`runs/frontier/final_summary.csv`; campaign log `runs/frontier/campaign.log`.
+
+What was done, in order of measured effect on hCEC test vertex F1 (v4_confluent start 0.611):
+
+1. **Hard-example mining of topological misses** (`scripts/make_vertex_miss_weights.py`): every
+   real-truth training tile is decoded exactly as at test time, its vertices matched to the
+   truth, and pixels within 8 px of a true vertex with no predicted counterpart get 4x loss
+   weight (3x around spurious predicted vertices); all true vertices get 2x within 5 px
+   (`vertex_focus`). v4 matched 67% of hCEC, 85% of FlyWing, 97% of alizarine and 36% of HAEC
+   training vertices. `v5_vertex` = v4 + 40 epochs with these weights: 0.611 to 0.636 (plain
+   decode), 0.833 to 0.871 on FlyWing, 0.292 to 0.337 on HAEC.
+2. **Decoder and test-time changes** (+0.031 on hCEC): the vertex head enters the watershed
+   elevation (`vertex_weight`, now 0.3 by default), nucleus-consistency merges remove cells
+   without a nuclear peak across their weakest boundary (`nucleus_merge`; hCEC train adjacency
+   0.82 to 0.85, cells 1,907 to 1,760 vs 1,673 true), 1 px boundary smoothing, and dihedral
+   test-time augmentation (`NeuralProposer(tta=True)`, +0.018 alone). Distance mixing and
+   plain boundary-support merges hurt and were dropped.
+3. **Pooled data** (+0.013): `v6_pool` = v5 + 40 epochs with the NIH-NEI RPE monolayer train
+   stacks (208 tiles, `rpe_zo1` loader, manual VIA polygons united over z) and 1,200
+   consensus pseudo-label tiles from 300 real PECAM-1 HUVEC monolayer fields (Zenodo 10611092;
+   Cellpose-SAM primary, v4 second opinion, 80% cell agreement, disputed boundaries ignored).
+4. **Posterior MAP** (`neural_map`: 32 hypotheses scored by the full energy) gains 0.002 over
+   the default decode at 15x the cost; the energy does not select better complexes than the
+   tuned single decode on this data.
+
+| Test split | Method | Adj F1 pair | Vertex F1 | Vertex prec. / rec. | pred / true vertices | Loc. median (px) | PQ | Boundary F1 |
+|---|---|---|---|---|---|---|---|---|
+| hCEC (5) | **v6_pool tuned** | **0.867** | **0.680** | 0.678 / 0.683 | 3014 / 2974 | 1.28 | **0.816** | **0.916** |
+| hCEC | v5_vertex tuned | 0.861 | 0.667 | 0.661 / 0.674 | 3058 / 2974 | 1.53 | 0.807 | 0.911 |
+| hCEC | v5_vertex posterior MAP | 0.863 | 0.669 | 0.664 / 0.674 | 3054 / 2974 | 1.53 | 0.809 | 0.912 |
+| hCEC | v4_confluent tuned | 0.851 | 0.645 | 0.634 / 0.657 | 3103 / 2974 | 1.45 | 0.800 | 0.907 |
+| hCEC | v5_vertex plain | 0.826 | 0.636 | 0.604 / 0.673 | 3357 / 2974 | 1.53 | 0.781 | 0.901 |
+| hCEC | Cellpose-SAM (filled) | 0.830 | 0.635 | 0.721 / 0.581 | 2298 / 2974 | **1.17** | 0.790 | 0.880 |
+| alizarine (10) | v5_vertex tuned | 0.988 | **0.993** | 0.995 / 0.991 | 567 / 570 | 1.00 | **0.920** | 0.999 |
+| alizarine | v6_pool tuned | 0.987 | 0.992 | 0.994 / 0.990 | 568 / 570 | 1.00 | 0.920 | 0.999 |
+| alizarine | Cellpose-SAM (filled) | **0.989** | 0.984 | 0.979 / 0.989 | 576 / 570 | 1.00 | 0.898 | **1.000** |
+| FlyWing (10) | v6_pool tuned | 0.911 | **0.875** | 0.869 / 0.881 | 1278 / 1260 | 1.59 | 0.780 | 0.994 |
+| FlyWing | v5_vertex tuned | 0.900 | 0.875 | 0.870 / 0.880 | 1274 / 1260 | 1.59 | 0.776 | 0.995 |
+| FlyWing | Cellpose-SAM (filled) | **0.966** | 0.849 | 0.834 / 0.864 | 1306 / 1260 | **1.47** | **0.795** | 0.996 |
+| RPE (20 tiles, 5 stacks) | v6_pool tuned | 0.605 | **0.327** | 0.291 / 0.381 | 265 / 209 | 1.73 | **0.556** | **0.731** |
+| RPE | Cellpose-SAM (filled) | **0.622** | 0.287 | 0.254 / 0.331 | 269 / 209 | 1.77 | 0.548 | 0.686 |
+| HAEC (86) | **v6_pool tuned** | **0.536** | **0.352** | 0.293 / 0.453 | 151 / 92 | 1.25 | **0.626** | **0.858** |
+| HAEC | v4_confluent | 0.521 | 0.292 | 0.294 / 0.304 | 108 / 92 | 1.43 | 0.612 | 0.852 |
+| HAEC | Cellpose-SAM (filled) | 0.314 | 0.039 | 0.039 / 0.043 | 110 / 92 | 1.40 | 0.465 | 0.708 |
+
+Where this leaves the frontier:
+
+- Cultured endothelial monolayer (hCEC): PiMorph leads on adjacency, vertex F1, PQ and boundary
+  F1 with a calibrated vertex count; Cellpose-SAM keeps better vertex localization (1.17 vs 1.28
+  px) and incident-set accuracy (0.91 vs 0.86). The remaining vertex errors are split and merged
+  cells in weak-signal regions, at roughly equal rates now (precision 0.68, recall 0.68).
+- In situ corneal endothelium and E-cadherin epithelium: vertices are at 0.99 and 0.875; on
+  FlyWing Cellpose-SAM still has the better adjacency (0.966 vs 0.911).
+- RPE with stress fibres in the border channel and sub-confluent HAEC remain hard for every
+  method; PiMorph is ahead on both but at vertex F1 0.33 to 0.35.
+- Real PECAM-1 HUVEC monolayers are now in the training pool, but only as pseudo-labels; their
+  vertex accuracy is still unmeasured because no expert masks exist. A small annotation effort on
+  those 495 fields (they are 0.65 um/px, ~500 cells each) is the single most valuable next step.
+
+## Pooled datasets (2026-09-19)
+
+| Loader / resource | Data | Role |
+|---|---|---|
+| `rpe_zo1` (`pimorph.bench.rpe`) | NIH-NEI RPE monolayer training set (figshare+ 28832501, CC0): 18 confocal stacks x 4 tiles, 130,201 manual VIA polygons, 6,883 cells; green border channel (upstream target "Actin": phalloidin or ZO-1 depending on the stack), red nuclei | benchmark (stack-disjoint splits, `runs/vertex/splits_rpe.json`) and training (13 stacks) |
+| `pimorph.io.jacquemet` | 495 real PECAM-1 HUVEC monolayer fields (Zenodo 10611092, 1022x1024, 0.65 um/px) with a manifest | 1,200 consensus pseudo-label tiles (`data/tiles/pseudo_pecam` on the devbox); label-free self-check `runs/pecam_selfcheck/` (v4: 544 cells and 987 tricellular vertices per field, 1 gap; v3: 686 cells, 72 gaps) |
+| `pimorph.dynamics.epicure` | EpiCure curated movies (Zenodo 20607705) | event calculus on curated ids (`docs/LATER_PHASES.md`) |

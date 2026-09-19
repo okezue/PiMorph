@@ -87,17 +87,20 @@ Everything below is implemented and tested under `tests/pimorph/`; the linked do
   See [`docs/NEURAL_PROPOSALS.md`](docs/NEURAL_PROPOSALS.md); GPU training on AWS follows
   [`docs/AWS_RUNBOOK.md`](docs/AWS_RUNBOOK.md) (named profile, tag-scoped cleanup, no keys in the repo).
 - **Multicellular vertices against real truth on confluent monolayers** ([`docs/CONFLUENT_BENCHMARK.md`](docs/CONFLUENT_BENCHMARK.md)):
-  three new truth sets (`hcec`: manually traced human corneal endothelial monolayers with NCAM + DAPI, 15 fields of
-  about 1,700 cells and 3,000 tricellular vertices each; `alizarine`: expert-contoured porcine corneal endothelium;
-  `flywing`: E-cadherin Drosophila epithelium). Vertex F1 is 0.96 to 0.99 on alizarine for every method (PiMorph
-  fine-tuned 0.990, the best), PiMorph's zero-shot proposals give the best vertex F1 on FlyWing (0.868), and on the
-  cultured hCEC monolayer Cellpose-SAM leads zero-shot (0.635 vs 0.334) while a fine-tune on 10 field-disjoint
-  training fields (`v4_confluent`) reaches 0.611 on the 5 held-out fields with higher vertex recall and boundary F1
-  than Cellpose-SAM. The decoder now
-  excludes pixels the signed-distance head places outside every cell (open background was being flooded, which
-  produced about 12 false vertices per true one on HAEC) and adds nuclear peaks as seeds where the seed head is silent.
-  The search that found these sets, and the negative verdict on public VE-cadherin monolayers with expert masks, is
-  in [`docs/DATASET_HUNT_2026-09-18.md`](docs/DATASET_HUNT_2026-09-18.md).
+  four truth sets that did not exist in the project before (`hcec`: manually traced human corneal endothelial monolayers
+  with NCAM + DAPI, about 1,700 cells and 3,000 tricellular vertices per field; `alizarine`: expert-contoured porcine
+  corneal endothelium; `flywing`: E-cadherin Drosophila epithelium; `rpe_zo1`: NIH-NEI RPE monolayers with 6,883
+  manually traced cells), all scored on field-disjoint held-out splits. After training for topologically missed
+  vertices (hard-example weights around true vertices the decoder misses), nucleus-consistency merges, the vertex head
+  in the watershed elevation and test-time augmentation, `v6_pool` leads Cellpose-SAM on the cultured endothelial
+  monolayer on every structural metric (vertex F1 0.680 vs 0.635, adjacency 0.867 vs 0.830, PQ 0.816 vs 0.790, boundary
+  F1 0.916 vs 0.880, 3,014 predicted vs 2,974 true vertices), reaches vertex F1 0.99 on corneal endothelium in situ and
+  0.875 on FlyWing (Cellpose-SAM 0.849, but better adjacency 0.966 vs 0.911), and 0.35 on sub-confluent HAEC (Cellpose-SAM
+  0.04). Real PECAM-1 HUVEC monolayers (495 fields) are in the training pool as consensus pseudo-labels. The decoder
+  excludes pixels the signed-distance head places outside every cell (open background was being flooded, which produced
+  about 12 false vertices per true one on HAEC) and adds nuclear peaks as seeds where the seed head is silent. The search
+  that found these sets, and the negative verdict on public VE-cadherin monolayers with expert masks, is in
+  [`docs/DATASET_HUNT_2026-09-18.md`](docs/DATASET_HUNT_2026-09-18.md).
 - **Later blueprint phases** ([`docs/LATER_PHASES.md`](docs/LATER_PHASES.md)): `pimorph.dynamics` (IoU/Hungarian
   tracking, exact event detection with summed `(dV, dE, dF)` admissibility; T1 F1 0.91 against the TissueMiner
   database), `pimorph.mechanics` (vertex model, force inference with curvature-pressure rows; tension Pearson 1.00
