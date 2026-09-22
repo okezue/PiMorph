@@ -19,6 +19,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import sys
 import tarfile
 import urllib.parse
@@ -87,7 +88,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--only", nargs="*", default=None, help="file names to fetch (default: all)")
     parser.add_argument("--extract", action="store_true", help="extract fetched tar archives into the repository root")
     parser.add_argument(
-        "--include-archived-docs", action="store_true",
+        "--include-archived-docs",
+        action="store_true",
         help="also restore historical root/docs/models Markdown, replacing current documentation",
     )
     parser.add_argument("--models", action="store_true", help="fetch pimorph_models.tar and extract into models/")
@@ -99,23 +101,51 @@ def main(argv: list[str] | None = None) -> int:
     record = latest_record(args.concept_doi)
     print(f"record {record['id']} version {record['metadata'].get('version')} doi {record.get('doi')}")
     os.makedirs(args.dest, exist_ok=True)
-    for entry in record["files"]:
-        name = entry["key"]
-        if args.only is not None and name not in args.only:
-            continue
-        path = os.path.join(args.dest, name)
+
+    def fetch(entry: dict, path: str) -> None:
         expected = entry["checksum"].split(":", 1)[-1]
         if os.path.exists(path) and md5_file(path) == expected:
-            print(f"  {name}: present, checksum ok")
-        else:
-            download(entry["links"]["self"], path)
-            actual = md5_file(path)
-            if actual != expected:
-                raise RuntimeError(f"checksum mismatch for {name}: {actual} != {expected}")
-            print(f"  {name}: downloaded, checksum ok")
+            print(f"  {os.path.basename(path)}: present, checksum ok")
+            return
+        download(entry["links"]["self"], path)
+        actual = md5_file(path)
+        if actual != expected:
+            raise RuntimeError(f"checksum mismatch for {os.path.basename(path)}: {actual} != {expected}")
+        print(f"  {os.path.basename(path)}: downloaded, checksum ok")
+
+    # archives above about 1 GB are stored as 500 MB parts (<name>.tar.part00, .part01, ...)
+    # because single uploads of that size time out on Zenodo; they are joined here
+    parts: dict[str, list[dict]] = {}
+    for entry in record["files"]:
+        name = entry["key"]
+        base = re.sub(r"\.part\d\d$", "", name)
+        if args.only is not None and name not in args.only and base not in args.only:
+            continue
+        if base != name:
+            parts.setdefault(base, []).append(entry)
+            continue
+        path = os.path.join(args.dest, name)
+        fetch(entry, path)
         if args.extract and name.endswith(".tar"):
             extracted, skipped = extract_archive(path, include_archived_docs=args.include_archived_docs)
             print(f"  extracted {extracted} members of {name}; preserved current documentation ({skipped} excluded)")
+    for base, entries in parts.items():
+        path = os.path.join(args.dest, base)
+        if not os.path.exists(path):
+            entries.sort(key=lambda e: e["key"])
+            with open(path + ".joining", "wb") as out:
+                for entry in entries:
+                    ppath = os.path.join(args.dest, entry["key"])
+                    fetch(entry, ppath)
+                    with open(ppath, "rb") as part:
+                        for chunk in iter(lambda: part.read(8 << 20), b""):
+                            out.write(chunk)
+                    os.remove(ppath)
+            os.replace(path + ".joining", path)
+        print(f"  {base}: joined from {len(entries)} parts ({os.path.getsize(path) / 1e6:,.0f} MB)")
+        if args.extract and base.endswith(".tar"):
+            extracted, skipped = extract_archive(path, include_archived_docs=args.include_archived_docs)
+            print(f"  extracted {extracted} members of {base}; preserved current documentation ({skipped} excluded)")
     return 0
 
 
