@@ -11,6 +11,9 @@
 - Earlier entries retain their historical filenames and measurements. Current locations are recorded in `docs/figure_data/documentation_map.json`.
 
 
+### 2026-09-22: Zenodo data record version 1.2.0
+- Published https://doi.org/10.5281/zenodo.22886559 (concept DOI 10.5281/zenodo.22839866): the three fine-tuned Cellpose-SAM models of the symmetric comparison and the barrier test, the Healthy-2 QBAM tiles with their TER table, and the results bundle as of 2026-09-21, as 75 MB parts (`scripts/fetch_zenodo.py` joins them). Uploaded from a CPU devbox on `memy-cpu01` (8 MB/s to Zenodo; the GPU cluster's route runs at 75 KB/s and the laptop's at 0.3 MB/s, both hitting Zenodo's 10-minute request cutoff).
+
 ### 2026-09-21: Cellpose as a proposer; barrier proxy tested at power
 - `pimorph.infer.cellpose_proposer.CellposeProposer`: Cellpose (or a fine-tuned model) as a first-class proposer; masks, flows and cell probability become proposal maps, the decoder emits the complex, `cellpose_hypotheses` pools a threshold grid into one posterior (`generate_hypotheses(energy_maps=...)`). Benchmark methods `cellpose_proposer`, `cellpose_map`. Held-out: reproduces fine-tuned masks within 0.005; RPE vertex F1 0.347 with nucleus merges; the threshold posterior MAP equals the default decode.
 - Barrier proxy against 216 TER readings of the NIST/NEI Healthy-2 iPSC-RPE maturation series (QBAM, 84 well-timepoints, Cellpose-SAM fine-tuned on 1,032 AMD QBAM tiles: held-out AP50 0.741): the structural permeability index correlates with TER at Spearman +0.52, the wrong sign, and is indistinguishable from cell density (partial −0.02); `validated` stays false. Visual QC of 12 crops recorded in `runs/function_real/healthy2/qc/judgments.csv`. `scripts/pimorph_function_healthy2.py`, `io.rpe_nist` additions.

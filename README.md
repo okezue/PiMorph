@@ -6,7 +6,7 @@ PiMorph turns a labelled cell image into an embedded cell complex: cells and enc
 
 *The complete PiMorph flow: image channels, classical or learned proposals, constrained reconstruction, the physical cell complex, optional candidate uncertainty, interface measurements and evaluation. Executed synthetic examples accompany conceptual views of the separate biological, temporal, mechanical, transport and 3-D modules. The [full figure caption and study](EXPLAINER.md#end-to-end-pimorph-flow) distinguish measured outputs from illustrations.*
 
-**[Read the full study → EXPLAINER.md](EXPLAINER.md)** · **[Model cards](models/README.md)** · **[Archived results and checkpoints](https://doi.org/10.5281/zenodo.22839867)** · **[Editable SVGs and publication PDFs](docs/figures/)**
+**[Read the full study → EXPLAINER.md](EXPLAINER.md)** · **[Model cards](models/README.md)** · **[Archived results and checkpoints](https://doi.org/10.5281/zenodo.22839866)** · **[Editable SVGs and publication PDFs](docs/figures/)**
 
 ## Install
 
