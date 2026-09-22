@@ -160,11 +160,51 @@ def method_cellpose_sam_filled(item: BenchItem) -> np.ndarray:
     return fill_gt_slivers(method_cellpose_sam(item), 12)
 
 
+_cellpose_proposer = None
+
+
+def _cellpose_proposer_and_params(item: BenchItem):
+    global _cellpose_proposer
+    from ..infer.cellpose_proposer import CellposeProposer
+
+    if _cellpose_proposer is None:
+        _cellpose_proposer = CellposeProposer(pretrained_model=CELLPOSE_MODEL, diameter=CELLPOSE_DIAMETER)
+    params = DecoderParams(**NEURAL_DECODER_PARAMS)
+    return _cellpose_proposer, params
+
+
+def method_cellpose_proposer(item: BenchItem) -> np.ndarray:
+    """Cellpose (weights from PIMORPH_CELLPOSE_MODEL) as a PiMorph proposer: masks and cell
+    probability become proposal maps, the constrained decoder emits the complex. Decoder
+    overrides from PIMORPH_DECODER_PARAMS apply (for example nucleus_merge)."""
+    prop, params = _cellpose_proposer_and_params(item)
+    maps = prop(item.geometry, item.nuclei)
+    params = params.with_(cell_radius_px=float(maps.meta.get("cell_radius_px", params.cell_radius_px)))
+    return ConstrainedDecoder(pixel_size_um=item.pixel_size_um).decode(maps, params).labels
+
+
+def method_cellpose_map(item: BenchItem) -> np.ndarray:
+    """Posterior MAP with Cellpose as the proposal source: one network pass, masks at a
+    3 x 3 grid of flow / cell-probability thresholds, decoder perturbations and moves,
+    all scored by the energy against the default-threshold maps."""
+    from ..infer.cellpose_proposer import cellpose_hypotheses
+    from ..infer.posterior import PosteriorEnsemble
+
+    prop, params = _cellpose_proposer_and_params(item)
+    dec = ConstrainedDecoder(pixel_size_um=item.pixel_size_um)
+    hyps, raw, ref = cellpose_hypotheses(prop, item.geometry, item.nuclei, dec, params, image=item.geometry)
+    if not hyps:
+        return dec.decode(ref, params.with_(cell_radius_px=float(ref.meta["cell_radius_px"]))).labels
+    return PosteriorEnsemble.from_hypotheses(hyps, ess_min=4).map_hypothesis.labels
+
+
 METHODS: Dict[str, Callable[[BenchItem], np.ndarray]] = {
     "gt": method_gt,
     "classical": method_classical,
     "cellpose_sam": method_cellpose_sam,
     "cellpose_sam_filled": method_cellpose_sam_filled,
+    "cellpose_proposer": method_cellpose_proposer,
+    "cellpose_map": method_cellpose_map,
     "neural": method_neural,
     "neural_map": method_neural_map,
 }
@@ -215,7 +255,7 @@ def run_benchmark(
     methods = list(methods)
     for item in load_dataset(dataset, root=root, max_items=max_items):
         for method in methods:
-            if method in ("cellpose_sam", "cellpose_sam_filled", "neural", "neural_map"):
+            if method.startswith(("cellpose", "neural")):
                 from ..infer.cellpose_sam import cellpose_available
 
                 if not cellpose_available():

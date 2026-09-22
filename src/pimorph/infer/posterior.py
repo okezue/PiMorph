@@ -206,6 +206,7 @@ def generate_hypotheses(
     weights: Optional[EnergyWeights] = None,
     render_model: Optional[RenderModel] = None,
     max_hypotheses: int = 48,
+    energy_maps: Optional[ProposalMaps] = None,
 ) -> List[Hypothesis]:
     """Perturbation grid over the decoder plus local merge/split moves from the best
     grid point. Pixel-identical label images are kept once.
@@ -213,10 +214,12 @@ def generate_hypotheses(
     Perturbations change the flooding order (boundary smoothing, distance mixing) and
     the seed set (threshold, dropping the weakest seeds), which is what produces
     genuinely different legal complexes. A monotone rescaling of the elevation alone
-    would not.
+    would not. ``energy_maps`` scores every hypothesis against a fixed reference map
+    (needed when hypotheses from several proposal settings are pooled).
     """
     hyps: List[Hypothesis] = []
     seen = set()
+    emaps = energy_maps if energy_maps is not None else maps
     cell_radius = float(maps.meta.get("cell_radius_px", base.cell_radius_px))
     grid = product(seed_thresholds, seed_drop_fracs, boundary_smooth_sigmas, distance_mixes, gap_thresholds)
     for st, sd, bs, dm, gt in grid:
@@ -236,7 +239,7 @@ def generate_hypotheses(
         if key in seen:
             continue
         seen.add(key)
-        hyps.append(_score(res, maps, image, weights, render_model, p.label))
+        hyps.append(_score(res, emaps, image, weights, render_model, p.label))
         if len(hyps) >= max_hypotheses:
             break
     if not hyps:
@@ -262,7 +265,7 @@ def generate_hypotheses(
         if key in seen:
             continue
         seen.add(key)
-        hyps.append(_score(merged, maps, image, weights, render_model, f"merge_{a}_{b}"))
+        hyps.append(_score(merged, emaps, image, weights, render_model, f"merge_{a}_{b}"))
 
     # split moves: cells containing a second, weaker seed candidate, or unusually large cells
     if n_split_moves > 0:
@@ -301,5 +304,5 @@ def generate_hypotheses(
             if key in seen:
                 continue
             seen.add(key)
-            hyps.append(_score(split, maps, image, weights, render_model, f"split_{lab}"))
+            hyps.append(_score(split, emaps, image, weights, render_model, f"split_{lab}"))
     return hyps
