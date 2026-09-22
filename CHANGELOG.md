@@ -11,6 +11,10 @@
 - Earlier entries retain their historical filenames and measurements. Current locations are recorded in `docs/figure_data/documentation_map.json`.
 
 
+### 2026-09-21: Cellpose as a proposer; barrier proxy tested at power
+- `pimorph.infer.cellpose_proposer.CellposeProposer`: Cellpose (or a fine-tuned model) as a first-class proposer; masks, flows and cell probability become proposal maps, the decoder emits the complex, `cellpose_hypotheses` pools a threshold grid into one posterior (`generate_hypotheses(energy_maps=...)`). Benchmark methods `cellpose_proposer`, `cellpose_map`. Held-out: reproduces fine-tuned masks within 0.005; RPE vertex F1 0.347 with nucleus merges; the threshold posterior MAP equals the default decode.
+- Barrier proxy against 216 TER readings of the NIST/NEI Healthy-2 iPSC-RPE maturation series (QBAM, 84 well-timepoints, Cellpose-SAM fine-tuned on 1,032 AMD QBAM tiles: held-out AP50 0.741): the structural permeability index correlates with TER at Spearman +0.52, the wrong sign, and is indistinguishable from cell density (partial −0.02); `validated` stays false. Visual QC of 12 crops recorded in `runs/function_real/healthy2/qc/judgments.csv`. `scripts/pimorph_function_healthy2.py`, `io.rpe_nist` additions.
+
 ### 2026-09-19: symmetric comparison and real-data validation
 
 - Cellpose-SAM fine-tuned on exactly the training fields used for `v6_pool` (`scripts/export_cellpose_training.py`, `runs/cellpose_ft/`, `PIMORPH_CELLPOSE_MODEL`); held-out comparison in `EXPLAINER.md` section 5: fine-tuned Cellpose-SAM leads hCEC adjacency and PQ (0.937 / 0.862 vs 0.867 / 0.816) with vertex F1 within noise (0.695 vs 0.680); PiMorph keeps vertex F1 on FlyWing (0.875 vs 0.852) and HAEC (0.352 vs 0.331) and vertex localization; each fine-tuned Cellpose-SAM collapses across culture density while `v6_pool` holds both.

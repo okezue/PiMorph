@@ -12,3 +12,4 @@ runs/pimorph_dev/*.png !text !filter !merge !diff
 docs/figures/*.png !text !filter !merge !diff
 runs/function_real/*.png !text !filter !merge !diff
 runs/mechanics_real/*.png !text !filter !merge !diff
+runs/function_real/**/*.png !text !filter !merge !diff

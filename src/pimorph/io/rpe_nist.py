@@ -182,6 +182,113 @@ def upsample_image(image: np.ndarray, factor: int, order: int = 1) -> np.ndarray
     return ndi.zoom(np.asarray(image, dtype=np.float32), factor, order=order)
 
 
+def qbam_unannotated(mask: np.ndarray, area_factor: float = 5.0, min_area_px: int = 1500) -> np.ndarray:
+    """Regions the annotators left without borders: 255 components larger than
+    ``area_factor`` times the median component area and ``min_area_px`` (about five cells).
+    Almost every registered tile has one (median 21% of the tile); they are not cells and
+    are excluded from training and scoring."""
+    interior = np.asarray(mask) > 0
+    lab, n = ndi.label(interior, structure=np.array([[0, 1, 0], [1, 1, 1], [0, 1, 0]]))
+    if n == 0:
+        return np.zeros_like(interior)
+    counts = np.bincount(lab.ravel())[1:]
+    big = np.flatnonzero((counts > area_factor * np.median(counts)) & (counts > min_area_px)) + 1
+    return np.isin(lab, big)
+
+
+def qbam_instances(mask: np.ndarray, border_px: int = 3, min_area_px: int = 20) -> np.ndarray:
+    """Instances from a registered border mask by closing the drawn borders, as
+    ``pimorph.bench.datasets.skeleton_roi_to_instance`` does for skeleton tracings: the
+    border pixels (mask == 0) within ``border_px`` of an interior become part of the nearest
+    interior by watershed on the distance to the border, so neighbours share a crack; the
+    remaining background (no cell within ``border_px``) stays 0. Unannotated regions
+    (:func:`qbam_unannotated`) are 0 as well; callers that need to ignore them keep the
+    boolean separately."""
+    from ..bench.datasets import skeleton_roi_to_instance
+
+    interior = (np.asarray(mask) > 0) & ~qbam_unannotated(mask)
+    roi = ndi.binary_dilation(interior, iterations=int(border_px))
+    return skeleton_roi_to_instance(~interior, roi, min_area_px=min_area_px)
+
+
+# ------------------------------------------------------------------ Healthy-2 series
+# Live QBAM of healthy-donor iRPE (Drive folder 1sHfNWudfXvZXTd1hTo2FYalbzU39zTLN): plates
+# LORD-1..7, wells B1 B2 C1 C2 C3 C4, weekly imaging on 8 dates, filters Blue 488 / Green 561 /
+# Red 633, a 4 x 3 tile grid per well (1040 x 1388 float32 absorbance). TER (Ohm) for plates
+# LORD-2..7 on weeks 3 to 8 in EVOM.csv. See data/rpe_nist/healthy2/INVENTORY.md.
+HEALTHY2_FOLDER_ID = "1sHfNWudfXvZXTd1hTo2FYalbzU39zTLN"
+HEALTHY2_WEEK1 = pd.Timestamp("2017-02-02")
+HEALTHY2_TILE_RE = re.compile(
+    r"^(?P<plate>LORD-\d)/Date (?P<date>\d{4}-\d{2}-\d{2})T[^/]+/(?P<filter>[^/]+)/Absorption Images/"
+    r"(?P<well>[A-D]\d)_r(?P<r>\d{3})_c(?P<c>\d{3})\.tif$"
+)
+
+
+def healthy2_listing(pkl_path: Path) -> pd.DataFrame:
+    """Absorbance tiles of the Healthy-2 Drive listing (``(file_id, path)`` pairs as saved by
+    ``gdown.download_folder(skip_download=True)``), one row per tile with plate, date, week,
+    filter, well, grid row/col and Drive file id."""
+    import os
+    import pickle
+
+    pairs = pickle.load(open(pkl_path, "rb"))
+    root = os.path.commonpath([p for _, p in pairs]) if len(pairs) > 1 else ""
+    rows = []
+    for fid, p in pairs:
+        rel = os.path.relpath(p, root) if root else p
+        m = HEALTHY2_TILE_RE.match(rel)
+        if m is None:
+            continue
+        date = pd.Timestamp(m.group("date"))
+        rows.append(
+            {
+                "plate": m.group("plate"),
+                "well": m.group("well"),
+                "well_id": f"{m.group('plate')}_{m.group('well')}",
+                "date": date.strftime("%Y-%m-%d"),
+                "week": int((date - HEALTHY2_WEEK1).days // 7) + 1,
+                "filter": m.group("filter"),
+                "grid_r": int(m.group("r")),
+                "grid_c": int(m.group("c")),
+                "drive_id": fid,
+                "drive_path": rel,
+            }
+        )
+    return pd.DataFrame(rows)
+
+
+def healthy2_ter_long(evom_csv: Path) -> pd.DataFrame:
+    """EVOM.csv (wide, one column per date) as one row per well-timepoint with condition
+    (A Aphidicolin, C Control, H HPI4), ISO date, week index and TER in Ohm."""
+    wide = pd.read_csv(evom_csv)
+    cond = {"A": "Aphidicolin", "C": "Control", "H": "HPI4"}
+    rows = []
+    for _, r in wide.iterrows():
+        for col in wide.columns[3:]:
+            v = r[col]
+            if not np.isfinite(float(v)):
+                continue
+            date = pd.to_datetime(col, format="%d-%b-%y")
+            rows.append(
+                {
+                    "plate": r["plate_name"],
+                    "well": r["well"],
+                    "well_id": f"{r['plate_name']}_{r['well']}",
+                    "treatment": r["treatment"],
+                    "condition": cond.get(str(r["treatment"]), str(r["treatment"])),
+                    "date": date.strftime("%Y-%m-%d"),
+                    "week": int((date - HEALTHY2_WEEK1).days // 7) + 1,
+                    "ter_ohm": float(v),
+                }
+            )
+    return pd.DataFrame(rows)
+
+
+def healthy2_tile_name(plate: str, well: str, date: str, filt: str, grid_r: int, grid_c: int) -> str:
+    """Local file name of a downloaded Healthy-2 tile."""
+    return f"{plate}_{well}_{date}_{filt.split()[0]}_r{grid_r:03d}_c{grid_c:03d}.tif"
+
+
 def tile_crop_in_well(well_image: np.ndarray, row: int, col: int, shape=TILE_SHAPE) -> Optional[np.ndarray]:
     """Crop of the whole-well image at the tile position, or None if it falls outside."""
     r0, c0 = int(row), int(col)

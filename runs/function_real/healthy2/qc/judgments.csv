@@ -1,0 +1,8 @@
+tile,condition,week,ter_ohm,cells_visible,cells_predicted,merges,splits,verdict,reviewer_note
+qc_LORD-2_C1_w6.png,HPI4,6,100,0,0,0,0,correct,No cobblestone anywhere in the crop: diffuse bright and dark blobs without borders. Predicting no cells is right; the structural proxy is undefined here rather than low.
+qc_LORD-6_C3_w6.png,Control,6,139,7,1,0,0,under_segmented,Faint polygonal outlines visible in the upper right quadrant (about 6 to 8 cells); the rest is diffuse. Segmenter found one cell at the lower right edge.
+qc_LORD-6_B1_w7.png,Control,7,254,30,32,1,2,good,Clear cobblestone of dark bodies with bright rims; outlines follow the rims. One probable merge (upper left large polygon) and two small splinter cells near the lower right. A well with visible structure but low TER: structure and barrier decouple here.
+qc_LORD-4_C2_w3.png,Aphidicolin,3,390,9,13,0,3,poor,Bright blobs with soft edges; the outlines do not follow blob boundaries in the left column (three thin cells where two blobs exist) and the right half of the crop is left unsegmented while it contains at least three blobs.
+qc_LORD-6_C3_w4.png,Control,4,503,10,3,0,0,under_segmented,Diffuse texture with about ten faint bodies; only three cells segmented at the right edge. The barrier is already moderate while the pigment pattern that QBAM sees has not formed.
+qc_LORD-5_B2_w6.png,Control,6,700,27,29,1,1,good,Faint but complete cobblestone; the tiling is plausible with cells of about 25 px. One doubtful merge at the bright blob top right and one small extra cell at the left edge.
+qc_LORD-4_C2_w8.png,Aphidicolin,8,1115,31,34,0,3,good,Mature cobblestone with clear rims; outlines match the bodies. Three small polygons in the lower centre look like splits of larger cells.

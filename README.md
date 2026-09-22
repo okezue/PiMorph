@@ -103,7 +103,7 @@ smooth_complex(complex_)
 write_tables(complex_tables(complex_, labels=labels), 'output/my_complex', fmt='csv')
 ```
 
-The library also exposes strip-based junction profiles, cell tracking and event detection, relative force inference, 3-D complexes, and multichannel transport proxies. Their APIs and the scope of their validation are described in [EXPLAINER.md](EXPLAINER.md). Those capabilities are library modules and analysis scripts, not additional `pimorph` CLI subcommands.
+The library also exposes strip-based junction profiles, cell tracking and event detection, relative force inference, 3-D complexes, and multichannel transport proxies. Their APIs and the scope of their validation are described in [EXPLAINER.md](EXPLAINER.md). Those capabilities are library modules and analysis scripts, not additional `pimorph` CLI subcommands. Two of them have now met real measurements: relative force inference recovers the tension excess of laser-ablated boundary cables in 15 of 15 fields and ranks recoil velocity with Spearman 0.64 (n = 15, tension-only setting); the structural part of the transport proxy was tested against 216 transepithelial resistance readings of maturing iPSC-RPE and failed (it has the wrong sign and is indistinguishable from cell density), so barrier reports keep `validated: false` and the junction-coverage term remains untested for lack of paired data.
 
 ## Benchmarks and tests
 
