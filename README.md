@@ -1,6 +1,4 @@
-# PiMorph
-
-**Reconstruct cell contacts, multicellular vertices, and junction organization from microscopy.**
+**PiMorph: reconstruct cell contacts, multicellular vertices, and junction organization from microscopy.**
 
 PiMorph turns a labelled cell image into an embedded cell complex: cells and enclosed gaps are faces, connected interfaces are edges, and multicellular junctions are vertices. It also reconstructs these objects from fluorescence images using classical or learned proposals, samples molecular signals along interfaces, and measures uncertainty across alternative reconstructions.
 
