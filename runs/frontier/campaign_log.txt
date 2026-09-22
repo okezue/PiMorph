@@ -21,3 +21,4 @@ hcec                47834      32206     15628       23407         0.673
 [2026-09-19T01:09:47Z] final: HAEC train tune (v5, TTA, 10 fields) to pick the HAEC decoder setting
 [2026-09-19T01:12:30Z] final: HAEC decoder setting from train tune: {"vertex_weight": 0.6}
 [2026-09-19T01:29:59Z] final bench done
+[2026-09-22T00:49:22Z] cellpose proposer bench done

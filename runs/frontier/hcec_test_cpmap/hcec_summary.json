@@ -1,0 +1,123 @@
+{
+  "dataset": "hcec",
+  "n_images": 5,
+  "summary": {
+    "adjacency_pair_f1_mean": {
+      "cellpose_map": 0.9363223141
+    },
+    "adjacency_pair_f1_median": {
+      "cellpose_map": 0.9688546966
+    },
+    "adjacency_pair_precision_mean": {
+      "cellpose_map": 0.9279976398
+    },
+    "adjacency_pair_precision_median": {
+      "cellpose_map": 0.9613395715
+    },
+    "adjacency_pair_recall_mean": {
+      "cellpose_map": 0.9449080944
+    },
+    "adjacency_pair_recall_median": {
+      "cellpose_map": 0.9764882441
+    },
+    "adjacency_component_f1_mean": {
+      "cellpose_map": 0.8324906422
+    },
+    "adjacency_component_f1_median": {
+      "cellpose_map": 0.921685254
+    },
+    "vertex_f1_mean": {
+      "cellpose_map": 0.6907458148
+    },
+    "vertex_f1_median": {
+      "cellpose_map": 0.840594889
+    },
+    "vertex_loc_error_median_px_mean": {
+      "cellpose_map": 1.4
+    },
+    "vertex_loc_error_median_px_median": {
+      "cellpose_map": 1.0
+    },
+    "vertex_incident_set_accuracy_mean": {
+      "cellpose_map": 0.9343329623
+    },
+    "vertex_incident_set_accuracy_median": {
+      "cellpose_map": 0.9755793671
+    },
+    "vertex_cyclic_order_accuracy_mean": {
+      "cellpose_map": 0.9343329623
+    },
+    "vertex_cyclic_order_accuracy_median": {
+      "cellpose_map": 0.9755793671
+    },
+    "pq_mean": {
+      "cellpose_map": 0.8613279554
+    },
+    "pq_median": {
+      "cellpose_map": 0.9025528753
+    },
+    "ap50_mean": {
+      "cellpose_map": 0.9341805078
+    },
+    "ap50_median": {
+      "cellpose_map": 0.9572413793
+    },
+    "vi_mean": {
+      "cellpose_map": 0.7400750757
+    },
+    "vi_median": {
+      "cellpose_map": 0.6526958262
+    },
+    "boundary_f1_mean": {
+      "cellpose_map": 0.9235240314
+    },
+    "boundary_f1_median": {
+      "cellpose_map": 0.9595268174
+    },
+    "n_splits_mean": {
+      "cellpose_map": 25.4
+    },
+    "n_splits_median": {
+      "cellpose_map": 12.0
+    },
+    "n_merges_mean": {
+      "cellpose_map": 48.8
+    },
+    "n_merges_median": {
+      "cellpose_map": 25.0
+    },
+    "complex_edit_distance_approx_mean": {
+      "cellpose_map": 1746.0
+    },
+    "complex_edit_distance_approx_median": {
+      "cellpose_map": 1121.0
+    },
+    "validity_fraction_mean": {
+      "cellpose_map": 1.0
+    },
+    "validity_fraction_median": {
+      "cellpose_map": 1.0
+    },
+    "euler_residual_pred_mean": {
+      "cellpose_map": 0.0
+    },
+    "euler_residual_pred_median": {
+      "cellpose_map": 0.0
+    },
+    "legacy_f1_mean": {
+      "cellpose_map": 0.9374731132
+    },
+    "legacy_f1_median": {
+      "cellpose_map": 0.9692954516
+    },
+    "method_runtime_s_mean": {
+      "cellpose_map": 421.1014994144
+    },
+    "method_runtime_s_median": {
+      "cellpose_map": 406.3698611259
+    },
+    "n_images": {
+      "cellpose_map": 5
+    }
+  }
+}
